@@ -47,7 +47,7 @@ public:
 	Camera();
 
 	virtual void YawLeft( ) { Yaw(1.0f); }
-	virtual void YawRight( ) { Yaw(1.0f); }
+	virtual void YawRight( ) { Yaw(-1.0f); }
 
 	void CreateProjectionMatrix(float fov, float aspect, float nearPlane, float farPlane);
 	void MoveForward(float units);

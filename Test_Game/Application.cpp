@@ -68,14 +68,19 @@ void Application::LoadScene(ObjectBuffer* pObjectBuffer){
 
 	Command* YawLeft = new LeftYawCommand( );
 	Command* YawRight = new RightYawCommand( );
-	InputEvent KeyEvent;
-	KeyEvent.event.type = EVENT_KEYBOARD;
-	InputPair pair(KeyEvent, *YawLeft);
+	InputEvent KeyEventL, KeyEventR;
+	KeyEventL.event.type = EVENT_KEYDOWN;
+	KeyEventL.key.keycode = KEY_ARROW_LEFT;
+	InputPair pair(KeyEventL, *YawLeft);
+	KeyEventR.event.type = EVENT_KEYDOWN;
+	KeyEventR.key.keycode = KEY_ARROW_RIGHT;
+	InputPair pairR(KeyEventR, *YawRight);
 
 	vector<InputContext>& contexts = m_pFrameWork->GetInputContextListForEditing( );
 	InputContext cameracontrolcontext;
 	cameracontrolcontext.m_pControl = m_pcam;
 	cameracontrolcontext.m_pairs.push_back(pair);
+	cameracontrolcontext.m_pairs.push_back(pairR);
 	contexts.push_back(cameracontrolcontext);
 }
 

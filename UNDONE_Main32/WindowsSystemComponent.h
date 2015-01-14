@@ -16,6 +16,7 @@ Author	:	Anurup Dey
 //includes
 #include <Windows.h>			//Win32 API header file.
 #include <String>				//For strings.
+
 #include "SystemComponent.h"	//System Component Interface which this class
 								//will inherit.
 #include <GL/glew.h>			//The GL Extention Wrangler
@@ -23,11 +24,12 @@ Author	:	Anurup Dey
 using namespace std;
 
 #define _ClassName "XXXANURUPHEXClassXXX"	//the class name that will be registered.
-#define NUMWINDOWS 3
+#define NUMWINDOWS 1
 
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
-	Stores All data regarding Windows on Windows.
+	A window entry is an entry representation into the WindowDatabase. Its stores 
+	Window attributes like handle, pointer to event handeller, etc.
 	-----------------------------------------------------------------------------*/
 	struct WindowEntry {
 		HWND					m_WindowsHandle;
@@ -36,6 +38,11 @@ namespace UNDONE_ENGINE {
 		HDC						m_DeviceContext;
 	};
 
+	/*----------------------------------------------------------------------------
+	the Window handeler has the job of maintaing the details about all the windows
+	created withing the application. It is only accessed by a WindowsSystemComponent
+	instance.
+	----------------------------------------------------------------------------*/
 	struct WindowDataBase {
 	public:
 		WindowDataBase( );
@@ -64,7 +71,7 @@ namespace UNDONE_ENGINE {
 
 	/*----------------------------------------------------------------------------
 	Windows Operating System Specific System Component which provides the Win32
-	specific functions in an abstracted way.
+	specific functions in an abstracted way. This is a singleton class.
 	-----------------------------------------------------------------------------*/
 	class WindowsSystemComponent : public SystemComponent {
 	public:
@@ -74,7 +81,7 @@ namespace UNDONE_ENGINE {
 		static WindowsSystemComponent* GetWindowsInstance( );
 
 		bool Initialise(HINSTANCE hInstance, string ApplicationName);
-		void Release( ) { };
+		void Release( );
 
 		HINSTANCE	getHInstance( ) { return m_appInstance; }
 
@@ -93,14 +100,11 @@ namespace UNDONE_ENGINE {
 		void ShowMessage(char* message, char* tittle);
 		void Post_Quit_Mesage(int returncode) { PostQuitMessage(returncode); }
 
-		virtual WindowHandle CreateNewWindow(char* title,
-											 WindowStyle style,
-											 int width,
-											 int hieght,
+		virtual WindowHandle CreateNewWindow(char* title,WindowStyle style,
+											 int width, int hieght,
 											 IWindowEventHandeller* pEventHandeller
 											 );
-		virtual void AdjustWindow(WindowHandle handle,
-								  int width, int hieght);
+		virtual void AdjustWindow(WindowHandle handle,int width, int hieght);
 		virtual void ShowWindow_(WindowHandle handle);
 		virtual void UpdateWindow_(WindowHandle handle);
 		virtual WindowPlacementPtr GetWindowPlacement_(WindowHandle handle);
@@ -110,18 +114,18 @@ namespace UNDONE_ENGINE {
 										   WindowPlacementPtr* pWndPlcment);
 		virtual void SetWindowStyle(WindowHandle handle, WindowStyle style);
 
-		virtual __int64 GetSystemTickRate( ) {
+		virtual inline __int64 GetSystemTickRate( ) {
 			__int64 rate;
 			QueryPerformanceFrequency((LARGE_INTEGER *)&rate);
 			return rate;
 		};
-		virtual __int64 GetCurrentTickCount( ) {
+		virtual inline __int64 GetCurrentTickCount( ) {
 			__int64 count;
 			QueryPerformanceCounter((LARGE_INTEGER *)&count);
 			return count;
 		};
 
-		virtual void HandleWindowEvents( );
+		virtual void HandleWindowEvents( );	//Depreciated.
 
 		static LRESULT CALLBACK staticWndProc(HWND hWnd, UINT msg,
 											  WPARAM wParam,
