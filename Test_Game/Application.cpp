@@ -21,6 +21,15 @@ void Application::Release(){
 	//Again, nothing to do yet.
 }
 
+class ExitCommand : public Command {
+public:
+	SystemComponent* m_pcomp;
+	ExitCommand(SystemComponent* b) :m_pcomp(b) { };
+	virtual void execute(InputControl* control, InputEvent& given_event) {
+		m_pcomp->Post_Quit_Mesage(0);
+	}
+};
+
 /*-----------------------------------------------------------------------------
 Summary:	This function is called by the framework while initialising. Its
 			called only at the begining of the runing of the application.
@@ -68,19 +77,25 @@ void Application::LoadScene(ObjectBuffer* pObjectBuffer){
 
 	Command* YawLeft = new LeftYawCommand( );
 	Command* YawRight = new RightYawCommand( );
-	InputEvent KeyEventL, KeyEventR;
+	Command* Exit = new ExitCommand(SystemComponent::GetInstance() );
+	
+	InputEvent KeyEventL, KeyEventR ,ExitEvent;
+	ExitEvent.event.type = EVENT_KEYDOWN;
+	ExitEvent.key.keycode = KEY_ESCAPE;
 	KeyEventL.event.type = EVENT_KEYDOWN;
 	KeyEventL.key.keycode = KEY_ARROW_LEFT;
 	InputPair pair(KeyEventL, *YawLeft);
 	KeyEventR.event.type = EVENT_KEYDOWN;
 	KeyEventR.key.keycode = KEY_ARROW_RIGHT;
 	InputPair pairR(KeyEventR, *YawRight);
+	InputPair pair2(ExitEvent, *Exit);
 
 	vector<InputContext>& contexts = m_pFrameWork->GetInputContextListForEditing( );
 	InputContext cameracontrolcontext;
 	cameracontrolcontext.m_pControl = m_pcam;
 	cameracontrolcontext.m_pairs.push_back(pair);
 	cameracontrolcontext.m_pairs.push_back(pairR);
+	cameracontrolcontext.m_pairs.push_back(pair2);
 	contexts.push_back(cameracontrolcontext);
 }
 

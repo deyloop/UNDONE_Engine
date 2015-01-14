@@ -40,8 +40,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include;E:\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;E:\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\DACsoft\Projects\UNDONE Engine\Debug;E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -55,7 +55,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>OpenGL32.lib;GLU32.lib;glew32s.lib%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>UNDONE Engine.lib%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,10 +79,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WindowsSystemComponent.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="WindowSystemComponent.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

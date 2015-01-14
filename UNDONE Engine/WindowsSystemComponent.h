@@ -11,20 +11,20 @@ Author	:	Anurup Dey
 #ifdef _WIN32
 #define _WINDOWS_OS_
 	
-
-
 //includes
 #include <Windows.h>			//Win32 API header file.
 #include <String>				//For strings.
 
 #include "SystemComponent.h"	//System Component Interface which this class
 								//will inherit.
-#include <GL/glew.h>			//The GL Extention Wrangler
-#include <GL/wglew.h>
+#include <glew.h>				//The GL Extention Wrangler
+#include <wglew.h>
 using namespace std;
 
 #define _ClassName "XXXANURUPHEXClassXXX"	//the class name that will be registered.
 #define NUMWINDOWS 1
+
+#include "UNDONE_Engine_declr.h"
 
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
@@ -73,7 +73,7 @@ namespace UNDONE_ENGINE {
 	Windows Operating System Specific System Component which provides the Win32
 	specific functions in an abstracted way. This is a singleton class.
 	-----------------------------------------------------------------------------*/
-	class WindowsSystemComponent : public SystemComponent {
+	class UNDONE_API WindowsSystemComponent : public SystemComponent {
 	public:
 
 		~WindowsSystemComponent( ) { Release( ); }

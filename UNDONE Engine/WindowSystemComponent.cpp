@@ -334,9 +334,9 @@ namespace UNDONE_ENGINE {
 		if (bError) {
 			// Generate error messages
 			char sErrorMessage[255], sErrorTitle[255];
-			sprintf(sErrorMessage, "OpenGL %d.%d is not supported! Please download latest GPU drivers!",
+			sprintf_s(sErrorMessage, "OpenGL %d.%d is not supported! Please download latest GPU drivers!",
 					ContextParams.iMajor_Version, ContextParams.iMinor_Version);
-			sprintf(sErrorTitle, "OpenGL %d.%d Not Supported",
+			sprintf_s(sErrorTitle, "OpenGL %d.%d Not Supported",
 					ContextParams.iMajor_Version, ContextParams.iMinor_Version);
 			MessageBox(hWnd, sErrorMessage, sErrorTitle, MB_ICONINFORMATION);
 			return false;
