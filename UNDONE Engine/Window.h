@@ -48,6 +48,8 @@ public:
 
 	int			m_width;
 	int			m_hieght;
+	int			m_fullscreenwidth;
+	int			m_fullscreenheight;
 	bool		m_windowed;
 
 private:
@@ -56,8 +58,7 @@ private:
 	IWindowUser*		m_User;
 	SystemComponent*	m_pSystem;
 
-	int					m_fullscreenwidth;
-	int					m_fullscreenheight;
+	
 
 	WindowPlacementPtr	m_placement;
 	char*				m_title;

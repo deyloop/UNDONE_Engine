@@ -54,6 +54,8 @@ public:
 
 	void OnCreateContext();
 	void OnDestroyContext();
+	void ResetScreen( );
+	void SetResolution(const int hor, const int vert);
 
 	const DisplayMode& GetDisplayMode( ) const { return m_DisplayMode; }
 

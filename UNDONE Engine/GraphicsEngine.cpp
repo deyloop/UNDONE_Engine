@@ -95,9 +95,32 @@ bool GraphicsEngine::Initialize(WindowHandle window, IFrameWork* pFrameWork,
 Toggles between fullscreen rendering and windoed rtendering
 -----------------------------------------------------------------------------*/
 void GraphicsEngine::ToggleFullscreen(){
+	if (!m_pSystem) return;
+	m_windowed = !m_windowed;
 
+	ResetScreen( );
+	
 }
 
+void GraphicsEngine::SetResolution(const int hor, const int vert) {
+	m_DisplayMode.PelsHeight = vert;
+	m_DisplayMode.PelsWidth = hor;
+	m_pSystem->SetDeviceDisplayMode(NULL, m_DisplayMode);
+}
+/*-----------------------------------------------------------------------------
+Resets the openGL viewport.
+-----------------------------------------------------------------------------*/
+void GraphicsEngine::ResetScreen( ) {
+	if (!m_pFrameWork) return;
+
+	int width = m_pFrameWork->GetScreenWidth( );
+	int hieght = m_pFrameWork->GetScreenHieght( );
+
+	glViewport(0, 0, width, hieght);
+
+	m_pGraphicsBuffer->GetControlCamera( ).SetAspectRatio((float)width/(float)hieght);
+
+}
 /*-----------------------------------------------------------------------------
 Creates the pixel parameters.
 -----------------------------------------------------------------------------*/
@@ -140,7 +163,7 @@ void GraphicsEngine::OnCreateContext(){
 	}
 	//tell the framework 
 	if (m_pFrameWork) m_pFrameWork->OnCreateContext();
-
+	ResetScreen( );
 	//GL State variables.
 	glClearColor		(0.0f, 0.0f, 0.0f, 1.0f);
 	glClearDepth		(1.0f);

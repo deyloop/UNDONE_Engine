@@ -68,6 +68,9 @@ void Window::ToggleFullscreen(){
 
 		// Going to fullscreen mode
 		m_pSystem->SetWindowStyle(m_hWnd, WSS_FULLSCREENWINDOW);
+		m_pSystem->AdjustWindow(m_hWnd, m_fullscreenwidth, m_fullscreenheight);
+		m_pSystem->ShowWindow_(m_hWnd);
+		m_pSystem->UpdateWindow_(m_hWnd);
 	}
 }
 
@@ -102,7 +105,7 @@ PArameters:
 [IN]	newHight	-	the new hieght now.
 -----------------------------------------------------------------------------*/
 void Window::OnMaximized(int newWidth, int newHieght){
-
+	OnResize(newWidth, newHieght);
 }
 
 /*-----------------------------------------------------------------------------
@@ -112,7 +115,16 @@ Parameters:
 [IN]	newHight	-	the new hieght now.
 -----------------------------------------------------------------------------*/
 void Window::OnResize(int newWidth, int newHieght){
+	int oldH = m_hieght;
+	int oldW = m_width;
 
+	m_hieght = newHieght;
+	m_width = newWidth;
+
+	if (m_User) {
+		m_User->OnResize(newHieght,newWidth,oldH,oldW);
+	}
+	
 }
 
 /*-----------------------------------------------------------------------------

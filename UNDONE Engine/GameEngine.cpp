@@ -70,7 +70,7 @@ bool FrameWork::Initialise(char* title,
 	//Initialize the subsystems..
 
 	//the Window
-	m_pUserWindow->Initialize(title, this, width, height, windowed);
+	m_pUserWindow->Initialize(title, this, width, height, true);
 	//the graphics engine
 	if (!m_pGraphicsEngine->Initialize(m_pUserWindow->GetHandle( ), this, m_pObjectBuffer)) {
 		return false;
@@ -78,6 +78,9 @@ bool FrameWork::Initialise(char* title,
 	//the Application
 	m_pApplication->LoadScene(m_pObjectBuffer);
 
+	if (!windowed) {
+		ToggleFullscreen( );
+	}
 	//start the timer
 	Pause(false, false);
 
@@ -144,6 +147,8 @@ void FrameWork::ToggleFullscreen(){
 	}
 
 	Pause(true, true);
+	m_pUserWindow->m_fullscreenheight = m_pGraphicsEngine->GetDisplayMode( ).PelsHeight;
+	m_pUserWindow->m_fullscreenwidth = m_pGraphicsEngine->GetDisplayMode( ).PelsWidth;
 	m_pUserWindow->ToggleFullscreen();
 	m_pGraphicsEngine->ToggleFullscreen();
 	Pause(false, false);
@@ -171,6 +176,7 @@ void FrameWork::OnMinimized( ) {
 
 void FrameWork::OnResize(int newHieght, int newWidth,
 						 int oldHieght, int oldWidth) {
+	if(m_pGraphicsEngine)m_pGraphicsEngine->ResetScreen( );
 	m_active = true;
 }
 

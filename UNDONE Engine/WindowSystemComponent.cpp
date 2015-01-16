@@ -211,10 +211,10 @@ namespace UNDONE_ENGINE {
 							handeller->OnMinimized( );
 							break;
 						case SIZE_MAXIMIZED:
-							handeller->OnMaximized(HIWORD(lParam), LOWORD(lParam));
+							handeller->OnMaximized(LOWORD(lParam), HIWORD(lParam));
 							break;
 						default:
-							handeller->OnResize(HIWORD(lParam), LOWORD(lParam));
+							handeller->OnResize(LOWORD(lParam), HIWORD(lParam));
 							break;
 					}
 					break;
@@ -523,7 +523,7 @@ namespace UNDONE_ENGINE {
 				wndStyle = WS_OVERLAPPEDWINDOW;
 				break;
 			case WSS_FULLSCREENWINDOW:
-				wndStyle = WS_SYSMENU|WS_POPUP|WS_CLIPCHILDREN|WS_CLIPSIBLINGS|WS_VISIBLE;
+				wndStyle = WS_SYSMENU|WS_POPUP|WS_CLIPCHILDREN|WS_CLIPSIBLINGS|WS_VISIBLE|WS_EX_TOPMOST;
 				break;
 		}
 		SetWindowLongPtr(hWnd, GWL_STYLE, wndStyle);

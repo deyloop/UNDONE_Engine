@@ -27,7 +27,7 @@ int main( ) {
 	FrameWork*		pUNDONE = new FrameWork(pApp);
 
 	pApp->LinkToEngine(pUNDONE);
-	pUNDONE->Initialise("HEXAGON", 500, 500);
+	pUNDONE->Initialise("HEXAGON", 500, 500,false);
 
 	//time to rock n roll!
 	pUNDONE->Run( );
