@@ -15,6 +15,8 @@ Author	:	Anurup Dey
 #include <gl\GL.h>
 #include <gl\GLU.h>
 
+using namespace UNDONE_ENGINE;
+
 /*-----------------------------------------------------------------------------
 This struct represents data that is passed on to each 3d graphic on rendering.
 -----------------------------------------------------------------------------*/

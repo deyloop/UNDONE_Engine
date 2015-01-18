@@ -474,7 +474,7 @@ namespace UNDONE_ENGINE {
 	returned.
 	[OUT]	newMode		-	 the structure containg the new mode
 	-----------------------------------------------------------------------------*/
-	bool WindowsSystemComponent::SetDeviceDisplayMode(char* DeviceName, DisplayMode newMode) {
+	bool WindowsSystemComponent::SetDeviceDisplayMode(char* DeviceName, DisplayMode newMode, bool tellSys) {
 		DEVMODE winDevMode;
 
 		winDevMode.dmSize = sizeof(DEVMODE);
@@ -485,8 +485,16 @@ namespace UNDONE_ENGINE {
 		winDevMode.dmFields = DM_BITSPERPEL|DM_PELSWIDTH|DM_PELSHEIGHT|DM_DISPLAYFREQUENCY;
 
 		long result = ChangeDisplaySettings(&winDevMode, CDS_FULLSCREEN);
-		if (result==DISP_CHANGE_SUCCESSFUL) return true;
-		else return false;
+		if (result==DISP_CHANGE_SUCCESSFUL) {
+			
+			if (tellSys) {
+				SendMessage(HWND_BROADCAST, WM_DISPLAYCHANGE,
+							(WPARAM)(winDevMode.dmBitsPerPel),
+							MAKELPARAM(winDevMode.dmPelsWidth, winDevMode.dmPelsHeight));
+			}
+
+			return true;
+		} else return false;
 	}
 
 	/*-----------------------------------------------------------------------------

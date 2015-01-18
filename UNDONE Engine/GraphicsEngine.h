@@ -12,68 +12,70 @@ Author	:	Anurup Dey
 #include "SystemComponent.h"
 #include "Renderer.h"
 #include "ObjectBuffer.h"
-using namespace UNDONE_ENGINE;
 
-/*-----------------------------------------------------------------------------
-Summary:	This Interface has to be implimented by the using framework to be
-able to use the GraphicEngine Class. This Interface contains some
-events which the Engine can trigger in accordance to the creation
-and activities of the Graphic Card.
------------------------------------------------------------------------------*/
-class IFrameWork					//NOTE: this is an Abstract class.
-{
-public:
+namespace UNDONE_ENGINE {
 
-	virtual void  OnCreateContext()					= 0;
-	virtual const int   GetScreenHieght() const		= 0;
-	virtual const int   GetScreenWidth() const 		= 0;
-	virtual const float GetElapsedTime() const		= 0;
-};
+	/*-----------------------------------------------------------------------------
+	Summary:	This Interface has to be implimented by the using framework to be
+	able to use the GraphicEngine Class. This Interface contains some
+	events which the Engine can trigger in accordance to the creation
+	and activities of the Graphic Card.
+	-----------------------------------------------------------------------------*/
+	class IFrameWork					//NOTE: this is an Abstract class.
+	{
+	public:
 
-/*-----------------------------------------------------------------------------
-This class handles all the tasks related to graphics.
------------------------------------------------------------------------------*/
-class GraphicsEngine{
-public:
-	GraphicsEngine();
-	~GraphicsEngine(){ Release(); }
+		virtual void  OnCreateContext( ) = 0;
+		virtual const int   GetScreenHieght( ) const = 0;
+		virtual const int   GetScreenWidth( ) const = 0;
+		virtual const float GetElapsedTime( ) const = 0;
+	};
 
-	void Release();
+	/*-----------------------------------------------------------------------------
+	This class handles all the tasks related to graphics.
+	-----------------------------------------------------------------------------*/
+	class GraphicsEngine {
+	public:
+		GraphicsEngine( );
+		~GraphicsEngine( ) { Release( ); }
 
-	bool Initialize(WindowHandle window, 
-					IFrameWork* pFrameWork,
-					ObjectBuffer* pGraphicsBuffer,
-					int context_version_major = 3, 
-					int context_version_minor = 1,
-					bool windowed = true);
+		void Release( );
 
-	void ToggleFullscreen();
-	void ToggleRenderMode(){};
+		bool Initialize(WindowHandle window,
+						IFrameWork* pFrameWork,
+						ObjectBuffer* pGraphicsBuffer,
+						int context_version_major = 3,
+						int context_version_minor = 1,
+						bool windowed = true);
 
-	void RenderScene();
+		void ToggleFullscreen( );
+		void ToggleRenderMode( ) { };
 
-	void OnCreateContext();
-	void OnDestroyContext();
-	void ResetScreen( );
-	void SetResolution(const int hor, const int vert);
+		void RenderScene( );
 
-	const DisplayMode& GetDisplayMode( ) const { return m_DisplayMode; }
+		void OnCreateContext( );
+		void OnDestroyContext( );
+		void ResetScreen( );
+		void SetResolution(const int hor, const int vert);
 
-private:
-	bool BiuldPixelParams();
-	bool BuildContextCreationParams();
+		const DisplayMode& GetDisplayMode( ) const { return m_DisplayMode; }
 
-	OpenGLContext		m_GLContext;
-	DeviceContext		m_DeviceContext;
-	bool				m_windowed;
+	private:
+		bool BiuldPixelParams( );
+		bool BuildContextCreationParams( );
 
-	PixelFormatParameters		m_PixelFormatParams;
-	ContextCreationPrameters	m_ContextParams;
-	DisplayMode					m_DisplayMode;
+		OpenGLContext		m_GLContext;
+		DeviceContext		m_DeviceContext;
+		bool				m_windowed;
 
-	ObjectBuffer*		m_pGraphicsBuffer;
-	IFrameWork*			m_pFrameWork;
-	SystemComponent*	m_pSystem;
-	Renderer*			m_pRenderer;
-};
+		PixelFormatParameters		m_PixelFormatParams;
+		ContextCreationPrameters	m_ContextParams;
+		DisplayMode					m_DisplayMode;
+
+		ObjectBuffer*		m_pGraphicsBuffer;
+		IFrameWork*			m_pFrameWork;
+		SystemComponent*	m_pSystem;
+		Renderer*			m_pRenderer;
+	};
+}
 #endif

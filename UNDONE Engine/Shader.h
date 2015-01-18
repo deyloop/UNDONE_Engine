@@ -12,26 +12,30 @@ typedef  unsigned int UINT;
 #include <string>
 using namespace std;
 
-/*-----------------------------------------------------------------------------
-This class represents a shader. A shader is an arbitrary program which is 
-executed directly on the GPU or graphics hardware. Several shaders make a 
-shader program.
------------------------------------------------------------------------------*/
-class UNDONE_API Shader{
-public:
-	Shader();
-	~Shader(){ DeleteShader(); }
+namespace UNDONE_ENGINE {
 
-	bool LoadShader(string file, int type);
-	void DeleteShader();
+	/*-----------------------------------------------------------------------------
+	This class represents a shader. A shader is an arbitrary program which is
+	executed directly on the GPU or graphics hardware. Several shaders make a
+	shader program.
+	-----------------------------------------------------------------------------*/
+	class UNDONE_API Shader {
+	public:
+		Shader( );
+		~Shader( ) { DeleteShader( ); }
 
-	bool IsLoaded()	{ return bLoaded;	}
-	UINT GetID()	{ return uiShader;	}
+		bool LoadShader(string file, int type);
+		void DeleteShader( );
 
-private:
-	UINT uiShader;		// ID of shader
-	int iType;			// GL_VERTEX_SHADER, GL_FRAGMENT_SHADER...
-	bool bLoaded;		// Whether shader was loaded and compiled
-};
+		bool IsLoaded( ) { return bLoaded; }
+		UINT GetID( ) { return uiShader; }
+
+	private:
+		UINT uiShader;		// ID of shader
+		int iType;			// GL_VERTEX_SHADER, GL_FRAGMENT_SHADER...
+		bool bLoaded;		// Whether shader was loaded and compiled
+	};
+
+}
 #endif
 ///////////////////////////////////////////////////////////////////////////////

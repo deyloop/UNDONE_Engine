@@ -10,28 +10,30 @@ Author	:	Anurup Dey
 
 #include "UNDONE_Engine_declr.h"
 #include "Shader.h"
-#include "UNDONE_Engine_declr.h"
 
-/*-----------------------------------------------------------------------------
-A class that Wraps OpenGL shader program and make its usage easy.
------------------------------------------------------------------------------*/
-class UNDONE_API ShaderProgram{
-public:
-	void CreateProgram();
-	void DeleteProgram();
+namespace UNDONE_ENGINE {
 
-	bool AddShaderToProgram(Shader* shShader);
-	bool LinkProgram();
+	/*-----------------------------------------------------------------------------
+	A class that Wraps OpenGL shader program and make its usage easy.
+	-----------------------------------------------------------------------------*/
+	class UNDONE_API ShaderProgram {
+	public:
+		void CreateProgram( );
+		void DeleteProgram( );
 
-	void UseProgram();
+		bool AddShaderToProgram(Shader* shShader);
+		bool LinkProgram( );
 
-	UINT GetProgramID(){ return uiProgram; }
+		void UseProgram( );
 
-	ShaderProgram();
+		UINT GetProgramID( ) { return uiProgram; }
 
-private:
-	UINT uiProgram; // ID of program
-	bool bLinked;	// Whether program was linked and is ready to use
-};
+		ShaderProgram( );
+
+	private:
+		UINT uiProgram; // ID of program
+		bool bLinked;	// Whether program was linked and is ready to use
+	};
+}
 #endif
 ///////////////////////////////////////////////////////////////////////////////

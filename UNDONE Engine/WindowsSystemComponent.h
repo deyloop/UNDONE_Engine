@@ -93,7 +93,7 @@ namespace UNDONE_ENGINE {
 							 OpenGLContext& OGLContext,
 							 DeviceContext& DevContext);
 		void GetDeviceDisplayMode(char* DeviceName, DisplayMode& devMode);
-		bool SetDeviceDisplayMode(char* DeviceName, DisplayMode newMode);
+		bool SetDeviceDisplayMode(char* DeviceName, DisplayMode newMode, bool tellSys = false);
 		void Swipe_Buffers(DeviceContext context);
 		void ReleaseGLContext(OpenGLContext context);
 

@@ -6,7 +6,8 @@ File	:	InputHandeller.cpp
 
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
-	Processes the Input, calls the corresponding callback functions.
+	Processes the Input, calls the corresponding callback functions. The wierdest
+	looking function in all of the codebase...
 	-----------------------------------------------------------------------------*/
 	void InputHandeller::HandleInput(InputEvent& p_given_event) {
 		if (m_Contexts.size( )==0) return;	//gotta do nothing 
