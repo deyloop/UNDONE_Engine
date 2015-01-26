@@ -82,7 +82,7 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	obj2.ptr()->GetWorldTransform( ).SetZPosition(4.0f);
 	obj2.ptr()->GetWorldTransform( ).SetXPosition(4.0f);
 
-	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(10.0f, 10.0f, 10.0f));
+	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(5.0f, 5.0f, 5.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
 

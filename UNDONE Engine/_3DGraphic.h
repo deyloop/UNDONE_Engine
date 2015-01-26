@@ -51,10 +51,6 @@ protected:
 	WorldTransform	m_worldTransform;
 	ShaderProgram**	m_ppShaderProgram;
 
-	float fPyramid[36]; // Data to render triangle (3 vertices, each has 3 floats)
-	
-	float fPyramidColor[36];
-
 	UINT uiVBO[2];
 	UINT uiVAO[1];
 	//Mesh, WorldTransfor, ShaderPrograms, etc	

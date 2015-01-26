@@ -17,6 +17,10 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shader.frag" />
+    <None Include="shader.vert" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B509BC5E-187C-46DF-8F57-3371B654557E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
