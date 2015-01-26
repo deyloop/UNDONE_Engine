@@ -13,6 +13,7 @@ Author	:	Anurup Dey
 #include "SystemComponent.h"			//header for the System Interface.
 #include "Window.h"						//header for the Window class
 #include "GraphicsEngine.h"				//header for the graphics engine 
+#include "DObjectBuffer.h"				//For gameObject storage.
 #include "ObjectBuffer.h"				//Sort of like a factory object
 #include "InputHandeller.h"				//Makes handling input easy
 #include "Timer.h"						//For keeping the time.
@@ -67,7 +68,7 @@ namespace UNDONE_ENGINE {
 		Window*				m_pUserWindow;
 		SystemComponent*	m_pSystemComponent;
 		GraphicsEngine*		m_pGraphicsEngine;
-		ObjectBuffer*		m_pObjectBuffer;
+		DObjectBuffer*		m_pObjectBuffer;
 		InputHandeller*		m_pInputHandeller;
 		Timer*				m_pTimer;
 
