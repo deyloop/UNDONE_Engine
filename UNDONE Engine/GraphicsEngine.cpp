@@ -4,6 +4,7 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "GraphicsEngine.h"
+#include "_3DGraphic.h"
 
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
@@ -56,7 +57,7 @@ namespace UNDONE_ENGINE {
 	true on success, false on falure.
 	-----------------------------------------------------------------------------*/
 	bool GraphicsEngine::Initialize(WindowHandle window, IFrameWork* pFrameWork,
-									ObjectBuffer* pGraphicsBuffer,
+									DObjectBuffer* pGraphicsBuffer,
 									int context_version_major, int context_version_minor,
 									bool windowed) {
 		m_pFrameWork = pFrameWork;
@@ -158,12 +159,7 @@ namespace UNDONE_ENGINE {
 	All Graphical resources are alocated.
 	-----------------------------------------------------------------------------*/
 	void GraphicsEngine::OnCreateContext( ) {
-		//Initialize all the objects.
-		if (m_pGraphicsBuffer) {
-			for (auto& graphic:m_pGraphicsBuffer->GetObjectsToDraw( )) {
-				graphic->OnInit( );
-			}
-		}
+	
 		//tell the framework 
 		if (m_pFrameWork) m_pFrameWork->OnCreateContext( );
 		ResetScreen( );
@@ -181,8 +177,8 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void GraphicsEngine::OnDestroyContext( ) {
 		if (m_pGraphicsBuffer) {
-			for (auto& graphic:m_pGraphicsBuffer->GetObjectsToDraw( )) {
-				graphic->OnDestroy( );
+			for (auto& graphic:m_pGraphicsBuffer->GetListOf<_3DGraphic>( )) {
+				graphic.OnDestroy( );
 			}
 		}
 	}

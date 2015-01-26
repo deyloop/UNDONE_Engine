@@ -13,6 +13,7 @@ Author	:	Anurup Dey
 #include "vector"					//We use these for storage.
 #include "list"
 #include "Component.h"				//The Object buffer can only store components
+#include "Camera.h"
 using namespace std;
 
 namespace UNDONE_ENGINE {
@@ -22,7 +23,7 @@ namespace UNDONE_ENGINE {
 	interface for dereferncing a double pointer (pointer to pointer).
 	-------------------------------------------------------------------------*/
 	template <typename T>
-	struct UNDONE_API DPointer {
+	struct /*UNDONE_API*/ DPointer {
 		T** m_pointer;
 		T* ptr( ) { return *m_pointer; }
 		T&  Obj( ) { return *(*m_pointer); }
@@ -39,6 +40,7 @@ namespace UNDONE_ENGINE {
 		vector<size_t>	m_storage_types;
 		bool			m_empty;
 
+		Camera			m_Cam;
 	public:
 		DObjectBuffer( );
 		~DObjectBuffer( );
@@ -49,8 +51,9 @@ namespace UNDONE_ENGINE {
 		template<typename T>
 		DPointer<T> CreateNew( );
 		template<typename T>
-		vector<T>& GetListOf( );
+		vector<T> GetListOf( );
 
+		Camera& GetControlCamera( ) { return m_Cam; }
 		/*DPointer<Component> GetComponentByName(const char* name);
 		template<typename T>
 		DPointer<T> GetComponentByNameOfType(const char* name);*/
@@ -130,16 +133,7 @@ namespace UNDONE_ENGINE {
 		return &storageList.back( );
 	}
 
-	DObjectBuffer::DObjectBuffer( ) {
-		m_empty = true;
-	}
-
-	DObjectBuffer::~DObjectBuffer( ) {
-		m_storage_lists.clear( );
-		m_storage_vectors.clear( );
-		m_storage_types.clear( );
-		m_empty = true;
-	}
+	
 
 	template<typename T>
 	DPointer<T> DObjectBuffer::CreateNew( ) {
@@ -215,7 +209,7 @@ namespace UNDONE_ENGINE {
 	Useed to Get a vector of corresponding things.
 	----------------------------------------------------------------------------*/
 	template<typename T>
-	vector<T>& DObjectBuffer::GetListOf( ) {
+	vector<T> DObjectBuffer::GetListOf( ) {
 
 		//Check if we already store this type of objects.
 		size_t this_type = typeid(T).hash_code( );
@@ -223,7 +217,7 @@ namespace UNDONE_ENGINE {
 			if (m_storage_types[i]==this_type) {
 				//This type is stored.
 				//we now get the corresponding vector
-				return (vector<T>)m_storage_vectors[i];
+				return *((vector<T>*)m_storage_vectors[i]);
 			}
 		}
 	}

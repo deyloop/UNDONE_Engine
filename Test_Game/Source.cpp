@@ -16,7 +16,7 @@ Graphic Memory	-1024MB (Integrated).
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SystemComponent.h"
-#include "FrameWork.h"lkjztr[jreyj a5ym4q]
+#include "FrameWork.h"
 #include "Application.h"
 
 /*-----------------------------------------------------------------------------
@@ -27,7 +27,7 @@ int main( ) {
 	FrameWork*		pUNDONE = new FrameWork(pApp);
 
 	pApp->LinkToEngine(pUNDONE);
-	pUNDONE->Initialise("HEXAGON", 500, 500,false);
+	pUNDONE->Initialise("HEXAGON", 500, 500);
 
 	//time to rock n roll!
 	pUNDONE->Run( );

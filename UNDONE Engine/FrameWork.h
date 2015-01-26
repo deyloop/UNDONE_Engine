@@ -14,7 +14,7 @@ Author	:	Anurup Dey
 #include "Window.h"						//header for the Window class
 #include "GraphicsEngine.h"				//header for the graphics engine 
 #include "DObjectBuffer.h"				//For gameObject storage.
-#include "ObjectBuffer.h"				//Sort of like a factory object
+//#include "ObjectBuffer.h"				//Sort of like a factory object
 #include "InputHandeller.h"				//Makes handling input easy
 #include "Timer.h"						//For keeping the time.
 
@@ -25,7 +25,7 @@ game objects, thier interaction and games logic, etc.
 -----------------------------------------------------------------------------*/
 class UNDONE_API IApp{
 public:
-	virtual void LoadScene(ObjectBuffer* pObjectBuffer/*context acceptors etc*/) = 0;
+	virtual void LoadScene(UNDONE_ENGINE::DObjectBuffer* pObjectBuffer/*context acceptors etc*/) = 0;
 	virtual void Update(/*parameters to be decided*/)							 = 0;
 };
 

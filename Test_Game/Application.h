@@ -10,6 +10,7 @@ Author	:	Anurup Dey
 #include "FrameWork.h"
 #include "ShaderProgram.h"
 
+
 using namespace UNDONE_ENGINE;
 
 class Application : public IApp{
@@ -20,7 +21,7 @@ public:
 	void Release();
 
 	void LinkToEngine(FrameWork* pFrameWork);
-	void LoadScene(ObjectBuffer* pObjectBuffer);
+	void LoadScene(DObjectBuffer* pObjectBuffer);
 	void Update();
 protected:
 	FrameWork*		m_pFrameWork;
