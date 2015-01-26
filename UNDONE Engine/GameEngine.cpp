@@ -40,7 +40,6 @@ namespace UNDONE_ENGINE {
 			delete m_pObjectBuffer;
 			m_pObjectBuffer = nullptr;
 		}
-		
 		if (m_pInputHandeller) {
 			delete m_pInputHandeller;
 			m_pInputHandeller = nullptr;

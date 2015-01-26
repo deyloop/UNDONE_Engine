@@ -27,7 +27,12 @@ namespace UNDONE_ENGINE {
 		m_pSystem->ReleaseGLContext(m_GLContext);
 		OnDestroyContext( );
 
-		if (m_pGraphicsBuffer)	m_pGraphicsBuffer = nullptr;
+		if (m_pGraphicsBuffer) {
+			m_pGraphicsBuffer->DeleteAll<_3DGraphic>( );
+			m_pGraphicsBuffer->DeleteAll<ShaderProgram>( );
+			m_pGraphicsBuffer->DeleteAll<Shader>( );
+			m_pGraphicsBuffer = nullptr;
+		}
 		if (m_pFrameWork) {
 			m_pFrameWork = nullptr;
 		}
