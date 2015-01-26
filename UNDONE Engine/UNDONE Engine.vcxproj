@@ -93,6 +93,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DObjectBuffer.h" />
     <ClInclude Include="FrameWork.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicalObject.h" />
