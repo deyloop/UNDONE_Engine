@@ -57,6 +57,9 @@
     <ClCompile Include="DObjectBuffer.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemComponent.h">

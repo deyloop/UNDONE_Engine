@@ -8,6 +8,7 @@ Author	:	Anurup Dey
 #ifndef _UNDONE_GAMEOBJECT_H_
 #define _UNDONE_GAMEOBJECT_H_
 //includes:
+#include "UNDONE_Engine_declr.h"	//To make this part of the API
 #include "Component.h"	//because thats what we are made up of
 #include <vector>		//Need to store components together.
 #include <typeinfo>		//For handelling types of different /unknown Components
@@ -16,7 +17,7 @@ using std::vector;
 A game object is any object that is there in the game. Its behavior is 
 customized with adding and removing components.
 -----------------------------------------------------------------------------*/
-class GameObject : public Component {
+class UNDONE_API GameObject : public Component {
 public:
 	GameObject( );
 	~GameObject( ) { Release( ); }
@@ -47,7 +48,7 @@ template <class ComponentType>
 ComponentType* GameObject::GetComponent( ) const {
 	ComponentType* component = nullptr;
 	size_t Requested_type = typeid(ComponentType).hash_code();
-	//serch if we have such a component type in us,
+	//search if we have such a component type in us,
 	unsigned int i = 0;
 	for (auto& type:m_Component_types) {
 		if (type==Requested_type) {
@@ -77,13 +78,12 @@ Template for removing a component of a given type.
 -----------------------------------------------------------------------------*/
 template<class ComponentType>
 void GameObject::RemoveComponent( ) {
-	ComponentType* component = nullptr;
 	size_t Requested_type = typeid(ComponentType).hash_code( );
 	//serch if we have such a component type in us,
 	unsigned int i = 0;
 	for (auto& type:m_Component_types) {
 		if (type==Requested_type) {
-			component = (ComponentType*)m_Components[i];
+			m_Components.erase(m_Components.begin() + i)
 			break;
 		}
 		++i;
