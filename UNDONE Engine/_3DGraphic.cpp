@@ -7,6 +7,8 @@ Author	:	Anurup Dey
 #include<glm.hpp>
 #include<gtx\projection.hpp>
 #include<gtx\transform.hpp>
+#include<iostream>
+using namespace std;
 
 
 /*-----------------------------------------------------------------------------
@@ -14,6 +16,7 @@ Default Constructor
 -----------------------------------------------------------------------------*/
 _3DGraphic::_3DGraphic(){
 	m_ppShaderProgram.m_pointer = nullptr;
+	cout<<"3dGaphic Constructed\n";
 }
 
 /*------------------------------------------------------------------------------

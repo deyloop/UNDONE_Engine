@@ -124,7 +124,7 @@ type of component you throw at it.
 	}
 
 	
-
+#include <type_traits>
 	template<typename T>
 	DPointer<T> DObjectBuffer::CreateNew( ) {
 		m_empty = false;
@@ -158,12 +158,15 @@ type of component you throw at it.
 		returnval.m_pointer = pointer;
 		//Components are kept specially, So that they can be
 		//searched up by name later
-		if (dynamic_cast<Component*>(returnval.ptr( ))!=nullptr) {
+		DPointer<Component> clrg;
+		if (is_base_of<Component,T>::value) {
 			//That line above checks if the type is derived from Component
 			//or not.
 
 			//So now we proceed...
-			m_Components.push_back(returnval);
+			DPointer<Component> clrg;
+			clrg.m_pointer = (Component**)returnval.m_pointer;
+			m_Components.push_back(clrg);
 		}
 		return returnval;
 	}

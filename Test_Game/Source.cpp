@@ -18,6 +18,9 @@ Graphic Memory	-1024MB (Integrated).
 #include "SystemComponent.h"
 #include "FrameWork.h"
 #include "Application.h"
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 /*-----------------------------------------------------------------------------
 This is the starting point of the whole program.
