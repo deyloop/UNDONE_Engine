@@ -9,30 +9,34 @@ Author	:	Anurup Dey
 #define _UNDONE_COMPONENT_H_
 
 #include "UNDONE_Engine_declr.h"
+#include <string>					//We are going to use this to store names
+#include "DPointer.h"				//We are associated to the DObjectBuffer.
 
-class GameObject;	//Forward Declared so we can use it.
+namespace UNDONE_ENGINE {
 
-/*-----------------------------------------------------------------------------
-Components are the biulding blocks of game objects. These may be combined in
-GameObjects to give any behavior needed.
------------------------------------------------------------------------------*/
-class UNDONE_API Component {
-public:
-	Component( );
-	~Component( ) { Release( ); }
 
-	virtual void Release( );
-	void SetParent(GameObject* const parent);
+	class GameObject;	//Forward Declared so we can use it.
 
-	char* name[20];
-protected:
-	GameObject* m_pParent;
-private:
-	static int num_Components;
-}; 
+	/*-----------------------------------------------------------------------------
+	Components are the biulding blocks of game objects. These may be combined in
+	GameObjects to give any behavior needed.
+	-----------------------------------------------------------------------------*/
+	class UNDONE_API Component {
+	public:
+		Component( );
+		~Component( ) { Release( ); }
 
-//Static initialisations
-int Component::num_Components = 0;
+		void Release( );
+		void SetParent(/*DPointer<*/GameObject*/*>*/ parent);
+
+		string name;
+	protected:
+		/*DPointer<*/GameObject*/*>*/ m_pParent;
+	private:
+		static int num_Components;
+	};
+	
+}
 #endif //_UNDONE_COMPONENT_H_
 
 ///////////////////////////////////////////////////////////////////////////////

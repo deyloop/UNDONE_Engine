@@ -10,6 +10,7 @@ Author	:	Anurup Dey
 #define UNDONE_DOBJECTBUFFER_H
 
 #include "UNDONE_Engine_declr.h"	//For including this in the API.
+#include "DPointer.h"				//We use this to refernce objects.
 #include "vector"					//We use these for storage.
 #include "list"
 #include "Component.h"				//The Object buffer can only store components
@@ -17,30 +18,19 @@ Author	:	Anurup Dey
 using namespace std;
 
 namespace UNDONE_ENGINE {
-
-	/*-------------------------------------------------------------------------
-	A DPointer is simply a vrapper around a doible pointer. Provides a better 
-	interface for dereferncing a double pointer (pointer to pointer).
-	-------------------------------------------------------------------------*/
-	template <typename T>
-	struct /*UNDONE_API*/ DPointer {
-		T** m_pointer;
-		T* ptr( ) { return *m_pointer; }
-		T&  Obj( ) { return *(*m_pointer); }
-	};
-
-	/*-------------------------------------------------------------------------
-	THe Object buffer is the place where all the components of the game are 
-	physically stored. THis Object buffer has the capabiltity to store any 
-	type of component you throw at it.
-	-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------
+THe Object buffer is the place where all the components of the game are 
+physically stored. THis Object buffer has the capabiltity to store any 
+type of component you throw at it.
+-------------------------------------------------------------------------*/
 	class UNDONE_API DObjectBuffer {
-		vector<void*>	m_storage_vectors;
-		vector<void*>	m_storage_lists;
-		vector<size_t>	m_storage_types;
-		bool			m_empty;
+		vector<DPointer<Component>> m_Components;
+		vector<void*>				m_storage_vectors;
+		vector<void*>				m_storage_lists;
+		vector<size_t>				m_storage_types;
+		bool						m_empty;
 
-		Camera			m_Cam;
+		Camera						m_Cam;
 	public:
 		DObjectBuffer( );
 		~DObjectBuffer( );
@@ -54,9 +44,9 @@ namespace UNDONE_ENGINE {
 		vector<T> GetListOf( );
 
 		Camera& GetControlCamera( ) { return m_Cam; }
-		/*DPointer<Component> GetComponentByName(const char* name);
+		DPointer<Component> GetComponentByName(const char* name);
 		template<typename T>
-		DPointer<T> GetComponentByNameOfType(const char* name);*/
+		DPointer<T> GetComponentByNameOfType(const char* name);
 	};
 
 	//////////////////////////Definitions//////////////////////////////////////
@@ -166,7 +156,15 @@ namespace UNDONE_ENGINE {
 		T** pointer = MakeNew<T>(*pvec, *plist);
 		DPointer<T> returnval;
 		returnval.m_pointer = pointer;
+		//Components are kept specially, So that they can be
+		//searched up by name later
+		if (dynamic_cast<Component*>(returnval.ptr( ))!=nullptr) {
+			//That line above checks if the type is derived from Component
+			//or not.
 
+			//So now we proceed...
+			m_Components.push_back(returnval);
+		}
 		return returnval;
 	}
 
@@ -219,6 +217,29 @@ namespace UNDONE_ENGINE {
 				//we now get the corresponding vector
 				return *((vector<T>*)m_storage_vectors[i]);
 			}
+		}
+	}
+
+	/*----------------------------------------------------------------------------
+	Returns a Dpointer to a component of given type and name
+	Parameter:
+	[IN]	T	:	the type of component.
+	[IN]	name:	the name of the componet.
+	----------------------------------------------------------------------------*/
+	template<typename T>
+	DPointer<T> DObjectBuffer::GetComponentByNameOfType(const char* name) {
+		for (DPointer<Component>& component:m_Components) {
+			if (component.ptr( )->name==name) {
+				//Contruct a DPointer of the given type.
+				DPointer<T> returnComp;
+				returnComp.m_pointer = dynamic_cast<T**>(component.m_pointer);
+				return returnComp;
+			}
+			//If the program got untill here, that means there isn't a component 
+			//present with that name, so we give out a fake one.
+			DPointer<T> ErrorComponent;
+			ErrorComponent.m_pointer = nullptr;
+			return ErrorComponent;
 		}
 	}
 }

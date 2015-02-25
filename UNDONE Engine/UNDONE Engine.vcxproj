@@ -80,6 +80,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DObjectBuffer.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="InputHandeller.cpp" />
     <ClCompile Include="ObjectBuffer.cpp" />
@@ -96,6 +97,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DObjectBuffer.h" />
+    <ClInclude Include="DPointer.h" />
     <ClInclude Include="FrameWork.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicalObject.h" />

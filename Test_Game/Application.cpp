@@ -6,6 +6,7 @@ Author	:	Anurup Dey
 #include "Application.h"
 #include "_3DGraphic.h"
 #include "DObjectBuffer.h"
+#include "GameObject.h"
 #include <iostream>
 /*namespace UNDONE_ENGINE {
 	template <typename T>
@@ -73,14 +74,17 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	spMain.ptr()->UseProgram();
 
 	DPointer<_3DGraphic> obj = pObjectBuffer->CreateNew<_3DGraphic>();
-	obj.ptr()->SetShaderProgramToUse(spMain.m_pointer);
+	obj.ptr()->SetShaderProgramToUse(spMain);
 	obj.ptr()->OnInit();
 	DPointer<_3DGraphic> obj2 = pObjectBuffer->CreateNew<_3DGraphic>( );
-	obj2.ptr()->SetShaderProgramToUse(spMain.m_pointer);
+	obj2.ptr()->SetShaderProgramToUse(spMain);
 	obj2.ptr()->OnInit( );
 	//obj2->GetWorldTransform( ).SetYPosition(3.0f);
 	obj2.ptr()->GetWorldTransform( ).SetZPosition(4.0f);
 	obj2.ptr()->GetWorldTransform( ).SetXPosition(4.0f);
+
+	DPointer<GameObject> go_Scene = pObjectBuffer->CreateNew<GameObject>( );
+	(go_Scene.ptr( ))->AddComponent<_3DGraphic>(obj);
 
 	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(5.0f, 5.0f, 5.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));

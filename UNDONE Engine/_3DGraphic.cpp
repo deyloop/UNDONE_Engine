@@ -7,13 +7,13 @@ Author	:	Anurup Dey
 #include<glm.hpp>
 #include<gtx\projection.hpp>
 #include<gtx\transform.hpp>
-#include"SystemComponent.h"
+
 
 /*-----------------------------------------------------------------------------
 Default Constructor
 -----------------------------------------------------------------------------*/
 _3DGraphic::_3DGraphic(){
-	m_ppShaderProgram = nullptr;
+	m_ppShaderProgram.m_pointer = nullptr;
 }
 
 /*------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ Renders the _3Dgraphic on the screen.
 -----------------------------------------------------------------------------*/
 void _3DGraphic::Render(RenderParams& refRenderParams){
 	
-	GLuint progID = ( *m_ppShaderProgram )->GetProgramID ( );
+	GLuint progID = ( m_ppShaderProgram.ptr() )->GetProgramID ( );
 	
 	glBindVertexArray(uiVAO[0]);
 	
@@ -132,16 +132,15 @@ Sets the shader program which must be used to render the graphic.
 Parameters:
 [IN]	pProgram	:	the pointer to the program to be used.
 -----------------------------------------------------------------------------*/
-void _3DGraphic::SetShaderProgramToUse(ShaderProgram** ppProgram){
+void _3DGraphic::SetShaderProgramToUse(DPointer<ShaderProgram> ppProgram){
 	m_ppShaderProgram = ppProgram;
 }
 
 unsigned int SimpleObject::num_objects = 0;
-#define _CRT_SECURE_NO_WARNINGS
 /*-----------------------------------------------------------------------------
 Default Constructor
 -----------------------------------------------------------------------------*/
 SimpleObject::SimpleObject(){
 	num_objects++;
-	sprintf_s(name, "Object_%i", num_objects);
+	sprintf_s<20>(name, "Object_%i", num_objects);
 }
