@@ -10,6 +10,7 @@ Author	:	Anurup Dey
 #include "GraphicalObject.h"	//the graphical Object header, the base class.
 #include "WorldTransform.h"
 #include "ShaderProgram.h"
+#include "Mesh.h"
 #include "UNDONE_Engine_declr.h"
 
 #include <glew.h>
@@ -49,9 +50,7 @@ public:
 protected:
 	DPointer<WorldTransform>	m_ppworldTransform;
 	DPointer<ShaderProgram>		m_ppShaderProgram;
-
-	UINT uiVBO[2];
-	UINT uiVAO[1];
+	DPointer<Mesh>				m_ppMesh;
 	//Mesh, WorldTransfor, ShaderPrograms, etc	
 };
 #endif

@@ -31,7 +31,7 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void Component::Release( ) {
 		m_ppParent.m_pointer = nullptr;
-		coutput("Component "+name+" Released.\n");
+		//coutput("Component "+name+" Released.\n");
 	}
 
 	/*-----------------------------------------------------------------------------

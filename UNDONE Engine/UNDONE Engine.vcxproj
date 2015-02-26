@@ -83,6 +83,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="InputHandeller.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ObjectBuffer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -105,6 +106,7 @@
     <ClInclude Include="InputContext.h" />
     <ClInclude Include="InputEvent.h" />
     <ClInclude Include="InputHandeller.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="ObjectBuffer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />

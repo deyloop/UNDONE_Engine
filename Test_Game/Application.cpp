@@ -66,8 +66,14 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 
 	spMain.ptr()->LinkProgram();
 	spMain.ptr()->UseProgram();
+
+	DPointer<Mesh> cube_mesh = pObjectBuffer->CreateNew<Mesh>( );
+	cube_mesh.ptr( )->Rename("CubeMesh");
 	for (int j = 0; j<6; ++j) {
 		for (int i = 0; i<6; ++i) {
+
+			if (i >0&&i<5&&j > 0&&j<5) continue;
+
 			DPointer<GameObject> go_scene = pObjectBuffer->CreateNew<GameObject>( );
 			go_scene.ptr( )->Rename("GameObject");
 			DPointer<WorldTransform> transform1 = pObjectBuffer->CreateNew<WorldTransform>( );
@@ -76,7 +82,9 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			graphic1.ptr( )->Rename("Graphic1");
 			graphic1.ptr( )->OnInit( );
 			go_scene.ptr( )->AddComponent<WorldTransform>(transform1);
+			go_scene.ptr( )->AddComponent<Mesh>(cube_mesh);
 			go_scene.ptr( )->AddComponent<_3DGraphic>(graphic1);
+			
 			graphic1.ptr( )->SetShaderProgramToUse(spMain);
 			transform1.ptr( )->TranslateAbs(i-3, 0, j-3);
 		}
@@ -116,7 +124,7 @@ Updates Application specific things like AI, ui response, etc.
 void Application::Update(){
 
 	
-	cout<<m_pFrameWork->GetFPS( )<<"\n";
+	//cout<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	
