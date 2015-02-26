@@ -41,16 +41,14 @@ public:
 	virtual void OnInit();
 	virtual void OnDestroy();
 
-	void operator= (_3DGraphic other);
-
-	WorldTransform& GetWorldTransform() { return m_worldTransform; }
 	DPointer<ShaderProgram>  GetShaderProgram() { return m_ppShaderProgram; }
 	
 	void SetShaderProgramToUse(DPointer<ShaderProgram> ppProgram);
+	void SetParent(DPointer<GameObject> ppParent);
 
 protected:
-	WorldTransform	m_worldTransform;
-	DPointer<ShaderProgram>	m_ppShaderProgram;
+	DPointer<WorldTransform>	m_ppworldTransform;
+	DPointer<ShaderProgram>		m_ppShaderProgram;
 
 	UINT uiVBO[2];
 	UINT uiVAO[1];

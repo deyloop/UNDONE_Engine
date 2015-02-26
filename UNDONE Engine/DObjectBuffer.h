@@ -167,6 +167,8 @@ type of component you throw at it.
 			DPointer<Component> clrg;
 			clrg.m_pointer = (Component**)returnval.m_pointer;
 			m_Components.push_back(clrg);
+			//give the this DPOinter
+			clrg.ptr( )->m_ppMyself = clrg;
 		}
 		return returnval;
 	}

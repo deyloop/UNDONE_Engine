@@ -66,19 +66,21 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 
 	spMain.ptr()->LinkProgram();
 	spMain.ptr()->UseProgram();
-
-	DPointer<_3DGraphic> obj = pObjectBuffer->CreateNew<_3DGraphic>();
-	obj.ptr()->SetShaderProgramToUse(spMain);
-	obj.ptr()->OnInit();
-	DPointer<_3DGraphic> obj2 = pObjectBuffer->CreateNew<_3DGraphic>( );
-	obj2.ptr()->SetShaderProgramToUse(spMain);
-	obj2.ptr()->OnInit( );
-	//obj2->GetWorldTransform( ).SetYPosition(3.0f);
-	obj2.ptr()->GetWorldTransform( ).SetZPosition(4.0f);
-	obj2.ptr()->GetWorldTransform( ).SetXPosition(4.0f);
-	coutput("Drawing "+obj2.ptr( )->name+" at"+obj2.ptr( )->GetWorldTransform().GetXPosition( )+"\n");
-	DPointer<GameObject> go_Scene = pObjectBuffer->CreateNew<GameObject>( );
-	(go_Scene.ptr( ))->AddComponent<_3DGraphic>(obj);
+	for (int j = 0; j<6; ++j) {
+		for (int i = 0; i<6; ++i) {
+			DPointer<GameObject> go_scene = pObjectBuffer->CreateNew<GameObject>( );
+			go_scene.ptr( )->Rename("GameObject");
+			DPointer<WorldTransform> transform1 = pObjectBuffer->CreateNew<WorldTransform>( );
+			transform1.ptr( )->Rename("Transform1");
+			DPointer<_3DGraphic> graphic1 = pObjectBuffer->CreateNew<_3DGraphic>( );
+			graphic1.ptr( )->Rename("Graphic1");
+			graphic1.ptr( )->OnInit( );
+			go_scene.ptr( )->AddComponent<WorldTransform>(transform1);
+			go_scene.ptr( )->AddComponent<_3DGraphic>(graphic1);
+			graphic1.ptr( )->SetShaderProgramToUse(spMain);
+			transform1.ptr( )->TranslateAbs(i-3, 0, j-3);
+		}
+	}
 
 	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(5.0f, 5.0f, 5.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
@@ -114,7 +116,7 @@ Updates Application specific things like AI, ui response, etc.
 void Application::Update(){
 
 	
-	//cout<<m_pFrameWork->GetFPS( )<<"\n";
+	cout<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

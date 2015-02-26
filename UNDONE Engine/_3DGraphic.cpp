@@ -4,6 +4,7 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "_3DGraphic.h"
+#include "GameObject.h"
 #include<glm.hpp>
 #include<gtx\projection.hpp>
 #include<gtx\transform.hpp>
@@ -15,7 +16,8 @@ using namespace std;
 Default Constructor
 -----------------------------------------------------------------------------*/
 _3DGraphic::_3DGraphic(){
-	m_ppShaderProgram.m_pointer = nullptr;
+	m_ppShaderProgram.m_pointer		= nullptr;
+	m_ppworldTransform.m_pointer	= nullptr;
 	
 }
 
@@ -75,7 +77,6 @@ void _3DGraphic::OnInit(){
 
 	glGenVertexArrays(1, uiVAO);
 	glGenBuffers(2, uiVBO);
-
 	// Setup whole cube
 	glBindVertexArray(uiVAO[0]);
 
@@ -103,32 +104,22 @@ void _3DGraphic::OnDestroy(){
 Renders the _3Dgraphic on the screen.
 -----------------------------------------------------------------------------*/
 void _3DGraphic::Render(RenderParams& refRenderParams){
+	if (m_ppShaderProgram.m_pointer && m_ppworldTransform.m_pointer) {
+		GLuint progID = (m_ppShaderProgram.ptr( ))->GetProgramID( );
+
+		glBindVertexArray(uiVAO[0]);
+		
+		int HMVP = glGetUniformLocation(progID, "gMVP");
+		m_ppworldTransform.Obj( ).RotateRel(0.0f, 0.1f, 0.0f);
+		glm::mat4 mMVP = refRenderParams.View_x_Projection*
+			(m_ppworldTransform.ptr( )->GetTransform( ));
+
+		glUniformMatrix4fv(HMVP, 1, GL_FALSE, &mMVP[0][0]);
+
+		glDrawArrays(GL_TRIANGLES, 0, 30);
 	
-	GLuint progID = ( m_ppShaderProgram.ptr() )->GetProgramID ( );
-	
-	glBindVertexArray(uiVAO[0]);
-	
-	int HMVP = glGetUniformLocation ( progID, "gMVP" );
-	
-	glm::mat4 mMVP = refRenderParams.View_x_Projection*(m_worldTransform.GetTransform( ));
+	}
 
-	glUniformMatrix4fv(HMVP, 1, GL_FALSE, &mMVP[0][0]);
-
-	glDrawArrays(GL_TRIANGLES, 0, 30);
-
-	
-
-}
-
-/*-----------------------------------------------------------------------------
-The = operator which copies the contents of other into this 
------------------------------------------------------------------------------*/
-void _3DGraphic::operator= (_3DGraphic other){
-	//copy all pointers around.
-	//Mesh, WorldTransfor, ShaderPrograms, etc
-
-	m_worldTransform = other.m_worldTransform;
-	m_ppShaderProgram = other.m_ppShaderProgram;
 }
 
 /*-----------------------------------------------------------------------------
@@ -138,8 +129,22 @@ Parameters:
 -----------------------------------------------------------------------------*/
 void _3DGraphic::SetShaderProgramToUse(DPointer<ShaderProgram> ppProgram){
 	m_ppShaderProgram = ppProgram;
+	if (m_ppShaderProgram.m_pointer!=nullptr) {
+		coutput(name+" aquired Shader Program\n");
+	}
 }
 
+/*-----------------------------------------------------------------------------
+Sets the parent of this 3dGraphic Component.
+-----------------------------------------------------------------------------*/
+void _3DGraphic::SetParent(DPointer<GameObject> ppParent) {
+	Component::SetParent(ppParent);
+	if (m_ppParent.m_pointer) {
+		coutput(name+" aquiring transformation from "+m_ppParent.Obj( ).name+"\n");
+		m_ppworldTransform = (m_ppParent.ptr( ))->GetComponent<WorldTransform>( );
+		coutput(name+" aquired transformation "+m_ppworldTransform.Obj( ).name+"\n");
+	}
+}
 unsigned int SimpleObject::num_objects = 0;
 /*-----------------------------------------------------------------------------
 Default Constructor

@@ -16,7 +16,7 @@ namespace UNDONE_ENGINE {
 	Default Constructor
 	-----------------------------------------------------------------------------*/
 	Component::Component( ) {
-		m_pParent/*.m_pointer*/ = nullptr;
+		m_ppParent.m_pointer = nullptr;
 		char str[20];
 		sprintf_s(str, "Component_%i", num_Components);
 		name = str;
@@ -30,7 +30,7 @@ namespace UNDONE_ENGINE {
 	Default Destructor. Cleans up resoureces.
 	-----------------------------------------------------------------------------*/
 	void Component::Release( ) {
-		m_pParent/*.m_pointer*/ = nullptr;
+		m_ppParent.m_pointer = nullptr;
 		coutput("Component "+name+" Released.\n");
 	}
 
@@ -39,10 +39,15 @@ namespace UNDONE_ENGINE {
 	Parameters:
 	[IN] parent	:	pointer to a GameObject acting as the parent of this Component.
 	-----------------------------------------------------------------------------*/
-	void Component::SetParent(/*DPointer<*/GameObject*/*>*/ parent) {
-		if ((parent/*.ptr()*/)!=nullptr) {
-			m_pParent = parent;
-			coutput(name+" made child of "+m_pParent->name+"\n");
+	void Component::SetParent(DPointer<GameObject> ppParent) {
+		if ((ppParent.ptr())!=nullptr) {
+			m_ppParent = ppParent;
+			coutput(name+" made child of "+m_ppParent.ptr()->name+"\n");
 		}
+	}
+
+	void Component::Rename(char* newname) {
+		coutput(name+" is renamed to "+newname+"\n");
+		name = newname;
 	}
 }

@@ -56,7 +56,7 @@ namespace UNDONE_ENGINE {
 		unsigned int i = 0;
 		for (auto& type:m_Component_types) {
 			if (type==Requested_type) {
-				component.m_pointer = (ComponentType*)m_Components[i].m_pointer;
+				component.m_pointer = (ComponentType**)m_Components[i].m_pointer;
 				break;
 			}
 			++i;
@@ -70,7 +70,7 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	template<class ComponentType>
 	void GameObject::AddComponent(DPointer<ComponentType> rComponent) {
-		((Component*)rComponent.ptr())->SetParent(this);
+		((Component*)rComponent.ptr())->SetParent(dcast<GameObject,Component>(m_ppMyself));
 		size_t new_component_type = typeid(ComponentType).hash_code( );
 		//Not cjecking if the component already exists, just adding it to the object
 		DPointer<Component> comp;

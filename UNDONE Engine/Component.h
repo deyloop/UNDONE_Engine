@@ -27,11 +27,13 @@ namespace UNDONE_ENGINE {
 		~Component( ) { Release( ); }
 
 		void Release( );
-		void SetParent(GameObject* parent);
-
+		virtual void SetParent(DPointer<GameObject> ppParent);
+		virtual void Rename(char* newname);
 		string name;
 	protected:
-		GameObject* m_pParent;
+		DPointer<GameObject> m_ppParent;
+		DPointer<Component> m_ppMyself;
+		friend class DObjectBuffer;
 	private:
 		static int num_Components;
 	};

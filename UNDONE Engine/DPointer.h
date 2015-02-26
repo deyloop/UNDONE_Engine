@@ -21,5 +21,12 @@ interface for dereferncing a double pointer (pointer to pointer).
 		T* ptr( ) { return *m_pointer; }
 		T&  Obj( ) { return *(*m_pointer); }
 	};
+
+	template <typename to, typename from>
+	DPointer<to> dcast(DPointer<from> dp ) {
+		DPointer<to> t;
+		t.m_pointer = (to**)dp.m_pointer;
+		return t;
+	}
 }
 #endif
