@@ -41,7 +41,7 @@ type of component you throw at it.
 		template<typename T>
 		DPointer<T> CreateNew( );
 		template<typename T>
-		vector<T> GetListOf( );
+		vector<T>& GetListOf( );
 
 		Camera& GetControlCamera( ) { return m_Cam; }
 		DPointer<Component> GetComponentByName(const char* name);
@@ -210,7 +210,7 @@ type of component you throw at it.
 	Useed to Get a vector of corresponding things.
 	----------------------------------------------------------------------------*/
 	template<typename T>
-	vector<T> DObjectBuffer::GetListOf( ) {
+	vector<T>& DObjectBuffer::GetListOf( ) {
 
 		//Check if we already store this type of objects.
 		size_t this_type = typeid(T).hash_code( );

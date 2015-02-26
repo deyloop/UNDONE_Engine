@@ -5,7 +5,9 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "Component.h"
-#include <cstdio>
+#include <iostream>
+#include "UNDONE_DEBUG.h"
+#include "GameObject.h"
 using namespace std;
 
 namespace UNDONE_ENGINE {
@@ -19,6 +21,9 @@ namespace UNDONE_ENGINE {
 		sprintf_s(str, "Component_%i", num_Components);
 		name = str;
 		++num_Components;
+		
+		coutput("New Component Constructed with name "+name+"\n");
+
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -26,6 +31,7 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void Component::Release( ) {
 		m_pParent/*.m_pointer*/ = nullptr;
+		coutput("Component "+name+" Released.\n");
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -36,6 +42,7 @@ namespace UNDONE_ENGINE {
 	void Component::SetParent(/*DPointer<*/GameObject*/*>*/ parent) {
 		if ((parent/*.ptr()*/)!=nullptr) {
 			m_pParent = parent;
+			coutput(name+" made child of "+m_pParent->name+"\n");
 		}
 	}
 }

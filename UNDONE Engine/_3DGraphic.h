@@ -36,7 +36,7 @@ public:
 
 	virtual void Release();
 	virtual void Render(RenderParams& refRenderParams);
-	virtual void Render ( ) { };
+	virtual void Render ( ){ };
 
 	virtual void OnInit();
 	virtual void OnDestroy();

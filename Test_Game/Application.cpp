@@ -7,15 +7,9 @@ Author	:	Anurup Dey
 #include "_3DGraphic.h"
 #include "DObjectBuffer.h"
 #include "GameObject.h"
+#include "UNDONE_DEBUG.h"
 #include <iostream>
-/*namespace UNDONE_ENGINE {
-	template <typename T>
-	struct UNDONE_API DPointer {
-		T** m_pointer;
-		T* ptr( ) { return *m_pointer; }
-		T&  Obj( ) { return *(*m_pointer); }
-	};
-}*/
+
 typedef DPointer<Shader> shaderptr;
 
 /*-----------------------------------------------------------------------------
@@ -82,7 +76,7 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	//obj2->GetWorldTransform( ).SetYPosition(3.0f);
 	obj2.ptr()->GetWorldTransform( ).SetZPosition(4.0f);
 	obj2.ptr()->GetWorldTransform( ).SetXPosition(4.0f);
-
+	coutput("Drawing "+obj2.ptr( )->name+" at"+obj2.ptr( )->GetWorldTransform().GetXPosition( )+"\n");
 	DPointer<GameObject> go_Scene = pObjectBuffer->CreateNew<GameObject>( );
 	(go_Scene.ptr( ))->AddComponent<_3DGraphic>(obj);
 
@@ -120,7 +114,7 @@ Updates Application specific things like AI, ui response, etc.
 void Application::Update(){
 
 	
-	
+	//cout<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

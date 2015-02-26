@@ -19,18 +19,23 @@ Graphic Memory	-1024MB (Integrated).
 #include "FrameWork.h"
 #include "Application.h"
 #include <iostream>
-#include <fstream>
 using namespace std;
+
+#define UND_DEBUG_L5
 
 /*-----------------------------------------------------------------------------
 This is the starting point of the whole program.
 -----------------------------------------------------------------------------*/
 int main( ) {
+	cout<<"UNDONE Engine Test Game (Debug Console).\t\n"
+		   <<"By Anurup Dey.\n"
+		   <<"Initializing\n\n\n";
+
 	Application*	pApp = new Application( );
 	FrameWork*		pUNDONE = new FrameWork(pApp);
 
 	pApp->LinkToEngine(pUNDONE);
-	pUNDONE->Initialise("UNDONE", 500, 500);
+	pUNDONE->Initialise("UNDONE", 1000, 700);
 
 	//time to rock n roll!
 	pUNDONE->Run( );

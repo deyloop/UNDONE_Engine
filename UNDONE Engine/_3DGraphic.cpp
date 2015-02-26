@@ -7,7 +7,7 @@ Author	:	Anurup Dey
 #include<glm.hpp>
 #include<gtx\projection.hpp>
 #include<gtx\transform.hpp>
-#include<iostream>
+#include "UNDONE_DEBUG.h"
 using namespace std;
 
 
@@ -16,7 +16,7 @@ Default Constructor
 -----------------------------------------------------------------------------*/
 _3DGraphic::_3DGraphic(){
 	m_ppShaderProgram.m_pointer = nullptr;
-	cout<<"3dGaphic Constructed\n";
+	
 }
 
 /*------------------------------------------------------------------------------
@@ -109,13 +109,14 @@ void _3DGraphic::Render(RenderParams& refRenderParams){
 	glBindVertexArray(uiVAO[0]);
 	
 	int HMVP = glGetUniformLocation ( progID, "gMVP" );
-	m_worldTransform.RotateAbs(0.0f, 1.0f, 0.0f);
-	glm::mat4 mMVP = refRenderParams.View_x_Projection *
-					(*(m_worldTransform.GetTransform( )));
+	
+	glm::mat4 mMVP = refRenderParams.View_x_Projection*(m_worldTransform.GetTransform( ));
 
 	glUniformMatrix4fv(HMVP, 1, GL_FALSE, &mMVP[0][0]);
 
 	glDrawArrays(GL_TRIANGLES, 0, 30);
+
+	
 
 }
 
@@ -144,6 +145,20 @@ unsigned int SimpleObject::num_objects = 0;
 Default Constructor
 -----------------------------------------------------------------------------*/
 SimpleObject::SimpleObject(){
-	num_objects++;
-	sprintf_s<20>(name, "Object_%i", num_objects);
+	
+}
+
+
+
+
+string operator +(string lhs, int rhs) {
+	char numstr[20];
+	sprintf_s(numstr, "%i", rhs);
+	return lhs+numstr;
+}
+
+string operator +(string lhs, float rhs) {
+	char numstr[20];
+	sprintf_s(numstr, "%f", rhs);
+	return lhs+numstr;
 }

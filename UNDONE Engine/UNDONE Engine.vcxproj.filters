@@ -137,6 +137,9 @@
     <ClInclude Include="SimpleObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UNDONE_DEBUG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="HeaderSnippet.snippet">

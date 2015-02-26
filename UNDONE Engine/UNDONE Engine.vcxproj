@@ -112,6 +112,7 @@
     <ClInclude Include="SimpleObject.h" />
     <ClInclude Include="SystemComponent.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UNDONE_DEBUG.h" />
     <ClInclude Include="Undone_Engine.h" />
     <ClInclude Include="UNDONE_Engine_declr.h" />
     <ClInclude Include="Window.h" />
