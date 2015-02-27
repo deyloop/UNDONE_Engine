@@ -11,13 +11,19 @@ namespace UNDONE_ENGINE {
 	Default constructor.
 	-----------------------------------------------------------------------------*/
 	Camera::Camera( ) {
-		m_maxPitch = 89.0f;
-		m_maxVelocity = 1.0f;
-		m_invertY = false;
-		m_enableYMovement = true;
+		m_maxPitch		= 89.0f;
+		m_maxVelocity	= 10.0f;
+		
+		m_invertY			= false;
+		m_enableYMovement	= true;
+		
 		m_position = glm::vec3(10.0f);
 		m_velocity = glm::vec3(0.0f);
-		m_look = glm::vec3(0.0f, 0.0f, -1.0f);
+
+		m_up	= glm::vec3(0.0f, 1.0f, 0.0f);
+		m_right = glm::vec3(1.0f, 0.0f, 0.0f);
+		m_look	= glm::vec3(0.0f, 0.0f, -1.0f);
+		
 		SetLookAt(glm::vec3(0.0f));
 		CreateProjectionMatrix(90.0f, 1.0f, 1.0f, 100.0f);
 		Update( );
@@ -33,10 +39,11 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void Camera::CreateProjectionMatrix(float fov, float aspect,
 										float nearPlane, float farPlane) {
-		m_fov = fov;
-		m_aspect = aspect;
+		m_fov		= fov;
+		m_aspect	= aspect;
 		m_nearPlane = nearPlane;
-		m_farPlane = farPlane;
+		m_farPlane	= farPlane;
+
 		m_projection = glm::perspective(m_fov, m_aspect, m_nearPlane, m_farPlane);
 	}
 
@@ -49,7 +56,7 @@ namespace UNDONE_ENGINE {
 		if (m_enableYMovement) {
 			m_velocity += m_look * units;
 		} else {
-			glm::vec3 moveVector(m_look.x, 0.0f, m_look.x);
+			glm::vec3 moveVector(m_look.x, 0.0f, m_look.z);
 			moveVector = glm::normalize(moveVector);
 			moveVector *= units;
 			m_velocity += moveVector;
@@ -74,6 +81,8 @@ namespace UNDONE_ENGINE {
 		if (m_enableYMovement) {
 			m_velocity.y += units;
 		}
+
+		
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -85,12 +94,15 @@ namespace UNDONE_ENGINE {
 		if (degrees==0.0f) {
 			return;
 		}
+		
 		glm::mat4 rotation(1.0f);
 		rotation = glm::rotate(rotation, degrees, m_up);
-		m_right = glm::mat3(rotation) * m_right;
-		m_look = glm::mat3(rotation) * m_look;
-		m_right = glm::normalize(m_right);
-		m_look = glm::normalize(m_look);
+
+		m_right		= glm::mat3(rotation) * m_right;
+		m_look		= glm::mat3(rotation) * m_look;
+
+		m_right		= glm::normalize(m_right);
+		m_look		= glm::normalize(m_look);
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -99,21 +111,26 @@ namespace UNDONE_ENGINE {
 	[IN] degrees - degrees to pitch.
 	-----------------------------------------------------------------------------*/
 	void Camera::Pitch(float degrees) {
+
 		if (degrees==0.0f) {
 			return;
 		}
-
+		
 		degrees = (m_invertY) ? -degrees : degrees;
 		m_pitch -= degrees;
 		if (m_pitch>m_maxPitch) degrees += m_pitch-m_maxPitch;
 		if (m_pitch<-m_maxPitch) degrees += m_pitch+m_maxPitch;
-
-		glm::mat4 rotation;
+		
+		glm::mat4 rotation(1.0f);
+		
 		rotation = glm::rotate(rotation, degrees, m_right);
-		m_up = glm::mat3(rotation) * m_up;
-		m_look = glm::mat3(rotation) * m_look;
-		m_up = glm::normalize(m_up);
-		m_look = glm::normalize(m_look);
+		
+		m_up	= glm::mat3(rotation) * m_up;
+		m_look	= glm::mat3(rotation) * m_look;
+		
+		m_up	= glm::normalize(m_up);
+		m_look	= glm::normalize(m_look);
+
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -132,6 +149,8 @@ namespace UNDONE_ENGINE {
 		m_right = glm::mat3(rotation) * m_right;
 		m_up = glm::normalize(m_up);
 		m_right = glm::normalize(m_right);
+
+		Update( );
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -157,14 +176,14 @@ namespace UNDONE_ENGINE {
 		//Set the camera axes from the view matrix
 		m_right.x = -m_view[0][0]; //might have to nagate this. ogl uses right handed
 		m_right.y = -m_view[1][0]; //coordianate system?
-		m_right.x = -m_view[2][0];
+		m_right.z = -m_view[2][0];
 		m_up.x = m_view[0][1];
 		m_up.y = m_view[1][1];
 		m_up.z = m_view[2][1];
 		m_look.x = -m_view[0][2];
 		m_look.y = -m_view[1][2];
 		m_look.z = -m_view[2][2];
-
+		
 		// Calculate yaw and pitch
 		float lookLengthOnXZ = sqrtf(m_look.z * m_look.z+m_look.x * m_look.x);
 		m_pitch = atan2f(m_look.y, lookLengthOnXZ);

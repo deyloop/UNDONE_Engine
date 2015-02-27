@@ -5,13 +5,13 @@
 #include <string>
 #include <iostream>
 #include "UNDONE_Engine_declr.h"
-using namespace std;
+//using namespace std;
 
 #define UNDONE_DEBUG_OUTPUT
 
 inline void _coutput(string message) {
 #ifdef UNDONE_DEBUG_OUTPUT
-	cout<<message;
+	std::cout<<message;
 #endif
 };
 

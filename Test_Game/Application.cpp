@@ -70,8 +70,8 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	
 	cube_mesh.ptr( )->Rename("CubeMesh");
 	
-	for (int j = 0; j<6; ++j) {
-		for (int i = 0; i<6; ++i) {
+	for (int j = 0; j<12; ++++++j) {
+		for (int i = 0; i<12; ++++++i) {
 
 			if (i >0&&i<5&&j > 0&&j<5) continue;
 			cout<<"\n";
@@ -88,36 +88,56 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			
 			graphic1.ptr( )->SetShaderProgramToUse(spMain);
 			transform1.ptr( )->TranslateAbs(i-3, 0, j-3);
-			transform1.ptr( )->RotateAbs(1.0f, 45.0f,i*10+ 0.0f);
+			//transform1.ptr( )->RotateAbs(1.0f, 45.0f,i*10+ 0.0f);
 			//transform1.ptr( )->ScaleAbs(1, i-5, 1);
 		}
 	}
 
-	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(5.0f, 5.0f, 5.0f));
+	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(0.01f, 0.01f, 5.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
 
-	Command* YawLeft = new LeftYawCommand( );
-	Command* YawRight = new RightYawCommand( );
+	Command* Yaw_Pitch = new Yaw_PitchCommand( );
 	Command* Exit = new ExitCommand(SystemComponent::GetInstance() );
+	Command* Move_Forward = new MoveForwardCommand( );
+	Command* Move_Backward = new MoveBackwardCommand( );
+	Command* Enable_Mouse = new Enable_Yaw_Pitch_Command( );
+	Command* Disable_Mouse = new Disable_Yaw_Pitch_Command( );
+
+	InputEvent KeyEventL,ExitEvent,MoveFEvnt,MoveBEvnt,MBDEvnt,MBUEvnt;
 	
-	InputEvent KeyEventL, KeyEventR ,ExitEvent;
 	ExitEvent.event.type = EVENT_KEYDOWN;
 	ExitEvent.key.keycode = KEY_ESCAPE;
-	KeyEventL.event.type = EVENT_KEYDOWN;
-	KeyEventL.key.keycode = KEY_ARROW_LEFT;
-	InputPair pair(KeyEventL, *YawLeft);
-	KeyEventR.event.type = EVENT_KEYDOWN;
-	KeyEventR.key.keycode = KEY_ARROW_RIGHT;
-	InputPair pairR(KeyEventR, *YawRight);
 	InputPair pair2(ExitEvent, *Exit);
+
+	KeyEventL.event.type = EVENT_MOUSEMOVE;
+	InputPair pair(KeyEventL, *Yaw_Pitch);
+
+	MBDEvnt.event.type = EVENT_MOUSEBUTTONDOWN;
+	MBDEvnt.mouse_button.button = MOUSE_BUTTON_L;
+	InputPair pairMBD(MBDEvnt, *Enable_Mouse);
+	
+	MBUEvnt.event.type = EVENT_MOUSEBUTTONUP;
+	MBUEvnt.mouse_button.button = MOUSE_BUTTON_L;
+	InputPair pairMBU(MBUEvnt, *Disable_Mouse);
+	
+	MoveFEvnt.event.type = EVENT_KEYDOWN;
+	MoveFEvnt.key.keycode = KEY_W;
+	InputPair pairW(MoveFEvnt, *Move_Forward);
+
+	MoveBEvnt.event.type = EVENT_KEYDOWN;
+	MoveBEvnt.key.keycode = KEY_S;
+	InputPair pairS(MoveBEvnt, *Move_Backward);
 
 	vector<InputContext>& contexts = m_pFrameWork->GetInputContextListForEditing( );
 	InputContext cameracontrolcontext;
 	cameracontrolcontext.m_pControl = m_pcam;
 	cameracontrolcontext.m_pairs.push_back(pair);
-	cameracontrolcontext.m_pairs.push_back(pairR);
 	cameracontrolcontext.m_pairs.push_back(pair2);
+	cameracontrolcontext.m_pairs.push_back(pairW);
+	cameracontrolcontext.m_pairs.push_back(pairS);
+	cameracontrolcontext.m_pairs.push_back(pairMBD);
+	cameracontrolcontext.m_pairs.push_back(pairMBU);
 	contexts.push_back(cameracontrolcontext);
 }
 

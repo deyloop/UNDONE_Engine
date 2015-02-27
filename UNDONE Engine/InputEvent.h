@@ -25,6 +25,8 @@ namespace UNDONE_ENGINE {
 		//Mouse Events
 		EVENT_MOUSE,
 		EVENT_MOUSEMOVE = 0x300,	//Mouse moved position.
+		EVENT_MOUSEMOVE_HORIZONTAL_AXIS,
+		EVENT_MOUSEMOVE_VERTICAL_AXIS,
 		EVENT_MOUSEBUTTONDOWN,		//mouse button was pressed
 		EVENT_MOUSEBUTTONUP,		//mouse button was released.
 		EVENT_MOUSEWHEEL,			//mouse wheel was rotated.
@@ -93,6 +95,11 @@ namespace UNDONE_ENGINE {
 		KEY_IRRELEVENT
 	} key_code;
 
+	enum MouseButton {
+		MOUSE_BUTTON_R,
+		MOUSE_BUTTON_L,
+		MOUSE_BUTTON_M
+	};
 	//Data common to all events
 	typedef struct CommonEventData {
 		Event_Type type;
@@ -107,12 +114,16 @@ namespace UNDONE_ENGINE {
 	//Data of mouse movement
 	typedef struct MouseMotionEvent {
 		Event_Type type;
-
+		short mouse_pos_x;
+		short mouse_pos_y;
+		short delta_x;
+		short delta_y;
 	} MouseMotionEvent;
 
 	//Data of mouse button event.
 	struct MouseButtonEvent {
 		Event_Type type;
+		MouseButton button;
 		//...
 	};
 

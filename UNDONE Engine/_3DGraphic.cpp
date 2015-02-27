@@ -58,7 +58,7 @@ void _3DGraphic::Render(RenderParams& refRenderParams){
 
 		int HMVP = glGetUniformLocation(progID, "gMVP");
 		int HWORLD = glGetUniformLocation(progID, "gWorld");
-		m_ppworldTransform.Obj( ).RotateRel(0.0f, 0.1f, 0.1f);
+		//m_ppworldTransform.Obj( ).RotateRel(0.0f, 0.1f, 0.1f);
 		glm::mat4 mMVP = refRenderParams.View_x_Projection*
 			(m_ppworldTransform.ptr( )->GetTransform( ));
 		
