@@ -53,14 +53,17 @@ void _3DGraphic::Render(RenderParams& refRenderParams){
 		m_ppworldTransform.m_pointer &&
 		m_ppMesh.m_pointer) {
 		
+		m_ppShaderProgram.ptr( )->UseProgram( );
 		GLuint progID = (m_ppShaderProgram.ptr( ))->GetProgramID( );
 
 		int HMVP = glGetUniformLocation(progID, "gMVP");
-		//m_ppworldTransform.Obj( ).RotateRel(0.0f, 0.1f, 0.0f);
+		int HWORLD = glGetUniformLocation(progID, "gWorld");
+		m_ppworldTransform.Obj( ).RotateRel(0.0f, 0.1f, 0.1f);
 		glm::mat4 mMVP = refRenderParams.View_x_Projection*
 			(m_ppworldTransform.ptr( )->GetTransform( ));
 		
 		glUniformMatrix4fv(HMVP, 1, GL_FALSE, &mMVP[0][0]);
+		glUniformMatrix4fv(HWORLD, 1, GL_FALSE, &(m_ppworldTransform.Obj( ).GetTransform( ))[0][0]);
 		m_ppMesh.ptr( )->Render( );
 	
 	}
@@ -85,8 +88,8 @@ Sets the parent of this 3dGraphic Component.
 void _3DGraphic::SetParent(DPointer<GameObject> ppParent) {
 	Component::SetParent(ppParent);
 	if (m_ppParent.m_pointer) {
-		m_ppworldTransform = (m_ppParent.ptr( ))->GetComponent<WorldTransform>( );
-		m_ppMesh = (m_ppParent.ptr( )->GetComponent<Mesh>( ));
+		m_ppworldTransform = (m_ppParent.ptr( ))->worldTransform;
+		m_ppMesh = (m_ppParent.ptr( )->mesh);
 		coutput(name+" aquired transformation "+m_ppworldTransform.Obj( ).name+"\n");
 		coutput(name+" aquired mesh "+m_ppMesh.Obj( ).name+"\n");
 	}

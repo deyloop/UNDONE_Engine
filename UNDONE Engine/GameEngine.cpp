@@ -4,6 +4,8 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "FrameWork.h"
+#include "GameObject.h"
+
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
 	Default Constructor. Initialises variables to default values(mostly nulls).
@@ -37,6 +39,7 @@ namespace UNDONE_ENGINE {
 			m_pGraphicsEngine = nullptr;
 		}
 		if (m_pObjectBuffer) {
+			m_pObjectBuffer->DeleteAll<GameObject>( );
 			delete m_pObjectBuffer;
 			m_pObjectBuffer = nullptr;
 		}

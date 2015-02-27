@@ -50,12 +50,13 @@ Parameters:
 -------------------------------------------------------------------------------*/
 void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	
-
+	pObjectBuffer->SetInitAllocSize(36);
 	
 
 	DPointer<Shader> shVertex		= pObjectBuffer->CreateNew<Shader>();
 	DPointer<Shader> shFragment		= pObjectBuffer->CreateNew<Shader>();
 	DPointer<ShaderProgram> spMain	= pObjectBuffer->CreateNew<ShaderProgram>();
+	DPointer<Mesh> cube_mesh		= pObjectBuffer->CreateNew<Mesh>( );
 
 	shVertex.ptr()->LoadShader("shader.vert", GL_VERTEX_SHADER);
 	shFragment.ptr()->LoadShader("shader.frag", GL_FRAGMENT_SHADER);
@@ -65,21 +66,21 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	spMain.ptr()->AddShaderToProgram(shFragment.ptr());
 
 	spMain.ptr()->LinkProgram();
-	spMain.ptr()->UseProgram();
-
-	DPointer<Mesh> cube_mesh = pObjectBuffer->CreateNew<Mesh>( );
+	
+	
 	cube_mesh.ptr( )->Rename("CubeMesh");
+	
 	for (int j = 0; j<6; ++j) {
 		for (int i = 0; i<6; ++i) {
 
 			if (i >0&&i<5&&j > 0&&j<5) continue;
-
+			cout<<"\n";
 			DPointer<GameObject> go_scene = pObjectBuffer->CreateNew<GameObject>( );
-			go_scene.ptr( )->Rename("GameObject");
+			go_scene.ptr( )->Rename((string("GameObject")+i)+j);
 			DPointer<WorldTransform> transform1 = pObjectBuffer->CreateNew<WorldTransform>( );
-			transform1.ptr( )->Rename("Transform1");
+			transform1.ptr( )->Rename((string("Transform")+i)+j);
 			DPointer<_3DGraphic> graphic1 = pObjectBuffer->CreateNew<_3DGraphic>( );
-			graphic1.ptr( )->Rename("Graphic1");
+			graphic1.ptr( )->Rename((string("Graphic")+i)+j);
 			graphic1.ptr( )->OnInit( );
 			go_scene.ptr( )->AddComponent<WorldTransform>(transform1);
 			go_scene.ptr( )->AddComponent<Mesh>(cube_mesh);
@@ -87,6 +88,8 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			
 			graphic1.ptr( )->SetShaderProgramToUse(spMain);
 			transform1.ptr( )->TranslateAbs(i-3, 0, j-3);
+			transform1.ptr( )->RotateAbs(1.0f, 45.0f,i*10+ 0.0f);
+			//transform1.ptr( )->ScaleAbs(1, i-5, 1);
 		}
 	}
 

@@ -31,6 +31,8 @@ namespace UNDONE_ENGINE {
 			m_pGraphicsBuffer->DeleteAll<_3DGraphic>( );
 			m_pGraphicsBuffer->DeleteAll<ShaderProgram>( );
 			m_pGraphicsBuffer->DeleteAll<Shader>( );
+			m_pGraphicsBuffer->DeleteAll<Mesh>( );
+			m_pGraphicsBuffer->DeleteAll<WorldTransform>( );
 			m_pGraphicsBuffer = nullptr;
 		}
 		if (m_pFrameWork) {
@@ -172,8 +174,12 @@ namespace UNDONE_ENGINE {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClearDepth(1.0f);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
 		glClearStencil(1.0f);
-		glCullFace(GL_FRONT);
+		
+		glCullFace(GL_BACK);
+		
+		
 	}
 
 	/*----------------------------------------------------------------------------

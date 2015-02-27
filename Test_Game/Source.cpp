@@ -28,7 +28,7 @@ This is the starting point of the whole program.
 -----------------------------------------------------------------------------*/
 int main( ) {
 	cout<<"UNDONE Engine Test Game (Debug Console).\t\n"
-		   <<"By Anurup Dey.\n"
+		   <<"By Anurup Dey.\n\n"
 		   <<"Initializing\n\n\n";
 
 	Application*	pApp = new Application( );

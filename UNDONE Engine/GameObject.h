@@ -40,7 +40,10 @@ namespace UNDONE_ENGINE {
 		vector<DPointer<Component>>	m_Components;
 		vector<size_t>				m_Component_types;
 	};
-#endif
+
+#define worldTransform	GetComponent<WorldTransform>()
+#define mesh			GetComponent<Mesh>()
+#define _3Dgraphic		GetComponent<_3DGraphic>();
 
 	/*-----------------------------------------------------------------------------
 	Template implimentation for GetComponent. Returns the component of the given
@@ -97,4 +100,5 @@ namespace UNDONE_ENGINE {
 		}
 	}
 }
+#endif
 ///////////////////////////////////////////////////////////////////////////////

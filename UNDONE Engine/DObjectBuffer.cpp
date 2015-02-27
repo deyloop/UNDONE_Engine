@@ -5,15 +5,21 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "DObjectBuffer.h"
+#include "UNDONE_DEBUG.h"
 
 namespace UNDONE_ENGINE {
 	DObjectBuffer::DObjectBuffer( ) {
 		m_empty = true;
+		m_init_vec_size = 8;
 	}
 	/*-------------------------------------------------------------------------
 	DEfault Destructor.
 	-------------------------------------------------------------------------*/
 	DObjectBuffer::~DObjectBuffer( ) {
+		if (m_storage_vectors.size( )!=0) {
+			coutput("\n\nMEMMORY LEAK WARNING: Some storage types are not released.\n\n");
+			system("pause");
+		}
 		m_Components.clear( );
 		m_storage_lists.clear( );
 		m_storage_vectors.clear( );

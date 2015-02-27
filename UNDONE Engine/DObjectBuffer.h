@@ -31,9 +31,13 @@ type of component you throw at it.
 		bool						m_empty;
 
 		Camera						m_Cam;
+		unsigned int				m_init_vec_size;
+
 	public:
 		DObjectBuffer( );
 		~DObjectBuffer( );
+
+		void SetInitAllocSize(unsigned int size) { m_init_vec_size = size; }
 
 		template<typename T>
 		void DeleteAll( );
@@ -148,6 +152,9 @@ type of component you throw at it.
 			//to store it.
 			pvec = new vector<T>( );
 			plist = new list<T*>( );
+			//Make pre-Allocated space.
+			pvec->reserve(m_init_vec_size);
+
 			m_storage_vectors.push_back((void*)pvec);
 			m_storage_lists.push_back((void*)plist);
 			m_storage_types.push_back(this_type);
@@ -196,11 +203,11 @@ type of component you throw at it.
 				plist = (list<T*>*)m_storage_lists[i];
 				//Now we empty the list and the vector.
 				pvec->clear( ); plist->clear( );
-				//empty the pos in storage.
-				m_storage_vectors[i] = nullptr;
-				m_storage_lists[i] = nullptr;
+				//erase the pos in storage.
+				m_storage_vectors.erase(m_storage_vectors.begin( )+i);
+				m_storage_lists.erase(m_storage_lists.begin( )+i);
 				//We don't store this type anymore.
-				m_storage_types[i] = 0;
+				m_storage_types.erase(m_storage_types.begin()+i);
 				return;
 			}
 		}

@@ -28,7 +28,7 @@ namespace UNDONE_ENGINE {
 
 		void Release( );
 		virtual void SetParent(DPointer<GameObject> ppParent);
-		virtual void Rename(char* newname);
+		virtual void Rename(string newname);
 		string name;
 	protected:
 		DPointer<GameObject> m_ppParent;
