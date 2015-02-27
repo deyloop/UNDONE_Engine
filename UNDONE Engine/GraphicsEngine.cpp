@@ -33,6 +33,7 @@ namespace UNDONE_ENGINE {
 			m_pGraphicsBuffer->DeleteAll<Shader>( );
 			m_pGraphicsBuffer->DeleteAll<Mesh>( );
 			m_pGraphicsBuffer->DeleteAll<WorldTransform>( );
+			m_pGraphicsBuffer->DeleteAll<GraphicMaterial>( );
 			m_pGraphicsBuffer = nullptr;
 		}
 		if (m_pFrameWork) {

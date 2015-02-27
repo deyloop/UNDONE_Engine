@@ -53,10 +53,11 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	pObjectBuffer->SetInitAllocSize(36);
 	
 
-	DPointer<Shader> shVertex		= pObjectBuffer->CreateNew<Shader>();
-	DPointer<Shader> shFragment		= pObjectBuffer->CreateNew<Shader>();
-	DPointer<ShaderProgram> spMain	= pObjectBuffer->CreateNew<ShaderProgram>();
-	DPointer<Mesh> cube_mesh		= pObjectBuffer->CreateNew<Mesh>( );
+	DPointer<Shader> shVertex			= pObjectBuffer->CreateNew<Shader>();
+	DPointer<Shader> shFragment			= pObjectBuffer->CreateNew<Shader>();
+	DPointer<ShaderProgram> spMain		= pObjectBuffer->CreateNew<ShaderProgram>();
+	DPointer<Mesh> cube_mesh			= pObjectBuffer->CreateNew<Mesh>( );
+	DPointer<GraphicMaterial> material = pObjectBuffer->CreateNew<GraphicMaterial>( );
 
 	shVertex.ptr()->LoadShader("shader.vert", GL_VERTEX_SHADER);
 	shFragment.ptr()->LoadShader("shader.frag", GL_FRAGMENT_SHADER);
@@ -67,6 +68,8 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 
 	spMain.ptr()->LinkProgram();
 	
+	material.ptr( )->Rename("DefaultMaterial");
+	material.ptr( )->SetShaderProgramToUse(spMain);
 	
 	cube_mesh.ptr( )->Rename("CubeMesh");
 	
@@ -84,9 +87,9 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			graphic1.ptr( )->OnInit( );
 			go_scene.ptr( )->AddComponent<WorldTransform>(transform1);
 			go_scene.ptr( )->AddComponent<Mesh>(cube_mesh);
+			go_scene.ptr( )->AddComponent<GraphicMaterial>(material);
 			go_scene.ptr( )->AddComponent<_3DGraphic>(graphic1);
 			
-			graphic1.ptr( )->SetShaderProgramToUse(spMain);
 			transform1.ptr( )->TranslateAbs(i-3, 0, j-3);
 			//transform1.ptr( )->RotateAbs(1.0f, 45.0f,i*10+ 0.0f);
 			//transform1.ptr( )->ScaleAbs(1, i-5, 1);

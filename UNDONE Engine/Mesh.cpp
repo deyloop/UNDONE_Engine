@@ -109,6 +109,7 @@ namespace UNDONE_ENGINE {
 	void Mesh::Render( ) {
 		if (currently_bound_VAO!=uiVAO[0]) {
 			glBindVertexArray(uiVAO[0]);
+			currently_bound_VAO = uiVAO[0];
 		}
 		
 		glDrawArrays(GL_TRIANGLES, 0, 30);

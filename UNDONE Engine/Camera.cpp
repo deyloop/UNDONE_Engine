@@ -25,7 +25,7 @@ namespace UNDONE_ENGINE {
 		m_look	= glm::vec3(0.0f, 0.0f, -1.0f);
 		
 		SetLookAt(glm::vec3(0.0f));
-		CreateProjectionMatrix(90.0f, 1.0f, 1.0f, 100.0f);
+		CreateProjectionMatrix(90.0f, 1.0f, 0.25f, 100.0f);
 		Update( );
 	}
 

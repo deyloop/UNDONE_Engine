@@ -9,8 +9,8 @@ Author	:	Anurup Dey
 #include "Component.h"			//_3DGraphic IS A Component
 #include "GraphicalObject.h"	//the graphical Object header, the base class.
 #include "WorldTransform.h"
-#include "ShaderProgram.h"
 #include "Mesh.h"
+#include "GraphicMaterial.h"
 #include "UNDONE_Engine_declr.h"
 
 #include <glew.h>
@@ -41,16 +41,13 @@ public:
 
 	virtual void OnInit();
 	virtual void OnDestroy();
-
-	DPointer<ShaderProgram>  GetShaderProgram() { return m_ppShaderProgram; }
 	
-	void SetShaderProgramToUse(DPointer<ShaderProgram> ppProgram);
 	void SetParent(DPointer<GameObject> ppParent);
 
 protected:
 	DPointer<WorldTransform>	m_ppworldTransform;
-	DPointer<ShaderProgram>		m_ppShaderProgram;
 	DPointer<Mesh>				m_ppMesh;
+	DPointer<GraphicMaterial>	m_ppMaterial;
 	//Mesh, WorldTransfor, ShaderPrograms, etc	
 };
 #endif

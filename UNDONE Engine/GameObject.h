@@ -44,6 +44,7 @@ namespace UNDONE_ENGINE {
 #define worldTransform	GetComponent<WorldTransform>()
 #define mesh			GetComponent<Mesh>()
 #define _3Dgraphic		GetComponent<_3DGraphic>();
+#define graphicMaterial GetComponent<GraphicMaterial>();
 
 	/*-----------------------------------------------------------------------------
 	Template implimentation for GetComponent. Returns the component of the given
