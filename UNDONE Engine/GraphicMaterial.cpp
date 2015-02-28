@@ -20,6 +20,7 @@ namespace UNDONE_ENGINE {
 	GraphicMaterial::GraphicMaterial( ) {
 		m_num_parents = 0;
 		m_ppShaderProgram.m_pointer = nullptr;
+		m_diffcolor = glm::vec3(1.0f, 0.0f, 0.0f);
 	}
 
 	void GraphicMaterial::SetParent(DPointer<GameObject> ppParent) {
@@ -52,9 +53,11 @@ namespace UNDONE_ENGINE {
 
 			int HMVP = glGetUniformLocation(progID, "gMVP");
 			int HWORLD = glGetUniformLocation(progID, "gWorld");
+			int HDIFFUSE = glGetUniformLocation(progID, "gDiffuse");
 
 			m_UniformDataLocations.push_back(HMVP);
 			m_UniformDataLocations.push_back(HWORLD);
+			m_UniformDataLocations.push_back(HDIFFUSE);
 
 			UniformDataPair pair1, pair2;
 			pair1.uniformType = UNIFORMTYPE_MODELVIEWPROJECTIONMATRIX;
@@ -79,6 +82,7 @@ namespace UNDONE_ENGINE {
 
 		glUniformMatrix4fv(m_UniformDataLocations[0], 1, GL_FALSE, m_DataInterface.pairs[0].data.Data_fp);
 		glUniformMatrix4fv(m_UniformDataLocations[1], 1, GL_FALSE, m_DataInterface.pairs[1].data.Data_fp);
+		glUniform3fv(m_UniformDataLocations[2], 1, &m_diffcolor[0]);
 	}
 
 }

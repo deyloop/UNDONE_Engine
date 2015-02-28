@@ -57,7 +57,12 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	DPointer<Shader> shFragment			= pObjectBuffer->CreateNew<Shader>();
 	DPointer<ShaderProgram> spMain		= pObjectBuffer->CreateNew<ShaderProgram>();
 	DPointer<Mesh> cube_mesh			= pObjectBuffer->CreateNew<Mesh>( );
-	DPointer<GraphicMaterial> material = pObjectBuffer->CreateNew<GraphicMaterial>( );
+	DPointer<GraphicMaterial> Redmaterial = pObjectBuffer->CreateNew<GraphicMaterial>( );
+	DPointer<GraphicMaterial> Bluematerial = pObjectBuffer->CreateNew<GraphicMaterial>( );
+	DPointer<GraphicMaterial> Greenmaterial = pObjectBuffer->CreateNew<GraphicMaterial>( );
+	DPointer<GraphicMaterial> Yellowmaterial = pObjectBuffer->CreateNew<GraphicMaterial>( );
+	DPointer<GraphicMaterial> Pinkmaterial = pObjectBuffer->CreateNew<GraphicMaterial>( );
+	
 
 	shVertex.ptr()->LoadShader("shader.vert", GL_VERTEX_SHADER);
 	shFragment.ptr()->LoadShader("shader.frag", GL_FRAGMENT_SHADER);
@@ -68,15 +73,55 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 
 	spMain.ptr()->LinkProgram();
 	
-	material.ptr( )->Rename("DefaultMaterial");
-	material.ptr( )->SetShaderProgramToUse(spMain);
+	Redmaterial.ptr( )->Rename("RedMaterial");
+	Bluematerial.ptr( )->Rename("BlueMaterial");
+	
+	Redmaterial.ptr( )->SetShaderProgramToUse(spMain);
+	Greenmaterial.ptr( )->SetShaderProgramToUse(spMain);
+	Yellowmaterial.ptr( )->SetShaderProgramToUse(spMain);
+	Pinkmaterial.ptr( )->SetShaderProgramToUse(spMain);
+	Bluematerial.ptr( )->SetShaderProgramToUse(spMain);
+	
+	Bluematerial.ptr( )->SetDiffuseColor(glm::vec3(0.0f, 0.0f, 1.0f));
+	Redmaterial.ptr( )->SetDiffuseColor(glm::vec3(1.0f, 0.0f, 0.0f));
+	Greenmaterial.ptr( )->SetDiffuseColor(glm::vec3(0.0f, 1.0f, 0.0f));
+	Yellowmaterial.ptr( )->SetDiffuseColor(glm::vec3(1.0f, 1.0f, 0.0f));
+	Pinkmaterial.ptr( )->SetDiffuseColor(glm::vec3(1.0f, 0.0f, 127.0f/255.0f));
 	
 	cube_mesh.ptr( )->Rename("CubeMesh");
 	
-	for (int j = 0; j<12; ++++++j) {
-		for (int i = 0; i<12; ++++++i) {
+	vector<DPointer<GraphicMaterial>> material;
+	material.reserve(25);
 
-			if (i >0&&i<5&&j > 0&&j<5) continue;
+	material.push_back(Redmaterial);
+	material.push_back(Bluematerial);
+	material.push_back(Greenmaterial);
+	material.push_back(Yellowmaterial);
+	material.push_back(Pinkmaterial);
+	material.push_back(Pinkmaterial);
+	material.push_back(Yellowmaterial);
+	material.push_back(Greenmaterial);
+	material.push_back(Bluematerial);
+	material.push_back(Redmaterial);
+	material.push_back(Yellowmaterial);
+	material.push_back(Pinkmaterial);
+	material.push_back(Greenmaterial);
+	material.push_back(Redmaterial);
+	material.push_back(Bluematerial);
+	material.push_back(Greenmaterial);
+	material.push_back(Pinkmaterial);
+	material.push_back(Redmaterial);
+	material.push_back(Bluematerial);
+	material.push_back(Yellowmaterial);
+	material.push_back(Bluematerial);
+	material.push_back(Greenmaterial);
+	material.push_back(Pinkmaterial);
+	material.push_back(Yellowmaterial);
+	material.push_back(Redmaterial);
+
+	for (int j = 0; j<10; ++++j) {
+		for (int i = 0;i<10; ++++i) {
+
 			cout<<"\n";
 			DPointer<GameObject> go_scene = pObjectBuffer->CreateNew<GameObject>( );
 			go_scene.ptr( )->Rename((string("GameObject")+i)+j);
@@ -87,10 +132,12 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			graphic1.ptr( )->OnInit( );
 			go_scene.ptr( )->AddComponent<WorldTransform>(transform1);
 			go_scene.ptr( )->AddComponent<Mesh>(cube_mesh);
-			go_scene.ptr( )->AddComponent<GraphicMaterial>(material);
+			
+			go_scene.ptr( )->AddComponent<GraphicMaterial>(material.at((5*j/2)+i/2));
+			
 			go_scene.ptr( )->AddComponent<_3DGraphic>(graphic1);
 			
-			transform1.ptr( )->TranslateAbs(i-3, 0, j-3);
+			transform1.ptr( )->TranslateAbs(i, 0, j);
 			//transform1.ptr( )->RotateAbs(1.0f, 45.0f,i*10+ 0.0f);
 			//transform1.ptr( )->ScaleAbs(1, i-5, 1);
 		}
@@ -150,7 +197,7 @@ Updates Application specific things like AI, ui response, etc.
 void Application::Update(){
 
 	
-	//cout<<m_pFrameWork->GetFPS( )<<"\n";
+	cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

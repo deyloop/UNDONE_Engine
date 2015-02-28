@@ -56,6 +56,8 @@ void _3DGraphic::Render(RenderParams& refRenderParams){
 				
 		glm::mat4 mMVP = refRenderParams.View_x_Projection*(m_ppworldTransform.ptr( )->GetTransform( ));
 		
+		//m_ppworldTransform.Obj( ).RotateRel(0.0f, 0.5f, 0.0f);
+
 		UniformDataInterface &MatData = m_ppMaterial.Obj( ).GetUniformDataInterface( );
 		MatData.pairs[0].data.Data_fp = &mMVP[0][0];
 		MatData.pairs[1].data.Data_fp = &(m_ppworldTransform.Obj( ).GetTransform( )[0][0]);

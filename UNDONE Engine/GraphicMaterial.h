@@ -13,6 +13,7 @@ Author	:	Anurup Dey
 #include "Component.h"				//GraphicMaterial IS a component
 #include "UniformDataInterface.h"
 #include "ShaderProgram.h"
+#include <glm.hpp>
 
 
 namespace UNDONE_ENGINE {
@@ -36,7 +37,8 @@ namespace UNDONE_ENGINE {
 		void Load( );
 		void ApplyMaterial( );
 		void UnLoad( );
-	
+		
+		void SetDiffuseColor(glm::vec3& color) { m_diffcolor = color; }
 	private:
 		UniformDataInterface	m_DataInterface;
 		vector<int>				m_UniformDataLocations;
@@ -44,7 +46,7 @@ namespace UNDONE_ENGINE {
 		DPointer<ShaderProgram>			m_ppShaderProgram;
 
 		int								m_num_parents;
-
+		glm::vec3						m_diffcolor;
 		static unsigned int		s_ActiveShaderProgram;
 	};
 };
