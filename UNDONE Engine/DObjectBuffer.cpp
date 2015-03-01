@@ -12,6 +12,7 @@ namespace UNDONE_ENGINE {
 	DObjectBuffer::DObjectBuffer( ) {
 		m_empty = true;
 		m_init_vec_size = 100;
+		m_num_owners = 0;
 	}
 	/*-------------------------------------------------------------------------
 	DEfault Destructor.
@@ -35,7 +36,7 @@ namespace UNDONE_ENGINE {
 	Returns:
 	THe required component if it exists, otherwise a DPOINTER with a nullptr
 	----------------------------------------------------------------------------*/
-	DPointer<Component> DObjectBuffer::GetComponentByName(const char* name) {
+	DPointer<Component> DObjectBuffer::GetComponentByName(const char* name,OwnerShip ownership) {
 		for (DPointer<Component>& component : m_Components) {
 			if (component.ptr( )->name==name) {
 				return component;

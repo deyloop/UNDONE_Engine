@@ -18,6 +18,9 @@ Author	:	Anurup Dey
 using namespace std;
 
 namespace UNDONE_ENGINE {
+
+	typedef  unsigned int OwnerShip;
+
 /*-------------------------------------------------------------------------
 THe Object buffer is the place where all the components of the game are 
 physically stored. THis Object buffer has the capabiltity to store any 
@@ -28,29 +31,32 @@ type of component you throw at it.
 		vector<void*>				m_storage_vectors;
 		vector<void*>				m_storage_lists;
 		vector<size_t>				m_storage_types;
+		vector<OwnerShip>			m_storage_owners;
 		bool						m_empty;
 
 		Camera						m_Cam;
 		unsigned int				m_init_vec_size;
+		unsigned int				m_num_owners;
 
 	public:
 		DObjectBuffer( );
 		~DObjectBuffer( );
 
 		void SetInitAllocSize(unsigned int size) { m_init_vec_size = size; }
+		OwnerShip GetNewOwnerShip( ) { ++m_num_owners; return m_num_owners;}
 
 		template<typename T>
-		void DeleteAll( );
+		void DeleteAll(OwnerShip ownership = 0 );
 
 		template<typename T>
-		DPointer<T> CreateNew( );
+		DPointer<T> CreateNew(OwnerShip ownership = 0);
 		template<typename T>
-		vector<T>* GetListOf( );
+		vector<T>* GetListOf(OwnerShip ownership = 0);
 
 		Camera& GetControlCamera( ) { return m_Cam; }
-		DPointer<Component> GetComponentByName(const char* name);
+		DPointer<Component> GetComponentByName(const char* name, OwnerShip ownership = 0);
 		template<typename T>
-		DPointer<T> GetComponentByNameOfType(const char* name);
+		DPointer<T> GetComponentByNameOfType(const char* name, OwnerShip ownership = 0);
 	};
 
 	//////////////////////////Definitions//////////////////////////////////////
@@ -130,7 +136,7 @@ type of component you throw at it.
 	
 #include <type_traits>
 	template<typename T>
-	DPointer<T> DObjectBuffer::CreateNew( ) {
+	DPointer<T> DObjectBuffer::CreateNew(OwnerShip ownership) {
 		m_empty = false;
 
 		vector<T>*	pvec = nullptr;
@@ -138,15 +144,18 @@ type of component you throw at it.
 
 		//Check if we already store this type of objects.
 		size_t this_type = typeid(T).hash_code( );
-		for (unsigned i = 0; i<m_storage_types.size( ); ++i) {
-			if (m_storage_types[i]==this_type) {
-				//This type is stored.
-				//we now get the corresponding vector and list.
-				pvec = (vector<T>*)m_storage_vectors[i];
-				plist = (list<T*>*)m_storage_lists[i];
+		for (unsigned x = 0; x<m_storage_owners.size( ); ++x) {
+			if (m_storage_owners[x]==ownership) {
+				if (m_storage_types[x]==this_type) {
+					//This type is stored.
+					//we now get the corresponding vector and list.
+					pvec = (vector<T>*)m_storage_vectors[x];
+					plist = (list<T*>*)m_storage_lists[x];
+				}
+				
 			}
 		}
-
+		
 		if (pvec==nullptr && plist==nullptr) {
 			//the type is not already stored. make arrangements
 			//to store it.
@@ -158,6 +167,7 @@ type of component you throw at it.
 			m_storage_vectors.push_back((void*)pvec);
 			m_storage_lists.push_back((void*)plist);
 			m_storage_types.push_back(this_type);
+			m_storage_owners.push_back(ownership);
 		}
 
 		T** pointer = MakeNew<T>(*pvec, *plist);
@@ -189,29 +199,31 @@ type of component you throw at it.
 	type of object it uses.
 	----------------------------------------------------------------------------*/
 	template<typename T>
-	void DObjectBuffer::DeleteAll( ) {
+	void DObjectBuffer::DeleteAll(OwnerShip ownership) {
 		vector<T>*	pvec = nullptr;
 		list<T*>*	plist = nullptr;
 
 		//Check if we already store this type of objects.
 		size_t this_type = typeid(T).hash_code( );
-		for (unsigned i = 0; i<m_storage_types.size( ); ++i) {
-			if (m_storage_types[i]==this_type) {
-				//This type is stored.
-				//we now get the corresponding vector and list.
-				pvec = (vector<T>*)m_storage_vectors[i];
-				plist = (list<T*>*)m_storage_lists[i];
-				//Now we empty the list and the vector.
-				pvec->clear( ); plist->clear( );
-				//erase the pos in storage.
-				m_storage_vectors.erase(m_storage_vectors.begin( )+i);
-				m_storage_lists.erase(m_storage_lists.begin( )+i);
-				//We don't store this type anymore.
-				m_storage_types.erase(m_storage_types.begin()+i);
-				return;
+		for (unsigned i = 0; i<m_storage_owners.size( ); ++i) {
+			if (m_storage_owners[i]==ownership) {
+				if (m_storage_types[i]==this_type) {
+					//This type is stored.
+					//we now get the corresponding vector and list.
+					pvec = (vector<T>*)m_storage_vectors[i];
+					plist = (list<T*>*)m_storage_lists[i];
+					//Now we empty the list and the vector.
+					pvec->clear( ); plist->clear( );
+					//erase the pos in storage.
+					m_storage_vectors.erase(m_storage_vectors.begin( )+i);
+					m_storage_lists.erase(m_storage_lists.begin( )+i);
+					//We don't store this type anymore.
+					m_storage_types.erase(m_storage_types.begin( )+i);
+					m_storage_owners.erase(m_storage_owners.begin( )+i);
+					return;
+				}
 			}
 		}
-	
 		return;
 	}
 
@@ -219,15 +231,17 @@ type of component you throw at it.
 	Useed to Get a vector of corresponding things.
 	----------------------------------------------------------------------------*/
 	template<typename T>
-	vector<T>* DObjectBuffer::GetListOf( ) {
+	vector<T>* DObjectBuffer::GetListOf(OwnerShip ownership ) {
 
 		//Check if we already store this type of objects.
 		size_t this_type = typeid(T).hash_code( );
-		for (unsigned i = 0; i<m_storage_types.size( ); ++i) {
-			if (m_storage_types[i]==this_type) {
-				//This type is stored.
-				//we now get the corresponding vector
-				return ((vector<T>*)m_storage_vectors[i]);
+		for (unsigned x = 0; x<m_storage_owners.size( ); ++x) {
+			if (m_storage_owners[x]==ownership) {
+				if (m_storage_types[x]==this_type) {
+					//This type is stored.
+					//we now get the corresponding vector
+					return ((vector<T>*)m_storage_vectors[x]);
+				}
 			}
 		}
 	}
@@ -239,7 +253,7 @@ type of component you throw at it.
 	[IN]	name:	the name of the componet.
 	----------------------------------------------------------------------------*/
 	template<typename T>
-	DPointer<T> DObjectBuffer::GetComponentByNameOfType(const char* name) {
+	DPointer<T> DObjectBuffer::GetComponentByNameOfType(const char* name, OwnerShip ownership) {
 		for (DPointer<Component>& component:m_Components) {
 			if (component.ptr( )->name==name) {
 				//Contruct a DPointer of the given type.

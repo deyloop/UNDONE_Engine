@@ -52,7 +52,7 @@ Parameters:
 -------------------------------------------------------------------------------*/
 void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	
-	pObjectBuffer->SetInitAllocSize(1005);
+	//pObjectBuffer->SetInitAllocSize(100);
 	
 
 	DPointer<Shader> shVertex			= pObjectBuffer->CreateNew<Shader>();
