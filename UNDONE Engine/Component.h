@@ -7,22 +7,56 @@ Author	:	Anurup Dey
 
 #ifndef _UNDONE_COMPONENT_H_
 #define _UNDONE_COMPONENT_H_
-class GameObject;	//Forward Declared so we can use it.
 
-/*-----------------------------------------------------------------------------
-Components are the biulding blocks of game objects. These may be combined in
-GameObjects to give any behavior needed.
------------------------------------------------------------------------------*/
-class Component {
-public:
-	Component( );
-	virtual ~Component( ) { Release( ); }
+#include "UNDONE_Engine_declr.h"
+#include <string>					//We are going to use this to store names
+#include "DPointer.h"				//We are associated to the DObjectBuffer.
+#include <vector>
+using namespace std;
+namespace UNDONE_ENGINE {
 
-	virtual void Release( );
 
-	const char* name[20];
-	GameObject* m_pParent;
-}; //end of Component class
+	class GameObject;	//Forward Declared so we can use it.
+
+	/*-----------------------------------------------------------------------------
+	Components are the biulding blocks of game objects. These may be combined in
+	GameObjects to give any behavior needed.
+	-----------------------------------------------------------------------------*/
+	class UNDONE_API Component {
+	public:
+		Component( );
+		~Component( ) { Release( ); }
+
+		void Release( );
+		void SetParent(DPointer<GameObject> ppParent);
+		void Rename(string newname);
+
+		virtual void Load( ) = 0;
+		virtual void Unload( ) = 0;
+		
+		virtual void OnParentBeingChilded( ) = 0;
+
+		unsigned GetPriority(unsigned priority_level);
+		void SetPriority(unsigned priority, unsigned priority_level);
+
+		DPointer<GameObject> GetParent( ) { return m_ppParent; };
+
+		string name;
+	
+	protected:
+		DPointer<GameObject>	m_ppParent;
+		DPointer<Component>		m_ppMyself;
+		vector<unsigned>		m_num_priority;
+		
+		virtual void OnParentSet( ) = 0;
+		
+
+		friend class DObjectBuffer;
+	private:
+		static int num_Components;
+	};
+	
+}
 #endif //_UNDONE_COMPONENT_H_
 
 ///////////////////////////////////////////////////////////////////////////////

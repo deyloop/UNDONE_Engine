@@ -8,7 +8,7 @@ Author	:	Anurup Dey
 #ifndef _RENDERER_H_
 #define _RENDERER_H_
 
-#include "ObjectBuffer.h"
+#include "DObjectBuffer.h"
 
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
@@ -23,13 +23,13 @@ namespace UNDONE_ENGINE {
 
 		void Release( );
 
-		bool Initialize(ObjectBuffer* pGraphicsBuffer);
+		bool Initialize(DObjectBuffer* pGraphicsBuffer);
 		void Render( );
 	private:
 		void Render3D( );
 		void Render2D( );
 
-		ObjectBuffer* m_pGraphicsBuffer;
+		DObjectBuffer* m_pGraphicsBuffer;
 		//TOADD:
 		//the sprite_Manager object pointer
 		//the control_camera object

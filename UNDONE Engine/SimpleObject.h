@@ -18,7 +18,7 @@ class SimpleObject{
 public:
 	SimpleObject();
 
-	char name[20];
+	
 private:
 	static unsigned int num_objects;
 };

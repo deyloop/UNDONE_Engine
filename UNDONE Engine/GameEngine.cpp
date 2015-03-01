@@ -4,6 +4,8 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "FrameWork.h"
+#include "GameObject.h"
+
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
 	Default Constructor. Initialises variables to default values(mostly nulls).
@@ -32,14 +34,14 @@ namespace UNDONE_ENGINE {
 			delete m_pUserWindow;
 			m_pUserWindow = nullptr;
 		}
-		if (m_pObjectBuffer) {
-			m_pObjectBuffer->DeleteAllObjects( );
-			delete m_pObjectBuffer;
-			m_pObjectBuffer = nullptr;
-		}
 		if (m_pGraphicsEngine) {
 			delete m_pGraphicsEngine;
 			m_pGraphicsEngine = nullptr;
+		}
+		if (m_pObjectBuffer) {
+			m_pObjectBuffer->DeleteAll<GameObject>( );
+			delete m_pObjectBuffer;
+			m_pObjectBuffer = nullptr;
 		}
 		if (m_pInputHandeller) {
 			delete m_pInputHandeller;
@@ -63,7 +65,7 @@ namespace UNDONE_ENGINE {
 		m_pSystemComponent = SystemComponent::GetInstance( );
 		m_pUserWindow = new Window( );
 		m_pGraphicsEngine = new GraphicsEngine( );
-		m_pObjectBuffer = new ObjectBuffer( );
+		m_pObjectBuffer = new DObjectBuffer( );
 		m_pInputHandeller = new InputHandeller( );
 		m_pTimer = new Timer( );
 

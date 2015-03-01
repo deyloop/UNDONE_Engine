@@ -19,6 +19,8 @@ Author	:	Anurup Dey
 								//will inherit.
 #include <glew.h>				//The GL Extention Wrangler
 #include <wglew.h>
+#include <io.h>
+#include <Fcntl.h>
 using namespace std;
 
 #define _ClassName "XXXANURUPHEXClassXXX"	//the class name that will be registered.
@@ -100,32 +102,71 @@ namespace UNDONE_ENGINE {
 		void ShowMessage(char* message, char* tittle);
 		void Post_Quit_Mesage(int returncode) { PostQuitMessage(returncode); }
 
-		virtual WindowHandle CreateNewWindow(char* title,WindowStyle style,
+		WindowHandle CreateNewWindow(char* title,WindowStyle style,
 											 int width, int hieght,
 											 IWindowEventHandeller* pEventHandeller
 											 );
-		virtual void AdjustWindow(WindowHandle handle,int width, int hieght);
-		virtual void ShowWindow_(WindowHandle handle);
-		virtual void UpdateWindow_(WindowHandle handle);
-		virtual WindowPlacementPtr GetWindowPlacement_(WindowHandle handle);
-		virtual void SetWindowPlacement_(WindowHandle handle,
+		void AdjustWindow(WindowHandle handle,int width, int hieght);
+		void ShowWindow_(WindowHandle handle);
+		void UpdateWindow_(WindowHandle handle);
+		WindowPlacementPtr GetWindowPlacement_(WindowHandle handle);
+		void SetWindowPlacement_(WindowHandle handle,
 										 WindowPlacementPtr winplcemnet);
-		virtual void UpdateWindowPlacement(WindowHandle handle,
+		void UpdateWindowPlacement(WindowHandle handle,
 										   WindowPlacementPtr* pWndPlcment);
-		virtual void SetWindowStyle(WindowHandle handle, WindowStyle style);
+		void SetWindowStyle(WindowHandle handle, WindowStyle style);
 
-		virtual inline __int64 GetSystemTickRate( ) {
+		inline __int64 GetSystemTickRate( ) {
 			__int64 rate;
 			QueryPerformanceFrequency((LARGE_INTEGER *)&rate);
 			return rate;
 		};
-		virtual inline __int64 GetCurrentTickCount( ) {
+		inline __int64 GetCurrentTickCount( ) {
 			__int64 count;
 			QueryPerformanceCounter((LARGE_INTEGER *)&count);
 			return count;
 		};
 
-		virtual void HandleWindowEvents( );	//Depreciated.
+		void HandleWindowEvents( );	//Depreciated.
+		void CreateConsole( ) {
+			int hConHandle;
+			intptr_t lStdHandle;
+			CONSOLE_SCREEN_BUFFER_INFO coninfo;
+			FILE *fp;
+
+			// allocate a console for this app
+			AllocConsole( );
+
+			// set the screen buffer to be big enough to let us scroll text
+			GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &coninfo);
+			coninfo.dwSize.Y = 500;
+			SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), coninfo.dwSize);
+
+			// redirect unbuffered STDOUT to the console
+			lStdHandle = (intptr_t)GetStdHandle(STD_OUTPUT_HANDLE);
+			hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+			fp = _fdopen(hConHandle, "w");
+			*stdout = *fp;
+			setvbuf(stdout, NULL, _IONBF, 0);
+
+			// redirect unbuffered STDIN to the console
+			lStdHandle = (intptr_t)GetStdHandle(STD_INPUT_HANDLE);
+			hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+			fp = _fdopen(hConHandle, "r");
+			*stdin = *fp;
+			setvbuf(stdin, NULL, _IONBF, 0);
+
+			// redirect unbuffered STDERR to the console
+			lStdHandle = (intptr_t)GetStdHandle(STD_ERROR_HANDLE);
+			hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+			fp = _fdopen(hConHandle, "w");
+			*stderr = *fp;
+			setvbuf(stderr, NULL, _IONBF, 0);
+
+			// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog point to console as well
+			std::ios::sync_with_stdio( );
+		};
+
 
 		static LRESULT CALLBACK staticWndProc(HWND hWnd, UINT msg,
 											  WPARAM wParam,

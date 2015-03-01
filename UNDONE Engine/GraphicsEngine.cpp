@@ -4,6 +4,7 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "GraphicsEngine.h"
+#include "_3DGraphic.h"
 
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
@@ -26,7 +27,15 @@ namespace UNDONE_ENGINE {
 		m_pSystem->ReleaseGLContext(m_GLContext);
 		OnDestroyContext( );
 
-		if (m_pGraphicsBuffer)	m_pGraphicsBuffer = nullptr;
+		if (m_pGraphicsBuffer) {
+			m_pGraphicsBuffer->DeleteAll<_3DGraphic>( );
+			m_pGraphicsBuffer->DeleteAll<ShaderProgram>( );
+			m_pGraphicsBuffer->DeleteAll<Shader>( );
+			m_pGraphicsBuffer->DeleteAll<Mesh>( );
+			m_pGraphicsBuffer->DeleteAll<WorldTransform>( );
+			m_pGraphicsBuffer->DeleteAll<GraphicMaterial>( );
+			m_pGraphicsBuffer = nullptr;
+		}
 		if (m_pFrameWork) {
 			m_pFrameWork = nullptr;
 		}
@@ -56,7 +65,7 @@ namespace UNDONE_ENGINE {
 	true on success, false on falure.
 	-----------------------------------------------------------------------------*/
 	bool GraphicsEngine::Initialize(WindowHandle window, IFrameWork* pFrameWork,
-									ObjectBuffer* pGraphicsBuffer,
+									DObjectBuffer* pGraphicsBuffer,
 									int context_version_major, int context_version_minor,
 									bool windowed) {
 		m_pFrameWork = pFrameWork;
@@ -158,21 +167,20 @@ namespace UNDONE_ENGINE {
 	All Graphical resources are alocated.
 	-----------------------------------------------------------------------------*/
 	void GraphicsEngine::OnCreateContext( ) {
-		//Initialize all the objects.
-		if (m_pGraphicsBuffer) {
-			for (auto& graphic:m_pGraphicsBuffer->GetObjectsToDraw( )) {
-				graphic->OnInit( );
-			}
-		}
+	
 		//tell the framework 
 		if (m_pFrameWork) m_pFrameWork->OnCreateContext( );
 		ResetScreen( );
 		//GL State variables.
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 		glClearDepth(1.0f);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
 		glClearStencil(1.0f);
+		
 		glCullFace(GL_BACK);
+		
+		
 	}
 
 	/*----------------------------------------------------------------------------
@@ -181,8 +189,8 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void GraphicsEngine::OnDestroyContext( ) {
 		if (m_pGraphicsBuffer) {
-			for (auto& graphic:m_pGraphicsBuffer->GetObjectsToDraw( )) {
-				graphic->OnDestroy( );
+			for (auto& graphic:*m_pGraphicsBuffer->GetListOf<_3DGraphic>( )) {
+				graphic.OnDestroy( );
 			}
 		}
 	}

@@ -4,6 +4,7 @@ Author	:	Anurup Dey
 -----------------------------------------------------------------------------*/
 ///////////////////////////////////////////////////////////////////////////////
 #include "Renderer.h"
+#include "_3DGraphic.h"
 #include <gtx/transform.hpp>
 
 namespace UNDONE_ENGINE {
@@ -27,7 +28,7 @@ namespace UNDONE_ENGINE {
 	[IN] pGraphicsBuffer	:	pointer to an objectbuffer containing the objects to
 	be rendered.
 	-----------------------------------------------------------------------------*/
-	bool Renderer::Initialize(ObjectBuffer* pGraphicsBuffer) {
+	bool Renderer::Initialize(DObjectBuffer* pGraphicsBuffer) {
 		if (pGraphicsBuffer) {
 			m_pGraphicsBuffer = pGraphicsBuffer;
 		} else return false;
@@ -57,7 +58,7 @@ namespace UNDONE_ENGINE {
 		render_params.View_x_Projection *= *(m_pGraphicsBuffer->GetControlCamera( ).GetViewMatrix( ));
 
 
-		for (auto& graphic:m_pGraphicsBuffer->Get3DObjectsToDraw( )) {
+		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<_3DGraphic>( )) {
 			graphic.Render(render_params);
 		}
 

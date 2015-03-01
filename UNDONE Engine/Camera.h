@@ -14,28 +14,73 @@ Author	:	Anurup.Dey
 #include <gtx/transform.hpp>
 #include "InputContext.h"
 #include "UNDONE_Engine_declr.h"
+#include <iostream>
 
 namespace UNDONE_ENGINE {
 
 	class MoveControl : public InputControl {
 	public:
-		virtual void YawLeft( ) = 0;
-		virtual void YawRight( ) = 0;
+		MoveControl( ) {
+			moused = false;
+		}
+		virtual void Yaw(float degrees) = 0;
+		virtual void MoveForward(float units) = 0;
+		virtual void Strafe(float units) = 0;
+		virtual void MoveUp(float units)=0;
+
+		virtual void Pitch(float degrees)=0;
+		virtual void Roll(float degrees)=0;
+
+		bool moused;
 	};
 
-	class LeftYawCommand : public Command {
+	
+	class Yaw_PitchCommand : public Command {
 	public:
 		void execute(InputControl* control, InputEvent& given_event) {
 			MoveControl* m_control = (MoveControl*)control;
-			m_control->YawLeft( );
+			
+			if (given_event.event.type==EVENT_KEYDOWN) {
+				m_control->Yaw(1.0f);
+				m_control->Pitch(1.0f);
+			} else if (given_event.event.type==EVENT_MOUSEMOVE) {
+				if (!(m_control->moused)) return;
+				m_control->Pitch(-given_event.mouse_motion.delta_y*0.5f);
+				m_control->Yaw(-given_event.mouse_motion.delta_x*0.5f);
+			}
 		}
 	};
 
-	class RightYawCommand : public Command {
+	class Enable_Yaw_Pitch_Command : public Command {
 	public:
 		void execute(InputControl* control, InputEvent& given_event) {
 			MoveControl* m_control = (MoveControl*)control;
-			m_control->YawRight( );
+			m_control->moused = true;
+		}
+	};
+
+	class Disable_Yaw_Pitch_Command : public Command {
+	public:
+		void execute(InputControl* control, InputEvent& given_event) {
+			MoveControl* m_control = (MoveControl*)control;
+			m_control->moused = false;
+		}
+	};
+
+
+	class MoveForwardCommand : public Command {
+	public:
+		void execute(InputControl* control, InputEvent& given_event) {
+			MoveControl* m_control = (MoveControl*)control;
+			m_control->MoveForward(0.1f);
+		}
+	};
+
+	class MoveBackwardCommand : public Command {
+	public:
+		void execute(InputControl* control, InputEvent& given_event) {
+			MoveControl* m_control = (MoveControl*)control;
+			m_control->MoveForward(-0.1f);
 		}
 	};
 	/*-----------------------------------------------------------------------------

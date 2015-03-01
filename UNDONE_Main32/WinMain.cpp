@@ -4,6 +4,7 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "WindowsSystemComponent.h"
+
 using namespace UNDONE_ENGINE;
 #ifdef _WINDOWS_OS_
 
@@ -29,6 +30,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		SafelyDelete(pSysComponent);
 		return 1;
 	}
+	
+	pSysComponent->CreateConsole( );
 
 	//call the main() function
 	int returncode = main();

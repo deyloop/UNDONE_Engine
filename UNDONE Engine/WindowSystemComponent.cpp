@@ -3,8 +3,9 @@ File	:	WindowsSystemComponent.cpp
 Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
-#define UNDONE_EXPORTS
+
 #include "WindowsSystemComponent.h"
+#include <iostream>
 
 #ifdef _WINDOWS_OS_
 namespace UNDONE_ENGINE {
@@ -591,6 +592,10 @@ namespace UNDONE_ENGINE {
 	int WindowsSystemComponent::GetInputEvent(InputEvent* pEvent) {
 		//Get the message
 		MSG msg;
+		POINTS ptCursor;
+		static POINTS ptPrevCursor;
+		static bool first = true;
+
 		//Check if there is one
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)>0) {
 			//There is a message we are getting..
@@ -603,7 +608,51 @@ namespace UNDONE_ENGINE {
 					//So tell the caller the same.
 					pEvent->event.type = EVENT_QUIT;
 					return 1;
+				case WM_MOUSEMOVE:
+					if (first) {
+						ptPrevCursor = MAKEPOINTS(msg.lParam);
+						first = false;
+					}
 
+					pEvent->event.type = EVENT_MOUSEMOVE;
+					ptCursor = MAKEPOINTS(msg.lParam);
+					pEvent->mouse_motion.mouse_pos_x = ptCursor.x;
+					pEvent->mouse_motion.mouse_pos_y = ptCursor.y;
+					pEvent->mouse_motion.delta_x = ptCursor.x-ptPrevCursor.x;
+					pEvent->mouse_motion.delta_y = ptPrevCursor.y-ptCursor.y;
+
+					ptPrevCursor = ptCursor;
+					return 1;
+				case WM_LBUTTONDOWN:
+					pEvent->event.type = EVENT_MOUSEBUTTONDOWN;
+					pEvent->mouse_button.button = MOUSE_BUTTON_L;
+					SetCapture(m_WindowDB.GetHWND(0));
+					return 1;
+				case WM_MBUTTONDOWN:
+					pEvent->event.type = EVENT_MOUSEBUTTONDOWN;
+					pEvent->mouse_button.button = MOUSE_BUTTON_M;
+					SetCapture(m_WindowDB.GetHWND(0));
+					return 1;
+				case WM_RBUTTONDOWN:
+					SetCapture(m_WindowDB.GetHWND(0));
+					pEvent->event.type = EVENT_MOUSEBUTTONDOWN;
+					pEvent->mouse_button.button = MOUSE_BUTTON_R;
+					return 1;
+				case WM_LBUTTONUP:
+					pEvent->event.type = EVENT_MOUSEBUTTONUP;
+					pEvent->mouse_button.button = MOUSE_BUTTON_L;
+					ReleaseCapture( );
+					return 1;
+				case WM_MBUTTONUP:
+					pEvent->event.type = EVENT_MOUSEBUTTONUP;
+					pEvent->mouse_button.button = MOUSE_BUTTON_M;
+					ReleaseCapture( );
+					return 1;
+				case WM_RBUTTONUP:
+					pEvent->event.type = EVENT_MOUSEBUTTONUP;
+					pEvent->mouse_button.button = MOUSE_BUTTON_R;
+					ReleaseCapture( );
+					return 1;
 				case WM_KEYDOWN:
 					//A key was pressed down. 
 					pEvent->key.type = EVENT_KEYDOWN;
@@ -679,8 +728,6 @@ namespace UNDONE_ENGINE {
 						case VK_RIGHT:
 							pEvent->key.keycode = KEY_ARROW_RIGHT;
 							return 1;
-							//
-
 							//... more such cases...
 						default:
 							//Unrecognised key found.
@@ -688,6 +735,15 @@ namespace UNDONE_ENGINE {
 					}
 
 				case WM_CHAR:
+					pEvent->key.type = EVENT_KEYDOWN;
+					switch (msg.wParam) {
+						case 'w':
+							pEvent->key.keycode = KEY_W;
+							return 1;
+						case 's':
+							pEvent->key.keycode = KEY_S;
+							return 1;
+					}
 					return 0;
 
 				default:

@@ -77,9 +77,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DObjectBuffer.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GraphicMaterial.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="InputHandeller.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ObjectBuffer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -93,13 +98,17 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DObjectBuffer.h" />
+    <ClInclude Include="DPointer.h" />
     <ClInclude Include="FrameWork.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicalObject.h" />
+    <ClInclude Include="GraphicMaterial.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="InputContext.h" />
     <ClInclude Include="InputEvent.h" />
     <ClInclude Include="InputHandeller.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="ObjectBuffer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />
@@ -107,8 +116,11 @@
     <ClInclude Include="SimpleObject.h" />
     <ClInclude Include="SystemComponent.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UNDONE_DEBUG.h" />
     <ClInclude Include="Undone_Engine.h" />
     <ClInclude Include="UNDONE_Engine_declr.h" />
+    <ClInclude Include="UniformDataInterface.h" />
+    <ClInclude Include="UniformType.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowsSystemComponent.h" />
     <ClInclude Include="WorldTransform.h" />
