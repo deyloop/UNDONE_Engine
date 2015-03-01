@@ -58,7 +58,7 @@ namespace UNDONE_ENGINE {
 		render_params.View_x_Projection *= *(m_pGraphicsBuffer->GetControlCamera( ).GetViewMatrix( ));
 
 
-		for (auto& graphic:m_pGraphicsBuffer->GetListOf<_3DGraphic>( )) {
+		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<_3DGraphic>( )) {
 			graphic.Render(render_params);
 		}
 

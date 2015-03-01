@@ -41,5 +41,31 @@ namespace UNDONE_ENGINE {
 		fake.m_pointer = nullptr;
 		return fake;
 	}
+
+	void GameObject::Load( ) {
+		//Load all children
+		for (auto& childComponent:m_Components) {
+			childComponent.ptr( )->Load( );
+		}
+	}
+
+	void GameObject::Unload( ) {
+		//UnLoad all children
+		for (auto& childComponent:m_Components) {
+			childComponent.ptr( )->Unload( );
+		}
+	}
+
+	void GameObject::OnParentSet( ) {
+		//Tell all children
+		for (auto& childComponent:m_Components) {
+			childComponent.ptr( )->SetPriority(m_num_priority[0]+1,0);
+			childComponent.ptr( )->OnParentBeingChilded();
+		}
+	}
+
+	void GameObject::OnParentBeingChilded( ) {
+		//We do nothing...
+	}
 }
 

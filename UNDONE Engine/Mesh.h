@@ -27,14 +27,17 @@ namespace UNDONE_ENGINE {
 		Mesh( );
 		~Mesh( ) { Release( ); }
 
-		void Release( );
+		
 		void Load( );
 		void Render( );
-		void UnLoad( );
+		void Unload( );
+		void Release( );
 
-		void SetParent(DPointer<GameObject> ppParent);
+		void OnParentBeingChilded( );
 	
 	private:
+		void OnParentSet( );
+		
 		UINT uiVBO[2];
 		UINT uiVAO[1];
 		

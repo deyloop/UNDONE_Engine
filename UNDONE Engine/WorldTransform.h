@@ -18,6 +18,11 @@ namespace UNDONE_ENGINE {
 		WorldTransform( );
 		~WorldTransform( ) { Reset( ); }
 
+		void Load( ) { };
+		void Unload( ) { };
+
+		void OnParentBeingChilded( );
+
 		void Reset( );
 		void TranslateAbs(float x, float y, float z);
 		void TranslateRel(float x, float y, float z);
@@ -26,7 +31,7 @@ namespace UNDONE_ENGINE {
 		void ScaleAbs(float x, float y, float z);
 		void ScaleRel(float x, float y, float z);
 
-		glm::mat4& GetTransform( );
+		glm::mat4 GetTransform( );
 		glm::vec3* GetPosition( ) { return &m_position; }
 		float GetXPosition( ) { return m_transX; }
 		float GetYPosition( ) { return m_transY; }
@@ -53,6 +58,15 @@ namespace UNDONE_ENGINE {
 		float m_rotationX, m_rotationY, m_rotationZ,
 			m_scaleX, m_scaleY, m_scaleZ,
 			m_transX, m_transY, m_transZ;
+
+		glm::mat4		m_worldTransform;
+		unsigned		m_sync_num;
+		unsigned		m_par_sync_num;
+		bool			m_parented;
+
+		DPointer<WorldTransform> m_ppParentTransform;
+
+		void OnParentSet( );
 	};
 }
 #endif

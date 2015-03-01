@@ -24,7 +24,7 @@ namespace UNDONE_ENGINE {
 	Default destructor.
 	----------------------------------------------------------------------------*/
 	void Mesh::Release( ) {
-		UnLoad( );
+		Unload( );
 	}
 
 	/*----------------------------------------------------------------------------
@@ -95,12 +95,15 @@ namespace UNDONE_ENGINE {
 	/*----------------------------------------------------------------------------
 	UNloads any geometry loaded earlier.
 	----------------------------------------------------------------------------*/
-	void Mesh::UnLoad( ) {
+	void Mesh::Unload( ) {
+		if (m_num_parents>0) return;
+
 		if (mesh_loaded) {
 			glDeleteBuffers(2, uiVBO);
 			glDeleteVertexArrays(1, uiVAO);
 			mesh_loaded = false;
 		}
+
 	}
 
 	/*----------------------------------------------------------------------------
@@ -119,7 +122,7 @@ namespace UNDONE_ENGINE {
 	Mesh keeps count of how many parents it has. If no parents are using it, It
 	unloads itself, or does not load.
 	----------------------------------------------------------------------------*/
-	void Mesh::SetParent(DPointer<GameObject> ppParent) {
+	void Mesh::OnParentSet() {
 		if (m_num_parents == 0) {
 			++m_num_parents;
 			Load( );
@@ -129,5 +132,9 @@ namespace UNDONE_ENGINE {
 			++m_num_parents;
 		}
 		
+	}
+
+	void Mesh::OnParentBeingChilded( ) {
+		//Honestly, we don't care.
 	}
 }

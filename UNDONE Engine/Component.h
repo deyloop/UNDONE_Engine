@@ -11,6 +11,7 @@ Author	:	Anurup Dey
 #include "UNDONE_Engine_declr.h"
 #include <string>					//We are going to use this to store names
 #include "DPointer.h"				//We are associated to the DObjectBuffer.
+#include <vector>
 using namespace std;
 namespace UNDONE_ENGINE {
 
@@ -27,12 +28,29 @@ namespace UNDONE_ENGINE {
 		~Component( ) { Release( ); }
 
 		void Release( );
-		virtual void SetParent(DPointer<GameObject> ppParent);
-		virtual void Rename(string newname);
+		void SetParent(DPointer<GameObject> ppParent);
+		void Rename(string newname);
+
+		virtual void Load( ) = 0;
+		virtual void Unload( ) = 0;
+		
+		virtual void OnParentBeingChilded( ) = 0;
+
+		unsigned GetPriority(unsigned priority_level);
+		void SetPriority(unsigned priority, unsigned priority_level);
+
+		DPointer<GameObject> GetParent( ) { return m_ppParent; };
+
 		string name;
+	
 	protected:
-		DPointer<GameObject> m_ppParent;
-		DPointer<Component> m_ppMyself;
+		DPointer<GameObject>	m_ppParent;
+		DPointer<Component>		m_ppMyself;
+		vector<unsigned>		m_num_priority;
+		
+		virtual void OnParentSet( ) = 0;
+		
+
 		friend class DObjectBuffer;
 	private:
 		static int num_Components;

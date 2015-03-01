@@ -30,18 +30,16 @@ void _3DGraphic::Release(){
 }
 
 /*-----------------------------------------------------------------------------
-This callback function is called when the Context is created. Initialize all
-the graphical resources here.
+ Initialize all the graphical resources here.
 -----------------------------------------------------------------------------*/
-void _3DGraphic::OnInit(){
+void _3DGraphic::Load(){
 
 }
 
 /*-----------------------------------------------------------------------------
-This callback function is called when the context is deleted. Release all 
-Graphical resources here.
+Release all Graphical resources here.
 -----------------------------------------------------------------------------*/
-void _3DGraphic::OnDestroy(){
+void _3DGraphic::Unload(){
 
 }
 
@@ -73,18 +71,23 @@ void _3DGraphic::Render(RenderParams& refRenderParams){
 /*-----------------------------------------------------------------------------
 Sets the parent of this 3dGraphic Component.
 -----------------------------------------------------------------------------*/
-void _3DGraphic::SetParent(DPointer<GameObject> ppParent) {
-	Component::SetParent(ppParent);
-	if (m_ppParent.m_pointer) {
-		m_ppworldTransform = (m_ppParent.ptr( ))->worldTransform;
-		m_ppMesh = (m_ppParent.ptr( )->mesh);
-		m_ppMaterial = m_ppParent.ptr( )->graphicMaterial;
-		coutput(name+" aquired transformation "+m_ppworldTransform.Obj( ).name+"\n");
-		coutput(name+" aquired mesh "+m_ppMesh.Obj( ).name+"\n");
-		coutput(name+" aquired material "+m_ppMaterial.Obj( ).name+"\n");
-	}
+void _3DGraphic::OnParentSet() {
+	
+	m_ppworldTransform	= m_ppParent.ptr( )->worldTransform;
+	m_ppMesh			= m_ppParent.ptr( )->mesh;
+	m_ppMaterial		= m_ppParent.ptr( )->graphicMaterial;
+	
+	coutput(name+" aquired transformation "+m_ppworldTransform.Obj( ).name+"\n");
+	coutput(name+" aquired mesh "+m_ppMesh.Obj( ).name+"\n");
+	coutput(name+" aquired material "+m_ppMaterial.Obj( ).name+"\n");
+	
 }
 
+void _3DGraphic::OnParentBeingChilded( ) {
+	//We Do Nothing...
+}
+
+///////////////////////////////////////////////////////////////////////////////
 unsigned int SimpleObject::num_objects = 0;
 /*-----------------------------------------------------------------------------
 Default Constructor
@@ -93,9 +96,7 @@ SimpleObject::SimpleObject(){
 	
 }
 
-
-
-
+///////////////////////////////////////////////////////////////////////////////
 string operator +(string lhs, int rhs) {
 	char numstr[20];
 	sprintf_s(numstr, "%i", rhs);
@@ -107,3 +108,5 @@ string operator +(string lhs, float rhs) {
 	sprintf_s(numstr, "%f", rhs);
 	return lhs+numstr;
 }
+
+///////////////////////////////////////////////////////////////////////////////

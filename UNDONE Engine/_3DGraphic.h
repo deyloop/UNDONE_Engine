@@ -39,16 +39,20 @@ public:
 	virtual void Render(RenderParams& refRenderParams);
 	virtual void Render ( ){ };
 
-	virtual void OnInit();
-	virtual void OnDestroy();
+	virtual void Load();
+	virtual void Unload();
 	
-	void SetParent(DPointer<GameObject> ppParent);
+	void OnParentBeingChilded( );
+
+	void OnInit( ) { };
+	void OnDestroy( ) { };
 
 protected:
 	DPointer<WorldTransform>	m_ppworldTransform;
 	DPointer<Mesh>				m_ppMesh;
 	DPointer<GraphicMaterial>	m_ppMaterial;
-	//Mesh, WorldTransfor, ShaderPrograms, etc	
+
+	void OnParentSet( );
 };
 #endif
 ///////////////////////////////////////////////////////////////////////////////

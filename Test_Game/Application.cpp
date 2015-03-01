@@ -7,6 +7,7 @@ Author	:	Anurup Dey
 #include "_3DGraphic.h"
 #include "DObjectBuffer.h"
 #include "GameObject.h"
+#include <ctime>
 #include "UNDONE_DEBUG.h"
 #include <iostream>
 
@@ -18,6 +19,7 @@ Default Contructor
 Application::Application(){
 	m_pFrameWork = nullptr;
 	m_pcam = nullptr;
+	BlockGroup.m_pointer = nullptr;
 }
 
 /*-----------------------------------------------------------------------------
@@ -50,18 +52,19 @@ Parameters:
 -------------------------------------------------------------------------------*/
 void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	
-	pObjectBuffer->SetInitAllocSize(36);
+	pObjectBuffer->SetInitAllocSize(1005);
 	
 
 	DPointer<Shader> shVertex			= pObjectBuffer->CreateNew<Shader>();
 	DPointer<Shader> shFragment			= pObjectBuffer->CreateNew<Shader>();
 	DPointer<ShaderProgram> spMain		= pObjectBuffer->CreateNew<ShaderProgram>();
 	DPointer<Mesh> cube_mesh			= pObjectBuffer->CreateNew<Mesh>( );
-	DPointer<GraphicMaterial> Redmaterial = pObjectBuffer->CreateNew<GraphicMaterial>( );
-	DPointer<GraphicMaterial> Bluematerial = pObjectBuffer->CreateNew<GraphicMaterial>( );
+	
+	DPointer<GraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
+	DPointer<GraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
 	DPointer<GraphicMaterial> Greenmaterial = pObjectBuffer->CreateNew<GraphicMaterial>( );
-	DPointer<GraphicMaterial> Yellowmaterial = pObjectBuffer->CreateNew<GraphicMaterial>( );
-	DPointer<GraphicMaterial> Pinkmaterial = pObjectBuffer->CreateNew<GraphicMaterial>( );
+	DPointer<GraphicMaterial> Yellowmaterial= pObjectBuffer->CreateNew<GraphicMaterial>( );
+	DPointer<GraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
 	
 
 	shVertex.ptr()->LoadShader("shader.vert", GL_VERTEX_SHADER);
@@ -91,36 +94,27 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	cube_mesh.ptr( )->Rename("CubeMesh");
 	
 	vector<DPointer<GraphicMaterial>> material;
-	material.reserve(25);
+	material.reserve(5);
 
 	material.push_back(Redmaterial);
 	material.push_back(Bluematerial);
 	material.push_back(Greenmaterial);
 	material.push_back(Yellowmaterial);
 	material.push_back(Pinkmaterial);
-	material.push_back(Pinkmaterial);
-	material.push_back(Yellowmaterial);
-	material.push_back(Greenmaterial);
-	material.push_back(Bluematerial);
-	material.push_back(Redmaterial);
-	material.push_back(Yellowmaterial);
-	material.push_back(Pinkmaterial);
-	material.push_back(Greenmaterial);
-	material.push_back(Redmaterial);
-	material.push_back(Bluematerial);
-	material.push_back(Greenmaterial);
-	material.push_back(Pinkmaterial);
-	material.push_back(Redmaterial);
-	material.push_back(Bluematerial);
-	material.push_back(Yellowmaterial);
-	material.push_back(Bluematerial);
-	material.push_back(Greenmaterial);
-	material.push_back(Pinkmaterial);
-	material.push_back(Yellowmaterial);
-	material.push_back(Redmaterial);
+	
+	srand(time(0));
 
-	for (int j = 0; j<10; ++++j) {
-		for (int i = 0;i<10; ++++i) {
+	BlockGroup = pObjectBuffer->CreateNew<GameObject>( );
+	DPointer<WorldTransform> grouTrans = pObjectBuffer->CreateNew<WorldTransform>( );
+	BlockGroup.Obj( ).AddComponent<WorldTransform>(grouTrans);
+	grouTrans.ptr( )->TranslateRel(10.0f, 0.0f, 0.0f);
+
+#define SIZE 10
+
+	for (int j = 0; j<SIZE; ++j) {
+		for (int i = 0;i<SIZE; ++i) {
+
+			if ((rand( )%4+2)> 3) continue;
 
 			cout<<"\n";
 			DPointer<GameObject> go_scene = pObjectBuffer->CreateNew<GameObject>( );
@@ -133,17 +127,19 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			go_scene.ptr( )->AddComponent<WorldTransform>(transform1);
 			go_scene.ptr( )->AddComponent<Mesh>(cube_mesh);
 			
-			go_scene.ptr( )->AddComponent<GraphicMaterial>(material.at((5*j/2)+i/2));
+			go_scene.ptr( )->AddComponent<GraphicMaterial>(material.at(rand()%5));
 			
 			go_scene.ptr( )->AddComponent<_3DGraphic>(graphic1);
 			
 			transform1.ptr( )->TranslateAbs(i, 0, j);
 			//transform1.ptr( )->RotateAbs(1.0f, 45.0f,i*10+ 0.0f);
-			//transform1.ptr( )->ScaleAbs(1, i-5, 1);
+			transform1.ptr( )->ScaleAbs(1, rand()%25+1, 1);
+
+			BlockGroup.Obj( ).AddComponent<GameObject>(go_scene);
 		}
 	}
 
-	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(0.01f, 0.01f, 5.0f));
+	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(0.01f, 50.0f, 5.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
 
@@ -196,8 +192,8 @@ Updates Application specific things like AI, ui response, etc.
 -----------------------------------------------------------------------------*/
 void Application::Update(){
 
-	
-	cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
+	BlockGroup.ptr( )->worldTransform.ptr( )->RotateRel(0.0f, 0.1f, 0.0f);
+	//cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

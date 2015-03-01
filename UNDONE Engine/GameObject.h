@@ -30,6 +30,9 @@ namespace UNDONE_ENGINE {
 		DPointer<ComponentType>	GetComponent( ) const;
 		DPointer<Component>		GetComponentByName(const char* name) const;
 
+		virtual void Load( );
+		virtual void Unload( );
+
 		template<class ComponentType>
 		void AddComponent(DPointer<ComponentType> rComponent);
 		template<class ComponentType>
@@ -39,6 +42,9 @@ namespace UNDONE_ENGINE {
 	private:
 		vector<DPointer<Component>>	m_Components;
 		vector<size_t>				m_Component_types;
+
+		virtual void OnParentSet( );
+		virtual void OnParentBeingChilded( );
 	};
 
 #define worldTransform	GetComponent<WorldTransform>()

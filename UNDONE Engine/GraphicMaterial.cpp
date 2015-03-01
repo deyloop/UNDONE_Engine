@@ -8,6 +8,7 @@ Author	:	Anurup Dey
 #include "ShaderProgram.h"
 #include "GameObject.h"
 #include "glew.h"
+#include "SystemComponent.h"
 #include "UNDONE_DEBUG.h"
 
 namespace UNDONE_ENGINE {
@@ -23,7 +24,7 @@ namespace UNDONE_ENGINE {
 		m_diffcolor = glm::vec3(1.0f, 0.0f, 0.0f);
 	}
 
-	void GraphicMaterial::SetParent(DPointer<GameObject> ppParent) {
+	void GraphicMaterial::OnParentSet() {
 		if (m_num_parents==0) {
 			++m_num_parents;
 			Load( );
@@ -31,6 +32,10 @@ namespace UNDONE_ENGINE {
 		} else {
 			++m_num_parents;
 		}
+
+	}
+
+	void GraphicMaterial::OnParentBeingChilded( ) {
 
 	}
 
@@ -68,7 +73,7 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
-	void GraphicMaterial::UnLoad( ) {
+	void GraphicMaterial::Unload( ) {
 
 	}
 
@@ -78,6 +83,9 @@ namespace UNDONE_ENGINE {
 		if (s_ActiveShaderProgram!=m_ppShaderProgram.Obj( ).GetProgramID( )) {
 			m_ppShaderProgram.Obj( ).UseProgram( );
 			s_ActiveShaderProgram = m_ppShaderProgram.Obj( ).GetProgramID( );
+		}
+		if (glGetError( )) {
+			SystemComponent::GetInstance( )->ShowMessage("", "");
 		}
 
 		glUniformMatrix4fv(m_UniformDataLocations[0], 1, GL_FALSE, m_DataInterface.pairs[0].data.Data_fp);

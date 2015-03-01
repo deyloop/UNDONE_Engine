@@ -27,19 +27,22 @@ namespace UNDONE_ENGINE {
 		GraphicMaterial( );
 		~GraphicMaterial( ) { Release( ); }
 
-		void Release( ) { UnLoad( ); };
+		void Release( ) { Unload( ); };
 
-		void SetParent(DPointer<GameObject> ppParent);
+		void OnParentBeingChilded( );
 		void SetShaderProgramToUse(DPointer<ShaderProgram> ppShaderProgram);
 
 		UniformDataInterface& GetUniformDataInterface( ) { return m_DataInterface; };
 		
 		void Load( );
 		void ApplyMaterial( );
-		void UnLoad( );
+		void Unload( );
 		
 		void SetDiffuseColor(glm::vec3& color) { m_diffcolor = color; }
 	private:
+		
+		void OnParentSet( );
+		
 		UniformDataInterface	m_DataInterface;
 		vector<int>				m_UniformDataLocations;
 

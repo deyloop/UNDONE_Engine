@@ -4,6 +4,7 @@ Author:		Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "Worldtransform.h"
+#include "GameObject.h"
 #include <gtc\matrix_transform.hpp>
 
 namespace UNDONE_ENGINE {
@@ -11,14 +12,30 @@ namespace UNDONE_ENGINE {
 	Summary: Default Constructor
 	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	WorldTransform::WorldTransform( ) {
+		m_ppParentTransform.m_pointer = nullptr;
+		m_sync_num		= 0;
+		m_par_sync_num	= 0;
+		m_parented		= false;
 		Reset( );
+	}
+
+	void WorldTransform::OnParentSet( ) {
+		
+	}
+
+	void WorldTransform::OnParentBeingChilded( ) {
+		m_ppParentTransform.m_pointer = m_ppParent.ptr( )
+			->GetParent( ).ptr( )
+			->worldTransform.m_pointer;
+		m_parented = true;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	Summary: Reset the matrices to default position.
 	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	void WorldTransform::Reset( ) {
-		m_transform = m_translation = m_rotation = m_scale = glm::mat4(1.0f);
+		m_transform = m_translation = m_worldTransform =  
+		m_rotation = m_scale = glm::mat4(1.0f);
 
 		m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 
@@ -26,6 +43,7 @@ namespace UNDONE_ENGINE {
 		m_scaleX = m_scaleY = m_scaleZ = 1.0f;
 		m_transX = m_transY = m_transZ = 0.0f;
 
+		++m_sync_num;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -46,6 +64,8 @@ namespace UNDONE_ENGINE {
 		m_position.x = x;
 		m_position.y = y;
 		m_position.z = z;
+
+		++m_sync_num;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -65,6 +85,8 @@ namespace UNDONE_ENGINE {
 		m_position.x += x;
 		m_position.y += y;
 		m_position.z += z;
+
+		++m_sync_num;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -84,6 +106,7 @@ namespace UNDONE_ENGINE {
 		m_rotation = glm::rotate(m_rotation, y, glm::vec3(0.0f, 1.0f, 0.0f));
 		m_rotation = glm::rotate(m_rotation, z, glm::vec3(0.0f, 0.0f, 1.0f));
 
+		++m_sync_num;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -100,6 +123,8 @@ namespace UNDONE_ENGINE {
 		m_rotation = glm::rotate(m_rotation, x, glm::vec3(1.0f, 0.0f, 0.0f));
 		m_rotation = glm::rotate(m_rotation, y, glm::vec3(0.0f, 1.0f, 0.0f));
 		m_rotation = glm::rotate(m_rotation, z, glm::vec3(0.0f, 0.0f, 1.0f));
+
+		++m_sync_num;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -117,6 +142,8 @@ namespace UNDONE_ENGINE {
 		m_scale = glm::mat4(1.0f);
 
 		m_scale = glm::scale(m_scale, glm::vec3(x, y, z));
+
+		++m_sync_num;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -131,13 +158,25 @@ namespace UNDONE_ENGINE {
 		m_scaleY += y;
 		m_scaleZ += z;
 		m_scale = glm::scale(m_scale, glm::vec3(x, y, z));
+
+		++m_sync_num;
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	Summary: Get the transformation matrix
 	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	glm::mat4& WorldTransform::GetTransform( ) {
+	glm::mat4 WorldTransform::GetTransform( ) {
 		m_transform = m_translation*m_rotation*m_scale;
-		return m_transform;
+
+		if (!m_parented) {
+			return m_transform;
+		} else if (m_ppParentTransform.Obj( ).m_sync_num!=m_par_sync_num) {
+			
+			m_worldTransform = ((m_ppParentTransform.Obj( )).GetTransform( ));
+			m_par_sync_num = m_ppParentTransform.Obj( ).m_sync_num;
+	
+		}
+		
+		return m_worldTransform*m_transform;
 	}
 }
