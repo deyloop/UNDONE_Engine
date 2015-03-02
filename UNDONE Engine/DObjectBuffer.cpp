@@ -38,7 +38,7 @@ namespace UNDONE_ENGINE {
 	----------------------------------------------------------------------------*/
 	DPointer<Component> DObjectBuffer::GetComponentByName(const char* name,OwnerShip ownership) {
 		for (DPointer<Component>& component : m_Components) {
-			if (component.ptr( )->name==name) {
+			if (component->name==name) {
 				return component;
 			}
 		}

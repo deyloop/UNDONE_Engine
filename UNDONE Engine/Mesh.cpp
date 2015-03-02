@@ -115,7 +115,7 @@ namespace UNDONE_ENGINE {
 			currently_bound_VAO = uiVAO[0];
 		}
 		
-		glDrawArrays(GL_TRIANGLES, 0, 30);
+		glDrawArrays(GL_LINE_STRIP, 0, 30);
 	}
 
 	/*----------------------------------------------------------------------------

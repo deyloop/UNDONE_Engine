@@ -65,13 +65,13 @@ namespace UNDONE_ENGINE {
 		if ((ppParent.ptr())!=nullptr) {
 			m_ppParent = ppParent;
 			//Increase primary priority to one more than parent's
-			SetPriority(m_ppParent.ptr( )->GetPriority(0)+1,0);
+			SetPriority(m_ppParent->GetPriority(0)+1,0);
 
-			coutput(name+" made child of "+m_ppParent.ptr()->name+"\n");
+			coutput(name+" made child of "+m_ppParent->name+"\n");
 			
 			
 			//see if parent has parent
-			if ((ppParent.ptr( )->GetParent( )).m_pointer) { 
+			if ((ppParent->GetParent( )).m_pointer) { 
 				OnParentBeingChilded( );
 			}
 			

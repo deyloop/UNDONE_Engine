@@ -50,6 +50,7 @@ namespace UNDONE_ENGINE {
 
 		int								m_num_parents;
 		glm::vec3						m_diffcolor;
+		int								m_instances;
 		static unsigned int		s_ActiveShaderProgram;
 	};
 };

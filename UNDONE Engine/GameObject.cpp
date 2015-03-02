@@ -31,7 +31,7 @@ namespace UNDONE_ENGINE {
 		
 		//Searching for a component with such a name.
 		for (auto comp:m_Components) {
-			if ((comp.ptr())->name == name) { //checking if name matches
+			if (comp->name == name) { //checking if name matches
 				return comp;
 			}
 		} 
@@ -45,22 +45,22 @@ namespace UNDONE_ENGINE {
 	void GameObject::Load( ) {
 		//Load all children
 		for (auto& childComponent:m_Components) {
-			childComponent.ptr( )->Load( );
+			childComponent->Load( );
 		}
 	}
 
 	void GameObject::Unload( ) {
 		//UnLoad all children
 		for (auto& childComponent:m_Components) {
-			childComponent.ptr( )->Unload( );
+			childComponent->Unload( );
 		}
 	}
 
 	void GameObject::OnParentSet( ) {
 		//Tell all children
 		for (auto& childComponent:m_Components) {
-			childComponent.ptr( )->SetPriority(GetPriority(0)+1,0);
-			childComponent.ptr( )->OnParentBeingChilded();
+			childComponent->SetPriority(GetPriority(0)+1,0);
+			childComponent->OnParentBeingChilded();
 		}
 	}
 

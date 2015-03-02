@@ -51,18 +51,16 @@ void _3DGraphic::Render(RenderParams& refRenderParams){
 		m_ppworldTransform.m_pointer &&
 		m_ppMesh.m_pointer) {
 		
-				
-		glm::mat4 mMVP = refRenderParams.View_x_Projection*(m_ppworldTransform.ptr( )->GetTransform( ));
-		
-		//m_ppworldTransform.Obj( ).RotateRel(0.0f, 0.5f, 0.0f);
+		glm::mat4 Transform = m_ppworldTransform->GetTransform();
+		glm::mat4 mMVP = refRenderParams.View_x_Projection*Transform;
 
-		UniformDataInterface &MatData = m_ppMaterial.Obj( ).GetUniformDataInterface( );
+		UniformDataInterface &MatData = m_ppMaterial->GetUniformDataInterface( );
 		MatData.pairs[0].data.Data_fp = &mMVP[0][0];
-		MatData.pairs[1].data.Data_fp = &(m_ppworldTransform.Obj( ).GetTransform( )[0][0]);
+		MatData.pairs[1].data.Data_fp = &Transform[0][0];
 
-		m_ppMaterial.Obj( ).ApplyMaterial( );
+		m_ppMaterial->ApplyMaterial( );
 		
-		m_ppMesh.ptr( )->Render( );
+		m_ppMesh->Render( );
 	
 	}
 
@@ -73,9 +71,9 @@ Sets the parent of this 3dGraphic Component.
 -----------------------------------------------------------------------------*/
 void _3DGraphic::OnParentSet() {
 	
-	m_ppworldTransform	= m_ppParent.ptr( )->worldTransform;
-	m_ppMesh			= m_ppParent.ptr( )->mesh;
-	m_ppMaterial		= m_ppParent.ptr( )->graphicMaterial;
+	m_ppworldTransform	= m_ppParent->worldTransform;
+	m_ppMesh			= m_ppParent->mesh;
+	m_ppMaterial		= m_ppParent->graphicMaterial;
 	
 	coutput(name+" aquired transformation "+m_ppworldTransform.Obj( ).name+"\n");
 	coutput(name+" aquired mesh "+m_ppMesh.Obj( ).name+"\n");

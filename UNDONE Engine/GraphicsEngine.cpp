@@ -179,8 +179,7 @@ namespace UNDONE_ENGINE {
 		glClearStencil(1.0f);
 		
 		glCullFace(GL_BACK);
-		
-		
+
 	}
 
 	/*----------------------------------------------------------------------------

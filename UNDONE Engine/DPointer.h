@@ -20,6 +20,9 @@ interface for dereferncing a double pointer (pointer to pointer).
 		T** m_pointer;
 		T* ptr( ) { return *m_pointer; }
 		T&  Obj( ) { return *(*m_pointer); }
+		T* operator ->() {
+			return (*m_pointer);
+		}
 	};
 
 	template <typename to, typename from>

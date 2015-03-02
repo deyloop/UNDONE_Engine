@@ -24,9 +24,7 @@ namespace UNDONE_ENGINE {
 	}
 
 	void WorldTransform::OnParentBeingChilded( ) {
-		m_ppParentTransform.m_pointer = m_ppParent.ptr( )
-			->GetParent( ).ptr( )
-			->worldTransform.m_pointer;
+		m_ppParentTransform.m_pointer = m_ppParent->GetParent( )->worldTransform.m_pointer;
 		m_parented = true;
 	}
 
@@ -34,8 +32,8 @@ namespace UNDONE_ENGINE {
 	Summary: Reset the matrices to default position.
 	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	void WorldTransform::Reset( ) {
-		m_transform = m_translation = m_worldTransform =  
-		m_rotation = m_scale = glm::mat4(1.0f);
+		m_localTransform = m_translation = m_worldTransform =  
+		m_rotation = m_scale = m_parentTransform = glm::mat4(1.0f);
 
 		m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 
@@ -44,6 +42,7 @@ namespace UNDONE_ENGINE {
 		m_transX = m_transY = m_transZ = 0.0f;
 
 		++m_sync_num;
+		UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -65,7 +64,7 @@ namespace UNDONE_ENGINE {
 		m_position.y = y;
 		m_position.z = z;
 
-		++m_sync_num;
+		++m_sync_num; UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -86,7 +85,7 @@ namespace UNDONE_ENGINE {
 		m_position.y += y;
 		m_position.z += z;
 
-		++m_sync_num;
+		++m_sync_num; UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -106,7 +105,7 @@ namespace UNDONE_ENGINE {
 		m_rotation = glm::rotate(m_rotation, y, glm::vec3(0.0f, 1.0f, 0.0f));
 		m_rotation = glm::rotate(m_rotation, z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-		++m_sync_num;
+		++m_sync_num; UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -124,7 +123,7 @@ namespace UNDONE_ENGINE {
 		m_rotation = glm::rotate(m_rotation, y, glm::vec3(0.0f, 1.0f, 0.0f));
 		m_rotation = glm::rotate(m_rotation, z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-		++m_sync_num;
+		++m_sync_num; UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -143,7 +142,7 @@ namespace UNDONE_ENGINE {
 
 		m_scale = glm::scale(m_scale, glm::vec3(x, y, z));
 
-		++m_sync_num;
+		++m_sync_num; UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -159,24 +158,24 @@ namespace UNDONE_ENGINE {
 		m_scaleZ += z;
 		m_scale = glm::scale(m_scale, glm::vec3(x, y, z));
 
-		++m_sync_num;
+		++m_sync_num; UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	Summary: Get the transformation matrix
 	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-	glm::mat4 WorldTransform::GetTransform( ) {
-		m_transform = m_translation*m_rotation*m_scale;
-
+	glm::mat4& WorldTransform::GetTransform( ) {
+		
 		if (!m_parented) {
-			return m_transform;
-		} else if (m_ppParentTransform.Obj( ).m_sync_num!=m_par_sync_num) {
+			return m_localTransform;
+		} else if (m_ppParentTransform->m_sync_num!=m_par_sync_num) {
 			
-			m_worldTransform = ((m_ppParentTransform.Obj( )).GetTransform( ));
-			m_par_sync_num = m_ppParentTransform.Obj( ).m_sync_num;
+			m_parentTransform = (m_ppParentTransform->GetTransform( ));
+			m_par_sync_num = m_ppParentTransform->m_sync_num;
 	
 		}
-		
-		return m_worldTransform*m_transform;
+
+		m_worldTransform = m_parentTransform*m_localTransform;
+		return m_worldTransform;
 	}
 }

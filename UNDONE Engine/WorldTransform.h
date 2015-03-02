@@ -31,7 +31,7 @@ namespace UNDONE_ENGINE {
 		void ScaleAbs(float x, float y, float z);
 		void ScaleRel(float x, float y, float z);
 
-		glm::mat4 GetTransform( );
+		glm::mat4& GetTransform( );
 		glm::vec3* GetPosition( ) { return &m_position; }
 		float GetXPosition( ) { return m_transX; }
 		float GetYPosition( ) { return m_transY; }
@@ -53,13 +53,15 @@ namespace UNDONE_ENGINE {
 		void SetZScale(float z) { ScaleAbs(m_scaleX, m_scaleY, z); }
 
 	protected:
-		glm::mat4 m_transform, m_rotation, m_translation, m_scale;
+		void UpdateMatLocal( ) { m_localTransform = m_translation*m_rotation*m_scale; };
+		glm::mat4 m_localTransform, m_rotation, m_translation, m_scale;
 		glm::vec3 m_position;
 		float m_rotationX, m_rotationY, m_rotationZ,
 			m_scaleX, m_scaleY, m_scaleZ,
 			m_transX, m_transY, m_transZ;
 
 		glm::mat4		m_worldTransform;
+		glm::mat4		m_parentTransform;
 		unsigned		m_sync_num;
 		unsigned		m_par_sync_num;
 		bool			m_parented;

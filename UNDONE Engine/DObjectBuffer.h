@@ -178,7 +178,6 @@ type of component you throw at it.
 		returnval.m_pointer = pointer;
 		//Components are kept specially, So that they can be
 		//searched up by name later
-		DPointer<Component> clrg;
 		if (is_base_of<Component,T>::value) {
 			//That line above checks if the type is derived from Component
 			//or not.
@@ -188,7 +187,7 @@ type of component you throw at it.
 			clrg.m_pointer = (Component**)returnval.m_pointer;
 			m_Components.push_back(clrg);
 			//give the this DPOinter
-			clrg.ptr( )->m_ppMyself = clrg;
+			clrg->m_ppMyself = clrg;
 		}
 		return returnval;
 	}
@@ -262,7 +261,7 @@ type of component you throw at it.
 	template<typename T>
 	DPointer<T> DObjectBuffer::GetComponentByNameOfType(const char* name, OwnerShip ownership) {
 		for (DPointer<Component>& component:m_Components) {
-			if (component.ptr( )->name==name) {
+			if (component->name==name) {
 				//Contruct a DPointer of the given type.
 				DPointer<T> returnComp;
 				returnComp.m_pointer = dynamic_cast<T**>(component.m_pointer);

@@ -76,31 +76,31 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	DPointer<GraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
 	
 
-	shVertex.ptr()->LoadShader("shader.vert", GL_VERTEX_SHADER);
-	shFragment.ptr()->LoadShader("shader.frag", GL_FRAGMENT_SHADER);
+	shVertex->LoadShader("shader.vert", GL_VERTEX_SHADER);
+	shFragment->LoadShader("shader.frag", GL_FRAGMENT_SHADER);
 
-	spMain.ptr()->CreateProgram();
-	spMain.ptr()->AddShaderToProgram(shVertex.ptr());
-	spMain.ptr()->AddShaderToProgram(shFragment.ptr());
+	spMain->CreateProgram();
+	spMain->AddShaderToProgram(shVertex.ptr());
+	spMain->AddShaderToProgram(shFragment.ptr());
 
-	spMain.ptr()->LinkProgram();
+	spMain->LinkProgram();
 	
-	Redmaterial.ptr( )->Rename("RedMaterial");
-	Bluematerial.ptr( )->Rename("BlueMaterial");
+	Redmaterial->Rename("RedMaterial");
+	Bluematerial->Rename("BlueMaterial");
 	
-	Redmaterial.ptr( )->SetShaderProgramToUse(spMain);
-	Greenmaterial.ptr( )->SetShaderProgramToUse(spMain);
-	Yellowmaterial.ptr( )->SetShaderProgramToUse(spMain);
-	Pinkmaterial.ptr( )->SetShaderProgramToUse(spMain);
-	Bluematerial.ptr( )->SetShaderProgramToUse(spMain);
+	Redmaterial->SetShaderProgramToUse(spMain);
+	Greenmaterial->SetShaderProgramToUse(spMain);
+	Yellowmaterial->SetShaderProgramToUse(spMain);
+	Pinkmaterial->SetShaderProgramToUse(spMain);
+	Bluematerial->SetShaderProgramToUse(spMain);
 	
-	Bluematerial.ptr( )->SetDiffuseColor(glm::vec3(0.0f, 0.0f, 1.0f));
-	Redmaterial.ptr( )->SetDiffuseColor(glm::vec3(1.0f, 0.0f, 0.0f));
-	Greenmaterial.ptr( )->SetDiffuseColor(glm::vec3(0.0f, 1.0f, 0.0f));
-	Yellowmaterial.ptr( )->SetDiffuseColor(glm::vec3(1.0f, 1.0f, 0.0f));
-	Pinkmaterial.ptr( )->SetDiffuseColor(glm::vec3(1.0f, 0.0f, 127.0f/255.0f));
+	Bluematerial->SetDiffuseColor(glm::vec3(0.0f, 0.0f, 1.0f));
+	Redmaterial->SetDiffuseColor(glm::vec3(1.0f, 0.0f, 0.0f));
+	Greenmaterial->SetDiffuseColor(glm::vec3(0.0f, 1.0f, 0.0f));
+	Yellowmaterial->SetDiffuseColor(glm::vec3(1.0f, 1.0f, 0.0f));
+	Pinkmaterial->SetDiffuseColor(glm::vec3(1.0f, 0.0f, 127.0f/255.0f));
 	
-	cube_mesh.ptr( )->Rename("CubeMesh");
+	cube_mesh->Rename("CubeMesh");
 	
 	vector<DPointer<GraphicMaterial>> material;
 	material.reserve(5);
@@ -115,10 +115,10 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 
 	BlockGroup = pObjectBuffer->CreateNew<GameObject>( );
 	DPointer<WorldTransform> grouTrans = pObjectBuffer->CreateNew<WorldTransform>( );
-	BlockGroup.Obj( ).AddComponent<WorldTransform>(grouTrans);
-	grouTrans.ptr( )->TranslateRel(10.0f, 0.0f, 0.0f);
+	BlockGroup->AddComponent<WorldTransform>(grouTrans);
+	grouTrans->TranslateRel(10.0f, 0.0f, 0.0f);
 
-#define SIZE 10
+#define SIZE 5
 
 	for (int j = 0; j<SIZE; ++j) {
 		for (int i = 0;i<SIZE; ++i) {
@@ -127,28 +127,28 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 
 			cout<<"\n";
 			DPointer<GameObject> go_scene = pObjectBuffer->CreateNew<GameObject>( );
-			go_scene.ptr( )->Rename((string("GameObject")+i)+j);
+			go_scene->Rename((string("GameObject")+i)+j);
 			DPointer<WorldTransform> transform1 = pObjectBuffer->CreateNew<WorldTransform>( );
-			transform1.ptr( )->Rename((string("Transform")+i)+j);
+			transform1->Rename((string("Transform")+i)+j);
 			DPointer<_3DGraphic> graphic1 = pObjectBuffer->CreateNew<_3DGraphic>( );
-			graphic1.ptr( )->Rename((string("Graphic")+i)+j);
-			graphic1.ptr( )->OnInit( );
-			go_scene.ptr( )->AddComponent<WorldTransform>(transform1);
-			go_scene.ptr( )->AddComponent<Mesh>(cube_mesh);
+			graphic1->Rename((string("Graphic")+i)+j);
+			graphic1->OnInit( );
+			go_scene->AddComponent<WorldTransform>(transform1);
+			go_scene->AddComponent<Mesh>(cube_mesh);
 			
-			go_scene.ptr( )->AddComponent<GraphicMaterial>(material.at(rand()%5));
+			go_scene->AddComponent<GraphicMaterial>(material.at(rand()%5));
 			
-			go_scene.ptr( )->AddComponent<_3DGraphic>(graphic1);
+			go_scene->AddComponent<_3DGraphic>(graphic1);
 			
-			transform1.ptr( )->TranslateAbs(i, 0, j);
+			transform1->TranslateAbs(i, 0, j);
 			//transform1.ptr( )->RotateAbs(1.0f, 45.0f,i*10+ 0.0f);
-			transform1.ptr( )->ScaleAbs(1, rand()%25+1, 1);
+			transform1->ScaleAbs(1, rand()%25+1, 1);
 
-			BlockGroup.Obj( ).AddComponent<GameObject>(go_scene);
+			BlockGroup->AddComponent<GameObject>(go_scene);
 		}
 	}
 
-	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(0.01f, 50.0f, 5.0f));
+	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(0.01f, 20.0f, 5.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
 
@@ -205,8 +205,8 @@ Updates Application specific things like AI, ui response, etc.
 -----------------------------------------------------------------------------*/
 void Application::Update(){
 
-	BlockGroup.ptr( )->worldTransform.ptr( )->RotateRel(0.0f, 0.1f, 0.0f);
-	//cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
+	BlockGroup->worldTransform->RotateRel(0.0f, 0.1f, 0.0f);
+	cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

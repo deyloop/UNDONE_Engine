@@ -54,7 +54,7 @@ namespace UNDONE_ENGINE {
 	void GraphicMaterial::Load( ) {
 		if (m_ppShaderProgram.m_pointer) {
 			//fill out the uniform details.
-			GLuint progID = (m_ppShaderProgram.ptr( ))->GetProgramID( );
+			GLuint progID = m_ppShaderProgram->GetProgramID( );
 
 			int HMVP = glGetUniformLocation(progID, "gMVP");
 			int HWORLD = glGetUniformLocation(progID, "gWorld");
@@ -80,9 +80,9 @@ namespace UNDONE_ENGINE {
 	void GraphicMaterial::ApplyMaterial( ) {
 		if (m_ppShaderProgram.m_pointer==nullptr) return;
 
-		if (s_ActiveShaderProgram!=m_ppShaderProgram.Obj( ).GetProgramID( )) {
-			m_ppShaderProgram.Obj( ).UseProgram( );
-			s_ActiveShaderProgram = m_ppShaderProgram.Obj( ).GetProgramID( );
+		if (s_ActiveShaderProgram!=m_ppShaderProgram->GetProgramID( )) {
+			m_ppShaderProgram->UseProgram( );
+			s_ActiveShaderProgram = m_ppShaderProgram->GetProgramID( );
 		}
 		if (glGetError( )) {
 			SystemComponent::GetInstance( )->ShowMessage("", "");

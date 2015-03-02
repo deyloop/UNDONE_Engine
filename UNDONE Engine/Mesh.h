@@ -29,7 +29,9 @@ namespace UNDONE_ENGINE {
 
 		
 		void Load( );
+		
 		void Render( );
+	
 		void Unload( );
 		void Release( );
 
@@ -43,7 +45,8 @@ namespace UNDONE_ENGINE {
 		
 		UINT m_num_parents;
 		
-		bool mesh_loaded;
+		bool	mesh_loaded;
+		int		m_instances;
 		static UINT currently_bound_VAO;
 	};
 }
