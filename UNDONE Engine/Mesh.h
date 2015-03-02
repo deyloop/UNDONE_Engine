@@ -11,10 +11,14 @@ Author	:	Anurup Dey
 
 //includes
 #include "UNDONE_Engine_declr.h"
+
 #include "Component.h"		//Mesh IS a component 			
 #include <glew.h>			//used for the VAOs and the VBOs
 #include <gl\GL.h>
 #include <gl\GLU.h>
+
+   
+
 
 typedef  unsigned int UINT;
 
@@ -27,6 +31,7 @@ namespace UNDONE_ENGINE {
 		Mesh( );
 		~Mesh( ) { Release( ); }
 
+		void SetModelFile(string filename) { m_model_file = filename; };
 		
 		void Load( );
 		
@@ -47,6 +52,7 @@ namespace UNDONE_ENGINE {
 		
 		bool	mesh_loaded;
 		int		m_instances;
+		string	m_model_file;
 		static UINT currently_bound_VAO;
 	};
 }

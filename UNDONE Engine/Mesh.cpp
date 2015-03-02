@@ -5,6 +5,9 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "Mesh.h"
+#include <assimp\Importer.hpp>		// C++ importer interface
+#include <assimp\scene.h>           // Output data structure
+#include <assimp\postprocess.h>  
 
 namespace UNDONE_ENGINE {
 
@@ -18,6 +21,8 @@ namespace UNDONE_ENGINE {
 		uiVAO[0] = 0;
 		m_num_parents	= 0;
 		mesh_loaded		= false;
+		m_instances		= 0;
+		m_model_file = "";
 	}
 
 	/*----------------------------------------------------------------------------
