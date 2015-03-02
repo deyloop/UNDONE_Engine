@@ -48,8 +48,8 @@ namespace UNDONE_ENGINE {
 	protected:
 		DPointer<GameObject>	m_ppParent;
 		DPointer<Component>		m_ppMyself;
-#define NNN 2
-		int/*vector<int>*/		m_num_priority[NNN];
+#define NUM_MAX_PRIORITIES 2
+		int						m_num_priority[NUM_MAX_PRIORITIES];
 		int						m_number;
 		
 		virtual void OnParentSet( ) = 0;

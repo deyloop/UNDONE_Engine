@@ -59,7 +59,7 @@ namespace UNDONE_ENGINE {
 	void GameObject::OnParentSet( ) {
 		//Tell all children
 		for (auto& childComponent:m_Components) {
-			childComponent.ptr( )->SetPriority(m_num_priority[0]+1,0);
+			childComponent.ptr( )->SetPriority(GetPriority(0)+1,0);
 			childComponent.ptr( )->OnParentBeingChilded();
 		}
 	}
