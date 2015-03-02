@@ -41,7 +41,20 @@ public:
 
 	virtual void Load();
 	virtual void Unload();
+	bool operator < (Component& b) {
+		for (unsigned level = 0;
+			 GetPriority(level)!=-1||b.GetPriority(level)!=-1;
+			 ++level) {
+			if (GetPriority(level)==b.GetPriority(level)) {
+				continue;
+			} else {
+				return (GetPriority(level))<=(b.GetPriority(level));
+			}
+		}
+		return GetNumber( ) < b.GetNumber( );
+	}
 	
+
 	void OnParentBeingChilded( );
 
 	void OnInit( ) { };

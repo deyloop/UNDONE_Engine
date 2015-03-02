@@ -28,5 +28,14 @@ protected:
 	Camera*			m_pcam;
 	vector<Command*> m_Cmds;
 	DPointer<GameObject> BlockGroup;
+
+	bool initialized;
+
+	Command* Yaw_Pitch ;
+	Command* Exit ;
+	Command* Move_Forward ;
+	Command* Move_Backward ;
+	Command* Enable_Mouse ;
+	Command* Disable_Mouse ;
 };
 #endif

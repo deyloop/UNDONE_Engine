@@ -20,13 +20,22 @@ Application::Application(){
 	m_pFrameWork = nullptr;
 	m_pcam = nullptr;
 	BlockGroup.m_pointer = nullptr;
+	initialized = false;
 }
 
 /*-----------------------------------------------------------------------------
 Default destructor
 ------------------------------------------------------------------------------*/
 void Application::Release(){
-	//Again, nothing to do yet.
+	if (initialized) {
+		delete Yaw_Pitch;
+		delete Exit;
+		delete Move_Forward;
+		delete Move_Backward;
+		delete Enable_Mouse;
+		delete Disable_Mouse;
+		initialized = false;
+	}
 }
 
 class ExitCommand : public Command {
@@ -143,12 +152,12 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
 
-	Command* Yaw_Pitch = new Yaw_PitchCommand( );
-	Command* Exit = new ExitCommand(SystemComponent::GetInstance() );
-	Command* Move_Forward = new MoveForwardCommand( );
-	Command* Move_Backward = new MoveBackwardCommand( );
-	Command* Enable_Mouse = new Enable_Yaw_Pitch_Command( );
-	Command* Disable_Mouse = new Disable_Yaw_Pitch_Command( );
+	Yaw_Pitch = new Yaw_PitchCommand( );
+	Exit = new ExitCommand(SystemComponent::GetInstance() );
+	Move_Forward = new MoveForwardCommand( );
+	Move_Backward = new MoveBackwardCommand( );
+	Enable_Mouse = new Enable_Yaw_Pitch_Command( );
+	Disable_Mouse = new Disable_Yaw_Pitch_Command( );
 
 	InputEvent KeyEventL,ExitEvent,MoveFEvnt,MoveBEvnt,MBDEvnt,MBUEvnt;
 	
@@ -185,6 +194,10 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	cameracontrolcontext.m_pairs.push_back(pairMBD);
 	cameracontrolcontext.m_pairs.push_back(pairMBU);
 	contexts.push_back(cameracontrolcontext);
+
+	pObjectBuffer->SortByPriority<_3DGraphic>( );
+
+	initialized = true;
 }
 
 /*-----------------------------------------------------------------------------

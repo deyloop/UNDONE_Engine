@@ -12,6 +12,7 @@ Author	:	Anurup Dey
 #include <string>					//We are going to use this to store names
 #include "DPointer.h"				//We are associated to the DObjectBuffer.
 #include <vector>
+#include <deque>
 using namespace std;
 namespace UNDONE_ENGINE {
 
@@ -40,13 +41,16 @@ namespace UNDONE_ENGINE {
 		void SetPriority(unsigned priority, unsigned priority_level);
 
 		DPointer<GameObject> GetParent( ) { return m_ppParent; };
-
+		int GetNumber( ) { return m_number; }
+		
 		string name;
 	
 	protected:
 		DPointer<GameObject>	m_ppParent;
 		DPointer<Component>		m_ppMyself;
-		vector<unsigned>		m_num_priority;
+#define NNN 2
+		int/*vector<int>*/		m_num_priority[NNN];
+		int						m_number;
 		
 		virtual void OnParentSet( ) = 0;
 		

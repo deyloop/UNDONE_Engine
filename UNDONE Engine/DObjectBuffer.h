@@ -11,8 +11,9 @@ Author	:	Anurup Dey
 
 #include "UNDONE_Engine_declr.h"	//For including this in the API.
 #include "DPointer.h"				//We use this to refernce objects.
-#include "vector"					//We use these for storage.
-#include "list"
+#include <vector>					//We use these for storage.
+#include <list>
+#include <algorithm>
 #include "Component.h"				//The Object buffer can only store components
 #include "Camera.h"
 using namespace std;
@@ -43,7 +44,7 @@ type of component you throw at it.
 		~DObjectBuffer( );
 
 		void SetInitAllocSize(unsigned int size) { m_init_vec_size = size; }
-		OwnerShip GetNewOwnerShip( ) { ++m_num_owners; return m_num_owners;}
+		OwnerShip CreateOwnerShip( ) { ++m_num_owners; return m_num_owners;}
 
 		template<typename T>
 		void DeleteAll(OwnerShip ownership = 0 );
@@ -52,6 +53,8 @@ type of component you throw at it.
 		DPointer<T> CreateNew(OwnerShip ownership = 0);
 		template<typename T>
 		vector<T>* GetListOf(OwnerShip ownership = 0);
+		template<typename T>
+		void SortByPriority(OwnerShip ownership = 0);
 
 		Camera& GetControlCamera( ) { return m_Cam; }
 		DPointer<Component> GetComponentByName(const char* name, OwnerShip ownership = 0);
@@ -214,6 +217,10 @@ type of component you throw at it.
 					plist = (list<T*>*)m_storage_lists[i];
 					//Now we empty the list and the vector.
 					pvec->clear( ); plist->clear( );
+
+					//delete the vector and list.
+					delete pvec;
+					delete plist;
 					//erase the pos in storage.
 					m_storage_vectors.erase(m_storage_vectors.begin( )+i);
 					m_storage_lists.erase(m_storage_lists.begin( )+i);
@@ -267,6 +274,78 @@ type of component you throw at it.
 			ErrorComponent.m_pointer = nullptr;
 			return ErrorComponent;
 		}
+	}
+
+	template<class T>
+	bool Compare_list(T* ra, T* rb) {
+		Component* a = (Component*)ra;
+		Component* b = (Component*)rb;
+		for (unsigned level = 0;
+			 a->GetPriority(level)!=-1||b->GetPriority(level)!=-1;
+			 ++level) {
+			if (a->GetPriority(level)==b->GetPriority(level)) {
+				continue;
+			} else {
+				return a->GetPriority(level)<=b->GetPriority(level);
+			}
+		}
+		return a->GetNumber( ) < b->GetNumber( );;
+	}
+
+	template<class T>
+	bool Compare_vec(T& a, T& b) {
+		//Component* a = (Component*)&ra;
+		//Component* b = (Component*)&rb;
+		for (unsigned level = 0;
+			 a.GetPriority(level)!=-1||b.GetPriority(level)!=-1;
+			 ++level) {
+			if (a.GetPriority(level)==b.GetPriority(level)) {
+				continue;
+			} else {
+				return (a.GetPriority(level))<=(b.GetPriority(level));
+			}
+		}
+		return a.GetNumber() < b.GetNumber();
+	}
+
+	template<typename T>
+	void DObjectBuffer::SortByPriority(OwnerShip ownership) {
+		//we proceed to sort, only if T is a type of Component.
+		if (!is_base_of<Component, T>::value) {
+			return;
+		}
+
+		//first, we get the vector and lists to sort,
+		vector<T>* pvec = nullptr;
+		list<T*>* plist = nullptr;
+		//Check if we already store this type of objects.
+		size_t this_type = typeid(T).hash_code( );
+		for (unsigned x = 0; x<m_storage_owners.size( ); ++x) {
+			if (m_storage_owners[x]==ownership) {
+				if (m_storage_types[x]==this_type) {
+					//This type is stored.
+					//we now get the corresponding vector and list.
+					pvec = (vector<T>*)m_storage_vectors[x];
+					plist = (list<T*>*)m_storage_lists[x];
+				}
+
+			}
+		}
+
+		if (pvec==nullptr && plist==nullptr) {
+			//the type is not already stored.
+			return;
+		}
+
+		//sorting...
+		//STEP 1: sort the linked list first...
+		plist->sort(Compare_list<T>);
+		//STEP 2: sort the vector..
+		sort(pvec->begin( ), pvec->end( ), Compare_vec<T>);
+		//STEP 3: relink the list to the vector.
+		Reallocate_vector<T>(*pvec, *plist);
+		//STEP 4 : enjoy the view!
+		return;
 	}
 }
 #endif

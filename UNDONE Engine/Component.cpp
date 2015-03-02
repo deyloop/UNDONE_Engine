@@ -18,11 +18,12 @@ namespace UNDONE_ENGINE {
 	Component::Component( ) {
 		m_ppParent.m_pointer = nullptr;
 		char str[20];
+		m_number = num_Components;
 		sprintf_s(str, "Component_%i", num_Components);
 		name = str;
 		++num_Components;
 		
-		m_num_priority.push_back(0);
+		m_num_priority[0] = 0;//m_num_priority.push_back(0);
 
 		coutput("New Component Constructed with name "+name+"\n");
 
@@ -37,8 +38,9 @@ namespace UNDONE_ENGINE {
 	}
 
 	unsigned Component::GetPriority(unsigned priority_level) {
-		if (priority_level>=m_num_priority.size( )) {
-			return 0;
+
+		if (priority_level>=NNN/*m_num_priority.size( )*/ || priority_level == -1) {
+			return -1;
 		} else {
 			return m_num_priority[priority_level];
 		}
@@ -46,8 +48,8 @@ namespace UNDONE_ENGINE {
 
 	void Component::SetPriority(unsigned priority, unsigned priority_level) {
 		
-		if (priority_level>=m_num_priority.size( )) {
-			m_num_priority.push_back(priority);
+		if (priority_level>=NNN/*m_num_priority.size( )*/) {
+			//m_num_priority.push_back(priority);
 		} else {
 			m_num_priority[priority_level] = priority;
 			coutput("'s primary priority set to "+(int)m_num_priority[0]+"\n");
