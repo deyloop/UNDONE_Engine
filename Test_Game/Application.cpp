@@ -152,6 +152,16 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 		}
 	}
 
+	DPointer<GameObject> cu = pObjectBuffer->CreateNew<GameObject>( );
+	DPointer<WorldTransform> ct = pObjectBuffer->CreateNew<WorldTransform>( );
+	cu->AddComponent<WorldTransform>(ct);
+	cu->AddComponent<Mesh>(cube_mesh);
+	cu->AddComponent<GraphicMaterial>(Greenmaterial);
+	DPointer<_3DGraphic> cg = pObjectBuffer->CreateNew<_3DGraphic>( );
+	cu->AddComponent<_3DGraphic>(cg);
+	BlockGroup->AddComponent<GameObject>(cu);
+
+
 	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(0.01f, 20.0f, 5.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
@@ -210,7 +220,7 @@ Updates Application specific things like AI, ui response, etc.
 void Application::Update(){
 
 	BlockGroup->worldTransform->RotateRel(0.0f, 0.1f, 0.0f);
-	cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
+	//cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

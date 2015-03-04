@@ -50,9 +50,10 @@ namespace UNDONE_ENGINE {
 		
 		UINT m_num_parents;
 		
-		bool	mesh_loaded;
-		int		m_instances;
-		string	m_model_file;
+		bool		mesh_loaded;
+		int			m_instances;
+		string		m_model_file;
+		unsigned	m_num_verts;
 		static UINT currently_bound_VAO;
 	};
 }

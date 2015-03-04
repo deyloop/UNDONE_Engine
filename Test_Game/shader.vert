@@ -17,6 +17,6 @@ void main()
    vec3 lightdir = vec3(0.5f,0.5f,-0.5f);
    vec3 light2dir = vec3(0.5,-0.5,5.0f);
    vec3 Ambient = vec3(0.1,0.1,0.1);
-   float mag = dot(normalize(lightdir),transNormal);
+   float mag = dot(normalize(light2dir),transNormal);
    theColor = Ambient + (gDiffuse*(mag));
 }
