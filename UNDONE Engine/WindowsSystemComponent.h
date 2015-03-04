@@ -167,6 +167,7 @@ namespace UNDONE_ENGINE {
 			std::ios::sync_with_stdio( );
 		};
 
+		void FrameInput( );
 
 		static LRESULT CALLBACK staticWndProc(HWND hWnd, UINT msg,
 											  WPARAM wParam,
@@ -189,6 +190,7 @@ namespace UNDONE_ENGINE {
 		bool	  m_ClassRegistered;
 		bool	  m_DevicesRegistered;
 		bool	  m_GLEWInitialized;
+		bool	  m_First_Input_loop;
 
 		WindowDataBase m_WindowDB;
 		static WindowsSystemComponent* pWindowsInstance;

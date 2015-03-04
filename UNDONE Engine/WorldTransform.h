@@ -53,7 +53,10 @@ namespace UNDONE_ENGINE {
 		void SetZScale(float z) { ScaleAbs(m_scaleX, m_scaleY, z); }
 
 	protected:
-		void UpdateMatLocal( ) { m_localTransform = m_translation*m_rotation*m_scale; };
+		void UpdateMatLocal( ) { 
+			m_localTransform = m_translation*m_rotation*m_scale;
+			++m_sync_num;
+		};
 		glm::mat4 m_localTransform, m_rotation, m_translation, m_scale;
 		glm::vec3 m_position;
 		float m_rotationX, m_rotationY, m_rotationZ,

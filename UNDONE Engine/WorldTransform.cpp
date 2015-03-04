@@ -41,7 +41,7 @@ namespace UNDONE_ENGINE {
 		m_scaleX = m_scaleY = m_scaleZ = 1.0f;
 		m_transX = m_transY = m_transZ = 0.0f;
 
-		++m_sync_num;
+		
 		UpdateMatLocal( );
 	}
 
@@ -64,7 +64,7 @@ namespace UNDONE_ENGINE {
 		m_position.y = y;
 		m_position.z = z;
 
-		++m_sync_num; UpdateMatLocal( );
+		UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -85,7 +85,7 @@ namespace UNDONE_ENGINE {
 		m_position.y += y;
 		m_position.z += z;
 
-		++m_sync_num; UpdateMatLocal( );
+		UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -105,7 +105,7 @@ namespace UNDONE_ENGINE {
 		m_rotation = glm::rotate(m_rotation, y, glm::vec3(0.0f, 1.0f, 0.0f));
 		m_rotation = glm::rotate(m_rotation, z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-		++m_sync_num; UpdateMatLocal( );
+		UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -123,7 +123,7 @@ namespace UNDONE_ENGINE {
 		m_rotation = glm::rotate(m_rotation, y, glm::vec3(0.0f, 1.0f, 0.0f));
 		m_rotation = glm::rotate(m_rotation, z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-		++m_sync_num; UpdateMatLocal( );
+		UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -168,11 +168,13 @@ namespace UNDONE_ENGINE {
 		
 		if (!m_parented) {
 			return m_localTransform;
-		} else if (m_ppParentTransform->m_sync_num!=m_par_sync_num) {
+		} 
+		
+		if (m_ppParentTransform->GetTransform()!=m_parentTransform) {
 			
 			m_parentTransform = (m_ppParentTransform->GetTransform( ));
 			m_par_sync_num = m_ppParentTransform->m_sync_num;
-	
+			++m_sync_num;
 		}
 
 		m_worldTransform = m_parentTransform*m_localTransform;

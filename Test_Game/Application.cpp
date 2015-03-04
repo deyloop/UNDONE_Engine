@@ -114,16 +114,20 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	srand(time(0));
 
 	BlockGroup = pObjectBuffer->CreateNew<GameObject>( );
+	DPointer<GameObject> BlockGroup2 = pObjectBuffer->CreateNew<GameObject>( );
+	DPointer<WorldTransform> grouTrans2 = pObjectBuffer->CreateNew<WorldTransform>( );
 	DPointer<WorldTransform> grouTrans = pObjectBuffer->CreateNew<WorldTransform>( );
-	BlockGroup->AddComponent<WorldTransform>(grouTrans);
+	BlockGroup->AddComponent<WorldTransform>(grouTrans2);
+	BlockGroup2->AddComponent<WorldTransform>(grouTrans);
 	grouTrans->TranslateRel(10.0f, 0.0f, 0.0f);
+	BlockGroup->AddComponent<GameObject>(BlockGroup2);
 
-#define SIZE 5
+#define SIZE 1
 
 	for (int j = 0; j<SIZE; ++j) {
 		for (int i = 0;i<SIZE; ++i) {
 
-			if ((rand( )%4+2)> 3) continue;
+			//if ((rand( )%4+2)> 3) continue;
 
 			cout<<"\n";
 			DPointer<GameObject> go_scene = pObjectBuffer->CreateNew<GameObject>( );
@@ -144,7 +148,7 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			//transform1.ptr( )->RotateAbs(1.0f, 45.0f,i*10+ 0.0f);
 			transform1->ScaleAbs(1, rand()%25+1, 1);
 
-			BlockGroup->AddComponent<GameObject>(go_scene);
+			BlockGroup2->AddComponent<GameObject>(go_scene);
 		}
 	}
 

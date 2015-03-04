@@ -122,6 +122,7 @@ namespace UNDONE_ENGINE {
 		virtual __int64 GetCurrentTickCount( ) = 0;
 
 		virtual void HandleWindowEvents( ) = 0;
+		virtual void FrameInput( ) = 0;
 
 	private:
 		static SystemComponent* pInstance;

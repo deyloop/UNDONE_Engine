@@ -583,6 +583,10 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
+	void WindowsSystemComponent::FrameInput( ) {
+		m_First_Input_loop = true;
+	}
+
 	/*-----------------------------------------------------------------------------
 	Returns:
 	0	if the message is not relevant or there is no message in the que.
@@ -595,7 +599,8 @@ namespace UNDONE_ENGINE {
 		POINTS ptCursor;
 		static POINTS ptPrevCursor;
 		static bool first = true;
-
+		static bool KeyPressed[256] = {false};
+		
 		//Check if there is one
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)>0) {
 			//There is a message we are getting..
@@ -653,6 +658,7 @@ namespace UNDONE_ENGINE {
 					pEvent->mouse_button.button = MOUSE_BUTTON_R;
 					ReleaseCapture( );
 					return 1;
+
 				case WM_KEYDOWN:
 					//A key was pressed down. 
 					pEvent->key.type = EVENT_KEYDOWN;

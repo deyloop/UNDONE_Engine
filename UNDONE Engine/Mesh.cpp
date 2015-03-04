@@ -4,10 +4,7 @@ File	:	Mesh.cpp
 Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
-#include "Mesh.h"
-#include <assimp\Importer.hpp>		// C++ importer interface
-#include <assimp\scene.h>           // Output data structure
-#include <assimp\postprocess.h>  
+#include "Mesh.h" 
 
 namespace UNDONE_ENGINE {
 
@@ -120,7 +117,7 @@ namespace UNDONE_ENGINE {
 			currently_bound_VAO = uiVAO[0];
 		}
 		
-		glDrawArrays(GL_LINE_STRIP, 0, 30);
+		glDrawArrays(GL_TRIANGLES, 0, 30);
 	}
 
 	/*----------------------------------------------------------------------------
