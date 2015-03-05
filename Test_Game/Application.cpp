@@ -68,6 +68,8 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	DPointer<Shader> shFragment			= pObjectBuffer->CreateNew<Shader>();
 	DPointer<ShaderProgram> spMain		= pObjectBuffer->CreateNew<ShaderProgram>();
 	DPointer<Mesh> cube_mesh			= pObjectBuffer->CreateNew<Mesh>( );
+	DPointer<Mesh> monkey_mesh			= pObjectBuffer->CreateNew<Mesh>( );
+	monkey_mesh->SetModelFile("monkey.obj");
 	
 	DPointer<GraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
 	DPointer<GraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
@@ -122,12 +124,12 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	grouTrans->TranslateRel(10.0f, 0.0f, 0.0f);
 	BlockGroup->AddComponent<GameObject>(BlockGroup2);
 
-#define SIZE 1
+#define SIZE 5
 
 	for (int j = 0; j<SIZE; ++j) {
 		for (int i = 0;i<SIZE; ++i) {
 
-			//if ((rand( )%4+2)> 3) continue;
+			if ((rand( )%4+2)> 3) continue;
 
 			cout<<"\n";
 			DPointer<GameObject> go_scene = pObjectBuffer->CreateNew<GameObject>( );
@@ -146,7 +148,7 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			
 			transform1->TranslateAbs(i, 0, j);
 			//transform1.ptr( )->RotateAbs(1.0f, 45.0f,i*10+ 0.0f);
-			transform1->ScaleAbs(1, rand()%25+1, 1);
+			transform1->ScaleAbs(0.5f, rand()%25+1, 0.5f);
 
 			BlockGroup2->AddComponent<GameObject>(go_scene);
 		}
@@ -155,11 +157,11 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	DPointer<GameObject> cu = pObjectBuffer->CreateNew<GameObject>( );
 	DPointer<WorldTransform> ct = pObjectBuffer->CreateNew<WorldTransform>( );
 	cu->AddComponent<WorldTransform>(ct);
-	cu->AddComponent<Mesh>(cube_mesh);
+	cu->AddComponent<Mesh>(monkey_mesh);
 	cu->AddComponent<GraphicMaterial>(Greenmaterial);
 	DPointer<_3DGraphic> cg = pObjectBuffer->CreateNew<_3DGraphic>( );
 	cu->AddComponent<_3DGraphic>(cg);
-	BlockGroup->AddComponent<GameObject>(cu);
+	//BlockGroup->AddComponent<GameObject>(cu);
 
 
 	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(0.01f, 20.0f, 5.0f));
@@ -220,7 +222,7 @@ Updates Application specific things like AI, ui response, etc.
 void Application::Update(){
 
 	BlockGroup->worldTransform->RotateRel(0.0f, 0.1f, 0.0f);
-	//cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
+	cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

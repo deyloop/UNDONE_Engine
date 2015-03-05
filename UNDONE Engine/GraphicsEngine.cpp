@@ -4,6 +4,7 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "GraphicsEngine.h"
+#include "Texture.h"
 #include "_3DGraphic.h"
 
 namespace UNDONE_ENGINE {
@@ -31,6 +32,7 @@ namespace UNDONE_ENGINE {
 			m_pGraphicsBuffer->DeleteAll<_3DGraphic>( );
 			m_pGraphicsBuffer->DeleteAll<ShaderProgram>( );
 			m_pGraphicsBuffer->DeleteAll<Shader>( );
+			m_pGraphicsBuffer->DeleteAll<Texture>( );
 			m_pGraphicsBuffer->DeleteAll<Mesh>( );
 			m_pGraphicsBuffer->DeleteAll<WorldTransform>( );
 			m_pGraphicsBuffer->DeleteAll<GraphicMaterial>( );
@@ -175,7 +177,7 @@ namespace UNDONE_ENGINE {
 		glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 		glClearDepth(1.0f);
 		glEnable(GL_DEPTH_TEST);
-		//glEnable(GL_CULL_FACE);
+		glEnable(GL_CULL_FACE);
 		glClearStencil(1.0f);
 		
 		glCullFace(GL_BACK);
