@@ -5,6 +5,7 @@ Author	:	Anurup Dey
 ///////////////////////////////////////////////////////////////////////////////
 #include "Renderer.h"
 #include "_3DGraphic.h"
+#include "_2DGraphic.h"
 #include <gtx/transform.hpp>
 
 namespace UNDONE_ENGINE {
@@ -43,7 +44,7 @@ namespace UNDONE_ENGINE {
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
 		if (m_pGraphicsBuffer) {
 			Render3D( );
-			//Render2D();
+			Render2D();
 		}
 	}
 
@@ -68,6 +69,11 @@ namespace UNDONE_ENGINE {
 	Renders all the 2DGraphics to the screen.
 	-----------------------------------------------------------------------------*/
 	void Renderer::Render2D( ) {
+		_2DRenderParams params;
+		params.ProjectionMat = glm::ortho(0.0f, 500.0f, 0.0f, 500.0f);
 
+		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<_2DGraphic>( )) {
+			graphic.Render(params);
+		}
 	}
 }

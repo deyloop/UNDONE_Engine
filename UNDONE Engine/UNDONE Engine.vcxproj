@@ -95,6 +95,7 @@
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowSystemComponent.cpp" />
     <ClCompile Include="WorldTransform.cpp" />
+    <ClCompile Include="_2DGraphic.cpp" />
     <ClCompile Include="_3DGraphic.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +128,7 @@
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowsSystemComponent.h" />
     <ClInclude Include="WorldTransform.h" />
+    <ClInclude Include="_2DGraphic.h" />
     <ClInclude Include="_3DGraphic.h" />
   </ItemGroup>
   <ItemGroup>

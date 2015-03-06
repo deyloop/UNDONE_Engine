@@ -6,6 +6,7 @@ Author	:	Anurup Dey
 #include "GraphicsEngine.h"
 #include "Texture.h"
 #include "_3DGraphic.h"
+#include "_2DGraphic.h"
 
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
@@ -34,6 +35,7 @@ namespace UNDONE_ENGINE {
 			m_pGraphicsBuffer->DeleteAll<Shader>( );
 			m_pGraphicsBuffer->DeleteAll<Texture>( );
 			m_pGraphicsBuffer->DeleteAll<Mesh>( );
+			m_pGraphicsBuffer->DeleteAll<_2DGraphic>( );
 			m_pGraphicsBuffer->DeleteAll<WorldTransform>( );
 			m_pGraphicsBuffer->DeleteAll<GraphicMaterial>( );
 			m_pGraphicsBuffer = nullptr;
@@ -172,12 +174,23 @@ namespace UNDONE_ENGINE {
 	
 		//tell the framework 
 		if (m_pFrameWork) m_pFrameWork->OnCreateContext( );
+		DPointer<Shader> vertexShader = m_pGraphicsBuffer->CreateNew<Shader>( );
+		DPointer<Shader> fragmentShader = m_pGraphicsBuffer->CreateNew<Shader>( );
+		DPointer<ShaderProgram> _2DShader = m_pGraphicsBuffer->CreateNew<ShaderProgram>( );
+		vertexShader->LoadShader("2Dshader.vert", GL_VERTEX_SHADER);
+		fragmentShader->LoadShader("2Dshader.frag", GL_FRAGMENT_SHADER);
+		_2DShader->CreateProgram( );
+		_2DShader->AddShaderToProgram(vertexShader.ptr( ));
+		_2DShader->AddShaderToProgram(fragmentShader.ptr( ));
+		_2DShader->LinkProgram( );
+		
+		_2DGraphic::SetShader(_2DShader);
 		ResetScreen( );
 		//GL State variables.
 		glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 		glClearDepth(1.0f);
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
+		//glEnable(GL_CULL_FACE);
 		glClearStencil(1.0f);
 		
 		glCullFace(GL_BACK);

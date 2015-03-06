@@ -18,6 +18,8 @@
     <ClInclude Include="Application.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="2Dshader.frag" />
+    <None Include="2Dshader.vert" />
     <None Include="shader.frag" />
     <None Include="shader.vert" />
   </ItemGroup>

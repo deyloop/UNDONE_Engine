@@ -148,10 +148,10 @@ namespace UNDONE_ENGINE {
 	Renders the mesh on to the screen.
 	----------------------------------------------------------------------------*/
 	void Mesh::Render( ) {
-		if (currently_bound_VAO!=uiVAO[0]) {
+		if (currently_bound_VAO!=uiVAO[0]) { }
 			glBindVertexArray(uiVAO[0]);
 			currently_bound_VAO = uiVAO[0];
-		}
+		//}
 		
 		glDrawArrays(GL_TRIANGLES, 0, m_num_verts);
 	}

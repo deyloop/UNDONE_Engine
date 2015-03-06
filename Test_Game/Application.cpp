@@ -9,6 +9,8 @@ Author	:	Anurup Dey
 #include "GameObject.h"
 #include <ctime>
 #include "UNDONE_DEBUG.h"
+#include <Texture.h>
+#include <_2DGraphic.h>
 #include <iostream>
 
 typedef DPointer<Shader> shaderptr;
@@ -76,7 +78,17 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	DPointer<GraphicMaterial> Greenmaterial = pObjectBuffer->CreateNew<GraphicMaterial>( );
 	DPointer<GraphicMaterial> Yellowmaterial= pObjectBuffer->CreateNew<GraphicMaterial>( );
 	DPointer<GraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
-	
+	DPointer<Texture> tex = pObjectBuffer->CreateNew<Texture>( );
+	DPointer<_2DGraphic> _2dgraphic = pObjectBuffer->CreateNew<_2DGraphic>( );
+	tex->LoadTexture2D("Test_Texture.jpg", true);
+	_2dgraphic->SetTexture(tex);
+	DPointer<GameObject> _2dobj = pObjectBuffer->CreateNew<GameObject>( );
+	DPointer<WorldTransform> _2dtrans = pObjectBuffer->CreateNew<WorldTransform>( );
+	_2dtrans->TranslateAbs(0.0f, 0.0f, 0.0f);
+	//_2dtrans->RotateAbs(0.0f, 0.0f, 0.0f);
+	//_2dtrans->ScaleAbs(0.0f, 1.0f, 0.0f);
+	_2dobj->AddComponent<WorldTransform>(_2dtrans);
+	_2dobj->AddComponent<_2DGraphic>(_2dgraphic);
 
 	shVertex->LoadShader("shader.vert", GL_VERTEX_SHADER);
 	shFragment->LoadShader("shader.frag", GL_FRAGMENT_SHADER);
