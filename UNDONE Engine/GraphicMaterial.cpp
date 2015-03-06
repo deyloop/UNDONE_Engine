@@ -80,10 +80,10 @@ namespace UNDONE_ENGINE {
 	void GraphicMaterial::ApplyMaterial( ) {
 		if (m_ppShaderProgram.m_pointer==nullptr) return;
 
-		if (s_ActiveShaderProgram!=m_ppShaderProgram->GetProgramID( )) { }
+		if (s_ActiveShaderProgram!=m_ppShaderProgram->GetProgramID( )) { 
 			m_ppShaderProgram->UseProgram( );
 			s_ActiveShaderProgram = m_ppShaderProgram->GetProgramID( );
-		//}
+		}
 		if (glGetError( )) {
 			SystemComponent::GetInstance( )->ShowMessage("", "");
 		}

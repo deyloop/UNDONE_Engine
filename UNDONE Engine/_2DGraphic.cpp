@@ -44,10 +44,10 @@ namespace UNDONE_ENGINE {
 	void _2DGraphic::Load( ) {
 		if (m_ppTexture.m_pointer && m_ppShaderProgram.m_pointer) {
 			float vertices[12] = {
-				-1.0f,	1.0f,	0.0f,
-				-1.0f,	-1.0f,	0.0f,
-				1.0f,	1.0f,	0.0f,
-				1.0f,	-1.0f,	0.0f
+				0.0f,	0.0f,	0.0f,	//top left
+				0.0f,	-1.0f,	0.0f,	//bottom left
+				1.0f,	0.0f,	0.0f,	//top right
+				1.0f,	-1.0f,	0.0f	//bottom right
 			};
 
 			float texture_coords[8] = {
@@ -94,12 +94,22 @@ namespace UNDONE_ENGINE {
 		int progID = m_ppShaderProgram->GetProgramID( );
 		m_ppShaderProgram->UseProgram( );
 
-		int HMVP = glGetUniformLocation(progID, "gMVP");
-		int HSampler = glGetUniformLocation(progID, "gSampler");
+		int HMVP			= glGetUniformLocation(progID, "gMVP");
+		int HTranslation	= glGetUniformLocation(progID, "gTranslation");
+		int HRotation		= glGetUniformLocation(progID, "gRotation");
+		int HScaling		= glGetUniformLocation(progID, "gScaling");
+		int HSampler		= glGetUniformLocation(progID, "gSampler");
 
 		glUniformMatrix4fv(HMVP, 1, GL_FALSE, &(m_ppWorldTransform->GetTransform( ))[0][0]);
-		glUniform1i(HSampler, 0);
+		glm::vec2 Translation(m_ppWorldTransform->GetXPosition( ), m_ppWorldTransform->GetYPosition( ));
+		glm::vec2 Scaling(m_ppWorldTransform->GetXScale( ), m_ppWorldTransform->GetYScale( ));
+		glm::vec2 Rotation(0.0f, 0.0f);
 
+		glUniform1i(HSampler, 0);
+		glUniform2fv(HTranslation, 1, &Translation[0]);
+		glUniform2fv(HScaling, 1, &Scaling[0]);
+		glUniform2fv(HRotation, 1, &Rotation[0]);
+		
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	}
 

@@ -84,9 +84,9 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	_2dgraphic->SetTexture(tex);
 	DPointer<GameObject> _2dobj = pObjectBuffer->CreateNew<GameObject>( );
 	DPointer<WorldTransform> _2dtrans = pObjectBuffer->CreateNew<WorldTransform>( );
-	_2dtrans->TranslateAbs(0.0f, 0.0f, 0.0f);
+	_2dtrans->TranslateAbs(-0.25f, 1.0f, 0.0f);
 	//_2dtrans->RotateAbs(0.0f, 0.0f, 0.0f);
-	//_2dtrans->ScaleAbs(0.0f, 1.0f, 0.0f);
+	_2dtrans->ScaleAbs(0.5f, 0.5f, 0.0f);
 	_2dobj->AddComponent<WorldTransform>(_2dtrans);
 	_2dobj->AddComponent<_2DGraphic>(_2dgraphic);
 
