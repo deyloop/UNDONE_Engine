@@ -44,7 +44,7 @@ namespace UNDONE_ENGINE {
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
 		if (m_pGraphicsBuffer) {
 			Render3D( );
-			//Render2D();
+			Render2D();
 		}
 	}
 
@@ -58,6 +58,8 @@ namespace UNDONE_ENGINE {
 		render_params.View_x_Projection = *(m_pGraphicsBuffer->GetControlCamera( ).GetProjectionMatrix( ));
 		render_params.View_x_Projection *= *(m_pGraphicsBuffer->GetControlCamera( ).GetViewMatrix( ));
 
+		Mesh::SetCurrentlyBoundVAO(0);
+		GraphicMaterial::SetCurrentlyActiveProgram(0);
 
 		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<_3DGraphic>( )) {
 			graphic.Render(render_params);

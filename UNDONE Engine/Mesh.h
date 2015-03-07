@@ -41,6 +41,8 @@ namespace UNDONE_ENGINE {
 		void Release( );
 
 		void OnParentBeingChilded( );
+
+		static void SetCurrentlyBoundVAO(UINT uiVAOID) { currently_bound_VAO = uiVAOID; };
 	
 	private:
 		void OnParentSet( );

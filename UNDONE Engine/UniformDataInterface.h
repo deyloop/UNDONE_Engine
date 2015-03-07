@@ -18,7 +18,7 @@ namespace UNDONE_ENGINE {
 	/*-------------------------------------------------------------------------
 	
 	-------------------------------------------------------------------------*/
-	struct UniformDataPair {
+	struct UniformData {
 		UniformType uniformType;
 		union data {
 			float	Data_f;
@@ -32,8 +32,10 @@ namespace UNDONE_ENGINE {
 	GraphicMaterial for them to exchange uniform variable data.
 	-------------------------------------------------------------------------*/
 	struct UniformDataInterface {
-		vector<UniformDataPair> pairs;
+		vector<UniformData> pairs;
 	};
+
+	
 };
 
 #endif

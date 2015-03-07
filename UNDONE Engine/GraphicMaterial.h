@@ -13,10 +13,12 @@ Author	:	Anurup Dey
 #include "Component.h"				//GraphicMaterial IS a component
 #include "UniformDataInterface.h"
 #include "ShaderProgram.h"
+#include "MaterialProperty.h"
 #include <glm.hpp>
 
 
 namespace UNDONE_ENGINE {
+
 
 	/*-------------------------------------------------------------------------
 	THe material of the object will decide how it will appear on screen. 
@@ -39,12 +41,14 @@ namespace UNDONE_ENGINE {
 		void Unload( );
 		
 		void SetDiffuseColor(glm::vec3& color) { m_diffcolor = color; }
+		static void SetCurrentlyActiveProgram(UINT uiID) { s_ActiveShaderProgram = uiID; };
 	private:
 		
 		void OnParentSet( );
 		
-		UniformDataInterface	m_DataInterface;
-		vector<int>				m_UniformDataLocations;
+		UniformDataInterface			m_DataInterface;
+		vector<int>						m_UniformDataLocations;
+		vector<MaterialProperty>		m_Properies;
 
 		DPointer<ShaderProgram>			m_ppShaderProgram;
 
@@ -52,6 +56,7 @@ namespace UNDONE_ENGINE {
 		glm::vec3						m_diffcolor;
 		int								m_instances;
 		static unsigned int		s_ActiveShaderProgram;
+
 	};
 };
 

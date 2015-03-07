@@ -55,9 +55,16 @@ void _3DGraphic::Render(RenderParams& refRenderParams){
 		glm::mat4 mMVP = refRenderParams.View_x_Projection*Transform;
 
 		UniformDataInterface &MatData = m_ppMaterial->GetUniformDataInterface( );
-		MatData.pairs[0].data.Data_fp = &mMVP[0][0];
-		MatData.pairs[1].data.Data_fp = &Transform[0][0];
-
+		for (auto& uniform_data_pair : MatData.pairs) {
+			switch (uniform_data_pair.uniformType) {
+				case UNIFORMTYPE_MODELVIEWPROJECTIONMATRIX:
+					uniform_data_pair.data.Data_fp = &mMVP[0][0];
+					break;
+				case UNIFORMTYPE_WORLDTRANSFORMATIONMATRIX:
+					uniform_data_pair.data.Data_fp = &Transform[0][0];
+					break;
+			}
+		}
 		m_ppMaterial->ApplyMaterial( );
 		
 		m_ppMesh->Render( );
