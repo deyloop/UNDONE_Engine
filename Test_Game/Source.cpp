@@ -15,7 +15,7 @@ Graphic Memory	-1024MB (Integrated).
 ******************************************************************************/
 //////////////////////////////////////////////////////////////////////////////
 
-#include <vld.h>
+//#include <vld.h>
 #include "SystemComponent.h"
 #include "FrameWork.h"
 #include "Application.h"

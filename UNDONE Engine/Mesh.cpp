@@ -6,6 +6,9 @@ Author	:	Anurup Dey
 ///////////////////////////////////////////////////////////////////////////////
 #include "Mesh.h" 
 #include "UNDONE_DEBUG.h"
+#include <assimp/Importer.hpp>
+#include <assimp\scene.h>
+#include <assimp\postprocess.h>
 #include <glm.hpp>
 
 
@@ -39,8 +42,13 @@ namespace UNDONE_ENGINE {
 	----------------------------------------------------------------------------*/
 	void Mesh::Load( ) {
 
-		
-		
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile(m_model_file.c_str(),
+										  aiProcess_CalcTangentSpace|
+										  aiProcess_Triangulate|
+										  aiProcess_JoinIdenticalVertices|
+										  aiProcess_SortByPType);
+		if (!scene) return;
 		std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
 		std::vector< glm::vec3 > vertices;
 		std::vector< glm::vec2 > uvs;
