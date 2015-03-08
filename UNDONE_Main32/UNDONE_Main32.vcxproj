@@ -27,7 +27,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -44,7 +44,7 @@
     <LibraryPath>E:\DACsoft\Projects\UNDONE Engine\Debug;E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>E:\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
+    <IncludePath>E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;E:\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
     <LibraryPath>E:\DACsoft\Projects\UNDONE Engine\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

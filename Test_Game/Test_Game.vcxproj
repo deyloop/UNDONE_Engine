@@ -59,8 +59,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>E:\DACsoft\Tools and IDE\Assimp\include;E:\DACsoft\Tools and IDE\Visual Leak Detector\include;E:\DACsoft\Tools and IDE\glm-0.9.5.4\glm\glm;E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;E:\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\DACsoft\Tools and IDE\Assimp\lib\x86;E:\DACsoft\Tools and IDE\Visual Leak Detector\lib;E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;E:\DACsoft\Projects\UNDONE Engine\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\DACsoft\Tools and IDE\Visual Leak Detector\include;E:\DACsoft\Tools and IDE\glm-0.9.5.4\glm\glm;E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;E:\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\DACsoft\Tools and IDE\Visual Leak Detector\lib;E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;E:\DACsoft\Projects\UNDONE Engine\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
