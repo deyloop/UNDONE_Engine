@@ -20,7 +20,7 @@ namespace UNDONE_ENGINE {
 		iType = 0;
 		bLoaded = false;
 	}
-#define _CRT_SECURE_NO_WARNINGS
+
 	/*-----------------------------------------------------------------------------
 	Laods the shader from the given file name. Makes it ready to be used and linked
 	by a program.

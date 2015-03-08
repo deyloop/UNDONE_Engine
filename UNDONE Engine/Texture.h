@@ -32,8 +32,11 @@ namespace UNDONE_ENGINE {
 
 		void Release( ) { };
 
-		bool LoadTexture2D(string filename, bool generateMipMaps = false);
+		bool SetTexture2D(string filename, bool generateMipMaps = false);
 		void BindTexture(int textureUnit = 0);
+
+		void Load( );
+		void Unload( );
 
 		void setSamplerParameter(unsigned parameter, unsigned value);
 		void SetFiltering(int magnification, int minification);
@@ -44,13 +47,18 @@ namespace UNDONE_ENGINE {
 		int getHeight( )	{ return m_hieght; }
 		int getBPP( )		{ return m_bits_per_pixl; }
 
-		void releaseTexture( );
+		
 
 	private:
+
+		void releaseTexture( );
+
 		int m_width, m_hieght, m_bits_per_pixl;
 		unsigned m_uiTexture;
 		unsigned m_uiSampler;
+		bool m_generate_mip_maps;
 		bool m_mipmaps_generated;
+		bool m_loaded;
 
 		int m_minification, m_magnification;
 

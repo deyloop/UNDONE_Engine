@@ -22,7 +22,6 @@ namespace UNDONE_ENGINE {
 	GraphicMaterial::GraphicMaterial( ) {
 		m_num_parents = 0;
 		m_ppShaderProgram.m_pointer = nullptr;
-		m_diffcolor = glm::vec3(1.0f, 0.0f, 0.0f);
 		m_loaded = false;
 	}
 
@@ -228,9 +227,15 @@ namespace UNDONE_ENGINE {
 					//TODO: add code to check type compatibility here,
 					//		so that type missmatches do not occur.
 					property.data.Data_f = value;
+					break;
 				}
 			}
+			return;
 		}
+	}
+
+	void GraphicMaterial::SetDiffuseColor(glm::vec3& color) { 
+		SetProperty("gDiffuse", color);
 	}
 
 	void GraphicMaterial::SetProperty(string property_name, glm::vec3& value) {
@@ -255,9 +260,6 @@ namespace UNDONE_ENGINE {
 		if (s_ActiveShaderProgram!=m_ppShaderProgram->GetProgramID( )) { 
 			m_ppShaderProgram->UseProgram( );
 			s_ActiveShaderProgram = m_ppShaderProgram->GetProgramID( );
-		}
-		if (glGetError( )) {
-			SystemComponent::GetInstance( )->ShowMessage("", "");
 		}
 
 		//update uniforms.

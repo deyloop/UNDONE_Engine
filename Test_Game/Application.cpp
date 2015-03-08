@@ -80,7 +80,7 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	DPointer<GraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
 	DPointer<Texture> tex = pObjectBuffer->CreateNew<Texture>( );
 	DPointer<_2DGraphic> _2dgraphic = pObjectBuffer->CreateNew<_2DGraphic>( );
-	tex->LoadTexture2D("Test_Texture.jpg", true);
+	tex->SetTexture2D("Test_Texture.jpg", true);
 	_2dgraphic->SetTexture(tex);
 	DPointer<GameObject> _2dobj = pObjectBuffer->CreateNew<GameObject>( );
 	DPointer<WorldTransform> _2dtrans = pObjectBuffer->CreateNew<WorldTransform>( );

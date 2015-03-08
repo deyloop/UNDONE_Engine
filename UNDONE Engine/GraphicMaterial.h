@@ -36,11 +36,18 @@ namespace UNDONE_ENGINE {
 
 		UniformDataInterface& GetUniformDataInterface( ) { return m_DataInterface; };
 		
+
 		void Load( );
 		void ApplyMaterial( );
 		void Unload( );
 		
-		void SetDiffuseColor(glm::vec3& color) { m_diffcolor = color; }
+		void SetDiffuseColor(glm::vec3& color);
+		void SetProperty(string property_name, float& value);
+		void SetProperty(string property_name, int& value) { };
+		void SetProperty(string property_name, glm::vec3& value);
+		void SetProperty(string property_name, glm::vec4& value) { };
+		//TODO: Add all types of property setters.
+
 		static void SetCurrentlyActiveProgram(UINT uiID) { s_ActiveShaderProgram = uiID; };
 	private:
 		
@@ -53,9 +60,10 @@ namespace UNDONE_ENGINE {
 		DPointer<ShaderProgram>			m_ppShaderProgram;
 
 		int								m_num_parents;
-		glm::vec3						m_diffcolor;
 		int								m_instances;
-		static unsigned int		s_ActiveShaderProgram;
+		bool							m_loaded;
+		
+		static unsigned int				s_ActiveShaderProgram;
 
 	};
 };

@@ -116,7 +116,7 @@ namespace UNDONE_ENGINE {
 		m_filename = filename;
 		m_generate_mip_maps = generateMipMaps;
 		
-		
+		Load( );
 		return true;
 	}
 
