@@ -23,6 +23,84 @@ namespace UNDONE_ENGINE {
 		m_minification		= 0;
 		m_magnification		= 0;
 		m_filename			= "no_tex.png";
+		m_loaded			= false;
+		m_generate_mip_maps = false;
+	}
+
+	/*----------------------------------------------------------------------------
+	Called by external agents when the texture requirements are needed to be loaded 
+	into Graphics memory. Call before binding the texture.
+	---------------------------------------------------------------------------*/
+	void Texture::Load( ) {
+		if (!m_loaded) {	//we want to load only once.
+			FREE_IMAGE_FORMAT image_format = FIF_UNKNOWN;
+			FIBITMAP* bit_map(0);
+
+			image_format = FreeImage_GetFileType(m_filename.c_str( ), 0);
+			if (image_format==FIF_UNKNOWN) {
+				//try to get the format from file extention.
+				image_format = FreeImage_GetFIFFromFilename(m_filename.c_str( ));
+
+				if (image_format==FIF_UNKNOWN) {
+					//still unkown, can't load file.
+					coutput("Texture loading FAILED: file format not supported: "
+							+m_filename.c_str( )+"\n");
+					return;
+				}
+			}
+
+			if (FreeImage_FIFSupportsReading(image_format)) {
+				bit_map = FreeImage_Load(image_format, m_filename.c_str( ));
+				if (!bit_map) {
+					coutput("Texture loading FAILED: file format not supported: "
+							+m_filename.c_str( )+"\n");
+					return;
+				}
+			}
+
+			BYTE* Dataptr = FreeImage_GetBits(bit_map);
+
+			//set the properties.
+			m_width = FreeImage_GetWidth(bit_map);
+			m_hieght = FreeImage_GetHeight(bit_map);
+			m_bits_per_pixl = FreeImage_GetBPP(bit_map);
+
+			//Genarate OpenGL texture ID for this texture.
+			glGenTextures(1, (GLuint*)&m_uiTexture);
+			glBindTexture(GL_TEXTURE_2D, m_uiTexture);
+
+			int format = m_bits_per_pixl==24 ? GL_BGR : m_bits_per_pixl==8 ? GL_LUMINANCE : 0;
+			int internalFormat = m_bits_per_pixl==24?GL_RGB:GL_DEPTH_COMPONENT;
+
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_RGB,
+				m_width,
+				m_hieght,
+				0,
+				format,
+				GL_UNSIGNED_BYTE,
+				Dataptr
+				);
+			if (m_generate_mip_maps) glGenerateMipmap(GL_TEXTURE_2D);
+
+			FreeImage_Unload(bit_map);
+
+			glGenSamplers(1, &m_uiSampler);
+
+			m_mipmaps_generated = m_generate_mip_maps;
+
+			coutput("Image Loaded from file: "+m_filename.c_str( )+"\n");
+
+			m_loaded = true;
+		}
+	}
+
+	void Texture::Unload( ) {
+		if (m_loaded) {
+			releaseTexture();
+		}
 	}
 
 	/*-------------------------------------------------------------------------
@@ -33,63 +111,12 @@ namespace UNDONE_ENGINE {
 	REturns:
 	true on successful loading, false on falure.
 	-------------------------------------------------------------------------*/
-	bool Texture::LoadTexture2D(string filename, bool generateMipMaps) {
-		FREE_IMAGE_FORMAT image_format = FIF_UNKNOWN;
-		FIBITMAP* bit_map(0);
-
-		image_format = FreeImage_GetFileType(filename.c_str( ), 0);
-		if (image_format==FIF_UNKNOWN) {
-			//try to get the format from file extention.
-			image_format = FreeImage_GetFIFFromFilename(filename.c_str( ));
-
-			if (image_format==FIF_UNKNOWN) {
-				//still unkown, can't load file.
-				coutput("Texture loading FAILED: file format not supported: "
-						+filename.c_str( )+"\n");
-				return false;
-			}
-		}
-
-		if (FreeImage_FIFSupportsReading(image_format)) {
-			bit_map = FreeImage_Load(image_format, filename.c_str( ));
-			if (!bit_map) return false;
-		}
-
-		BYTE* Dataptr = FreeImage_GetBits(bit_map);
-
-		//set the properties.
-		m_width = FreeImage_GetWidth(bit_map);
-		m_hieght = FreeImage_GetHeight(bit_map);
-		m_bits_per_pixl = FreeImage_GetBPP(bit_map);
-		m_filename = filename;
+	bool Texture::SetTexture2D(string filename, bool generateMipMaps) {
 		
-		//Genarate OpenGL texture ID for this texture.
-		glGenTextures(1, (GLuint*)&m_uiTexture);
-		glBindTexture(GL_TEXTURE_2D, m_uiTexture);
-
-		int format = m_bits_per_pixl==24 ? GL_BGR : m_bits_per_pixl==8 ? GL_LUMINANCE : 0;
-		int internalFormat = m_bits_per_pixl==24?GL_RGB:GL_DEPTH_COMPONENT;
-
-		glTexImage2D(
-						GL_TEXTURE_2D,
-						0,
-						GL_RGB,
-						m_width,
-						m_hieght,
-						0,
-						format,
-						GL_UNSIGNED_BYTE,
-						Dataptr
-					);
-		if (generateMipMaps) glGenerateMipmap(GL_TEXTURE_2D);
-
-		FreeImage_Unload(bit_map);
-
-		glGenSamplers(1, &m_uiSampler);
-
-		m_mipmaps_generated = generateMipMaps;
-
-		coutput("Image Loaded from file: "+filename.c_str( )+"\n");
+		m_filename = filename;
+		m_generate_mip_maps = generateMipMaps;
+		
+		
 		return true;
 	}
 
