@@ -23,6 +23,7 @@ namespace UNDONE_ENGINE {
 		m_num_parents = 0;
 		m_ppShaderProgram.m_pointer = nullptr;
 		m_diffcolor = glm::vec3(1.0f, 0.0f, 0.0f);
+		m_loaded = false;
 	}
 
 	void GraphicMaterial::OnParentSet() {
@@ -48,19 +49,13 @@ namespace UNDONE_ENGINE {
 	void GraphicMaterial::SetShaderProgramToUse(DPointer<ShaderProgram> ppProgram) {
 		m_ppShaderProgram = ppProgram;
 		if (m_ppShaderProgram.m_pointer!=nullptr) {
-			coutput(name+" aquired Shader Program\n");
-		}
-	}
-
-	void GraphicMaterial::Load( ) {
-		if (m_ppShaderProgram.m_pointer) {
 			//fill out the uniform details.
 			GLuint progID = m_ppShaderProgram->GetProgramID( );
 
 			//get the number of uniforms
 			GLint numActiveUniforms = 0;
-			glGetProgramiv(progID,	GL_ACTIVE_UNIFORMS,	&numActiveUniforms);
-			
+			glGetProgramiv(progID, GL_ACTIVE_UNIFORMS, &numActiveUniforms);
+
 			GLint maxnamelength = 20;
 
 			for (int uniform = 0; uniform < numActiveUniforms; ++uniform) {
@@ -68,21 +63,21 @@ namespace UNDONE_ENGINE {
 
 				GLsizei actualLength = 0;
 				char name[20];
-				
+
 				glGetActiveUniform(progID,
 								   uniform,
 								   maxnamelength,
 								   &actualLength,
 								   &newProperty.datalength,
-								   &newProperty.gl_type, 
+								   &newProperty.gl_type,
 								   name);
 				std::string sname((char*)&name, actualLength);
 				newProperty.name = sname;
 
 				newProperty.uniform_data_location = glGetUniformLocation(progID, name);
-				
+
 				if (newProperty.name=="gMVP") {
-					
+
 					newProperty.in_interface = true;
 					UniformData pair;
 					pair.uniformType = UNIFORMTYPE_MODELVIEWPROJECTIONMATRIX;
@@ -90,16 +85,16 @@ namespace UNDONE_ENGINE {
 					m_DataInterface.pairs.push_back(pair);
 
 				} else if (newProperty.name=="gWorld") {
-					
+
 					newProperty.in_interface = true;
 					UniformData pair;
 					newProperty.type = UNIFORMTYPE_WORLDTRANSFORMATIONMATRIX;
 					pair.uniformType = UNIFORMTYPE_WORLDTRANSFORMATIONMATRIX;
 					m_DataInterface.pairs.push_back(pair);
-				
+
 				} else newProperty.type = UNIFORMTYPE_GLTYPE;
 
-				
+
 
 				if (newProperty.in_interface==false) {
 					//we need to allocate memory and assign data to this uniform.
@@ -177,10 +172,20 @@ namespace UNDONE_ENGINE {
 				m_Properies.push_back(newProperty);
 
 			}//for loop over next uniforms discovered.
+			coutput(name+" aquired Shader Program\n");
+			m_loaded = true;
 		}
 	}
 
+	void GraphicMaterial::Load( ) {
+		//TODO: Add texture loading code here.
+		//Just a call to texture::Load(), probably.
+	}
+
 	void GraphicMaterial::Unload( ) {
+		
+		if (!m_loaded) return;
+
 		for (auto& property:m_Properies) {
 			if (!property.in_interface) {
 				switch (property.gl_type) {
@@ -209,6 +214,37 @@ namespace UNDONE_ENGINE {
 					case GL_BOOL_VEC4:
 						break;
 				} //switch on type.
+			}
+		}
+	}
+
+	void GraphicMaterial::SetProperty(string property_name, float& value) {
+		if (m_loaded) {
+			//traverse through the list of properties to get to the 
+			//requested propery.
+			for (auto& property:m_Properies) {
+				if (property.name==property_name) {
+					//we found the property,
+					//TODO: add code to check type compatibility here,
+					//		so that type missmatches do not occur.
+					property.data.Data_f = value;
+				}
+			}
+		}
+	}
+
+	void GraphicMaterial::SetProperty(string property_name, glm::vec3& value) {
+		if (m_loaded) {
+			//traverse through the list of properties to get to the 
+			//requested propery.
+			for (auto& property:m_Properies) {
+				if (property.name==property_name) {
+					//we found the property,
+					//TODO: add code to check type compatibility here,
+					//		so that type missmatches do not occur.
+					glm::vec3* vec = new glm::vec3(value);
+					property.data.Data_fp = &vec[0][0];
+				}
 			}
 		}
 	}
