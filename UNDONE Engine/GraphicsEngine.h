@@ -76,6 +76,7 @@ namespace UNDONE_ENGINE {
 		IFrameWork*			m_pFrameWork;
 		SystemComponent*	m_pSystem;
 		Renderer*			m_pRenderer;
+		glm::mat4			m_2DProjMat;
 	};
 }
 #endif

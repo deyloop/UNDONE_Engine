@@ -22,10 +22,17 @@ namespace UNDONE_ENGINE {
 		glm::mat4 ProjectionMat;
 	};
 
+	struct UNDONE_API rect {
+		int x, y, width, hieght;
+	};
+
 	class UNDONE_API _2DGraphic : public Component {
 	public:
 		_2DGraphic( );
 		~_2DGraphic( );
+
+		static void InitVAO( );
+		static void DeleteVAO( );
 
 		void Load( );
 		void Render(_2DRenderParams& render_params );
@@ -33,15 +40,33 @@ namespace UNDONE_ENGINE {
 
 		void OnParentBeingChilded( ) { };
 		void SetTexture(DPointer<Texture> ppTex );
+		void SetImageRect(rect& rectref);
 
 		static void SetShader(DPointer<ShaderProgram> ppShaderProgram);
+		static void SetScreenDimentions(int h, int w) {
+			screenhieght = h;
+			screenwidth = w;
+		}
+
 	private:
 		void OnParentSet( );
 		DPointer<Texture>				m_ppTexture;
 		DPointer<WorldTransform>		m_ppWorldTransform;
+
+		static int HMVP ;
+		static int HSampler;
+		int HRECT;
+
 		static DPointer<ShaderProgram>	m_ppShaderProgram;
-		static unsigned					m_uiVBO[2];
+		static unsigned					m_uiVBO[3];
 		static unsigned					m_uiVAO[1];
+		
+		static int screenwidth;
+		static int screenhieght;
+
+		glm::mat4						m_ScaleCorrection;
+		glm::mat4						m_TranslateCorrection;
+		rect							m_rect;
 	};
 }
 

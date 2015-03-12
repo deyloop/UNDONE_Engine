@@ -169,6 +169,8 @@ namespace UNDONE_ENGINE {
 
 		void FrameInput( );
 
+		unsigned GetSystemDirectory_(char* buffer, int size ) { return GetWindowsDirectory(buffer, size); }
+
 		static LRESULT CALLBACK staticWndProc(HWND hWnd, UINT msg,
 											  WPARAM wParam,
 											  LPARAM lParam);

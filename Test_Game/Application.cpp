@@ -80,13 +80,21 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	DPointer<GraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
 	DPointer<Texture> tex = pObjectBuffer->CreateNew<Texture>( );
 	DPointer<_2DGraphic> _2dgraphic = pObjectBuffer->CreateNew<_2DGraphic>( );
-	tex->SetTexture2D("Test_Texture.jpg", true);
+	tex->SetTexture2D("HOUSE.png", true);
 	_2dgraphic->SetTexture(tex);
 	DPointer<GameObject> _2dobj = pObjectBuffer->CreateNew<GameObject>( );
 	DPointer<WorldTransform> _2dtrans = pObjectBuffer->CreateNew<WorldTransform>( );
-	_2dtrans->TranslateAbs(0.25f, 0.5f, 0.0f);
-	_2dtrans->RotateAbs(45.0f, 0.0f, 0.0f);
-	_2dtrans->ScaleAbs(0.5f, 1.0f, 0.0f);
+	//_2dtrans->TranslateAbs(1.0f, 1.f, 0.0f);
+	//_2dtrans->RotateAbs(0.0f, 0.0f, 45.0f);
+	
+	rect m;
+	m.x = 0.0f;
+	m.y = 0.0f;
+	m.hieght = 1.0f;
+	m.width = 1.0f;
+
+	_2dgraphic->SetImageRect(m);
+
 	_2dobj->AddComponent<WorldTransform>(_2dtrans);
 	_2dobj->AddComponent<_2DGraphic>(_2dgraphic);
 
@@ -170,13 +178,14 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	DPointer<WorldTransform> ct = pObjectBuffer->CreateNew<WorldTransform>( );
 	cu->AddComponent<WorldTransform>(ct);
 	cu->AddComponent<Mesh>(monkey_mesh);
-	cu->AddComponent<GraphicMaterial>(Greenmaterial);
+	cu->AddComponent<GraphicMaterial>(material[rand() % 5]);
 	DPointer<_3DGraphic> cg = pObjectBuffer->CreateNew<_3DGraphic>( );
 	cu->AddComponent<_3DGraphic>(cg);
+	//cu->AddComponent<GameObject>(_2dobj);
 	//BlockGroup->AddComponent<GameObject>(cu);
 
 
-	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(0.01f, 20.0f, 5.0f));
+	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(-2.01f, 2.0f, -2.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
 
@@ -233,8 +242,8 @@ Updates Application specific things like AI, ui response, etc.
 -----------------------------------------------------------------------------*/
 void Application::Update(){
 
-	BlockGroup->worldTransform->RotateRel(0.0f, 0.1f, 0.0f);
-	cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
+	BlockGroup->worldTransform->RotateRel(0.0f, 0.3f, 0.0f);
+	//cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

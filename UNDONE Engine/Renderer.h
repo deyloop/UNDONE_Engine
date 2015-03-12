@@ -23,13 +23,14 @@ namespace UNDONE_ENGINE {
 
 		void Release( );
 
-		bool Initialize(DObjectBuffer* pGraphicsBuffer);
+		bool Initialize(DObjectBuffer* pGraphicsBuffer,glm::mat4& _2DProjmatref);
 		void Render( );
 	private:
 		void Render3D( );
 		void Render2D( );
 
 		DObjectBuffer* m_pGraphicsBuffer;
+		glm::mat4*	   m_p2DProjMat;
 		//TOADD:
 		//the sprite_Manager object pointer
 		//the control_camera object

@@ -124,6 +124,8 @@ namespace UNDONE_ENGINE {
 		virtual void HandleWindowEvents( ) = 0;
 		virtual void FrameInput( ) = 0;
 
+		virtual unsigned GetSystemDirectory_(char* buffer, int size ) = 0;
+
 	private:
 		static SystemComponent* pInstance;
 	};

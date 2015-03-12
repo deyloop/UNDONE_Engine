@@ -17,6 +17,7 @@ namespace UNDONE_ENGINE {
 		m_pFrameWork = nullptr;
 		m_pSystem = nullptr;
 		m_pRenderer = nullptr;
+		m_2DProjMat = glm::mat4(1.0f);
 
 		m_windowed = true;
 	}
@@ -99,7 +100,7 @@ namespace UNDONE_ENGINE {
 
 		OnCreateContext( );
 
-		m_pRenderer->Initialize(m_pGraphicsBuffer);
+		m_pRenderer->Initialize(m_pGraphicsBuffer,m_2DProjMat);
 
 		return true;
 	}
@@ -132,7 +133,10 @@ namespace UNDONE_ENGINE {
 		int width = m_pFrameWork->GetScreenWidth( );
 		int hieght = m_pFrameWork->GetScreenHieght( );
 
+		m_2DProjMat = glm::ortho(0.0f, (float)width, (float)hieght, 0.0f);
 		glViewport(0, 0, width, hieght);
+
+		_2DGraphic::SetScreenDimentions(hieght, width);
 
 		m_pGraphicsBuffer->GetControlCamera( ).SetAspectRatio((float)width/(float)hieght);
 
@@ -174,6 +178,8 @@ namespace UNDONE_ENGINE {
 	
 		//tell the framework 
 		if (m_pFrameWork) m_pFrameWork->OnCreateContext( );
+		//Set up 2D.
+		
 		DPointer<Shader> vertexShader = m_pGraphicsBuffer->CreateNew<Shader>( );
 		DPointer<Shader> fragmentShader = m_pGraphicsBuffer->CreateNew<Shader>( );
 		DPointer<ShaderProgram> _2DShader = m_pGraphicsBuffer->CreateNew<ShaderProgram>( );
@@ -185,7 +191,8 @@ namespace UNDONE_ENGINE {
 		_2DShader->LinkProgram( );
 		
 		_2DGraphic::SetShader(_2DShader);
-		ResetScreen( );
+		_2DGraphic::InitVAO( );
+
 		//GL State variables.
 		glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 		glClearDepth(1.0f);
@@ -194,6 +201,8 @@ namespace UNDONE_ENGINE {
 		glClearStencil(1.0f);
 		
 		glCullFace(GL_BACK);
+
+		ResetScreen( );
 
 	}
 
@@ -207,6 +216,9 @@ namespace UNDONE_ENGINE {
 				graphic.OnDestroy( );
 			}
 		}
+		
+		_2DGraphic::DeleteVAO( );
+	
 	}
 
 	/*-----------------------------------------------------------------------------

@@ -6,6 +6,7 @@ Author	:	Anurup Dey
 #include "Renderer.h"
 #include "_3DGraphic.h"
 #include "_2DGraphic.h"
+#include "Font.h"
 #include <gtx/transform.hpp>
 
 namespace UNDONE_ENGINE {
@@ -14,6 +15,7 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	Renderer::Renderer( ) {
 		m_pGraphicsBuffer = nullptr;
+		Font font;
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -29,9 +31,10 @@ namespace UNDONE_ENGINE {
 	[IN] pGraphicsBuffer	:	pointer to an objectbuffer containing the objects to
 	be rendered.
 	-----------------------------------------------------------------------------*/
-	bool Renderer::Initialize(DObjectBuffer* pGraphicsBuffer) {
+	bool Renderer::Initialize(DObjectBuffer* pGraphicsBuffer,glm::mat4& _2DProjectionref) {
 		if (pGraphicsBuffer) {
 			m_pGraphicsBuffer = pGraphicsBuffer;
+			m_p2DProjMat = &_2DProjectionref;
 		} else return false;
 
 		return true;
@@ -72,10 +75,22 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void Renderer::Render2D( ) {
 		_2DRenderParams params;
-		params.ProjectionMat = glm::ortho(0.0f, 500.0f, 0.0f, 500.0f);
+		glm::mat4 view = glm::lookAt(
+									 glm::vec3(0.0f),
+									 glm::vec3(0.0f, 0.0f, -1.0f), 
+									 glm::vec3(0.0f, 1.0f, 0.0f)
+									 );
+		params.ProjectionMat = (*m_p2DProjMat) * view;
+		
+		glDisable(GL_DEPTH_TEST);
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<_2DGraphic>( )) {
 			graphic.Render(params);
 		}
+
+		glEnable(GL_DEPTH_TEST);
 	}
 }

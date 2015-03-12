@@ -27,6 +27,32 @@ namespace UNDONE_ENGINE {
 		m_generate_mip_maps = false;
 	}
 
+	void Texture::CreateFromData(
+		GLbyte * data, 
+		int width, int height, 
+		int BPP, GLenum format, 
+		bool generateMipMaps) 
+	{
+		// Generate an OpenGL texture ID for this texture
+		glGenTextures(1, &m_uiTexture);
+		glBindTexture(GL_TEXTURE_2D, m_uiTexture);
+		if (format==GL_RGBA||format==GL_BGRA)
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		// We must handle this because of internal format parameter
+		else if (format==GL_RGB||format==GL_BGR)
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		else
+			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		if (generateMipMaps)glGenerateMipmap(GL_TEXTURE_2D);
+		glGenSamplers(1, &m_uiSampler);
+
+		m_filename = "";
+		m_mipmaps_generated = generateMipMaps;
+		m_width			= width;
+		m_hieght		= height;
+		m_bits_per_pixl = BPP;
+	}
+
 	/*----------------------------------------------------------------------------
 	Called by external agents when the texture requirements are needed to be loaded 
 	into Graphics memory. Call before binding the texture.
@@ -69,13 +95,13 @@ namespace UNDONE_ENGINE {
 			glGenTextures(1, (GLuint*)&m_uiTexture);
 			glBindTexture(GL_TEXTURE_2D, m_uiTexture);
 
-			int format = m_bits_per_pixl==24 ? GL_BGR : m_bits_per_pixl==8 ? GL_LUMINANCE : 0;
-			int internalFormat = m_bits_per_pixl==24?GL_RGB:GL_DEPTH_COMPONENT;
+			int format = m_bits_per_pixl = 32 ? GL_BGRA :  m_bits_per_pixl==24 ? GL_BGR : m_bits_per_pixl==8 ? GL_LUMINANCE : 0;
+			int internalFormat = m_bits_per_pixl = 32 ? GL_RGBA :m_bits_per_pixl==24?GL_RGB:GL_DEPTH_COMPONENT;
 
 			glTexImage2D(
 				GL_TEXTURE_2D,
 				0,
-				GL_RGB,
+				internalFormat,
 				m_width,
 				m_hieght,
 				0,
