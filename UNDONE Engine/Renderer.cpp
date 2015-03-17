@@ -6,7 +6,6 @@ Author	:	Anurup Dey
 #include "Renderer.h"
 #include "_3DGraphic.h"
 #include "_2DGraphic.h"
-#include "Font.h"
 #include <gtx/transform.hpp>
 
 namespace UNDONE_ENGINE {
@@ -15,7 +14,6 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	Renderer::Renderer( ) {
 		m_pGraphicsBuffer = nullptr;
-		Font font;
 	}
 
 	/*-----------------------------------------------------------------------------

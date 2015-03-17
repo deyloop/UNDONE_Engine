@@ -7,6 +7,9 @@ Author	:	Anurup Dey
 #include "Texture.h"
 #include "_3DGraphic.h"
 #include "_2DGraphic.h"
+#include "Font.h"
+
+Font font;
 
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
@@ -193,6 +196,11 @@ namespace UNDONE_ENGINE {
 		_2DGraphic::SetShader(_2DShader);
 		_2DGraphic::InitVAO( );
 
+		
+		font.SetShaderProgram(_2DShader);
+		font.LoadSystemFont("arial.ttf", 32);
+
+		
 		//GL State variables.
 		glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 		glClearDepth(1.0f);
@@ -227,8 +235,12 @@ namespace UNDONE_ENGINE {
 	void GraphicsEngine::RenderScene( ) {
 		if (m_pRenderer) {
 			//Do it!
+			
 			m_pRenderer->Render( );
+			//font.print("TEXT WORKS!", 30, 30, 32);
 		}
+
+		
 		m_pSystem->Swipe_Buffers(m_DeviceContext);
 	}
 

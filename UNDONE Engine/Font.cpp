@@ -12,6 +12,7 @@ Author	:	Anurup Dey
 #include <glew.h>
 #include <gtc/matrix_transform.hpp>
 #include <cmath>
+#include <iostream>
 
 namespace UNDONE_ENGINE { 
 	
@@ -93,6 +94,10 @@ namespace UNDONE_ENGINE {
 
 	bool Font::LoadFont(string File, int PixelSize) {
 		bool bError = FT_Init_FreeType(&m_ftLib);
+		if (glGetError( )) {
+			//
+			cout<<"boo1\n";
+		}
 
 		bError = FT_New_Face(m_ftLib, File.c_str( ), 0, &m_ftFace);
 		if (bError)return false;
@@ -116,6 +121,11 @@ namespace UNDONE_ENGINE {
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, 0);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, (void*)(sizeof(glm::vec2)));
+		cout<<"FONT LOADED!\n\n";
+		if (glGetError( )) {
+			//
+			cout<<"boo1\n";
+		}
 		return true;
 	}
 
@@ -169,7 +179,7 @@ namespace UNDONE_ENGINE {
 					tCharTextures[iIndex].BindTexture( );
 					glm::mat4 mModelView = glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX), float(iCurY), 0.0f));
 					mModelView = glm::scale(mModelView, glm::vec3(fScale));
-					glUniformMatrix4fv(glGetUniformLocation(progID,"matrices.modelViewMatrix"), 1,GL_FALSE, &mModelView[0][0]);
+					glUniformMatrix4fv(glGetUniformLocation(progID,"gMVP"), 1,GL_FALSE, &mModelView[0][0]);
 					// Draw character
 					glDrawArrays(GL_TRIANGLE_STRIP, iIndex*4, 4);
 				}
@@ -177,6 +187,7 @@ namespace UNDONE_ENGINE {
 				iCurX += (iAdvX[iIndex]-iBearingX[iIndex])*iPXSize/iLoadedPixelSize;
 			}
 			glDisable(GL_BLEND);
+			std::cout<<"PRINTING TEXT!\n";
 		}
 	}
 

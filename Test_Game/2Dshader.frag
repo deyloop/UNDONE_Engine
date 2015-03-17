@@ -8,5 +8,5 @@ out vec4 outputColor;
 
 void main() 
 { 
-   outputColor = texture(gSampler,outTexCoord); 
+	outputColor = texture(gSampler,outTexCoord); 
 }

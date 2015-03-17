@@ -88,16 +88,16 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	//_2dtrans->RotateAbs(0.0f, 0.0f, 45.0f);
 	
 	rect m;
-	m.x = 0.0f;
-	m.y = 0.0f;
-	m.hieght = 1.0f;
+	m.x = 1.0f;
+	m.y = 1.0f;
+	m.hieght = 0.5f;
 	m.width = 1.0f;
 
 	_2dgraphic->SetImageRect(m);
 
 	_2dobj->AddComponent<WorldTransform>(_2dtrans);
 	_2dobj->AddComponent<_2DGraphic>(_2dgraphic);
-
+	
 	shVertex->LoadShader("shader.vert", GL_VERTEX_SHADER);
 	shFragment->LoadShader("shader.frag", GL_FRAGMENT_SHADER);
 

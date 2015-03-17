@@ -11,10 +11,8 @@ out vec2 outTexCoord;
 
 void main() 
 {	
-	gl_Position = gMVP*vec4(inPosition/*.x+gRect[inVertIndices],
-							inPosition.y+gRect[inVertIndices+1],
-							inPosition.z*/,
-							1.0f);
+	gl_Position = gMVP * vec4(inPosition,1.0f);
+	
 
 	outTexCoord = inTexCoord;
 	//outTexCoord = vec2(gRect[inVertIndices],

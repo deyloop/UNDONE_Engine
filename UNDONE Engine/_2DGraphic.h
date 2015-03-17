@@ -10,7 +10,7 @@ Author	:	Anurup Dey
 #define _2DGRAPHIC_H_
 
 #include "Component.h"
-#include "glm.hpp"
+#include <glm.hpp>
 
 namespace UNDONE_ENGINE {
 	
@@ -23,7 +23,7 @@ namespace UNDONE_ENGINE {
 	};
 
 	struct UNDONE_API rect {
-		int x, y, width, hieght;
+		float x, y, width, hieght;
 	};
 
 	class UNDONE_API _2DGraphic : public Component {

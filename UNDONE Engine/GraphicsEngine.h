@@ -8,13 +8,14 @@ Author	:	Anurup Dey
 #ifndef _GRAPHICSENGINE_H_
 #define _GRAPHICSENGINE_H_
 
+
 #include <glew.h>
 #include "SystemComponent.h"
 #include "Renderer.h"
 #include "DObjectBuffer.h"
 
-namespace UNDONE_ENGINE {
 
+namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
 	Summary:	This Interface has to be implimented by the using framework to be
 	able to use the GraphicEngine Class. This Interface contains some
@@ -67,6 +68,8 @@ namespace UNDONE_ENGINE {
 		OpenGLContext		m_GLContext;
 		DeviceContext		m_DeviceContext;
 		bool				m_windowed;
+
+		
 
 		PixelFormatParameters		m_PixelFormatParams;
 		ContextCreationPrameters	m_ContextParams;
