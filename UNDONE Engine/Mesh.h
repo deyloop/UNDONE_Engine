@@ -27,25 +27,25 @@ namespace UNDONE_ENGINE {
 	A Mesh data structure holds data about geometry. Must be used in conjuction
 	with a _3DGraphic Compnent to work properly.
 	----------------------------------------------------------------------------*/
-	struct UNDONE_API Mesh : public Component {
-		Mesh( );
-		~Mesh( ) { Release( ); }
+	struct Mesh : public Component {
+		UNDONE_API Mesh( );
+		UNDONE_API ~Mesh( ) { Release( ); }
 
-		void SetModelFile(string filename) { m_model_file = filename; };
+		UNDONE_API void SetModelFile(string filename) { m_model_file = filename; };
 		
-		void Load( );
+		UNDONE_API void Load( );
 		
 		void Render( );
 	
-		void Unload( );
+		UNDONE_API void Unload( );
 		void Release( );
 
-		void OnParentBeingChilded( );
+		UNDONE_API void OnParentBeingChilded( );
 
 		static void SetCurrentlyBoundVAO(UINT uiVAOID) { currently_bound_VAO = uiVAOID; };
 	
 	private:
-		void OnParentSet( );
+		UNDONE_API void OnParentSet( );
 		
 		UINT uiVBO[2];
 		UINT uiVAO[1];

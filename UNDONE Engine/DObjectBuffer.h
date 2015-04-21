@@ -27,7 +27,7 @@ THe Object buffer is the place where all the components of the game are
 physically stored. THis Object buffer has the capabiltity to store any 
 type of component you throw at it.
 -------------------------------------------------------------------------*/
-	class UNDONE_API DObjectBuffer {
+	class DObjectBuffer {
 		vector<DPointer<Component>> m_Components;
 		vector<void*>				m_storage_vectors;
 		vector<void*>				m_storage_lists;
@@ -40,11 +40,11 @@ type of component you throw at it.
 		unsigned int				m_num_owners;
 
 	public:
-		DObjectBuffer( );
-		~DObjectBuffer( );
+		UNDONE_API DObjectBuffer( );
+		UNDONE_API ~DObjectBuffer( );
 
-		void SetInitAllocSize(unsigned int size) { m_init_vec_size = size; }
-		OwnerShip CreateOwnerShip( ) { ++m_num_owners; return m_num_owners;}
+		UNDONE_API void SetInitAllocSize(unsigned int size) { m_init_vec_size = size; }
+		UNDONE_API OwnerShip CreateOwnerShip( ) { ++m_num_owners; return m_num_owners; }
 
 		template<typename T>
 		void DeleteAll(OwnerShip ownership = 0 );
@@ -56,8 +56,8 @@ type of component you throw at it.
 		template<typename T>
 		void SortByPriority(OwnerShip ownership = 0);
 
-		Camera& GetControlCamera( ) { return m_Cam; }
-		DPointer<Component> GetComponentByName(const char* name, OwnerShip ownership = 0);
+		UNDONE_API Camera& GetControlCamera( ) { return m_Cam; }
+		UNDONE_API DPointer<Component> GetComponentByName(const char* name, OwnerShip ownership = 0);
 		template<typename T>
 		DPointer<T> GetComponentByNameOfType(const char* name, OwnerShip ownership = 0);
 	};

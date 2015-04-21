@@ -4,7 +4,7 @@ File	:	GraphicMaterial.h
 Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
-#pragma one
+#pragma once
 
 #ifndef _GRAPHICMATERIAL_H
 #define _GRAPHICMATERIAL_H
@@ -24,34 +24,34 @@ namespace UNDONE_ENGINE {
 	THe material of the object will decide how it will appear on screen. 
 	Contains the instructions on how to draw the mesh.
 	-------------------------------------------------------------------------*/
-	class UNDONE_API GraphicMaterial : public Component {
+	class GraphicMaterial : public Component {
 	public:
-		GraphicMaterial( );
-		~GraphicMaterial( ) { Release( ); }
+		UNDONE_API GraphicMaterial( );
+		UNDONE_API ~GraphicMaterial( ) { Release( ); }
 
 		void Release( ) { Unload( ); };
 
-		void OnParentBeingChilded( );
-		void SetShaderProgramToUse(DPointer<ShaderProgram> ppShaderProgram);
+		UNDONE_API void OnParentBeingChilded( );
+		UNDONE_API void SetShaderProgramToUse(DPointer<ShaderProgram> ppShaderProgram);
 
 		UniformDataInterface& GetUniformDataInterface( ) { return m_DataInterface; };
 		
 
-		void Load( );
+		UNDONE_API void Load( );
 		void ApplyMaterial( );
-		void Unload( );
+		UNDONE_API void Unload( );
 		
-		void SetDiffuseColor(glm::vec3& color);
-		void SetProperty(string property_name, float& value);
-		void SetProperty(string property_name, int& value) { };
-		void SetProperty(string property_name, glm::vec3& value);
-		void SetProperty(string property_name, glm::vec4& value) { };
+		UNDONE_API void SetDiffuseColor(glm::vec3& color);
+		UNDONE_API void SetProperty(string property_name, float& value);
+		UNDONE_API void SetProperty(string property_name, int& value) { };
+		UNDONE_API void SetProperty(string property_name, glm::vec3& value);
+		UNDONE_API void SetProperty(string property_name, glm::vec4& value) { };
 		//TODO: Add all types of property setters.
 
 		static void SetCurrentlyActiveProgram(UINT uiID) { s_ActiveShaderProgram = uiID; };
 	private:
 		
-		void OnParentSet( );
+		UNDONE_API void OnParentSet( );
 		
 		UniformDataInterface			m_DataInterface;
 		vector<int>						m_UniformDataLocations;

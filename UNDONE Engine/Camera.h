@@ -18,7 +18,7 @@ Author	:	Anurup.Dey
 
 namespace UNDONE_ENGINE {
 
-	class MoveControl : public InputControl {
+	class UNDONE_API MoveControl : public InputControl {
 	public:
 		MoveControl( ) {
 			moused = false;
@@ -88,14 +88,14 @@ namespace UNDONE_ENGINE {
 	the view of the world. This class controls and encapsulates the view and
 	projection transforms of the objects when rendered to the screen.
 	-----------------------------------------------------------------------------*/
-	class UNDONE_API Camera :public MoveControl {
+	class Camera :public MoveControl {
 	public:
-		Camera( );
+		UNDONE_API Camera( );
 
 		virtual void YawLeft( ) { Yaw(1.0f); }
 		virtual void YawRight( ) { Yaw(-1.0f); }
 
-		void CreateProjectionMatrix(float fov, float aspect, float nearPlane, float farPlane);
+		UNDONE_API void CreateProjectionMatrix(float fov, float aspect, float nearPlane, float farPlane);
 		void MoveForward(float units);
 		void Strafe(float units);
 		void MoveUp(float units);
@@ -103,17 +103,17 @@ namespace UNDONE_ENGINE {
 		void Yaw(float degrees);
 		void Pitch(float degrees);
 		void Roll(float degrees);
-		void Update( );
+		UNDONE_API void Update( );
 
-		void SetPosition(glm::vec3& refPosition);
-		void SetLookAt(glm::vec3& refLookAt);
-		void SetFOV(float fov) { CreateProjectionMatrix(fov, m_aspect, m_nearPlane, m_farPlane); }
-		void SetAspectRatio(float aspect) { CreateProjectionMatrix(m_fov, aspect, m_nearPlane, m_farPlane); }
-		void SetNearPlane(float plane) { CreateProjectionMatrix(m_fov, m_aspect, plane, m_farPlane); }
-		void SetFarPlane(float plane) { CreateProjectionMatrix(m_fov, m_aspect, m_nearPlane, plane); }
-		void SetMaxVelocity(float maxVelocity) { m_maxVelocity = maxVelocity; }
-		void SetInvertY(bool invert) { m_invertY = invert; }
-		void SetMaxPitch(float maxPitch) { m_maxPitch = maxPitch; }
+		UNDONE_API void SetPosition(glm::vec3& refPosition);
+		UNDONE_API void SetLookAt(glm::vec3& refLookAt);
+		UNDONE_API void SetFOV(float fov) { CreateProjectionMatrix(fov, m_aspect, m_nearPlane, m_farPlane); }
+		UNDONE_API void SetAspectRatio(float aspect) { CreateProjectionMatrix(m_fov, aspect, m_nearPlane, m_farPlane); }
+		UNDONE_API void SetNearPlane(float plane) { CreateProjectionMatrix(m_fov, m_aspect, plane, m_farPlane); }
+		UNDONE_API void SetFarPlane(float plane) { CreateProjectionMatrix(m_fov, m_aspect, m_nearPlane, plane); }
+		UNDONE_API void SetMaxVelocity(float maxVelocity) { m_maxVelocity = maxVelocity; }
+		UNDONE_API void SetInvertY(bool invert) { m_invertY = invert; }
+		UNDONE_API void SetMaxPitch(float maxPitch) { m_maxPitch = maxPitch; }
 
 		glm::mat4* GetViewMatrix( ) { return &m_view; }
 		glm::mat4* GetProjectionMatrix( ) { return &m_projection; }

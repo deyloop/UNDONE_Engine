@@ -26,21 +26,21 @@ namespace UNDONE_ENGINE {
 		float x, y, width, hieght;
 	};
 
-	class UNDONE_API _2DGraphic : public Component {
+	class _2DGraphic : public Component {
 	public:
-		_2DGraphic( );
-		~_2DGraphic( );
+		UNDONE_API _2DGraphic( );
+		UNDONE_API ~_2DGraphic( );
 
 		static void InitVAO( );
 		static void DeleteVAO( );
 
-		void Load( );
+		UNDONE_API void Load( );
 		void Render(_2DRenderParams& render_params );
-		void Unload( );
+		UNDONE_API void Unload( );
 
 		void OnParentBeingChilded( ) { };
-		void SetTexture(DPointer<Texture> ppTex );
-		void SetImageRect(rect& rectref);
+		UNDONE_API void SetTexture(DPointer<Texture> ppTex);
+		UNDONE_API void SetImageRect(rect& rectref);
 
 		static void SetShader(DPointer<ShaderProgram> ppShaderProgram);
 		static void SetScreenDimentions(int h, int w) {
@@ -49,7 +49,7 @@ namespace UNDONE_ENGINE {
 		}
 
 	private:
-		void OnParentSet( );
+		UNDONE_API void OnParentSet( );
 		DPointer<Texture>				m_ppTexture;
 		DPointer<WorldTransform>		m_ppWorldTransform;
 

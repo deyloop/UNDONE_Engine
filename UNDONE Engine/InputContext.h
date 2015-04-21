@@ -10,22 +10,23 @@ Author	:	Anurup Dey
 
 #include <vector>
 #include "InputEvent.h"
+#include "UNDONE_Engine_declr.h"
 using std::vector;
 
 namespace UNDONE_ENGINE {
 	
-	class InputControl {
+	class UNDONE_API InputControl {
 	public:
 		virtual ~InputControl( ) { };
 	};
 
-	class Command {
+	class UNDONE_API  Command {
 	public:
 		virtual ~Command( ) { };
 		virtual void execute(InputControl* control, InputEvent& given_event) = 0;
 	};
 
-	struct InputPair {
+	struct UNDONE_API InputPair {
 		InputPair(InputEvent des_event, Command& pcommand)
 			:desired_event(des_event), pCall_command(&pcommand) { };
 

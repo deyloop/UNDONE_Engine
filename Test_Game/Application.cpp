@@ -4,25 +4,26 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "Application.h"
-#include "_3DGraphic.h"
-#include "DObjectBuffer.h"
-#include "GameObject.h"
-#include <ctime>
-#include "UNDONE_DEBUG.h"
-#include <Texture.h>
-#include <_2DGraphic.h>
-#include <iostream>
 
-typedef DPointer<Shader> shaderptr;
+#include <DObjectBuffer.h>
+#include <GameObject.h>
+#include <_2DGraphic.h>
+#include <_3DGraphic.h>
+#include <Texture.h>
+
+#include <UNDONE_DEBUG.h>
+
+#include <iostream>
+#include <ctime>
 
 /*-----------------------------------------------------------------------------
 Default Contructor
 -----------------------------------------------------------------------------*/
 Application::Application(){
-	m_pFrameWork = nullptr;
-	m_pcam = nullptr;
-	BlockGroup.m_pointer = nullptr;
-	initialized = false;
+	m_pFrameWork			= nullptr;
+	m_pcam					= nullptr;
+	BlockGroup.m_pointer	= nullptr;
+	initialized				= false;
 }
 
 /*-----------------------------------------------------------------------------
@@ -107,20 +108,20 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 
 	spMain->LinkProgram();
 	
-	Redmaterial->Rename("RedMaterial");
+	Redmaterial	->Rename("RedMaterial");
 	Bluematerial->Rename("BlueMaterial");
 	
-	Redmaterial->SetShaderProgramToUse(spMain);
-	Greenmaterial->SetShaderProgramToUse(spMain);
-	Yellowmaterial->SetShaderProgramToUse(spMain);
-	Pinkmaterial->SetShaderProgramToUse(spMain);
-	Bluematerial->SetShaderProgramToUse(spMain);
+	Redmaterial		->	SetShaderProgramToUse(spMain);
+	Greenmaterial	->	SetShaderProgramToUse(spMain);
+	Yellowmaterial	->	SetShaderProgramToUse(spMain);
+	Pinkmaterial	->	SetShaderProgramToUse(spMain);
+	Bluematerial	->	SetShaderProgramToUse(spMain);
 	
-	Bluematerial->SetDiffuseColor(glm::vec3(0.0f, 0.0f, 1.0f));
-	Redmaterial->SetDiffuseColor(glm::vec3(1.0f, 0.0f, 0.0f));
-	Greenmaterial->SetDiffuseColor(glm::vec3(0.0f, 1.0f, 0.0f));
-	Yellowmaterial->SetDiffuseColor(glm::vec3(1.0f, 1.0f, 0.0f));
-	Pinkmaterial->SetDiffuseColor(glm::vec3(1.0f, 0.0f, 127.0f/255.0f));
+	Bluematerial	->	SetDiffuseColor(glm::vec3(0.0f, 0.0f, 1.0f));
+	Redmaterial		->	SetDiffuseColor(glm::vec3(1.0f, 0.0f, 0.0f));
+	Greenmaterial	->	SetDiffuseColor(glm::vec3(0.0f, 1.0f, 0.0f));
+	Yellowmaterial	->	SetDiffuseColor(glm::vec3(1.0f, 1.0f, 0.0f));
+	Pinkmaterial	->	SetDiffuseColor(glm::vec3(1.0f, 0.0f, 127.0f/255.0f));
 	
 	cube_mesh->Rename("CubeMesh");
 	
@@ -133,16 +134,16 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	material.push_back(Yellowmaterial);
 	material.push_back(Pinkmaterial);
 	
-	srand(time(0));
+	srand((unsigned int)time(0));
 
 	BlockGroup = pObjectBuffer->CreateNew<GameObject>( );
-	DPointer<GameObject> BlockGroup2 = pObjectBuffer->CreateNew<GameObject>( );
-	DPointer<WorldTransform> grouTrans2 = pObjectBuffer->CreateNew<WorldTransform>( );
-	DPointer<WorldTransform> grouTrans = pObjectBuffer->CreateNew<WorldTransform>( );
-	BlockGroup->AddComponent<WorldTransform>(grouTrans2);
-	BlockGroup2->AddComponent<WorldTransform>(grouTrans);
-	grouTrans->TranslateRel(10.0f, 0.0f, 0.0f);
-	BlockGroup->AddComponent<GameObject>(BlockGroup2);
+	DPointer<GameObject>		BlockGroup2 = pObjectBuffer->CreateNew<GameObject>( );
+	DPointer<WorldTransform>	grouTrans2	= pObjectBuffer->CreateNew<WorldTransform>( );
+	DPointer<WorldTransform>	grouTrans	= pObjectBuffer->CreateNew<WorldTransform>( );
+	BlockGroup	->	AddComponent<WorldTransform>(grouTrans2);
+	BlockGroup2	->	AddComponent<WorldTransform>(grouTrans);
+	grouTrans	->	TranslateRel(10.0f, 0.0f, 0.0f);
+	BlockGroup	->	AddComponent<GameObject>(BlockGroup2);
 
 #define SIZE 6
 
@@ -152,73 +153,70 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			if ((rand( )%4+2)> 3) continue;
 
 			cout<<"\n";
-			DPointer<GameObject> go_scene = pObjectBuffer->CreateNew<GameObject>( );
-			go_scene->Rename((string("GameObject")+i)+j);
+			DPointer<GameObject> go_scene		= pObjectBuffer->CreateNew<GameObject>( );
 			DPointer<WorldTransform> transform1 = pObjectBuffer->CreateNew<WorldTransform>( );
-			transform1->Rename((string("Transform")+i)+j);
-			DPointer<_3DGraphic> graphic1 = pObjectBuffer->CreateNew<_3DGraphic>( );
-			graphic1->Rename((string("Graphic")+i)+j);
+			DPointer<_3DGraphic> graphic1		= pObjectBuffer->CreateNew<_3DGraphic>( );
+			
+			go_scene	->	Rename((string	("GameObject")	+i+j).c_str());
+			transform1	->	Rename((string	("Transform" )	+i+j).c_str());
+			graphic1	->	Rename((string	( "Graphic"	 )	+i+j).c_str());
+			
 			graphic1->OnInit( );
+			
 			go_scene->AddComponent<WorldTransform>(transform1);
 			go_scene->AddComponent<Mesh>(cube_mesh);
-			
 			go_scene->AddComponent<GraphicMaterial>(material.at(rand()%5));
-			
 			go_scene->AddComponent<_3DGraphic>(graphic1);
 			
 			transform1->TranslateAbs(i, 0, j);
-			//transform1.ptr( )->RotateAbs(1.0f, 45.0f,i*10+ 0.0f);
 			transform1->ScaleAbs(0.5f, rand()%25+1, 0.5f);
 
 			BlockGroup2->AddComponent<GameObject>(go_scene);
 		}
 	}
 
-	DPointer<GameObject> cu = pObjectBuffer->CreateNew<GameObject>( );
-	DPointer<WorldTransform> ct = pObjectBuffer->CreateNew<WorldTransform>( );
+	DPointer<GameObject>		cu = pObjectBuffer->CreateNew<GameObject>( );
+	DPointer<WorldTransform>	ct = pObjectBuffer->CreateNew<WorldTransform>( );
+	DPointer<_3DGraphic>		cg = pObjectBuffer->CreateNew<_3DGraphic>( );
 	cu->AddComponent<WorldTransform>(ct);
 	cu->AddComponent<Mesh>(monkey_mesh);
 	cu->AddComponent<GraphicMaterial>(material[rand() % 5]);
-	DPointer<_3DGraphic> cg = pObjectBuffer->CreateNew<_3DGraphic>( );
 	cu->AddComponent<_3DGraphic>(cg);
-	//cu->AddComponent<GameObject>(_2dobj);
-	//BlockGroup->AddComponent<GameObject>(cu);
-
-
+	
 	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(-2.01f, 2.0f, -2.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
 
-	Yaw_Pitch = new Yaw_PitchCommand( );
-	Exit = new ExitCommand(SystemComponent::GetInstance() );
-	Move_Forward = new MoveForwardCommand( );
-	Move_Backward = new MoveBackwardCommand( );
-	Enable_Mouse = new Enable_Yaw_Pitch_Command( );
-	Disable_Mouse = new Disable_Yaw_Pitch_Command( );
+	Yaw_Pitch		= new Yaw_PitchCommand( );
+	Exit			= new ExitCommand(SystemComponent::GetInstance() );
+	Move_Forward	= new MoveForwardCommand( );
+	Move_Backward	= new MoveBackwardCommand( );
+	Enable_Mouse	= new Enable_Yaw_Pitch_Command( );
+	Disable_Mouse	= new Disable_Yaw_Pitch_Command( );
 
 	InputEvent KeyEventL,ExitEvent,MoveFEvnt,MoveBEvnt,MBDEvnt,MBUEvnt;
 	
-	ExitEvent.event.type = EVENT_KEYDOWN;
-	ExitEvent.key.keycode = KEY_ESCAPE;
+	ExitEvent.event.type		= EVENT_KEYDOWN;
+	ExitEvent.key.keycode		= KEY_ESCAPE;
 	InputPair pair2(ExitEvent, *Exit);
 
 	KeyEventL.event.type = EVENT_MOUSEMOVE;
 	InputPair pair(KeyEventL, *Yaw_Pitch);
 
-	MBDEvnt.event.type = EVENT_MOUSEBUTTONDOWN;
+	MBDEvnt.event.type			= EVENT_MOUSEBUTTONDOWN;
 	MBDEvnt.mouse_button.button = MOUSE_BUTTON_L;
 	InputPair pairMBD(MBDEvnt, *Enable_Mouse);
 	
-	MBUEvnt.event.type = EVENT_MOUSEBUTTONUP;
+	MBUEvnt.event.type			= EVENT_MOUSEBUTTONUP;
 	MBUEvnt.mouse_button.button = MOUSE_BUTTON_L;
 	InputPair pairMBU(MBUEvnt, *Disable_Mouse);
 	
-	MoveFEvnt.event.type = EVENT_KEYDOWN;
-	MoveFEvnt.key.keycode = KEY_W;
+	MoveFEvnt.event.type	 = EVENT_KEYDOWN;
+	MoveFEvnt.key.keycode	 = KEY_W;
 	InputPair pairW(MoveFEvnt, *Move_Forward);
 
-	MoveBEvnt.event.type = EVENT_KEYDOWN;
-	MoveBEvnt.key.keycode = KEY_S;
+	MoveBEvnt.event.type	= EVENT_KEYDOWN;
+	MoveBEvnt.key.keycode	= KEY_S;
 	InputPair pairS(MoveBEvnt, *Move_Backward);
 
 	vector<InputContext>& contexts = m_pFrameWork->GetInputContextListForEditing( );
@@ -243,7 +241,7 @@ Updates Application specific things like AI, ui response, etc.
 void Application::Update(){
 
 	BlockGroup->worldTransform->RotateRel(0.0f, 0.3f, 0.0f);
-	//cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
+	cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

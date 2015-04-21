@@ -167,7 +167,7 @@ namespace UNDONE_ENGINE {
 			int iCurX = x, iCurY = y;
 			if (iPXSize==-1)iPXSize = iLoadedPixelSize;
 			float fScale = float(iPXSize)/float(iLoadedPixelSize);
-			for (int i = 0; i<sText.size( ); ++i) {
+			for (unsigned int i = 0; i<sText.size( ); ++i) {
 				if (sText[i]=='\n') {
 					iCurX = x;
 					iCurY -= iNewLine*iPXSize/iLoadedPixelSize;

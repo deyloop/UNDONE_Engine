@@ -9,9 +9,11 @@ Author	:	Anurup Dey
 #include "_2DGraphic.h"
 #include "Font.h"
 
-Font font;
+
 
 namespace UNDONE_ENGINE {
+	Font font;
+	
 	/*-----------------------------------------------------------------------------
 	Default Constructor
 	-----------------------------------------------------------------------------*/
@@ -206,7 +208,7 @@ namespace UNDONE_ENGINE {
 		glClearDepth(1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
-		glClearStencil(1.0f);
+		glClearStencil(1);
 		
 		glCullFace(GL_BACK);
 

@@ -11,7 +11,7 @@ Author	:	Anurup Dey
 using namespace std;
 
 namespace UNDONE_ENGINE {
-	int UNDONE_API Component::num_Components = 0;
+	int Component::num_Components = 0;
 	/*-----------------------------------------------------------------------------
 	Default Constructor
 	-----------------------------------------------------------------------------*/
@@ -84,8 +84,8 @@ namespace UNDONE_ENGINE {
 	Parameters:
 	[IN] newname	:	string containig the new name.
 	-------------------------------------------------------------------------*/
-	void Component::Rename(string newname) {
-		coutput(name+" is renamed to "+newname+"\n");
+	void Component::Rename(const char* newname) {
+		coutput(name+" is renamed to "+string(newname)+"\n");
 		name = newname;
 	}
 }

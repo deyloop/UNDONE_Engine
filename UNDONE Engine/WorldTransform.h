@@ -13,50 +13,51 @@ Author:		Anurup Dey
 #include <glm.hpp>
 using namespace glm;
 namespace UNDONE_ENGINE {
-	class UNDONE_API WorldTransform : public Component {
+	class WorldTransform : public Component {
 	public:
-		WorldTransform( );
-		~WorldTransform( ) { Reset( ); }
+		UNDONE_API WorldTransform( );
+		UNDONE_API ~WorldTransform( ) { Reset( ); }
 
-		void Load( ) { };
-		void Unload( ) { };
+		UNDONE_API void Load( ) { };
+		UNDONE_API void Unload( ) { };
 
-		void OnParentBeingChilded( );
+		UNDONE_API void OnParentBeingChilded( );
 
-		void Reset( );
-		void TranslateAbs(float x, float y, float z);
-		void TranslateRel(float x, float y, float z);
-		void RotateAbs(float x, float y, float z);
-		void RotateRel(float x, float y, float z);
-		void ScaleAbs(float x, float y, float z);
-		void ScaleRel(float x, float y, float z);
+		UNDONE_API void Reset( );
+		UNDONE_API void TranslateAbs(float x, float y, float z);
+		UNDONE_API void TranslateRel(float x, float y, float z);
+		UNDONE_API void RotateAbs(float x, float y, float z);
+		UNDONE_API void RotateRel(float x, float y, float z);
+		UNDONE_API void ScaleAbs(float x, float y, float z);
+		UNDONE_API void ScaleRel(float x, float y, float z);
 
-		glm::mat4& GetTransform( );
-		glm::vec3* GetPosition( ) { return &m_position; }
-		float GetXPosition( ) { return m_transX; }
-		float GetYPosition( ) { return m_transY; }
-		float GetZPosition( ) { return m_transZ; }
-		float GetXRotation( ) { return m_rotationX; }
-		float GetYRotation( ) { return m_rotationY; }
-		float GetZRotation( ) { return m_rotationZ; }
-		float GetXScale( ) { return m_scaleX; }
-		float GetYScale( ) { return m_scaleY; }
-		float GetZScale( ) { return m_scaleZ; }
-		void SetXPosition(float x) { TranslateAbs(x, m_transY, m_transZ); }
-		void SetYPosition(float y) { TranslateAbs(m_transX, y, m_transZ); }
-		void SetZPosition(float z) { TranslateAbs(m_transX, m_transY, z); }
-		void SetXRotation(float x) { RotateAbs(x, m_rotationY, m_rotationZ); }
-		void SetYRotation(float y) { RotateAbs(m_rotationX, y, m_rotationZ); }
-		void SetZRotation(float z) { RotateAbs(m_rotationX, m_rotationY, z); }
-		void SetXScale(float x) { ScaleAbs(x, m_scaleY, m_scaleZ); }
-		void SetYScale(float y) { ScaleAbs(m_scaleX, y, m_scaleZ); }
-		void SetZScale(float z) { ScaleAbs(m_scaleX, m_scaleY, z); }
+		UNDONE_API glm::mat4& GetTransform( );
+		UNDONE_API glm::vec3* GetPosition( ) { return &m_position; }
+		UNDONE_API float GetXPosition( ) { return m_transX; }
+		UNDONE_API float GetYPosition( ) { return m_transY; }
+		UNDONE_API float GetZPosition( ) { return m_transZ; }
+		UNDONE_API float GetXRotation( ) { return m_rotationX; }
+		UNDONE_API float GetYRotation( ) { return m_rotationY; }
+		UNDONE_API float GetZRotation( ) { return m_rotationZ; }
+		UNDONE_API float GetXScale( ) { return m_scaleX; }
+		UNDONE_API float GetYScale( ) { return m_scaleY; }
+		UNDONE_API float GetZScale( ) { return m_scaleZ; }
+		UNDONE_API void SetXPosition(float x) { TranslateAbs(x, m_transY, m_transZ); }
+		UNDONE_API void SetYPosition(float y) { TranslateAbs(m_transX, y, m_transZ); }
+		UNDONE_API void SetZPosition(float z) { TranslateAbs(m_transX, m_transY, z); }
+		UNDONE_API void SetXRotation(float x) { RotateAbs(x, m_rotationY, m_rotationZ); }
+		UNDONE_API void SetYRotation(float y) { RotateAbs(m_rotationX, y, m_rotationZ); }
+		UNDONE_API void SetZRotation(float z) { RotateAbs(m_rotationX, m_rotationY, z); }
+		UNDONE_API void SetXScale(float x) { ScaleAbs(x, m_scaleY, m_scaleZ); }
+		UNDONE_API void SetYScale(float y) { ScaleAbs(m_scaleX, y, m_scaleZ); }
+		UNDONE_API void SetZScale(float z) { ScaleAbs(m_scaleX, m_scaleY, z); }
 
 	protected:
 		void UpdateMatLocal( ) { 
 			m_localTransform = m_translation*m_rotation*m_scale;
 			++m_sync_num;
 		};
+
 		glm::mat4 m_localTransform, m_rotation, m_translation, m_scale;
 		glm::vec3 m_position;
 		float m_rotationX, m_rotationY, m_rotationZ,
@@ -71,7 +72,7 @@ namespace UNDONE_ENGINE {
 
 		DPointer<WorldTransform> m_ppParentTransform;
 
-		void OnParentSet( );
+		UNDONE_API void OnParentSet( );
 	};
 }
 #endif

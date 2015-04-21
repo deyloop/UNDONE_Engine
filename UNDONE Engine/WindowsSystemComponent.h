@@ -75,46 +75,46 @@ namespace UNDONE_ENGINE {
 	Windows Operating System Specific System Component which provides the Win32
 	specific functions in an abstracted way. This is a singleton class.
 	-----------------------------------------------------------------------------*/
-	class UNDONE_API WindowsSystemComponent : public SystemComponent {
+	class WindowsSystemComponent : public SystemComponent {
 	public:
 
 		~WindowsSystemComponent( ) { Release( ); }
 
-		static WindowsSystemComponent* GetWindowsInstance( );
+		UNDONE_API static WindowsSystemComponent* GetWindowsInstance( );
 
-		bool Initialise(HINSTANCE hInstance, string ApplicationName);
-		void Release( );
+		UNDONE_API bool Initialise(HINSTANCE hInstance, string ApplicationName);
+		UNDONE_API void Release( );
 
 		HINSTANCE	getHInstance( ) { return m_appInstance; }
 
-		int GetInputEvent(InputEvent* pEvent);
+		UNDONE_API int GetInputEvent(InputEvent* pEvent);
 
-		bool CreateGLContext(WindowHandle handle,
+		UNDONE_API bool CreateGLContext(WindowHandle handle,
 							 PixelFormatParameters PixelParams,
 							 ContextCreationPrameters ContextParams,
 							 OpenGLContext& OGLContext,
 							 DeviceContext& DevContext);
-		void GetDeviceDisplayMode(char* DeviceName, DisplayMode& devMode);
-		bool SetDeviceDisplayMode(char* DeviceName, DisplayMode newMode, bool tellSys = false);
-		void Swipe_Buffers(DeviceContext context);
-		void ReleaseGLContext(OpenGLContext context);
+		UNDONE_API void GetDeviceDisplayMode(char* DeviceName, DisplayMode& devMode);
+		UNDONE_API bool SetDeviceDisplayMode(char* DeviceName, DisplayMode newMode, bool tellSys = false);
+		UNDONE_API void Swipe_Buffers(DeviceContext context);
+		UNDONE_API void ReleaseGLContext(OpenGLContext context);
 
-		void ShowMessage(char* message, char* tittle);
+		UNDONE_API void ShowMessage(char* message, char* tittle);
 		void Post_Quit_Mesage(int returncode) { PostQuitMessage(returncode); }
 
-		WindowHandle CreateNewWindow(char* title,WindowStyle style,
+		UNDONE_API WindowHandle CreateNewWindow(char* title, WindowStyle style,
 											 int width, int hieght,
 											 IWindowEventHandeller* pEventHandeller
 											 );
-		void AdjustWindow(WindowHandle handle,int width, int hieght);
-		void ShowWindow_(WindowHandle handle);
-		void UpdateWindow_(WindowHandle handle);
-		WindowPlacementPtr GetWindowPlacement_(WindowHandle handle);
-		void SetWindowPlacement_(WindowHandle handle,
+		UNDONE_API void AdjustWindow(WindowHandle handle, int width, int hieght);
+		UNDONE_API void ShowWindow_(WindowHandle handle);
+		UNDONE_API void UpdateWindow_(WindowHandle handle);
+		UNDONE_API WindowPlacementPtr GetWindowPlacement_(WindowHandle handle);
+		UNDONE_API void SetWindowPlacement_(WindowHandle handle,
 										 WindowPlacementPtr winplcemnet);
-		void UpdateWindowPlacement(WindowHandle handle,
+		UNDONE_API void UpdateWindowPlacement(WindowHandle handle,
 										   WindowPlacementPtr* pWndPlcment);
-		void SetWindowStyle(WindowHandle handle, WindowStyle style);
+		UNDONE_API void SetWindowStyle(WindowHandle handle, WindowStyle style);
 
 		inline __int64 GetSystemTickRate( ) {
 			__int64 rate;
@@ -127,7 +127,7 @@ namespace UNDONE_ENGINE {
 			return count;
 		};
 
-		void HandleWindowEvents( );	//Depreciated.
+		UNDONE_API void HandleWindowEvents( );	//Depreciated.
 		void CreateConsole( ) {
 			int hConHandle;
 			intptr_t lStdHandle;
@@ -167,7 +167,7 @@ namespace UNDONE_ENGINE {
 			std::ios::sync_with_stdio( );
 		};
 
-		void FrameInput( );
+		UNDONE_API void FrameInput( );
 
 		unsigned GetSystemDirectory_(char* buffer, int size ) { return GetWindowsDirectory(buffer, size); }
 

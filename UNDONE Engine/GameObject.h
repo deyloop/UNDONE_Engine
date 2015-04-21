@@ -19,32 +19,32 @@ namespace UNDONE_ENGINE {
 	A game object is any object that is there in the game. Its behavior is
 	customized with adding and removing components.
 	-----------------------------------------------------------------------------*/
-	class UNDONE_API GameObject : public Component {
+	class GameObject : public Component {
 	public:
-		GameObject( );
-		~GameObject( ) { Release( ); }
+		UNDONE_API GameObject( );
+		UNDONE_API ~GameObject( ) { Release( ); }
 
 		void Release( );
 
 		template<class ComponentType>
-		DPointer<ComponentType>	GetComponent( ) const;
-		DPointer<Component>		GetComponentByName(const char* name) const;
+		DPointer<ComponentType>				GetComponent( ) const;
+		UNDONE_API DPointer<Component>		GetComponentByName(const char* name) const;
 
-		virtual void Load( );
-		virtual void Unload( );
+		UNDONE_API virtual void Load( );
+		UNDONE_API virtual void Unload( );
 
 		template<class ComponentType>
 		void AddComponent(DPointer<ComponentType> rComponent);
 		template<class ComponentType>
 		void RemoveComponent( );
-		void RemoveComponentByName(const char* name) { };
+		UNDONE_API void RemoveComponentByName(const char* name) { };
 
 	private:
 		vector<DPointer<Component>>	m_Components;
 		vector<size_t>				m_Component_types;
 
-		virtual void OnParentSet( );
-		virtual void OnParentBeingChilded( );
+		UNDONE_API virtual void OnParentSet( );
+		UNDONE_API virtual void OnParentBeingChilded( );
 	};
 
 #define worldTransform	GetComponent<WorldTransform>()
@@ -82,7 +82,8 @@ namespace UNDONE_ENGINE {
 	void GameObject::AddComponent(DPointer<ComponentType> rComponent) {
 		((Component*)rComponent.ptr())->SetParent(dcast<GameObject,Component>(m_ppMyself));
 		size_t new_component_type = typeid(ComponentType).hash_code( );
-		//Not cjecking if the component already exists, just adding it to the object
+		//Not cjecking if the component already exists, just adding it to 
+		//the object
 		DPointer<Component> comp;
 		comp.m_pointer = (Component**)rComponent.m_pointer;
 		m_Components.push_back(comp);

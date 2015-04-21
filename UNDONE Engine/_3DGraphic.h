@@ -17,42 +17,43 @@ Author	:	Anurup Dey
 #include <gl\GL.h>
 #include <gl\GLU.h>
 
-using namespace UNDONE_ENGINE;
+namespace UNDONE_ENGINE {
 
-/*-----------------------------------------------------------------------------
-This struct represents data that is passed on to each 3d graphic on rendering.
------------------------------------------------------------------------------*/
-struct RenderParams {
-	glm::mat4 View_x_Projection;
-};
+	/*-----------------------------------------------------------------------------
+	This struct represents data that is passed on to each 3d graphic on rendering.
+	-----------------------------------------------------------------------------*/
+	struct RenderParams {
+		glm::mat4 View_x_Projection;
+	};
 
-/*-----------------------------------------------------------------------------
-This class represents a 3D graphical Object. Inherits most of its props
-from the GraphicalObject. NOTE: All 3D graphics behave alike.
------------------------------------------------------------------------------*/
-struct UNDONE_API _3DGraphic : public GraphicalObject, public Component {
-public:
-	_3DGraphic();
-	~_3DGraphic(){ Release(); }
+	/*-----------------------------------------------------------------------------
+	This class represents a 3D graphical Object. Inherits most of its props
+	from the GraphicalObject. NOTE: All 3D graphics behave alike.
+	-----------------------------------------------------------------------------*/
+	struct _3DGraphic : public GraphicalObject, public Component {
+	public:
+		UNDONE_API _3DGraphic( );
+		UNDONE_API~_3DGraphic( ) { Release( ); }
 
-	virtual void Release();
-	virtual void Render(RenderParams& refRenderParams);
-	virtual void Render ( ){ };
+		UNDONE_API virtual void Release( );
+		UNDONE_API virtual void Render(RenderParams& refRenderParams);
+		virtual void Render( ) { };
 
-	virtual void Load();
-	virtual void Unload();
-	
-	void OnParentBeingChilded( );
+		UNDONE_API virtual void Load( );
+		UNDONE_API virtual void Unload( );
 
-	void OnInit( ) { };
-	void OnDestroy( ) { };
+		UNDONE_API void OnParentBeingChilded( );
 
-protected:
-	DPointer<WorldTransform>	m_ppworldTransform;
-	DPointer<Mesh>				m_ppMesh;
-	DPointer<GraphicMaterial>	m_ppMaterial;
+		void OnInit( ) { };
+		void OnDestroy( ) { };
 
-	void OnParentSet( );
-};
+	protected:
+		DPointer<WorldTransform>	m_ppworldTransform;
+		DPointer<Mesh>				m_ppMesh;
+		DPointer<GraphicMaterial>	m_ppMaterial;
+
+		UNDONE_API void OnParentSet( );
+	};
+}
 #endif
 ///////////////////////////////////////////////////////////////////////////////

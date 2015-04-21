@@ -25,28 +25,28 @@ namespace UNDONE_ENGINE {
 		TEXTURE_FILTER_MIN_TRILINEAR,		// Bilinear criterion for minification on two closest mipmaps, then averaged
 	};
 
-	class UNDONE_API Texture {
+	class Texture {
 	public:
-		Texture( );
-		~Texture( ) { Release( ); }
+		UNDONE_API Texture( );
+		UNDONE_API ~Texture( ) { Release( ); }
 
 		void Release( ) { };
 
-		void CreateFromData(signed char* data, int width, int height, int BPP, unsigned int format, bool generateMipMaps = false);
-		bool SetTexture2D(string filename, bool generateMipMaps = false);
+		UNDONE_API void CreateFromData(signed char* data, int width, int height, int BPP, unsigned int format, bool generateMipMaps = false);
+		UNDONE_API bool SetTexture2D(string filename, bool generateMipMaps = false);
 		void BindTexture(int textureUnit = 0);
 
 		void Load( );
 		void Unload( );
 
 		void setSamplerParameter(unsigned parameter, unsigned value);
-		void SetFiltering(int magnification, int minification);
+		UNDONE_API void SetFiltering(int magnification, int minification);
 
-		int GetMinificationFilter( ) { return m_minification; }
-		int	GetMagnificationFilter( ) { return m_magnification; }
-		int getWidth( )		{ return m_width; }
-		int getHeight( )	{ return m_hieght; }
-		int getBPP( )		{ return m_bits_per_pixl; }
+		UNDONE_API int GetMinificationFilter( ) { return m_minification; }
+		UNDONE_API int	GetMagnificationFilter( ) { return m_magnification; }
+		UNDONE_API int getWidth( ) { return m_width; }
+		UNDONE_API int getHeight( ) { return m_hieght; }
+		UNDONE_API int getBPP( ) { return m_bits_per_pixl; }
 
 		void releaseTexture( );
 

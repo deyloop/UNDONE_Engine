@@ -44,7 +44,7 @@ namespace UNDONE_ENGINE {
 		fclose(fp);
 
 		const char** sProgram = new const char*[sLines.size( )];
-		for (int i = 0; i<sLines.size( ); i++)sProgram[i] = sLines[i].c_str( );
+		for (unsigned int i = 0; i<sLines.size( ); i++)sProgram[i] = sLines[i].c_str( );
 
 		uiShader = glCreateShader(type);
 

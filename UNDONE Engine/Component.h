@@ -23,25 +23,25 @@ namespace UNDONE_ENGINE {
 	Components are the biulding blocks of game objects. These may be combined in
 	GameObjects to give any behavior needed.
 	-----------------------------------------------------------------------------*/
-	class UNDONE_API Component {
+	class Component {
 	public:
-		Component( );
-		~Component( ) { Release( ); }
+		UNDONE_API Component( );
+		UNDONE_API ~Component( ) { Release( ); }
 
 		void Release( );
-		void SetParent(DPointer<GameObject> ppParent);
-		void Rename(string newname);
+		UNDONE_API void SetParent(DPointer<GameObject> ppParent);
+		UNDONE_API void Rename(const char* newname);
 
-		virtual void Load( ) = 0;
-		virtual void Unload( ) = 0;
+		UNDONE_API virtual void Load( ) = 0;
+		UNDONE_API virtual void Unload( ) = 0;
 		
-		virtual void OnParentBeingChilded( ) = 0;
+		UNDONE_API virtual void OnParentBeingChilded( ) = 0;
 
-		unsigned GetPriority(unsigned priority_level);
-		void SetPriority(unsigned priority, unsigned priority_level);
+		UNDONE_API unsigned GetPriority(unsigned priority_level);
+		UNDONE_API void SetPriority(unsigned priority, unsigned priority_level);
 
-		DPointer<GameObject> GetParent( ) { return m_ppParent; };
-		int GetNumber( ) { return m_number; }
+		UNDONE_API DPointer<GameObject> GetParent( ) { return m_ppParent; };
+		UNDONE_API int GetNumber( ) { return m_number; }
 		
 		string name;
 	

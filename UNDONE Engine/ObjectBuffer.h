@@ -23,7 +23,8 @@ using namespace std;
 Object buffer is generally a memory manager, you may say. It keeps all concerned
 object components at one place, managing memory and contiguity.
 -----------------------------------------------------------------------------*/
-class UNDONE_API ObjectBuffer{
+/*
+class ObjectBuffer{
 public:	
 	ObjectBuffer();
 	~ObjectBuffer(){ DeleteAllObjects(); }
@@ -68,4 +69,5 @@ private:
 	Camera						m_ControlCamera;
 
 };
+*/
 #endif

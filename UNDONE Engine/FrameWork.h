@@ -36,17 +36,17 @@ namespace UNDONE_ENGINE {
 	It Handles the window, tells all the components what to do at events and all
 	that.
 	-----------------------------------------------------------------------------*/
-	class UNDONE_API FrameWork : public IWindowUser, public IFrameWork {
+	class  FrameWork : public IWindowUser, public IFrameWork {
 	public:
-		FrameWork(IApp* pApp);
-		~FrameWork( ) { Release( ); }
+		UNDONE_API FrameWork(IApp* pApp);
+		UNDONE_API ~FrameWork( ) { Release( ); }
 
-		bool Initialise(char* title,
+		UNDONE_API bool Initialise(char* title,
 						int width, int height, bool windowed = true);
 
-		void Release( );
-		void Run( );
-		void ToggleFullscreen( );
+		UNDONE_API void Release( );
+		UNDONE_API void Run( );
+		UNDONE_API void ToggleFullscreen( );
 		virtual void OnMinimized( );
 		virtual void OnResize(int newHieght,
 							  int newWidth,
@@ -54,12 +54,12 @@ namespace UNDONE_ENGINE {
 							  int oldWidth);
 
 		void  OnCreateContext( ) { };
-		const int   GetScreenHieght( ) const;
-		const int   GetScreenWidth( ) const;
-		const float GetElapsedTime( ) const;
-		const float GetFPS( ) const;
+		UNDONE_API const int   GetScreenHieght( ) const;
+		UNDONE_API const int   GetScreenWidth( ) const;
+		UNDONE_API const float GetElapsedTime( ) const;
+		UNDONE_API const float GetFPS( ) const;
 
-		virtual vector<InputContext>& GetInputContextListForEditing( );
+		UNDONE_API virtual vector<InputContext>& GetInputContextListForEditing( );
 
 	private:
 		void				Pause(bool rendering, bool timer);
