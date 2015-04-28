@@ -11,9 +11,11 @@ Author	:	Anurup Dey
 
 #include "UNDONE_Engine_declr.h"	//For including this in the API.
 #include "DPointer.h"				//We use this to refernce objects.
+
 #include <vector>					//We use these for storage.
 #include <list>
 #include <algorithm>
+
 #include "Component.h"				//The Object buffer can only store components
 #include "Camera.h"
 using namespace std;

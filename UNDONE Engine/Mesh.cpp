@@ -10,6 +10,8 @@ Author	:	Anurup Dey
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
 #include <glm.hpp>
+#include<vector>
+using namespace std;
 
 
 namespace UNDONE_ENGINE {

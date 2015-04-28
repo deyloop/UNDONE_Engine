@@ -67,5 +67,9 @@ namespace UNDONE_ENGINE {
 	void GameObject::OnParentBeingChilded( ) {
 		//We do nothing...
 	}
+
+	void GameObject::Set_Parent(Component* component) {
+		component->SetParent(dcast<GameObject, Component>(m_ppMyself));
+	}
 }
 

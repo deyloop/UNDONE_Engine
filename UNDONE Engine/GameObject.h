@@ -38,13 +38,17 @@ namespace UNDONE_ENGINE {
 		template<class ComponentType>
 		void RemoveComponent( );
 		UNDONE_API void RemoveComponentByName(const char* name) { };
-
+		
+		UNDONE_API void OnParentBeingChilded( );
+	protected:
+		UNDONE_API virtual void OnParentSet( );
+		
 	private:
 		vector<DPointer<Component>>	m_Components;
 		vector<size_t>				m_Component_types;
 
-		UNDONE_API virtual void OnParentSet( );
-		UNDONE_API virtual void OnParentBeingChilded( );
+		
+		UNDONE_API void Set_Parent(Component* component);
 	};
 
 #define worldTransform	GetComponent<WorldTransform>()
@@ -80,7 +84,7 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	template<class ComponentType>
 	void GameObject::AddComponent(DPointer<ComponentType> rComponent) {
-		((Component*)rComponent.ptr())->SetParent(dcast<GameObject,Component>(m_ppMyself));
+		Set_Parent((Component*)rComponent.ptr( ));
 		size_t new_component_type = typeid(ComponentType).hash_code( );
 		//Not cjecking if the component already exists, just adding it to 
 		//the object
@@ -88,7 +92,6 @@ namespace UNDONE_ENGINE {
 		comp.m_pointer = (Component**)rComponent.m_pointer;
 		m_Components.push_back(comp);
 		m_Component_types.push_back(new_component_type);
-		//Done.
 	}
 
 	/*-----------------------------------------------------------------------------
