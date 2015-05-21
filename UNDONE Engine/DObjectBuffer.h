@@ -9,9 +9,13 @@ Author	:	Anurup Dey
 #ifndef UNDONE_DOBJECTBUFFER_H
 #define UNDONE_DOBJECTBUFFER_H
 
-#include "UNDONE_Engine_declr.h"	//For including this in the API.
-#include "DPointer.h"				//We use this to refernce objects.
+#define GENERATE_FUNCTIONS_WITH_DEF(type) \
+	 void DeleteAll_ ## type (OwnerShip ownership = 0);\
+	 DPointer<type> CreateNew_ ## type (OwnerShip ownership = 0);\
+	 DPointer<type> Get_ ## type ## _ByName (const char* name, OwnerShip ownership = 0);
 
+#include "Undone_Engine.h"
+#include "UnObjectBuffer.h"
 #include <vector>					//We use these for storage.
 #include <list>
 #include <algorithm>
@@ -29,7 +33,7 @@ THe Object buffer is the place where all the components of the game are
 physically stored. THis Object buffer has the capabiltity to store any 
 type of component you throw at it.
 -------------------------------------------------------------------------*/
-	class DObjectBuffer {
+	class DObjectBuffer : public UnObjectBuffer {
 		vector<DPointer<Component>> m_Components;
 		vector<void*>				m_storage_vectors;
 		vector<void*>				m_storage_lists;
@@ -42,26 +46,39 @@ type of component you throw at it.
 		unsigned int				m_num_owners;
 
 	public:
-		UNDONE_API DObjectBuffer( );
-		UNDONE_API ~DObjectBuffer( );
+		DObjectBuffer( );
+		~DObjectBuffer( );
 
-		UNDONE_API void SetInitAllocSize(unsigned int size) { m_init_vec_size = size; }
-		UNDONE_API OwnerShip CreateOwnerShip( ) { ++m_num_owners; return m_num_owners; }
+		void SetInitAllocSize(unsigned int size) { m_init_vec_size = size; }
+		OwnerShip CreateOwnerShip( ) { ++m_num_owners; return m_num_owners; }
 
 		template<typename T>
 		void DeleteAll(OwnerShip ownership = 0 );
 
 		template<typename T>
 		DPointer<T> CreateNew(OwnerShip ownership = 0);
+
 		template<typename T>
 		vector<T>* GetListOf(OwnerShip ownership = 0);
 		template<typename T>
 		void SortByPriority(OwnerShip ownership = 0);
 
-		UNDONE_API Camera& GetControlCamera( ) { return m_Cam; }
-		UNDONE_API DPointer<Component> GetComponentByName(const char* name, OwnerShip ownership = 0);
+		Camera& GetControlCamera( ) { return m_Cam; }
+		DPointer<Component> GetComponentByName(const char* name, OwnerShip ownership = 0);
+		
 		template<typename T>
 		DPointer<T> GetComponentByNameOfType(const char* name, OwnerShip ownership = 0);
+
+		GENERATE_FUNCTIONS_WITH_DEF(GameObject)
+		GENERATE_FUNCTIONS_WITH_DEF(WorldTransform)
+		GENERATE_FUNCTIONS_WITH_DEF(Mesh)
+		GENERATE_FUNCTIONS_WITH_DEF(GraphicMaterial)
+		GENERATE_FUNCTIONS_WITH_DEF(_3DGraphic)
+		GENERATE_FUNCTIONS_WITH_DEF(_2DGraphic)
+		GENERATE_FUNCTIONS_WITH_DEF(Texture)
+		GENERATE_FUNCTIONS_WITH_DEF(Shader)
+		GENERATE_FUNCTIONS_WITH_DEF(ShaderProgram)
+
 	};
 
 	//////////////////////////Definitions//////////////////////////////////////
@@ -266,7 +283,7 @@ type of component you throw at it.
 			if (component->name==name) {
 				//Contruct a DPointer of the given type.
 				DPointer<T> returnComp;
-				returnComp.m_pointer = dynamic_cast<T**>(component.m_pointer);
+				returnComp.m_pointer = (T**)(component.m_pointer);
 				return returnComp;
 			}
 			//If the program got untill here, that means there isn't a component 

@@ -4,6 +4,7 @@ File	:
 Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
+#include "Undone_Engine.h"
 #include "DObjectBuffer.h"
 #include "SystemComponent.h"
 #include "UNDONE_DEBUG.h"
@@ -50,6 +51,24 @@ namespace UNDONE_ENGINE {
 		return ErrorComponent;
 	}
 
-	
+#define GENERATE_FUNCTION_DEFINITIONS(x)\
+	void DObjectBuffer::DeleteAll_ ## x (OwnerShip ownership){\
+		DeleteAll<x>(ownership);\
+	}\
+	DPointer<x> DObjectBuffer::CreateNew_ ## x (OwnerShip ownership){\
+		return CreateNew<x>(ownership);\
+	}\
+	DPointer<x> DObjectBuffer::Get_ ## x ## _ByName (const char* name, OwnerShip ownership){\
+		return GetComponentByNameOfType<x>(name, ownership);\
+	}
 
+	GENERATE_FUNCTION_DEFINITIONS(GameObject);
+	GENERATE_FUNCTION_DEFINITIONS(WorldTransform);
+	GENERATE_FUNCTION_DEFINITIONS(Mesh);
+	GENERATE_FUNCTION_DEFINITIONS(GraphicMaterial);
+	GENERATE_FUNCTION_DEFINITIONS(_3DGraphic);
+	GENERATE_FUNCTION_DEFINITIONS(_2DGraphic);
+	GENERATE_FUNCTION_DEFINITIONS(Texture);
+	GENERATE_FUNCTION_DEFINITIONS(Shader);
+	GENERATE_FUNCTION_DEFINITIONS(ShaderProgram);
 }

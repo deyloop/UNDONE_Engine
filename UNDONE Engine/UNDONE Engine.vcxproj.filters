@@ -209,6 +209,9 @@
     <ClInclude Include="UnFramework.h">
       <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
+    <ClInclude Include="UnObjectBuffer.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="HeaderSnippet.snippet">

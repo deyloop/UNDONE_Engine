@@ -14,7 +14,7 @@ Author	:	Anurup Dey
 using std::vector;
 
 namespace UNDONE_ENGINE{
-	class DObjectBuffer;
+	class UnObjectBuffer;
 };
 
 /*-----------------------------------------------------------------------------
@@ -24,7 +24,7 @@ game objects, thier interaction and games logic, etc.
 -----------------------------------------------------------------------------*/
 class UNDONE_API IApp{
 public:
-	virtual void LoadScene(UNDONE_ENGINE::DObjectBuffer* pObjectBuffer/*context acceptors etc*/) = 0;
+	virtual void LoadScene(UNDONE_ENGINE::UnObjectBuffer* pObjectBuffer/*context acceptors etc*/) = 0;
 	virtual void Update(/*parameters to be decided*/) = 0;
 };
 
@@ -52,13 +52,13 @@ namespace UNDONE_ENGINE{
 		virtual const int   GetScreenWidth() const						= 0;
 		virtual const float GetElapsedTime() const						= 0;
 		virtual const float GetFPS() const								= 0;
-		virtual
+	
 		virtual void ChangeScene(Scene* pScene)							= 0;
 		virtual void AddScene	(Scene* pScene)							= 0;
 		virtual void RemoveScene(Scene* pScene)							= 0;
 		virtual void LoadScene	(Scene* pScene)							= 0;
 		virtual void UnloadScene(Scene* pscene)							= 0;
-		virtual
+	
 		virtual vector<InputContext>& GetInputContextListForEditing()	= 0;
 	};
 

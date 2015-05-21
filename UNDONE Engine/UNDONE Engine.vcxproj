@@ -143,6 +143,7 @@
     <ClInclude Include="UnFramework.h" />
     <ClInclude Include="UniformDataInterface.h" />
     <ClInclude Include="UniformType.h" />
+    <ClInclude Include="UnObjectBuffer.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowsSystemComponent.h" />
     <ClInclude Include="WorldTransform.h" />

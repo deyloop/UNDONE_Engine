@@ -59,29 +59,29 @@ Parameters:
 [in,out]	*object_buffer	- The empty Object Buffer to be used in this app
 							  and which has to be pre- filled. (pointer)
 -------------------------------------------------------------------------------*/
-void Application::LoadScene(DObjectBuffer* pObjectBuffer){
+void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	
 	//pObjectBuffer->SetInitAllocSize(100);
 	
 
-	DPointer<Shader> shVertex			= pObjectBuffer->CreateNew<Shader>();
-	DPointer<Shader> shFragment			= pObjectBuffer->CreateNew<Shader>();
-	DPointer<ShaderProgram> spMain		= pObjectBuffer->CreateNew<ShaderProgram>();
-	DPointer<Mesh> cube_mesh			= pObjectBuffer->CreateNew<Mesh>( );
-	DPointer<Mesh> monkey_mesh			= pObjectBuffer->CreateNew<Mesh>( );
+	DPointer<Shader> shVertex			= pObjectBuffer->CreateNew_Shader();
+	DPointer<Shader> shFragment			= pObjectBuffer->CreateNew_Shader();
+	DPointer<ShaderProgram> spMain		= pObjectBuffer->CreateNew_ShaderProgram();
+	DPointer<Mesh> cube_mesh			= pObjectBuffer->CreateNew_Mesh( );
+	DPointer<Mesh> monkey_mesh			= pObjectBuffer->CreateNew_Mesh( );
 	monkey_mesh->SetModelFile("monkey.obj");
 	
-	DPointer<GraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
-	DPointer<GraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
-	DPointer<GraphicMaterial> Greenmaterial = pObjectBuffer->CreateNew<GraphicMaterial>( );
-	DPointer<GraphicMaterial> Yellowmaterial= pObjectBuffer->CreateNew<GraphicMaterial>( );
-	DPointer<GraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew<GraphicMaterial>( );
-	DPointer<Texture> tex = pObjectBuffer->CreateNew<Texture>( );
-	DPointer<_2DGraphic> _2dgraphic = pObjectBuffer->CreateNew<_2DGraphic>( );
+	DPointer<GraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
+	DPointer<GraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew_GraphicMaterial( );
+	DPointer<GraphicMaterial> Greenmaterial = pObjectBuffer->CreateNew_GraphicMaterial( );
+	DPointer<GraphicMaterial> Yellowmaterial= pObjectBuffer->CreateNew_GraphicMaterial( );
+	DPointer<GraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
+	DPointer<Texture> tex = pObjectBuffer->CreateNew_Texture( );
+	DPointer<_2DGraphic> _2dgraphic = pObjectBuffer->CreateNew__2DGraphic( );
 	tex->SetTexture2D("HOUSE.png", true);
 	_2dgraphic->SetTexture(tex);
-	DPointer<GameObject> _2dobj = pObjectBuffer->CreateNew<GameObject>( );
-	DPointer<WorldTransform> _2dtrans = pObjectBuffer->CreateNew<WorldTransform>( );
+	DPointer<GameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
+	DPointer<WorldTransform> _2dtrans = pObjectBuffer->CreateNew_WorldTransform( );
 	//_2dtrans->TranslateAbs(1.0f, 1.f, 0.0f);
 	//_2dtrans->RotateAbs(0.0f, 0.0f, 45.0f);
 	
@@ -133,10 +133,10 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	
 	srand((unsigned int)time(0));
 
-	BlockGroup = pObjectBuffer->CreateNew<GameObject>( );
-	DPointer<GameObject>		BlockGroup2 = pObjectBuffer->CreateNew<GameObject>( );
-	DPointer<WorldTransform>	grouTrans2	= pObjectBuffer->CreateNew<WorldTransform>( );
-	DPointer<WorldTransform>	grouTrans	= pObjectBuffer->CreateNew<WorldTransform>( );
+	BlockGroup = pObjectBuffer->CreateNew_GameObject( );
+	DPointer<GameObject>		BlockGroup2 = pObjectBuffer->CreateNew_GameObject( );
+	DPointer<WorldTransform>	grouTrans2	= pObjectBuffer->CreateNew_WorldTransform( );
+	DPointer<WorldTransform>	grouTrans	= pObjectBuffer->CreateNew_WorldTransform( );
 	BlockGroup	->	AddComponent<WorldTransform>(grouTrans2);
 	BlockGroup2	->	AddComponent<WorldTransform>(grouTrans);
 	grouTrans	->	TranslateRel(10.0f, 0.0f, 0.0f);
@@ -150,9 +150,9 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			if ((rand( )%4+2)> 3) continue;
 
 			cout<<"\n";
-			DPointer<GameObject> go_scene		= pObjectBuffer->CreateNew<GameObject>( );
-			DPointer<WorldTransform> transform1 = pObjectBuffer->CreateNew<WorldTransform>( );
-			DPointer<_3DGraphic> graphic1		= pObjectBuffer->CreateNew<_3DGraphic>( );
+			DPointer<GameObject> go_scene		= pObjectBuffer->CreateNew_GameObject( );
+			DPointer<WorldTransform> transform1 = pObjectBuffer->CreateNew_WorldTransform( );
+			DPointer<_3DGraphic> graphic1		= pObjectBuffer->CreateNew__3DGraphic( );
 			
 			go_scene	->	Rename((string	("GameObject")	+i+j).c_str());
 			transform1	->	Rename((string	("Transform" )	+i+j).c_str());
@@ -172,9 +172,9 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 		}
 	}
 
-	DPointer<GameObject>		cu = pObjectBuffer->CreateNew<GameObject>( );
-	DPointer<WorldTransform>	ct = pObjectBuffer->CreateNew<WorldTransform>( );
-	DPointer<_3DGraphic>		cg = pObjectBuffer->CreateNew<_3DGraphic>( );
+	DPointer<GameObject>		cu = pObjectBuffer->CreateNew_GameObject( );
+	DPointer<WorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
+	DPointer<_3DGraphic>		cg = pObjectBuffer->CreateNew__3DGraphic( );
 	cu->AddComponent<WorldTransform>(ct);
 	cu->AddComponent<Mesh>(monkey_mesh);
 	cu->AddComponent<GraphicMaterial>(material[rand() % 5]);
@@ -226,8 +226,6 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 	cameracontrolcontext.m_pairs.push_back(pairMBD);
 	cameracontrolcontext.m_pairs.push_back(pairMBU);
 	contexts.push_back(cameracontrolcontext);
-
-	pObjectBuffer->SortByPriority<_3DGraphic>( );
 
 	initialized = true;
 }

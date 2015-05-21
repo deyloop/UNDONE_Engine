@@ -20,7 +20,7 @@ public:
 	void Release();
 
 	void LinkToEngine(UnFramework* pFrameWork);
-	void LoadScene(DObjectBuffer* pObjectBuffer);
+	void LoadScene(UnObjectBuffer* pObjectBuffer);
 	void Update();
 protected:
 	UnFramework*		m_pFrameWork;
