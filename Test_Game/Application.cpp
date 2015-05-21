@@ -6,9 +6,6 @@ Author	:	Anurup Dey
 #include "Application.h"
 
 #include <DObjectBuffer.h>
-#include <GameObject.h>
-#include <_2DGraphic.h>
-#include <_3DGraphic.h>
 #include <Texture.h>
 
 #include <UNDONE_DEBUG.h>
@@ -168,8 +165,8 @@ void Application::LoadScene(DObjectBuffer* pObjectBuffer){
 			go_scene->AddComponent<GraphicMaterial>(material.at(rand()%5));
 			go_scene->AddComponent<_3DGraphic>(graphic1);
 			
-			transform1->TranslateAbs(i, 0, j);
-			transform1->ScaleAbs(0.5f, rand()%25+1, 0.5f);
+			transform1->TranslateAbs((float)i, 0,(float)j);
+			transform1->ScaleAbs(0.5f, (float)(rand()%25+1), 0.5f);
 
 			BlockGroup2->AddComponent<GameObject>(go_scene);
 		}
@@ -252,6 +249,6 @@ Links this application to the GAme Engine Object, so that they can communicate.
 Parameters:
 [IN]	pFrameWork	-	the pointer to the Engine to be linked to.
 ------------------------------------------------------------------------------*/
-void Application::LinkToEngine(FrameWork* pFrameWork){
+void Application::LinkToEngine(UnFramework* pFrameWork){
 	m_pFrameWork = pFrameWork;
 }

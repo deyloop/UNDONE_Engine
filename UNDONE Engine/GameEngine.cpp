@@ -5,25 +5,35 @@ Author	:	Anurup Dey
 ///////////////////////////////////////////////////////////////////////////////
 #include "FrameWork.h"
 #include "GameObject.h"
+#include "Timer.h"						//For keeping the time.
+#include "InputHandeller.h"				//Makes handling input easy
+#include "DObjectBuffer.h"				//For gameObject storage.
+#include "GraphicsEngine.h"				//header for the graphics engine 
+#include "Window.h"						//header for the Window class
+#include "SystemComponent.h"			//header for the System Interface.
+#include "Scene.h"
+#include "SceneStack.h"
+#include <thread>
 
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
 	Default Constructor. Initialises variables to default values(mostly nulls).
 	-----------------------------------------------------------------------------*/
 	FrameWork::FrameWork(IApp* pApp) {
-		m_pApplication = pApp;
-		m_pSystemComponent = nullptr;
-		m_pUserWindow = nullptr;
-		m_pGraphicsEngine = nullptr;
-		m_pObjectBuffer = nullptr;
-		m_pInputHandeller = nullptr;
-		m_pTimer = nullptr;
+		m_pApplication			= pApp;
+		m_pSystemComponent		= nullptr;
+		m_pUserWindow			= nullptr;
+		m_pGraphicsEngine		= nullptr;
+		m_pObjectBuffer			= nullptr;
+		m_pInputHandeller		= nullptr;
+		m_pTimer				= nullptr;
+		m_pSceneStack			= nullptr;
 
-		m_running = false;
-		m_active = true;
-		m_renderingPaused = false;
-		m_timerPaused = false;
-		m_closing = false;
+		m_running			= false;
+		m_active			= true;
+		m_renderingPaused	= false;
+		m_timerPaused		= false;
+		m_closing			= false;
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -221,6 +231,35 @@ namespace UNDONE_ENGINE {
 	const float FrameWork::GetElapsedTime( ) const {
 		if (m_pTimer==nullptr) return 0.0f;
 		return m_pTimer->GetElapsedTime( );
+	}
+
+	void FrameWork::ChangeScene(Scene* pScene) { }
+	void FrameWork::AddScene(Scene* pScene) {
+		for (auto& scene:m_SceneList) {
+			if (scene==pScene) return;
+		}
+			
+		m_SceneList.push_back(pScene);
+	}
+
+
+	void FrameWork::RemoveScene(Scene* pScene) {
+		for (unsigned i = 0; i<m_SceneList.size( ); ++i) {
+			if (m_SceneList[i]==pScene) {
+				pScene->Release( );
+				m_SceneList.erase(m_SceneList.begin( )+i);
+			}
+		}
+		
+	}
+	void FrameWork::LoadScene(Scene* pScene) {
+		m_pSceneStack->Push_Scene(pScene);
+
+	}
+	void FrameWork::UnloadScene(Scene* pscene) { }
+
+	void FrameWork::Load_scene_proc(FrameWork* pFramework, Scene* pScene) {
+		pScene->Load(pFramework->m_pObjectBuffer);
 	}
 }
 ///////////////////////////////////////////////////////////////////////////////

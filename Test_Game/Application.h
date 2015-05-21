@@ -6,12 +6,11 @@ Author	:	Anurup Dey
 
 #ifndef _APP_H_
 #define _APP_H_
-//includes
-#include "FrameWork.h"
-#include "ShaderProgram.h"
 
-
+#include <vector>
+#include <Undone_Engine.h>
 using namespace UNDONE_ENGINE;
+using namespace std;
 
 class Application : public IApp{
 public:
@@ -20,13 +19,13 @@ public:
 
 	void Release();
 
-	void LinkToEngine(FrameWork* pFrameWork);
+	void LinkToEngine(UnFramework* pFrameWork);
 	void LoadScene(DObjectBuffer* pObjectBuffer);
 	void Update();
 protected:
-	FrameWork*		m_pFrameWork;
-	Camera*			m_pcam;
-	vector<Command*> m_Cmds;
+	UnFramework*		m_pFrameWork;
+	Camera*				m_pcam;
+	vector<Command*>	m_Cmds;
 	DPointer<GameObject> BlockGroup;
 
 	bool initialized;

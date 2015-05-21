@@ -1,23 +1,20 @@
-#include <Undone_Engine.h>
-
 /******************************************************************************
 Project		:	Hexagon Engine
 File		:	Program.cpp
 Author		:	Anurup Dey
 Environment	:	IDE		-Microsoft Visual Studio 2010.
-OS		-Microsoft Windows 7 Ultimate.
-PC model-IBM Lenovo ThinkCentre Edge Tower.
-CPU		-Intel(R) Pentium(R) CPU G680
-@ 2.70Ghz,2.69Ghz.
-RAM		-1935716KB (1982173184 bytes or 1.8GB).
-Graphic Card	-Intel(R) HD Graphics Family
-Graphic Memory	-1024MB (Integrated).
+				OS		-Microsoft Windows 7 Ultimate.
+				PC model-IBM Lenovo ThinkCentre Edge Tower.
+				CPU		-Intel(R) Pentium(R) CPU G680
+							@ 2.70Ghz,2.69Ghz.
+				RAM		-1935716KB (1982173184 bytes or 1.8GB).
+				Graphic Card	-Intel(R) HD Graphics Family
+				Graphic Memory	-1024MB (Integrated).
 ******************************************************************************/
 //////////////////////////////////////////////////////////////////////////////
 
 //#include <vld.h>
-#include "SystemComponent.h"
-#include "FrameWork.h"
+#include <Undone_Engine.h>
 #include "Application.h"
 #include <iostream>
 using namespace std;
@@ -32,8 +29,8 @@ int main( ) {
 		   <<"By Anurup Dey.\n\n"
 		   <<"Initializing\n\n\n";
 
-	Application*	pApp = new Application( );
-	FrameWork*		pUNDONE = new FrameWork(pApp);
+	Application*	pApp	= new Application( );
+	UnFramework*	pUNDONE = Create_Un_Framwork_Inst(pApp);
 
 	pApp->LinkToEngine(pUNDONE);
 	pUNDONE->Initialise("UNDONE", 1000, 700);

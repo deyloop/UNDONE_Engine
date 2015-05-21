@@ -4,6 +4,7 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "GraphicsEngine.h"
+#include "IGraphicsUser.h"
 #include "Texture.h"
 #include "_3DGraphic.h"
 #include "_2DGraphic.h"
@@ -74,7 +75,7 @@ namespace UNDONE_ENGINE {
 	Returns:
 	true on success, false on falure.
 	-----------------------------------------------------------------------------*/
-	bool GraphicsEngine::Initialize(WindowHandle window, IFrameWork* pFrameWork,
+	bool GraphicsEngine::Initialize(WindowHandle window, IGraphicsUser* pFrameWork,
 									DObjectBuffer* pGraphicsBuffer,
 									int context_version_major, int context_version_minor,
 									bool windowed) {
