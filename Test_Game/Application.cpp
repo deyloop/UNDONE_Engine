@@ -4,6 +4,7 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "Application.h"
+#include "Maze.h"
 
 #include <DObjectBuffer.h>
 #include <Texture.h>
@@ -142,12 +143,14 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	grouTrans	->	TranslateRel(10.0f, 0.0f, 0.0f);
 	BlockGroup	->	AddComponent<GameObject>(BlockGroup2);
 
-#define SIZE 6
+#define SIZE 30
+	Maze maze;
+	maze.Generate(SIZE);
 
 	for (int j = 0; j<SIZE; ++j) {
 		for (int i = 0;i<SIZE; ++i) {
 
-			if ((rand( )%4+2)> 3) continue;
+			if (maze.data[i+j*SIZE] == SPACE) continue;
 
 			cout<<"\n";
 			DPointer<GameObject> go_scene		= pObjectBuffer->CreateNew_GameObject( );
@@ -166,7 +169,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 			go_scene->AddComponent<_3DGraphic>(graphic1);
 			
 			transform1->TranslateAbs((float)i, 0,(float)j);
-			transform1->ScaleAbs(0.5f, (float)(rand()%25+1), 0.5f);
+			transform1->ScaleAbs(0.5f, (float)1, 0.5f);
 
 			BlockGroup2->AddComponent<GameObject>(go_scene);
 		}
@@ -176,7 +179,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	DPointer<WorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
 	DPointer<_3DGraphic>		cg = pObjectBuffer->CreateNew__3DGraphic( );
 	cu->AddComponent<WorldTransform>(ct);
-	cu->AddComponent<Mesh>(monkey_mesh);
+	cu->AddComponent<Mesh>(cube_mesh);//change to monkey later
 	cu->AddComponent<GraphicMaterial>(material[rand() % 5]);
 	cu->AddComponent<_3DGraphic>(cg);
 	
@@ -235,7 +238,7 @@ Updates Application specific things like AI, ui response, etc.
 -----------------------------------------------------------------------------*/
 void Application::Update(){
 
-	BlockGroup->worldTransform->RotateRel(0.0f, 0.3f, 0.0f);
+	//BlockGroup->worldTransform->RotateRel(0.0f, 0.3f, 0.0f);
 	cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
