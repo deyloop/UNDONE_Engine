@@ -20,6 +20,7 @@
     <ClInclude Include="Maze.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="2DFontShader.frag" />
     <None Include="2Dshader.frag" />
     <None Include="2Dshader.vert" />
     <None Include="shader.frag" />

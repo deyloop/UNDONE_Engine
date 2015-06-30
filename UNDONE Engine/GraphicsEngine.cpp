@@ -188,19 +188,28 @@ namespace UNDONE_ENGINE {
 		
 		DPointer<Shader> vertexShader = m_pGraphicsBuffer->CreateNew<Shader>( );
 		DPointer<Shader> fragmentShader = m_pGraphicsBuffer->CreateNew<Shader>( );
+		DPointer<Shader> FontFragmentShader = m_pGraphicsBuffer->CreateNew<Shader>();
+		DPointer<ShaderProgram> _FontShader = m_pGraphicsBuffer->CreateNew<ShaderProgram>();
 		DPointer<ShaderProgram> _2DShader = m_pGraphicsBuffer->CreateNew<ShaderProgram>( );
 		vertexShader->LoadShader("2Dshader.vert", GL_VERTEX_SHADER);
 		fragmentShader->LoadShader("2Dshader.frag", GL_FRAGMENT_SHADER);
+		FontFragmentShader->LoadShader("2DFontShader.frag", GL_FRAGMENT_SHADER);
+		
 		_2DShader->CreateProgram( );
 		_2DShader->AddShaderToProgram(vertexShader.ptr( ));
 		_2DShader->AddShaderToProgram(fragmentShader.ptr( ));
 		_2DShader->LinkProgram( );
+
+		_FontShader->CreateProgram();
+		_FontShader->AddShaderToProgram(vertexShader.ptr());
+		_FontShader->AddShaderToProgram(FontFragmentShader.ptr());
+		_FontShader->LinkProgram();
 		
 		_2DGraphic::SetShader(_2DShader);
 		_2DGraphic::InitVAO( );
 
 		
-		font.SetShaderProgram(_2DShader);
+		font.SetShaderProgram(_FontShader);
 		font.LoadSystemFont("arial.ttf", 32);
 
 		
@@ -240,7 +249,7 @@ namespace UNDONE_ENGINE {
 			//Do it!
 			
 			m_pRenderer->Render( );
-			//font.print("TEXT WORKS!", 30, 30, 32);
+			font.print("TEXT WORKS!\n hurray!", -1, 0, 2);
 		}
 
 		

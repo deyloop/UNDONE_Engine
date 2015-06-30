@@ -37,7 +37,7 @@ namespace UNDONE_ENGINE {
 		glGenTextures(1, &m_uiTexture);
 		glBindTexture(GL_TEXTURE_2D, m_uiTexture);
 		if (format==GL_RGBA||format==GL_BGRA)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		// We must handle this because of internal format parameter
 		else if (format==GL_RGB||format==GL_BGR)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);

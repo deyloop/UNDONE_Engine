@@ -33,6 +33,7 @@ namespace UNDONE_ENGINE {
 	inline int next_p2(int n) { int res = 1; while (res < n)res <<= 1; return res; }
 
 	void Font::createChar(int iIndex) {
+		
 		FT_Load_Glyph(m_ftFace, FT_Get_Char_Index(m_ftFace, iIndex), FT_LOAD_DEFAULT);
 
 		FT_Render_Glyph(m_ftFace->glyph, FT_RENDER_MODE_NORMAL);
@@ -83,6 +84,8 @@ namespace UNDONE_ENGINE {
 			vboData.insert(vboData.end( ), (unsigned char*)&vTexQuad[i], (unsigned char*)&vTexQuad[i]+sizeof(glm::vec2));
 		}
 		delete[] bData;
+		
+
 	}
 
 	/*-------------------------------------------------------------------------
@@ -94,10 +97,6 @@ namespace UNDONE_ENGINE {
 
 	bool Font::LoadFont(string File, int PixelSize) {
 		bool bError = FT_Init_FreeType(&m_ftLib);
-		if (glGetError( )) {
-			//
-			cout<<"boo1\n";
-		}
 
 		bError = FT_New_Face(m_ftLib, File.c_str( ), 0, &m_ftFace);
 		if (bError)return false;
@@ -107,25 +106,25 @@ namespace UNDONE_ENGINE {
 		glGenVertexArrays(1, &m_uiVAO);
 		glBindVertexArray(m_uiVAO);
 		glGenBuffers(1, &m_uiVBO);
-		glBindBuffer(GL_VERTEX_ARRAY, m_uiVBO);
-
+		
+		glBindBuffer(GL_ARRAY_BUFFER, m_uiVBO);
+		
 		for (int i = 0; i<128; ++i)createChar(i);
 		bLoaded = true;
-
+		
+		
 		FT_Done_Face(m_ftFace);
 		FT_Done_FreeType(m_ftLib);
 
-		glBufferData(GL_VERTEX_ARRAY, vboData.size( ), &vboData[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, vboData.size( )*sizeof(unsigned char), &vboData[0], GL_STATIC_DRAW);
 		vboData.clear( );
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, 0);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, (void*)(sizeof(glm::vec2)));
+		
 		cout<<"FONT LOADED!\n\n";
-		if (glGetError( )) {
-			//
-			cout<<"boo1\n";
-		}
+	
 		return true;
 	}
 
@@ -155,14 +154,18 @@ namespace UNDONE_ENGINE {
 	with specified pixel size.
 	/*-------------------------------------------------------------------------*/
 	void Font::print(string sText, int x, int y, int iPXSize) {
+
 		if (!bLoaded)return;
 		if (m_ppShaderProgram.m_pointer){
 			GLuint progID = m_ppShaderProgram->GetProgramID( );
+			m_ppShaderProgram->UseProgram();
 			glBindVertexArray(m_uiVAO);
 			glUniform1i(glGetUniformLocation(progID, "gSampler"), 0);
 			
+			glDisable(GL_DEPTH_TEST);
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			
 			
 			int iCurX = x, iCurY = y;
 			if (iPXSize==-1)iPXSize = iLoadedPixelSize;
@@ -174,20 +177,26 @@ namespace UNDONE_ENGINE {
 					continue;
 				}
 				int iIndex = int(sText[i]);
-				iCurX += iBearingX[iIndex]*iPXSize/iLoadedPixelSize;
+				iCurX += 1;// ((iBearingX[iIndex])*iPXSize / iLoadedPixelSize);
 				if (sText[i]!=' ') {
+					
 					tCharTextures[iIndex].BindTexture( );
-					glm::mat4 mModelView = glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX), float(iCurY), 0.0f));
-					mModelView = glm::scale(mModelView, glm::vec3(fScale));
+					glm::mat4 mModelView = glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX)/32, float(iCurY)/32, 0.0f));
+					mModelView = glm::scale(mModelView, glm::vec3(fScale/64));
 					glUniformMatrix4fv(glGetUniformLocation(progID,"gMVP"), 1,GL_FALSE, &mModelView[0][0]);
 					// Draw character
 					glDrawArrays(GL_TRIANGLE_STRIP, iIndex*4, 4);
+					
 				}
 
-				iCurX += (iAdvX[iIndex]-iBearingX[iIndex])*iPXSize/iLoadedPixelSize;
+				iCurX += 1;// ((iAdvX[iIndex] - iBearingX[iIndex]))*iPXSize / iLoadedPixelSize;
 			}
 			glDisable(GL_BLEND);
+			glEnable(GL_DEPTH_TEST);
+	
 			std::cout<<"PRINTING TEXT!\n";
+			
+
 		}
 	}
 

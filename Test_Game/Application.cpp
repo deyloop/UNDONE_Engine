@@ -144,7 +144,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	BlockGroup	->	AddComponent<GameObject>(BlockGroup2);
 
 #define SIZE 30
-	Maze maze;
+	/*Maze maze;
 	maze.Generate(SIZE);
 
 	for (int j = 0; j<SIZE; ++j) {
@@ -174,7 +174,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 			BlockGroup2->AddComponent<GameObject>(go_scene);
 		}
 	}
-
+	*/
 	DPointer<GameObject>		cu = pObjectBuffer->CreateNew_GameObject( );
 	DPointer<WorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
 	DPointer<_3DGraphic>		cg = pObjectBuffer->CreateNew__3DGraphic( );
