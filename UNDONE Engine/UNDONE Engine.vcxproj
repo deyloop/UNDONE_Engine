@@ -93,7 +93,6 @@
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="InputHandeller.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="ObjectBuffer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SceneStack.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -127,7 +126,6 @@
     <ClInclude Include="IWindowUser.h" />
     <ClInclude Include="MaterialProperty.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="ObjectBuffer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneStack.h" />

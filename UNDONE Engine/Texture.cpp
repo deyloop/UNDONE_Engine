@@ -95,8 +95,8 @@ namespace UNDONE_ENGINE {
 			glGenTextures(1, (GLuint*)&m_uiTexture);
 			glBindTexture(GL_TEXTURE_2D, m_uiTexture);
 
-			int format = m_bits_per_pixl = 32 ? GL_BGRA :  m_bits_per_pixl==24 ? GL_BGR : m_bits_per_pixl==8 ? GL_LUMINANCE : 0;
-			int internalFormat = m_bits_per_pixl = 32 ? GL_RGBA :m_bits_per_pixl==24?GL_RGB:GL_DEPTH_COMPONENT;
+			int format = m_bits_per_pixl == 32 ? GL_BGRA :  m_bits_per_pixl==24 ? GL_BGR : m_bits_per_pixl==8 ? GL_LUMINANCE : 0;
+			int internalFormat = m_bits_per_pixl == 32 ? GL_RGBA :m_bits_per_pixl==24?GL_RGB:GL_DEPTH_COMPONENT;
 
 			glTexImage2D(
 				GL_TEXTURE_2D,
