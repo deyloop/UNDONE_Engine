@@ -18,7 +18,7 @@ Author	:	Anurup Dey
 
 namespace UNDONE_ENGINE{
 	
-	//all the types of components:
+	//all the types of components::
 	class Component;
 	class GameObject;
 	class WorldTransform;
