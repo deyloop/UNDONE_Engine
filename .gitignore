@@ -5,6 +5,8 @@
 *.suo
 *.user
 *.sln.docstates
+*.vcxproj
+*.vcxproj.user
 
 # Build results
 [Dd]ebugPublic/
