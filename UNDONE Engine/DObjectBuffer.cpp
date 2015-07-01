@@ -13,7 +13,7 @@ namespace UNDONE_ENGINE {
 	DObjectBuffer::DObjectBuffer( ) {
 		m_empty = true;
 		m_init_vec_size = 100;
-		m_num_owners = 0;//
+		m_num_owners = 0;
 	}
 	/*-------------------------------------------------------------------------
 	DEfault Destructor.
