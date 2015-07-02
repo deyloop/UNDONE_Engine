@@ -9,10 +9,6 @@ Author	:	Anurup Dey
 #ifndef UNDONE_DOBJECTBUFFER_H
 #define UNDONE_DOBJECTBUFFER_H
 
-#define GENERATE_FUNCTIONS_WITH_DEF(type) \
-	 void DeleteAll_ ## type (OwnerShip ownership = 0);\
-	 DPointer<type> CreateNew_ ## type (OwnerShip ownership = 0);\
-	 DPointer<type> Get_ ## type ## _ByName (const char* name, OwnerShip ownership = 0);
 
 #include "Undone_Engine.h"
 #include "UnObjectBuffer.h"
@@ -69,15 +65,9 @@ type of component you throw at it.
 		template<typename T>
 		DPointer<T> GetComponentByNameOfType(const char* name, OwnerShip ownership = 0);
 
-		GENERATE_FUNCTIONS_WITH_DEF(GameObject)
-		GENERATE_FUNCTIONS_WITH_DEF(WorldTransform)
-		GENERATE_FUNCTIONS_WITH_DEF(Mesh)
-		GENERATE_FUNCTIONS_WITH_DEF(GraphicMaterial)
-		GENERATE_FUNCTIONS_WITH_DEF(_3DGraphic)
-		GENERATE_FUNCTIONS_WITH_DEF(_2DGraphic)
-		GENERATE_FUNCTIONS_WITH_DEF(Texture)
-		GENERATE_FUNCTIONS_WITH_DEF(Shader)
-		GENERATE_FUNCTIONS_WITH_DEF(ShaderProgram)
+	#define _GENFUNC_DEC_DOBJECTBUFFER_H_
+	#include "GENERATE_FUNCTIONS.h"
+	GENFUNCS()
 
 	};
 

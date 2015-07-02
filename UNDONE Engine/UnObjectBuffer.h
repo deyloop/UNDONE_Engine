@@ -11,11 +11,6 @@ Author	:	Anurup Dey
 
 #include "DPointer.h"
 
-#define GENERATE_FUNCTIONS(type) \
-	virtual void DeleteAll_ ## type (OwnerShip ownership = 0) = 0;\
-	virtual DPointer<type> CreateNew_ ## type (OwnerShip ownership = 0) = 0;\
-	virtual DPointer<type> Get_ ## type ## _ByName (const char* name, OwnerShip ownership = 0) = 0;
-
 namespace UNDONE_ENGINE{
 	
 	//all the types of components::
@@ -43,15 +38,9 @@ namespace UNDONE_ENGINE{
 		virtual void SetInitAllocSize(unsigned int size) = 0;
 		virtual OwnerShip CreateOwnerShip() = 0;
 
-		GENERATE_FUNCTIONS(GameObject)		
-		GENERATE_FUNCTIONS(WorldTransform)	
-		GENERATE_FUNCTIONS(Mesh)				
-		GENERATE_FUNCTIONS(GraphicMaterial)	
-		GENERATE_FUNCTIONS(_3DGraphic)		
-		GENERATE_FUNCTIONS(_2DGraphic)		
-		GENERATE_FUNCTIONS(Texture)	
-		GENERATE_FUNCTIONS(Shader)
-		GENERATE_FUNCTIONS(ShaderProgram)
+		#define _GENFUNC_DEC_UNOBJECTBUFFER_H_
+		#include "GENERATE_FUNCTIONS.h"
+		GENFUNCS()
 		
 		virtual Camera& GetControlCamera() = 0;
 		virtual DPointer<Component> GetComponentByName(const char* name, OwnerShip ownership = 0)=0;

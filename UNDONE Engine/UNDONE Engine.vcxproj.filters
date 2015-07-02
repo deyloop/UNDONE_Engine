@@ -206,7 +206,7 @@
     <ClInclude Include="DObjectBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Object_Definitions.h">
+    <ClInclude Include="GENERATE_FUNCTIONS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
