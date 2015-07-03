@@ -8,20 +8,20 @@ Author	:	Anurup Dey
 #ifndef _SHADER_PROG_H_
 #define _SHADER_PROG_H_
 
-#include "UNDONE_Engine_declr.h"
-#include "Shader.h"
+#include "unShaderProgram.h"
 
 namespace UNDONE_ENGINE {
 
+	class unShader;
 	/*-----------------------------------------------------------------------------
 	A class that Wraps OpenGL shader program and make its usage easy.
 	-----------------------------------------------------------------------------*/
-	class UNDONE_API ShaderProgram {
+	class ShaderProgram : public unShaderProgram{
 	public:
 		void CreateProgram( );
 		void DeleteProgram( );
 
-		bool AddShaderToProgram(Shader* shShader);
+		bool AddShaderToProgram(unShader* shShader);
 		bool LinkProgram( );
 
 		void UseProgram( );

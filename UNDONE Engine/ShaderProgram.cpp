@@ -4,6 +4,7 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "ShaderProgram.h"
+#include "Shader.h"
 #include <glew.h>
 
 namespace UNDONE_ENGINE {
@@ -39,10 +40,11 @@ namespace UNDONE_ENGINE {
 	Returns:
 	true on success, false on falure.
 	-----------------------------------------------------------------------------*/
-	bool ShaderProgram::AddShaderToProgram(Shader* shShader) {
-		if (!shShader->IsLoaded( ))return false;
+	bool ShaderProgram::AddShaderToProgram(unShader* shShader) {
+		Shader* pShader = (Shader*)shShader;
+		if (!pShader->IsLoaded( ))return false;
 
-		glAttachShader(uiProgram, shShader->GetID( ));
+		glAttachShader(uiProgram, pShader->GetID( ));
 
 		return true;
 	}
