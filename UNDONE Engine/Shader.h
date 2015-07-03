@@ -8,9 +8,7 @@ Author	:	Anurup Dey
 #define _SHADER_H_
 
 typedef  unsigned int UINT;
-#include "UNDONE_Engine_declr.h"
-#include <string>
-using namespace std;
+#include "unShader.h"
 
 namespace UNDONE_ENGINE {
 
@@ -19,12 +17,12 @@ namespace UNDONE_ENGINE {
 	executed directly on the GPU or graphics hardware. Several shaders make a
 	shader program.
 	-----------------------------------------------------------------------------*/
-	class UNDONE_API Shader {
+	class Shader : public unShader {
 	public:
 		Shader( );
 		~Shader( ) { DeleteShader( ); }
 
-		bool LoadShader(string file, int type);
+		bool LoadShader(const char* file, int type);
 		void DeleteShader( );
 
 		bool IsLoaded( ) { return bLoaded; }

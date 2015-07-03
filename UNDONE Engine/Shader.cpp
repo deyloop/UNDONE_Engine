@@ -31,9 +31,9 @@ namespace UNDONE_ENGINE {
 	Returns:
 	true on successful compilation, false on falure.
 	-----------------------------------------------------------------------------*/
-	bool UNDONE_API Shader::LoadShader(string file, int type) {
+	bool UNDONE_API Shader::LoadShader(const char* file, int type) {
 		FILE* fp = nullptr;
-		fopen_s(&fp, file.c_str( ), "rt");
+		fopen_s(&fp, file, "rt");
 		if (!fp) return false;
 
 		// Get all lines from a file
