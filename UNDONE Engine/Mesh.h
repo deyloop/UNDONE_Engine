@@ -10,15 +10,14 @@ Author	:	Anurup Dey
 #define _MESH_H_
 
 //includes
-#include "UNDONE_Engine_declr.h"
-
-#include "Component.h"		//Mesh IS a component 			
+#include "Component.h"		//Mesh IS a component
+#include "unMesh.h"
 #include <glew.h>			//used for the VAOs and the VBOs
 #include <gl\GL.h>
 #include <gl\GLU.h>
 
-   
-
+#include <string>
+using std::string;
 
 typedef  unsigned int UINT;
 
@@ -27,25 +26,26 @@ namespace UNDONE_ENGINE {
 	A Mesh data structure holds data about geometry. Must be used in conjuction
 	with a _3DGraphic Compnent to work properly.
 	----------------------------------------------------------------------------*/
-	struct Mesh : public Component {
-		UNDONE_API Mesh( );
-		UNDONE_API ~Mesh( ) { Release( ); }
+	class Mesh : public Component, public unMesh {
+	public:
+		Mesh( );
+		~Mesh( ) { Release( ); }
 
-		UNDONE_API void SetModelFile(string filename) { m_model_file = filename; };
+		void SetModelFile(const char* filename) { m_model_file = filename; };
 		
-		UNDONE_API void Load( );
+		void Load( );
 		
 		void Render( );
 	
-		UNDONE_API void Unload( );
+		void Unload( );
 		void Release( );
 
-		UNDONE_API void OnParentBeingChilded( );
+		void OnParentBeingChilded( );
 
 		static void SetCurrentlyBoundVAO(UINT uiVAOID) { currently_bound_VAO = uiVAOID; };
 	
 	private:
-		UNDONE_API void OnParentSet( );
+		void OnParentSet( );
 		
 		UINT uiVBO[2];
 		UINT uiVAO[1];
