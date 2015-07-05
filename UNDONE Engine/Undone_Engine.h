@@ -13,20 +13,22 @@ Author	:	Anurup Dey
 
 #include "UnFramework.h"
 
-#include "Component.h"
-#include "GameObject.h"
-#include "WorldTransform.h"
-#include "Shader.h"
-#include "ShaderProgram.h"
-#include "GraphicMaterial.h"
-#include "Texture.h"
-#include "Mesh.h"
-#include "_3DGraphic.h"
-#include "_2DGraphic.h"
+#include "unGameObject.h"
+#include "unWorldTransform.h"
+#include "unShader.h"
+#include "unShaderProgram.h"
+#include "unGraphicMaterial.h"
+#include "unTexture.h"
+#include "unMesh.h"
+#include "unGraphic3D.h"
+#include "unGraphic2D.h"
 
 
-#include "Camera.h"
+#include "unCamera.h"
 
 UNDONE_API UNDONE_ENGINE::UnFramework* Create_Un_Framwork_Inst(IApp* pAppa);
+
+#define unvec3(vec) vec.x, vec.y, vec.z
+#define unvec4(vec) vec.x, vec.y, vec.z, vec.w
 
 #endif

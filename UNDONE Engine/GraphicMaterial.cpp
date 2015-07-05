@@ -45,8 +45,8 @@ namespace UNDONE_ENGINE {
 	Parameters:
 	[IN]	pProgram	:	the pointer to the program to be used.
 	-----------------------------------------------------------------------------*/
-	void GraphicMaterial::SetShaderProgramToUse(DPointer<ShaderProgram> ppProgram) {
-		m_ppShaderProgram = ppProgram;
+	void GraphicMaterial::SetShaderProgramToUse(DPointer<unShaderProgram> ppProgram) {
+		m_ppShaderProgram = dcast<ShaderProgram,unShaderProgram>(ppProgram);
 		if (m_ppShaderProgram.m_pointer!=nullptr) {
 			//fill out the uniform details.
 			GLuint progID = m_ppShaderProgram->GetProgramID( );
@@ -217,7 +217,7 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
-	void GraphicMaterial::SetProperty(string property_name, float& value) {
+	void GraphicMaterial::SetProperty(const char* property_name, float& value) {
 		if (m_loaded) {
 			//traverse through the list of properties to get to the 
 			//requested propery.
@@ -234,11 +234,11 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
-	void GraphicMaterial::SetDiffuseColor(glm::vec3& color) { 
-		SetProperty("gDiffuse", color);
+	void GraphicMaterial::SetDiffuseColor(float& r, float& g, float& b) {
+		SetProperty("gDiffuse", r, g, b );
 	}
 
-	void GraphicMaterial::SetProperty(string property_name, glm::vec3& value) {
+	void GraphicMaterial::SetProperty(const char* property_name, float& x, float& y, float& z) {
 		if (m_loaded) {
 			//traverse through the list of properties to get to the 
 			//requested propery.
@@ -247,7 +247,7 @@ namespace UNDONE_ENGINE {
 					//we found the property,
 					//TODO: add code to check type compatibility here,
 					//		so that type missmatches do not occur.
-					glm::vec3* vec = new glm::vec3(value);
+					glm::vec3* vec = new glm::vec3(x,y,z);
 					property.data.Data_fp = &vec[0][0];
 				}
 			}
