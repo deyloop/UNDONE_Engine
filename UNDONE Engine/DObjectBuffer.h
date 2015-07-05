@@ -16,6 +16,7 @@ Author	:	Anurup Dey
 #include <list>
 #include <algorithm>
 
+#include "Header.h"
 #include "Component.h"				//The Object buffer can only store components
 #include "Camera.h"
 using namespace std;

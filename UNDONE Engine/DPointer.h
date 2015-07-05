@@ -11,6 +11,13 @@ Author	:	Anurup Dey
 
 namespace UNDONE_ENGINE {
 
+	#define _GEN_FORWARD_DEC_COMPS_
+	#include "GENERATE_FUNCTIONS.h"
+	GENFUNCS()
+	#define _GEN_FORWARD_DEC_COMPS_INT_ 
+	#include "GENERATE_FUNCTIONS.h"
+	GENFUNCS()
+
 /*-------------------------------------------------------------------------
 A DPointer is simply a vrapper around a doible pointer. Provides a better
 interface for dereferncing a double pointer (pointer to pointer).
@@ -25,10 +32,15 @@ interface for dereferncing a double pointer (pointer to pointer).
 		}
 	};
 
+	#define _GENFUNC_DEC_DPOINTER_H_
+	#include "GENERATE_FUNCTIONS.h"
+	GENFUNCS()
+
+
 	template <typename to, typename from>
 	DPointer<to> dcast(DPointer<from> dp ) {
 		DPointer<to> t;
-		t.m_pointer = (to**)dp.m_pointer;
+		t.m_pointer = reinterpret_cast<to**>(dp.m_pointer);
 		return t;
 	}
 }

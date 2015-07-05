@@ -126,7 +126,7 @@ namespace UNDONE_ENGINE {
 
 		glBindVertexArray(m_uiVAO[0]);
 		m_ppTexture->BindTexture(0);
-		m_ppTexture->SetFiltering(TEXTURE_FILTER_MAG_NEAREST, TEXTURE_FILTER_MIN_NEAREST);
+		m_ppTexture->setFiltering(TEXTURE_FILTER_MAG_NEAREST, TEXTURE_FILTER_MIN_NEAREST);
 		int progID = m_ppShaderProgram->GetProgramID( );
 		m_ppShaderProgram->UseProgram( );
 

@@ -149,7 +149,7 @@ namespace UNDONE_ENGINE {
 	/*-------------------------------------------------------------------------
 	Sets the Filtering parameters.
 	-------------------------------------------------------------------------*/
-	void Texture::SetFiltering(int magnification, int minification) {
+	void Texture::setFiltering(int magnification, int minification) {
 		// Set magnification filter
 		if (magnification == TEXTURE_FILTER_MAG_NEAREST)
 			glSamplerParameteri(m_uiSampler, GL_TEXTURE_MAG_FILTER, GL_NEAREST);

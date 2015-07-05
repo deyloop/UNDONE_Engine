@@ -20,28 +20,7 @@ namespace UNDONE_ENGINE {
 	void GameObject::Release( ) {
 		//TODO: See what has to be handled here.
 	}
-	/*-----------------------------------------------------------------------------
-	Used to Acces a member Component by name.
-	Parameters:
-	[IN]	name	-	the name of the component requested.
-	Returns:
-	the pointer to the component requested.
-	----------------------------------------------------------------------------*/
-	DPointer<Component>	GameObject::GetComponentByName(const char* name) const {
-		
-		//Searching for a component with such a name.
-		for (auto comp:m_Components) {
-			if (comp->name == name) { //checking if name matches
-				return comp;
-			}
-		} 
-
-		//No such thing in here,
-		DPointer<Component> fake;
-		fake.m_pointer = nullptr;
-		return fake;
-	}
-
+	
 	void GameObject::Load( ) {
 		//Load all children
 		for (auto& childComponent:m_Components) {
@@ -71,5 +50,9 @@ namespace UNDONE_ENGINE {
 	void GameObject::Set_Parent(Component* component) {
 		component->SetParent(dcast<GameObject, Component>(m_ppMyself));
 	}
+
+	#define _GENFUNC_DEF_GAMEOBJECT_CPP_
+	#include "GENERATE_FUNCTIONS.h"
+	GENFUNCS()
 }
 

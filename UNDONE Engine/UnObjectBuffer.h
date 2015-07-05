@@ -14,17 +14,14 @@ Author	:	Anurup Dey
 namespace UNDONE_ENGINE{
 	
 	//all the types of components::
-	class Component;
-	class GameObject;
-	class WorldTransform;
-	struct Mesh;
-	class GraphicMaterial;
-	struct Graphic3D;
-	class Graphic2D;
-	class Texture;
+	#define _GEN_FORWARD_DEC_COMPS_
+	#include "GENERATE_FUNCTIONS.h"
+	GENFUNCS()
+	#define _GEN_FORWARD_DEC_COMPS_INT_
+	#include "GENERATE_FUNCTIONS.h"
+	GENFUNCS()
+
 	class Camera;
-	class Shader;
-	class ShaderProgram;
 
 	typedef  unsigned int OwnerShip;
 
@@ -43,9 +40,6 @@ namespace UNDONE_ENGINE{
 		GENFUNCS()
 		
 		virtual Camera& GetControlCamera() = 0;
-		virtual DPointer<Component> GetComponentByName(const char* name, OwnerShip ownership = 0)=0;
-		
-		
 	};
 };
 #endif

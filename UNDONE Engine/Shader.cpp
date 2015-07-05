@@ -31,7 +31,7 @@ namespace UNDONE_ENGINE {
 	Returns:
 	true on successful compilation, false on falure.
 	-----------------------------------------------------------------------------*/
-	bool UNDONE_API Shader::LoadShader(const char* file, int type) {
+	bool Shader::LoadShader(const char* file, int type) {
 		FILE* fp = nullptr;
 		fopen_s(&fp, file, "rt");
 		if (!fp) return false;
