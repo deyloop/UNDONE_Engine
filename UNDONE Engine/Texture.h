@@ -9,44 +9,34 @@ Author	:	Anurup Dey
 #ifndef _TEXTURE_H_
 #define _TEXTURE_H_
 
-#include "UNDONE_Engine_declr.h"
+#include "unTexture.h"
 #include <string>
 using std::string;
 
 namespace UNDONE_ENGINE {
 
-	enum ETextureFiltering {
-		TEXTURE_FILTER_MAG_NEAREST = 0,		// Nearest criterion for magnification
-		TEXTURE_FILTER_MAG_BILINEAR,		// Bilinear criterion for magnification
-		TEXTURE_FILTER_MIN_NEAREST,			// Nearest criterion for minification
-		TEXTURE_FILTER_MIN_BILINEAR,		// Bilinear criterion for minification
-		TEXTURE_FILTER_MIN_NEAREST_MIPMAP,	// Nearest criterion for minification, but on closest mipmap
-		TEXTURE_FILTER_MIN_BILINEAR_MIPMAP, // Bilinear criterion for minification, but on closest mipmap
-		TEXTURE_FILTER_MIN_TRILINEAR,		// Bilinear criterion for minification on two closest mipmaps, then averaged
-	};
-
-	class Texture {
+	class Texture : public unTexture {
 	public:
-		UNDONE_API Texture( );
-		UNDONE_API ~Texture( ) { Release( ); }
+		Texture( );
+		~Texture( ) { Release( ); }
 
 		void Release( ) { };
 
-		UNDONE_API void CreateFromData(signed char* data, int width, int height, int BPP, unsigned int format, bool generateMipMaps = false);
-		UNDONE_API bool SetTexture2D(string filename, bool generateMipMaps = false);
+		void CreateFromData(signed char* data, int width, int height, int BPP, unsigned int format, bool generateMipMaps = false);
+		bool SetTexture2D(const char* filename, bool generateMipMaps = false);
 		void BindTexture(int textureUnit = 0);
 
 		void Load( );
 		void Unload( );
 
 		void setSamplerParameter(unsigned parameter, unsigned value);
-		UNDONE_API void SetFiltering(int magnification, int minification);
+		void SetFiltering(int magnification, int minification);
 
-		UNDONE_API int GetMinificationFilter( ) { return m_minification; }
-		UNDONE_API int	GetMagnificationFilter( ) { return m_magnification; }
-		UNDONE_API int getWidth( ) { return m_width; }
-		UNDONE_API int getHeight( ) { return m_hieght; }
-		UNDONE_API int getBPP( ) { return m_bits_per_pixl; }
+		int GetMinificationFilter( ) { return m_minification; }
+		int	GetMagnificationFilter( ) { return m_magnification; }
+		int getWidth( ) { return m_width; }
+		int getHeight( ) { return m_hieght; }
+		int getBPP( ) { return m_bits_per_pixl; }
 
 		void releaseTexture( );
 

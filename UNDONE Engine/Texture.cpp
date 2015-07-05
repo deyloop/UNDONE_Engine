@@ -137,7 +137,7 @@ namespace UNDONE_ENGINE {
 	REturns:
 	true on successful loading, false on falure.
 	-------------------------------------------------------------------------*/
-	bool Texture::SetTexture2D(string filename, bool generateMipMaps) {
+	bool Texture::SetTexture2D(const char* filename, bool generateMipMaps) {
 		
 		m_filename = filename;
 		m_generate_mip_maps = generateMipMaps;
