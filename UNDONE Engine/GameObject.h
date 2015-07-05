@@ -53,7 +53,7 @@ namespace UNDONE_ENGINE {
 
 #define worldTransform	GetComponent<WorldTransform>()
 #define mesh			GetComponent<Mesh>()
-#define _3Dgraphic		GetComponent<_3DGraphic>();
+#define _3Dgraphic		GetComponent<Graphic3D>();
 #define graphicMaterial GetComponent<GraphicMaterial>();
 
 	/*-----------------------------------------------------------------------------

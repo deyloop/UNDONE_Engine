@@ -4,7 +4,7 @@ Author	:	Anurup Dey
 -----------------------------------------------------------------------------*/
 ///////////////////////////////////////////////////////////////////////////////
 #include "Renderer.h"
-#include "_3DGraphic.h"
+#include "Graphic3D.h"
 #include "Graphic2D.h"
 #include <gtx/transform.hpp>
 
@@ -62,7 +62,7 @@ namespace UNDONE_ENGINE {
 		Mesh::SetCurrentlyBoundVAO(0);
 		GraphicMaterial::SetCurrentlyActiveProgram(0);
 
-		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<_3DGraphic>( )) {
+		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<Graphic3D>( )) {
 			graphic.Render(render_params);
 		}
 

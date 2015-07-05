@@ -19,7 +19,7 @@ namespace UNDONE_ENGINE{
 	class WorldTransform;
 	struct Mesh;
 	class GraphicMaterial;
-	struct _3DGraphic;
+	struct Graphic3D;
 	class Graphic2D;
 	class Texture;
 	class Camera;

@@ -1,9 +1,9 @@
 /******************************************************************************
-File	:	_3DGraphic.cpp
+File	:	Graphic3D.cpp
 Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
-#include "_3DGraphic.h"
+#include "Graphic3D.h"
 #include "GameObject.h"
 #include<glm.hpp>
 #include<gtx\projection.hpp>
@@ -24,7 +24,7 @@ namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
 	Default Constructor
 	-----------------------------------------------------------------------------*/
-	_3DGraphic::_3DGraphic( ) {
+	Graphic3D::Graphic3D( ) {
 		m_ppMaterial.m_pointer = nullptr;
 		m_ppworldTransform.m_pointer = nullptr;
 		m_ppMesh.m_pointer = nullptr;
@@ -34,28 +34,28 @@ namespace UNDONE_ENGINE {
 	/*------------------------------------------------------------------------------
 	Default destructor
 	-----------------------------------------------------------------------------*/
-	void _3DGraphic::Release( ) {
+	void Graphic3D::Release( ) {
 
 	}
 
 	/*-----------------------------------------------------------------------------
 	 Initialize all the graphical resources here.
 	 -----------------------------------------------------------------------------*/
-	void _3DGraphic::Load( ) {
+	void Graphic3D::Load( ) {
 
 	}
 
 	/*-----------------------------------------------------------------------------
 	Release all Graphical resources here.
 	-----------------------------------------------------------------------------*/
-	void _3DGraphic::Unload( ) {
+	void Graphic3D::Unload( ) {
 
 	}
 
 	/*-----------------------------------------------------------------------------
 	Renders the _3Dgraphic on the screen.
 	-----------------------------------------------------------------------------*/
-	void _3DGraphic::Render(RenderParams& refRenderParams) {
+	void Graphic3D::Render(RenderParams& refRenderParams) {
 		if (m_ppMaterial.m_pointer &&
 			m_ppworldTransform.m_pointer &&
 			m_ppMesh.m_pointer) {
@@ -85,7 +85,7 @@ namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
 	Sets the parent of this 3dGraphic Component.
 	-----------------------------------------------------------------------------*/
-	void _3DGraphic::OnParentSet( ) {
+	void Graphic3D::OnParentSet( ) {
 
 		m_ppworldTransform = m_ppParent->worldTransform;
 		m_ppMesh = m_ppParent->mesh;
@@ -97,7 +97,7 @@ namespace UNDONE_ENGINE {
 
 	}
 
-	void _3DGraphic::OnParentBeingChilded( ) {
+	void Graphic3D::OnParentBeingChilded( ) {
 		//We Do Nothing...
 	}
 

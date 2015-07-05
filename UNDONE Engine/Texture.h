@@ -30,7 +30,7 @@ namespace UNDONE_ENGINE {
 		void Unload( );
 
 		void setSamplerParameter(unsigned parameter, unsigned value);
-		void SetFiltering(int magnification, int minification);
+		void setFiltering(int magnification, int minification);
 
 		int GetMinificationFilter( ) { return m_minification; }
 		int	GetMagnificationFilter( ) { return m_magnification; }

@@ -101,7 +101,7 @@ to that component can be generated automatically.
 		GENERATE_FUNCTIONS(WorldTransform)\
 		GENERATE_FUNCTIONS(Mesh)\
 		GENERATE_FUNCTIONS(GraphicMaterial)\
-		GENERATE_FUNCTIONS(_3DGraphic)\
+		GENERATE_FUNCTIONS(Graphic3D)\
 		GENERATE_FUNCTIONS(Graphic2D)\
 		GENERATE_FUNCTIONS(Texture)\
 		GENERATE_FUNCTIONS(Shader)\

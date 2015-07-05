@@ -24,7 +24,7 @@ typedef  unsigned int UINT;
 namespace UNDONE_ENGINE {
 	/*----------------------------------------------------------------------------
 	A Mesh data structure holds data about geometry. Must be used in conjuction
-	with a _3DGraphic Compnent to work properly.
+	with a Graphic3D Compnent to work properly.
 	----------------------------------------------------------------------------*/
 	class Mesh : public Component, public unMesh {
 	public:

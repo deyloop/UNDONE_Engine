@@ -155,7 +155,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 			cout<<"\n";
 			DPointer<GameObject> go_scene		= pObjectBuffer->CreateNew_GameObject( );
 			DPointer<WorldTransform> transform1 = pObjectBuffer->CreateNew_WorldTransform( );
-			DPointer<_3DGraphic> graphic1		= pObjectBuffer->CreateNew__3DGraphic( );
+			DPointer<Graphic3D> graphic1		= pObjectBuffer->CreateNew__3DGraphic( );
 			
 			go_scene	->	Rename((string	("GameObject")	+i+j).c_str());
 			transform1	->	Rename((string	("Transform" )	+i+j).c_str());
@@ -166,7 +166,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 			go_scene->AddComponent<WorldTransform>(transform1);
 			go_scene->AddComponent<Mesh>(cube_mesh);
 			go_scene->AddComponent<GraphicMaterial>(material.at(rand()%5));
-			go_scene->AddComponent<_3DGraphic>(graphic1);
+			go_scene->AddComponent<Graphic3D>(graphic1);
 			
 			transform1->TranslateAbs((float)i, 0,(float)j);
 			transform1->ScaleAbs(0.5f, (float)1, 0.5f);
@@ -177,11 +177,11 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	*/
 	DPointer<GameObject>		cu = pObjectBuffer->CreateNew_GameObject( );
 	DPointer<WorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
-	DPointer<_3DGraphic>		cg = pObjectBuffer->CreateNew__3DGraphic( );
+	DPointer<Graphic3D>		cg = pObjectBuffer->CreateNew__3DGraphic( );
 	cu->AddComponent<WorldTransform>(ct);
 	cu->AddComponent<Mesh>(cube_mesh);//change to monkey later
 	cu->AddComponent<GraphicMaterial>(material[rand() % 5]);
-	cu->AddComponent<_3DGraphic>(cg);
+	cu->AddComponent<Graphic3D>(cg);
 	
 	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(-2.01f, 2.0f, -2.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));

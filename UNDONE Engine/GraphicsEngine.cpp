@@ -6,9 +6,11 @@ Author	:	Anurup Dey
 #include "GraphicsEngine.h"
 #include "IGraphicsUser.h"
 #include "Texture.h"
-#include "_3DGraphic.h"
+#include "Graphic3D.h"
 #include "Graphic2D.h"
 #include "Font.h"
+#include "Shader.h"
+#include "ShaderProgram.h"
 
 
 
@@ -37,7 +39,7 @@ namespace UNDONE_ENGINE {
 		OnDestroyContext( );
 
 		if (m_pGraphicsBuffer) {
-			m_pGraphicsBuffer->DeleteAll<_3DGraphic>( );
+			m_pGraphicsBuffer->DeleteAll<Graphic3D>( );
 			m_pGraphicsBuffer->DeleteAll<ShaderProgram>( );
 			m_pGraphicsBuffer->DeleteAll<Shader>( );
 			m_pGraphicsBuffer->DeleteAll<Texture>( );
@@ -232,7 +234,7 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void GraphicsEngine::OnDestroyContext( ) {
 		if (m_pGraphicsBuffer) {
-			for (auto& graphic:*m_pGraphicsBuffer->GetListOf<_3DGraphic>( )) {
+			for (auto& graphic:*m_pGraphicsBuffer->GetListOf<Graphic3D>( )) {
 				graphic.OnDestroy( );
 			}
 		}

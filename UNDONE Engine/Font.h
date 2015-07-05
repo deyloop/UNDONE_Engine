@@ -17,7 +17,7 @@ std::string;
 using std::vector;
 using namespace std;
 
-#include "texture.h"
+#include "Texture.h"
 #include "DPointer.h"
 
 namespace UNDONE_ENGINE {
