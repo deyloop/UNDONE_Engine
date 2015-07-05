@@ -1,6 +1,6 @@
 /******************************************************************************
 Project	:	UNDONE Engine
-File	:	_2DGraphic.h
+File	:	Graphic2D.h
 Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
@@ -10,37 +10,33 @@ Author	:	Anurup Dey
 #define _2DGRAPHIC_H_
 
 #include "Component.h"
+#include "unGraphic2D.h"
 #include <glm.hpp>
 
 namespace UNDONE_ENGINE {
 	
-	class Texture;
-	class WorldTransform;
 	class ShaderProgram;
-	
+	class WorldTransform;
+
 	struct _2DRenderParams{
 		glm::mat4 ProjectionMat;
 	};
 
-	struct UNDONE_API rect {
-		float x, y, width, hieght;
-	};
-
-	class _2DGraphic : public Component {
+	class Graphic2D : public Component, public unGraphic2D {
 	public:
-		UNDONE_API _2DGraphic( );
-		UNDONE_API ~_2DGraphic( );
+		Graphic2D( );
+		~Graphic2D( );
 
 		static void InitVAO( );
 		static void DeleteVAO( );
 
-		UNDONE_API void Load( );
+		void Load( );
 		void Render(_2DRenderParams& render_params );
-		UNDONE_API void Unload( );
+		void Unload( );
 
 		void OnParentBeingChilded( ) { };
-		UNDONE_API void SetTexture(DPointer<Texture> ppTex);
-		UNDONE_API void SetImageRect(rect& rectref);
+		void SetTexture(DPointer<unTexture> ppTex);
+		void SetImageRect(rect& rectref);
 
 		static void SetShader(DPointer<ShaderProgram> ppShaderProgram);
 		static void SetScreenDimentions(int h, int w) {
@@ -49,7 +45,7 @@ namespace UNDONE_ENGINE {
 		}
 
 	private:
-		UNDONE_API void OnParentSet( );
+		void OnParentSet( );
 		DPointer<Texture>				m_ppTexture;
 		DPointer<WorldTransform>		m_ppWorldTransform;
 

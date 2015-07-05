@@ -93,9 +93,6 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="_2DGraphic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -106,6 +103,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Undone_Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphic2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -169,9 +169,6 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="_2DGraphic.h">
-      <Filter>Header Files\Components\Graphics Components</Filter>
     </ClInclude>
     <ClInclude Include="_3DGraphic.h">
       <Filter>Header Files\Components\Graphics Components</Filter>
@@ -259,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="DPointer.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic2D.h">
+      <Filter>Header Files\Components\Graphics Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

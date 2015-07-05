@@ -1,10 +1,10 @@
 /******************************************************************************
 Project	:	UNDONE Engine
-File	:	_2DGraphic.h
+File	:	Graphic2D.h
 Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
-#include "_2DGraphic.h"
+#include "Graphic2D.h"
 #include "GameObject.h"
 #include "WorldTransform.h"
 #include "ShaderProgram.h"
@@ -16,17 +16,17 @@ Author	:	Anurup Dey
 
 namespace UNDONE_ENGINE {
 
-	int _2DGraphic::HMVP			= -1;
-	int _2DGraphic::HSampler		= -1;
+	int Graphic2D::HMVP			= -1;
+	int Graphic2D::HSampler		= -1;
 
-	int _2DGraphic::screenwidth		= 0;
-	int _2DGraphic::screenhieght	= 0;
+	int Graphic2D::screenwidth		= 0;
+	int Graphic2D::screenhieght	= 0;
 
-	unsigned _2DGraphic::m_uiVAO[1] = {0};
-	unsigned _2DGraphic::m_uiVBO[3] = {0};
-	DPointer<ShaderProgram> _2DGraphic::m_ppShaderProgram;
+	unsigned Graphic2D::m_uiVAO[1] = {0};
+	unsigned Graphic2D::m_uiVBO[3] = {0};
+	DPointer<ShaderProgram> Graphic2D::m_ppShaderProgram;
 
-	_2DGraphic::_2DGraphic( ) { 
+	Graphic2D::Graphic2D( ) { 
 		m_ppTexture.m_pointer			= nullptr;
 		m_ppWorldTransform.m_pointer	= nullptr;
 		m_rect.x = 0.0f;
@@ -35,13 +35,13 @@ namespace UNDONE_ENGINE {
 		m_rect.hieght = 1.0f;
 	}
 
-	void _2DGraphic::SetImageRect(rect& rectref) {
+	void Graphic2D::SetImageRect(rect& rectref) {
 		m_rect = rectref;
 	}
 
-	_2DGraphic::~_2DGraphic( ) { }
+	Graphic2D::~Graphic2D( ) { }
 
-	void _2DGraphic::InitVAO( ) {
+	void Graphic2D::InitVAO( ) {
 		if (m_ppShaderProgram.m_pointer) {
 			int progID = m_ppShaderProgram->GetProgramID( );
 			int vertexpos_loc = glGetAttribLocation(progID, "inPosition");
@@ -87,7 +87,7 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
-	void _2DGraphic::OnParentSet( ) {
+	void Graphic2D::OnParentSet( ) {
 		m_ppWorldTransform = m_ppParent->worldTransform;
 		if (m_ppWorldTransform.m_pointer) {
 			coutput(name+" aquired transform "+m_ppWorldTransform->name.c_str( )+"\n");
@@ -95,9 +95,9 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
-	void _2DGraphic::SetTexture(DPointer<Texture> ppTex) {
+	void Graphic2D::SetTexture(DPointer<unTexture> ppTex) {
 		if (ppTex.m_pointer) {
-			m_ppTexture = ppTex;
+			m_ppTexture = dcast<Texture,unTexture>(ppTex);
 
 			int image_hieght = m_ppTexture->getHeight( );
 			int image_width = m_ppTexture->getWidth( );
@@ -110,12 +110,12 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
-	void _2DGraphic::Load( ) {
+	void Graphic2D::Load( ) {
 		
 	}
 
 
-	void _2DGraphic::Render(_2DRenderParams& render_params ) {
+	void Graphic2D::Render(_2DRenderParams& render_params ) {
 		if (m_ppWorldTransform.m_pointer	==	nullptr	||
 			m_ppShaderProgram.m_pointer		==	nullptr	||
 			m_ppTexture.m_pointer			==	nullptr	
@@ -147,16 +147,16 @@ namespace UNDONE_ENGINE {
 
 	}
 
-	void _2DGraphic::Unload( ) {
+	void Graphic2D::Unload( ) {
 		
 	}
 
-	void _2DGraphic::DeleteVAO( ) {
+	void Graphic2D::DeleteVAO( ) {
 		glDeleteBuffers(2, m_uiVBO);
 		glDeleteVertexArrays(1, m_uiVAO);
 	}
 
-	void _2DGraphic::SetShader(DPointer<ShaderProgram> ppShaderProgram) {
+	void Graphic2D::SetShader(DPointer<ShaderProgram> ppShaderProgram) {
 		m_ppShaderProgram = ppShaderProgram;
 		if (m_ppShaderProgram.m_pointer) {
 			m_ppShaderProgram->UseProgram( );

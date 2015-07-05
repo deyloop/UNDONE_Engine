@@ -20,7 +20,7 @@ namespace UNDONE_ENGINE{
 	struct Mesh;
 	class GraphicMaterial;
 	struct _3DGraphic;
-	class _2DGraphic;
+	class Graphic2D;
 	class Texture;
 	class Camera;
 	class Shader;

@@ -7,7 +7,7 @@ Author	:	Anurup Dey
 #include "IGraphicsUser.h"
 #include "Texture.h"
 #include "_3DGraphic.h"
-#include "_2DGraphic.h"
+#include "Graphic2D.h"
 #include "Font.h"
 
 
@@ -42,7 +42,7 @@ namespace UNDONE_ENGINE {
 			m_pGraphicsBuffer->DeleteAll<Shader>( );
 			m_pGraphicsBuffer->DeleteAll<Texture>( );
 			m_pGraphicsBuffer->DeleteAll<Mesh>( );
-			m_pGraphicsBuffer->DeleteAll<_2DGraphic>( );
+			m_pGraphicsBuffer->DeleteAll<Graphic2D>( );
 			m_pGraphicsBuffer->DeleteAll<WorldTransform>( );
 			m_pGraphicsBuffer->DeleteAll<GraphicMaterial>( );
 			m_pGraphicsBuffer = nullptr;
@@ -142,7 +142,7 @@ namespace UNDONE_ENGINE {
 		m_2DProjMat = glm::ortho(0.0f, (float)width, (float)hieght, 0.0f);
 		glViewport(0, 0, width, hieght);
 
-		_2DGraphic::SetScreenDimentions(hieght, width);
+		Graphic2D::SetScreenDimentions(hieght, width);
 
 		m_pGraphicsBuffer->GetControlCamera( ).SetAspectRatio((float)width/(float)hieght);
 
@@ -205,8 +205,8 @@ namespace UNDONE_ENGINE {
 		_FontShader->AddShaderToProgram(FontFragmentShader.ptr());
 		_FontShader->LinkProgram();
 		
-		_2DGraphic::SetShader(_2DShader);
-		_2DGraphic::InitVAO( );
+		Graphic2D::SetShader(_2DShader);
+		Graphic2D::InitVAO( );
 
 		
 		font.SetShaderProgram(_FontShader);
@@ -237,7 +237,7 @@ namespace UNDONE_ENGINE {
 			}
 		}
 		
-		_2DGraphic::DeleteVAO( );
+		Graphic2D::DeleteVAO( );
 	
 	}
 

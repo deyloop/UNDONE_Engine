@@ -5,7 +5,7 @@ Author	:	Anurup Dey
 ///////////////////////////////////////////////////////////////////////////////
 #include "Renderer.h"
 #include "_3DGraphic.h"
-#include "_2DGraphic.h"
+#include "Graphic2D.h"
 #include <gtx/transform.hpp>
 
 namespace UNDONE_ENGINE {
@@ -85,7 +85,7 @@ namespace UNDONE_ENGINE {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<_2DGraphic>( )) {
+		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<Graphic2D>( )) {
 			graphic.Render(params);
 		}
 

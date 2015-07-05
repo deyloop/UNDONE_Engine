@@ -102,7 +102,7 @@ to that component can be generated automatically.
 		GENERATE_FUNCTIONS(Mesh)\
 		GENERATE_FUNCTIONS(GraphicMaterial)\
 		GENERATE_FUNCTIONS(_3DGraphic)\
-		GENERATE_FUNCTIONS(_2DGraphic)\
+		GENERATE_FUNCTIONS(Graphic2D)\
 		GENERATE_FUNCTIONS(Texture)\
 		GENERATE_FUNCTIONS(Shader)\
 		GENERATE_FUNCTIONS(ShaderProgram)\

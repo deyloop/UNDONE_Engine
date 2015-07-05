@@ -78,7 +78,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	DPointer<GraphicMaterial> Yellowmaterial= pObjectBuffer->CreateNew_GraphicMaterial( );
 	DPointer<GraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	DPointer<Texture> tex = pObjectBuffer->CreateNew_Texture( );
-	DPointer<_2DGraphic> _2dgraphic = pObjectBuffer->CreateNew__2DGraphic( );
+	DPointer<Graphic2D> _2dgraphic = pObjectBuffer->CreateNew__2DGraphic( );
 	tex->SetTexture2D("HOUSE.png", true);
 	_2dgraphic->SetTexture(tex);
 	DPointer<GameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
@@ -95,7 +95,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	_2dgraphic->SetImageRect(m);
 
 	_2dobj->AddComponent<WorldTransform>(_2dtrans);
-	_2dobj->AddComponent<_2DGraphic>(_2dgraphic);
+	_2dobj->AddComponent<Graphic2D>(_2dgraphic);
 	
 	shVertex->LoadShader("shader.vert", GL_VERTEX_SHADER);
 	shFragment->LoadShader("shader.frag", GL_FRAGMENT_SHADER);
