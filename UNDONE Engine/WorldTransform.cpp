@@ -24,7 +24,7 @@ namespace UNDONE_ENGINE {
 	}
 
 	void WorldTransform::OnParentBeingChilded( ) {
-		m_ppParentTransform.m_pointer = m_ppParent->GetParent( )->worldTransform.m_pointer;
+		m_ppParentTransform.m_pointer = m_ppParent->GetParent( )->GetComponent<WorldTransform>().m_pointer;
 		m_parented = true;
 	}
 

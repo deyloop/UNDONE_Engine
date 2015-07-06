@@ -260,6 +260,20 @@ type of component you throw at it.
 				}
 			}
 		}
+		//if execution reaches here, we don't store such an object.
+		//In such a case, we create an empty vector and add it under
+		//the current ownership. 
+		vector<T>*	pvec = new vector<T>();
+		list<T*>*	plist = new list<T*>();
+		//Make pre-Allocated space.
+		pvec->reserve(m_init_vec_size);
+
+		m_storage_vectors.push_back((void*)pvec);
+		m_storage_lists.push_back((void*)plist);
+		m_storage_types.push_back(this_type);
+		m_storage_owners.push_back(ownership);
+
+		return pvec;
 	}
 
 	/*----------------------------------------------------------------------------
@@ -277,12 +291,12 @@ type of component you throw at it.
 				returnComp.m_pointer = (T**)(component.m_pointer);
 				return returnComp;
 			}
-			//If the program got untill here, that means there isn't a component 
-			//present with that name, so we give out a fake one.
-			DPointer<T> ErrorComponent;
-			ErrorComponent.m_pointer = nullptr;
-			return ErrorComponent;
 		}
+		//If the program got untill here, that means there isn't a component 
+		//present with that name, so we give out a fake one.
+		DPointer<T> ErrorComponent;
+		ErrorComponent.m_pointer = nullptr;
+		return ErrorComponent;
 	}
 
 	template<class T>

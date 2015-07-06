@@ -15,7 +15,7 @@ namespace UNDONE_ENGINE{
 	public:
 		#define _GENFUNC_DEC_UNGAMEOBJECT_H_
 		#include "GENERATE_FUNCTIONS.h"
-		GENFUNCS()
+		GENFUNCS_ONLY_FOR_COMPONENTS()
 
 		virtual void RemoveComponentByName(const char* name) = 0;
 	};

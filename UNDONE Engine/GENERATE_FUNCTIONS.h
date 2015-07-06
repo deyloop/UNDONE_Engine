@@ -14,7 +14,10 @@ to that component can be generated automatically.
 
 #include "DPointer.h"
 
-#define GENERATE_FUNCTIONS(type)
+#ifdef GENERATE_FUNCTIONS
+#undef GENERATE_FUNCTIONS
+#endif
+
 //For ObJectBuffer
 #ifdef _GENFUNC_DEC_UNOBJECTBUFFER_H_
 	#define  GENERATE_FUNCTIONS(type)																		\
@@ -94,16 +97,21 @@ to that component can be generated automatically.
 	Please insert a Macro call to GENERATE_FUNCTIONS for each new Component
 	you create under here.
 	-------------------------------------------------------------------------*/
+#define GENFUNCS_ONLY_FOR_COMPONENTS()\
+	GENERATE_FUNCTIONS(GameObject)\
+	GENERATE_FUNCTIONS(WorldTransform)\
+	GENERATE_FUNCTIONS(Mesh)\
+	GENERATE_FUNCTIONS(GraphicMaterial)\
+	GENERATE_FUNCTIONS(Graphic3D)\
+	GENERATE_FUNCTIONS(Graphic2D)\
+
 #define GENFUNCS()\
-		GENERATE_FUNCTIONS(GameObject)\
-		GENERATE_FUNCTIONS(WorldTransform)\
-		GENERATE_FUNCTIONS(Mesh)\
-		GENERATE_FUNCTIONS(GraphicMaterial)\
-		GENERATE_FUNCTIONS(Graphic3D)\
-		GENERATE_FUNCTIONS(Graphic2D)\
-		GENERATE_FUNCTIONS(Texture)\
-		GENERATE_FUNCTIONS(Shader)\
-		GENERATE_FUNCTIONS(ShaderProgram)\
+	GENFUNCS_ONLY_FOR_COMPONENTS() GENERATE_FUNCTIONS(Texture)\
+	GENERATE_FUNCTIONS(Shader)\
+	GENERATE_FUNCTIONS(ShaderProgram)\
+
+
+
 
 
 

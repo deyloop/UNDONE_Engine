@@ -25,7 +25,7 @@ namespace UNDONE_ENGINE {
 	class GraphicsEngine;
 	class Window;
 	class SystemComponent;
-	class SceneStack;
+	struct SceneStack;
 	/*-----------------------------------------------------------------------------
 	The Engine is resposible for nearly everything that hapens in this application.
 	It Handles the window, tells all the components what to do at events and all

@@ -52,7 +52,7 @@ namespace UNDONE_ENGINE {
 
 		#define _GENFUNC_DEC_GAMEOBJECT_H_
 		#include "GENERATE_FUNCTIONS.h"
-		GENFUNCS()
+		GENFUNCS_ONLY_FOR_COMPONENTS()
 
 	protected:
 		void OnParentSet();
@@ -65,10 +65,6 @@ namespace UNDONE_ENGINE {
 		void Set_Parent(Component* component);
 	};
 
-#define worldTransform	GetComponent<WorldTransform>()
-#define mesh			GetComponent<Mesh>()
-#define _3Dgraphic		GetComponent<_3DGraphic>();
-#define graphicMaterial GetComponent<GraphicMaterial>();
 
 	/*-----------------------------------------------------------------------------
 	Template implimentation for GetComponent. Returns the component of the given

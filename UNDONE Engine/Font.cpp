@@ -96,9 +96,9 @@ namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------*/
 
 	bool Font::LoadFont(string File, int PixelSize) {
-		bool bError = FT_Init_FreeType(&m_ftLib);
+		bool bError = (bool)FT_Init_FreeType(&m_ftLib);
 
-		bError = FT_New_Face(m_ftLib, File.c_str( ), 0, &m_ftFace);
+		bError = (bool)FT_New_Face(m_ftLib, File.c_str( ), 0, &m_ftFace);
 		if (bError)return false;
 		FT_Set_Pixel_Sizes(m_ftFace, PixelSize, PixelSize);
 		iLoadedPixelSize = PixelSize;

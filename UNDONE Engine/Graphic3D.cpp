@@ -87,9 +87,9 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void Graphic3D::OnParentSet( ) {
 
-		m_ppworldTransform = m_ppParent->worldTransform;
-		m_ppMesh = m_ppParent->mesh;
-		m_ppMaterial = m_ppParent->graphicMaterial;
+		m_ppworldTransform = m_ppParent->GetComponent<WorldTransform>();
+		m_ppMesh = m_ppParent->GetComponent<Mesh>();
+		m_ppMaterial = m_ppParent->GetComponent< GraphicMaterial>();
 
 		coutput(name+" aquired transformation "+m_ppworldTransform.Obj( ).name+"\n");
 		coutput(name+" aquired mesh "+m_ppMesh.Obj( ).name+"\n");

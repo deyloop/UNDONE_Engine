@@ -88,7 +88,7 @@ namespace UNDONE_ENGINE {
 	}
 
 	void Graphic2D::OnParentSet( ) {
-		m_ppWorldTransform = m_ppParent->worldTransform;
+		m_ppWorldTransform = m_ppParent->GetComponent<WorldTransform>();
 		if (m_ppWorldTransform.m_pointer) {
 			coutput(name+" aquired transform "+m_ppWorldTransform->name.c_str( )+"\n");
 			Load( );
