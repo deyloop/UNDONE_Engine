@@ -7,6 +7,4 @@
 #include "Mesh.h"
 #include "Graphic3D.h"
 #include "Graphic2D.h"
-
-
 #include "Camera.h"

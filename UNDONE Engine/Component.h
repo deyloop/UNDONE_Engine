@@ -8,7 +8,7 @@ Author	:	Anurup Dey
 #ifndef _UNDONE_COMPONENT_H_
 #define _UNDONE_COMPONENT_H_
 
-#include "UNDONE_Engine_declr.h"
+#include "unComponent.h"
 #include <string>					//We are going to use this to store names
 #include "DPointer.h"				//We are associated to the DObjectBuffer.
 
@@ -25,26 +25,25 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	class Component {
 	public:
-		UNDONE_API Component( );
-		UNDONE_API ~Component( ) { Release( ); }
+		Component( );
+		~Component( ) { Release( ); }
 
 		void Release( );
 		void SetParent(DPointer<GameObject> ppParent);
-		UNDONE_API void Rename(const char* newname);
+		void Rename(const char* newName);
 
-		UNDONE_API virtual void Load( ) = 0;
-		UNDONE_API virtual void Unload( ) = 0;
+		virtual void Load( ) = 0;
+		virtual void Unload( ) = 0;
 		
 		virtual void OnParentBeingChilded( ) = 0;
 
-		UNDONE_API unsigned GetPriority(unsigned priority_level);
-		UNDONE_API void SetPriority(unsigned priority, unsigned priority_level);
+		unsigned GetPriority(unsigned priority_level);
+		void SetPriority(unsigned priority, unsigned priority_level);
 
-		UNDONE_API DPointer<GameObject> GetParent( ) { return m_ppParent; };
-		UNDONE_API int GetNumber( ) { return m_number; }
-		
-		string name;
+		DPointer<GameObject> GetParent( ) { return m_ppParent; };
+		int GetNumber() { return m_number; }
 	
+		string name;
 	protected:
 		DPointer<GameObject>	m_ppParent;
 		DPointer<Component>		m_ppMyself;

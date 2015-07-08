@@ -26,7 +26,7 @@ protected:
 	UnFramework*		m_pFrameWork;
 	Camera*				m_pcam;
 	vector<Command*>	m_Cmds;
-	DPointer<GameObject> BlockGroup;
+	DPointer<unGameObject> BlockGroup;
 
 	bool initialized;
 

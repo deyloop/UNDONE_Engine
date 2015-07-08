@@ -19,10 +19,12 @@ Author	:	Anurup Dey
 #include "Header.h"
 #include "Component.h"				//The Object buffer can only store components
 #include "Camera.h"
+#include "Graphic2D.h"
+
 using namespace std;
 
 namespace UNDONE_ENGINE {
-
+	
 	typedef  unsigned int OwnerShip;
 
 /*-------------------------------------------------------------------------
@@ -42,7 +44,10 @@ type of component you throw at it.
 		unsigned int				m_init_vec_size;
 		unsigned int				m_num_owners;
 
+		unGraphic2D& Getttt(){ return (unGraphic2D&)ttt; }
 	public:
+
+		Graphic2D ttt;
 		DObjectBuffer( );
 		~DObjectBuffer( );
 

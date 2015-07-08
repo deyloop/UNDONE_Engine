@@ -17,6 +17,7 @@ namespace UNDONE_ENGINE {
 	
 	class ShaderProgram;
 	class WorldTransform;
+	class Texture;
 
 	struct _2DRenderParams{
 		glm::mat4 ProjectionMat;

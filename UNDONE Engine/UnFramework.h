@@ -22,7 +22,7 @@ Interface for the Application Component. The application component is an object
 which defines and handles application specific tasks like loading and specifying
 game objects, thier interaction and games logic, etc.
 -----------------------------------------------------------------------------*/
-class UNDONE_API IApp{
+class IApp{
 public:
 	virtual void LoadScene(UNDONE_ENGINE::UnObjectBuffer* pObjectBuffer/*context acceptors etc*/) = 0;
 	virtual void Update(/*parameters to be decided*/) = 0;

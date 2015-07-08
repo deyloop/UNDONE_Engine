@@ -10,6 +10,7 @@ Author	:	Anurup Dey
 #define _UN_GRAPHICMATERIAL_H_
 
 #include "DPointer.h"
+#include "unComponent.h"
 
 namespace UNDONE_ENGINE{
 
@@ -22,11 +23,11 @@ namespace UNDONE_ENGINE{
 	public:
 		virtual void SetShaderProgramToUse(DPointer<unShaderProgram> ppShaderProgram) = 0;
 
-		virtual void SetDiffuseColor(float& r, float& g, float& b) = 0;
-		virtual void SetProperty(const char* property_name, float& value) = 0;
-		virtual void SetProperty(const char* property_name, int& value) = 0;
-		virtual void SetProperty(const char* property_name, float& x, float& y, float& z) = 0;
-		virtual void SetProperty(const char* property_name, float& x, float& y, float& z, float& w) = 0;
+		virtual void SetDiffuseColor(float r, float g, float b) = 0;
+		virtual void SetProperty(const char* property_name, float value) = 0;
+		virtual void SetProperty(const char* property_name, int value) = 0;
+		virtual void SetProperty(const char* property_name, float x, float y, float z) = 0;
+		virtual void SetProperty(const char* property_name, float x, float y, float z, float w) = 0;
 	};
 }
 #endif

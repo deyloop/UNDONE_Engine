@@ -26,7 +26,7 @@ namespace UNDONE_ENGINE {
 	A Mesh data structure holds data about geometry. Must be used in conjuction
 	with a Graphic3D Compnent to work properly.
 	----------------------------------------------------------------------------*/
-	class Mesh : public Component, public unMesh {
+	class Mesh : public virtual Component, public unMesh {
 	public:
 		Mesh( );
 		~Mesh( ) { Release( ); }

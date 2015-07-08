@@ -217,7 +217,7 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
-	void GraphicMaterial::SetProperty(const char* property_name, float& value) {
+	void GraphicMaterial::SetProperty(const char* property_name, float value) {
 		if (m_loaded) {
 			//traverse through the list of properties to get to the 
 			//requested propery.
@@ -234,11 +234,11 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
-	void GraphicMaterial::SetDiffuseColor(float& r, float& g, float& b) {
+	void GraphicMaterial::SetDiffuseColor(float r, float g, float b) {
 		SetProperty("gDiffuse", r, g, b );
 	}
 
-	void GraphicMaterial::SetProperty(const char* property_name, float& x, float& y, float& z) {
+	void GraphicMaterial::SetProperty(const char* property_name, float x, float y, float z) {
 		if (m_loaded) {
 			//traverse through the list of properties to get to the 
 			//requested propery.

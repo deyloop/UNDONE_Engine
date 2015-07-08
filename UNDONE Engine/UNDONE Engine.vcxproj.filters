@@ -108,6 +108,12 @@
     <ClCompile Include="Graphic3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="unComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dpointer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicalObject.h">
@@ -263,10 +269,16 @@
     <ClInclude Include="Header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="unComponent.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="HeaderSnippet.snippet">
       <Filter>Header Files</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

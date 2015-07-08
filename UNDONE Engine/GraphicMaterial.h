@@ -42,11 +42,11 @@ namespace UNDONE_ENGINE {
 		void ApplyMaterial( );
 		void Unload( );
 		
-		void SetDiffuseColor(float& r, float& g, float& b);
-		void SetProperty(const char* property_name, float& value);
-		void SetProperty(const char* property_name, int& value) { };
-		void SetProperty(const char* property_name,float& x, float& y, float& z);
-		void SetProperty(const char* property_name, float& x, float& y, float& z, float& w) { };
+		void SetDiffuseColor(float r, float g, float b);
+		void SetProperty(const char* property_name, float value);
+		void SetProperty(const char* property_name, int value) { };
+		void SetProperty(const char* property_name,float x, float y, float z);
+		void SetProperty(const char* property_name, float x, float y, float z, float w) { };
 		//TODO: Add all types of property setters.
 
 		static void SetCurrentlyActiveProgram(UINT uiID) { s_ActiveShaderProgram = uiID; };

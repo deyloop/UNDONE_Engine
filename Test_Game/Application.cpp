@@ -6,8 +6,8 @@ Author	:	Anurup Dey
 #include "Application.h"
 #include "Maze.h"
 
-#include <DObjectBuffer.h>
 #include <Texture.h>
+#include<glew.h>
 
 #include <UNDONE_DEBUG.h>
 
@@ -64,25 +64,25 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	
 	//pObjectBuffer->SetInitAllocSize(100);
 	
-
-	DPointer<Shader> shVertex			= pObjectBuffer->CreateNew_Shader();
-	DPointer<Shader> shFragment			= pObjectBuffer->CreateNew_Shader();
-	DPointer<ShaderProgram> spMain		= pObjectBuffer->CreateNew_ShaderProgram();
-	DPointer<Mesh> cube_mesh			= pObjectBuffer->CreateNew_Mesh( );
-	DPointer<Mesh> monkey_mesh			= pObjectBuffer->CreateNew_Mesh( );
+	
+	DPointer<unShader> shVertex			= pObjectBuffer->CreateNew_Shader();
+	DPointer<unShader> shFragment			= pObjectBuffer->CreateNew_Shader();
+	DPointer<unShaderProgram> spMain		= pObjectBuffer->CreateNew_ShaderProgram();
+	DPointer<unMesh> cube_mesh			= pObjectBuffer->CreateNew_Mesh( );
+	DPointer<unMesh> monkey_mesh			= pObjectBuffer->CreateNew_Mesh( );
 	monkey_mesh->SetModelFile("monkey.obj");
 	
-	DPointer<GraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
-	DPointer<GraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew_GraphicMaterial( );
-	DPointer<GraphicMaterial> Greenmaterial = pObjectBuffer->CreateNew_GraphicMaterial( );
-	DPointer<GraphicMaterial> Yellowmaterial= pObjectBuffer->CreateNew_GraphicMaterial( );
-	DPointer<GraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
-	DPointer<Texture> tex = pObjectBuffer->CreateNew_Texture( );
-	DPointer<Graphic2D> _2dgraphic = pObjectBuffer->CreateNew__2DGraphic( );
+	DPointer<unGraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
+	DPointer<unGraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew_GraphicMaterial( );
+	DPointer<unGraphicMaterial> Greenmaterial = pObjectBuffer->CreateNew_GraphicMaterial( );
+	DPointer<unGraphicMaterial> Yellowmaterial= pObjectBuffer->CreateNew_GraphicMaterial( );
+	DPointer<unGraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
+	DPointer<unTexture> tex = pObjectBuffer->CreateNew_Texture();/*
+	DPointer<unGraphic2D> _2dgraphic = pObjectBuffer->CreateNew_Graphic2D( );
 	tex->SetTexture2D("HOUSE.png", true);
-	_2dgraphic->SetTexture(tex);
-	DPointer<GameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
-	DPointer<WorldTransform> _2dtrans = pObjectBuffer->CreateNew_WorldTransform( );
+	(_2dgraphic.ptr())->SetTexture(tex);
+	DPointer<unGameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
+	DPointer<unWorldTransform> _2dtrans = pObjectBuffer->CreateNew_WorldTransform( );
 	//_2dtrans->TranslateAbs(1.0f, 1.f, 0.0f);
 	//_2dtrans->RotateAbs(0.0f, 0.0f, 45.0f);
 	
@@ -94,8 +94,8 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 
 	_2dgraphic->SetImageRect(m);
 
-	_2dobj->AddComponent<WorldTransform>(_2dtrans);
-	_2dobj->AddComponent<Graphic2D>(_2dgraphic);
+	_2dobj->AddWorldTransform(_2dtrans);
+	_2dobj->AddGraphic2D(_2dgraphic);
 	
 	shVertex->LoadShader("shader.vert", GL_VERTEX_SHADER);
 	shFragment->LoadShader("shader.frag", GL_FRAGMENT_SHADER);
@@ -106,8 +106,8 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 
 	spMain->LinkProgram();
 	
-	Redmaterial	->Rename("RedMaterial");
-	Bluematerial->Rename("BlueMaterial");
+	//Redmaterial	->Rename("RedMaterial");
+	//Bluematerial->Rename("BlueMaterial");
 	
 	Redmaterial		->	SetShaderProgramToUse(spMain);
 	Greenmaterial	->	SetShaderProgramToUse(spMain);
@@ -115,15 +115,15 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	Pinkmaterial	->	SetShaderProgramToUse(spMain);
 	Bluematerial	->	SetShaderProgramToUse(spMain);
 	
-	Bluematerial	->	SetDiffuseColor(glm::vec3(0.0f, 0.0f, 1.0f));
-	Redmaterial		->	SetDiffuseColor(glm::vec3(1.0f, 0.0f, 0.0f));
-	Greenmaterial	->	SetDiffuseColor(glm::vec3(0.0f, 1.0f, 0.0f));
-	Yellowmaterial	->	SetDiffuseColor(glm::vec3(1.0f, 1.0f, 0.0f));
-	Pinkmaterial	->	SetDiffuseColor(glm::vec3(1.0f, 0.0f, 127.0f/255.0f));
+	Bluematerial	->	SetDiffuseColor(0.0f, 0.0f, 1.0f);
+	Redmaterial		->	SetDiffuseColor(1.0f, 0.0f, 0.0f);
+	Greenmaterial	->	SetDiffuseColor(0.0f, 1.0f, 0.0f);
+	Yellowmaterial	->	SetDiffuseColor(1.0f, 1.0f, 0.0f);
+	Pinkmaterial	->	SetDiffuseColor(1.0f, 0.0f, 127.0f/255.0f);
 	
-	cube_mesh->Rename("CubeMesh");
+	//cube_mesh->Rename("CubeMesh");
 	
-	vector<DPointer<GraphicMaterial>> material;
+	vector<DPointer<unGraphicMaterial>> material;
 	material.reserve(5);
 
 	material.push_back(Redmaterial);
@@ -135,13 +135,13 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	srand((unsigned int)time(0));
 
 	BlockGroup = pObjectBuffer->CreateNew_GameObject( );
-	DPointer<GameObject>		BlockGroup2 = pObjectBuffer->CreateNew_GameObject( );
-	DPointer<WorldTransform>	grouTrans2	= pObjectBuffer->CreateNew_WorldTransform( );
-	DPointer<WorldTransform>	grouTrans	= pObjectBuffer->CreateNew_WorldTransform( );
-	BlockGroup	->	AddComponent<WorldTransform>(grouTrans2);
-	BlockGroup2	->	AddComponent<WorldTransform>(grouTrans);
+	DPointer<unGameObject>		BlockGroup2 = pObjectBuffer->CreateNew_GameObject( );
+	DPointer<unWorldTransform>	grouTrans2	= pObjectBuffer->CreateNew_WorldTransform( );
+	DPointer<unWorldTransform>	grouTrans	= pObjectBuffer->CreateNew_WorldTransform( );
+	BlockGroup	->	AddWorldTransform(grouTrans2);
+	BlockGroup2	->	AddWorldTransform(grouTrans);
 	grouTrans	->	TranslateRel(10.0f, 0.0f, 0.0f);
-	BlockGroup	->	AddComponent<GameObject>(BlockGroup2);
+	BlockGroup	->	AddGameObject(BlockGroup2);
 
 #define SIZE 30
 	/*Maze maze;
@@ -174,15 +174,16 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 			BlockGroup2->AddComponent<GameObject>(go_scene);
 		}
 	}
-	*/
-	DPointer<GameObject>		cu = pObjectBuffer->CreateNew_GameObject( );
-	DPointer<WorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
-	DPointer<Graphic3D>		cg = pObjectBuffer->CreateNew__3DGraphic( );
-	cu->AddComponent<WorldTransform>(ct);
-	cu->AddComponent<Mesh>(cube_mesh);//change to monkey later
-	cu->AddComponent<GraphicMaterial>(material[rand() % 5]);
-	cu->AddComponent<Graphic3D>(cg);
 	
+	DPointer<unGameObject>		cu = pObjectBuffer->CreateNew_GameObject( );
+	DPointer<unWorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
+	DPointer<unGraphic3D>		cg = pObjectBuffer->CreateNew_Graphic3D( );
+	cu->AddWorldTransform(ct);
+	cu->AddMesh(cube_mesh);//change to monkey later
+	cu->AddGraphicMaterial(material[rand() % 5]);
+	cu->AddGraphic3D(cg);*/
+	unGraphic2D& gtt = pObjectBuffer->Getttt();
+	gtt.SetTexture(tex);
 	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(-2.01f, 2.0f, -2.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));

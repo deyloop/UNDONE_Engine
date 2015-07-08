@@ -47,7 +47,8 @@ to that component can be generated automatically.
 //for DPointer
 #elif defined _GENFUNC_DEC_DPOINTER_H_
 	#define GENERATE_FUNCTIONS(type)\
-	template struct DPointer<type>;
+	template struct DPointer<type>;\
+	template struct DPointer < un##type > ;
 	#undef _GENFUNC_DEC_DPOINTER_H_
 
 //General use
@@ -106,7 +107,8 @@ to that component can be generated automatically.
 	GENERATE_FUNCTIONS(Graphic2D)\
 
 #define GENFUNCS()\
-	GENFUNCS_ONLY_FOR_COMPONENTS() GENERATE_FUNCTIONS(Texture)\
+	GENFUNCS_ONLY_FOR_COMPONENTS() \
+	GENERATE_FUNCTIONS(Texture)\
 	GENERATE_FUNCTIONS(Shader)\
 	GENERATE_FUNCTIONS(ShaderProgram)\
 
