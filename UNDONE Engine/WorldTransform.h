@@ -71,7 +71,7 @@ namespace UNDONE_ENGINE {
 		unsigned		m_par_sync_num;
 		bool			m_parented;
 
-		DPointer<WorldTransform> m_ppParentTransform;
+		Dptr<WorldTransform> m_ppParentTransform;
 
 		void OnParentSet( );
 	};

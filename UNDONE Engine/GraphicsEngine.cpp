@@ -188,17 +188,17 @@ namespace UNDONE_ENGINE {
 		if (m_pFrameWork) m_pFrameWork->OnCreateContext( );
 		//Set up 2D.
 		
-		DPointer<Shader> vertexShader = m_pGraphicsBuffer->CreateNew<Shader>( );
-		DPointer<Shader> fragmentShader = m_pGraphicsBuffer->CreateNew<Shader>( );
-		DPointer<Shader> FontFragmentShader = m_pGraphicsBuffer->CreateNew<Shader>();
-		DPointer<ShaderProgram> _FontShader = m_pGraphicsBuffer->CreateNew<ShaderProgram>();
-		DPointer<ShaderProgram> _2DShader = m_pGraphicsBuffer->CreateNew<ShaderProgram>( );
+		Dptr<Shader> vertexShader = m_pGraphicsBuffer->CreateNew<Shader>( );
+		Dptr<Shader> fragmentShader = m_pGraphicsBuffer->CreateNew<Shader>( );
+		Dptr<Shader> FontFragmentShader = m_pGraphicsBuffer->CreateNew<Shader>();
+		Dptr<ShaderProgram> _FontShader = m_pGraphicsBuffer->CreateNew<ShaderProgram>();
+		Dptr<ShaderProgram> _2DShader = m_pGraphicsBuffer->CreateNew<ShaderProgram>( );
 		vertexShader->LoadShader("2Dshader.vert", GL_VERTEX_SHADER);
 		fragmentShader->LoadShader("2Dshader.frag", GL_FRAGMENT_SHADER);
 		FontFragmentShader->LoadShader("2DFontShader.frag", GL_FRAGMENT_SHADER);
 		
 		_2DShader->CreateProgram( );
-		_2DShader->AddShaderToProgram(vertexShader.ptr( ));
+		_2DShader->AddShaderToProgram(vertexShader.ptr());
 		_2DShader->AddShaderToProgram(fragmentShader.ptr( ));
 		_2DShader->LinkProgram( );
 

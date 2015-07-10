@@ -45,7 +45,7 @@ namespace UNDONE_ENGINE {
 	Parameters:
 	[IN]	pProgram	:	the pointer to the program to be used.
 	-----------------------------------------------------------------------------*/
-	void GraphicMaterial::SetShaderProgramToUse(DPointer<unShaderProgram> ppProgram) {
+	void GraphicMaterial::SetShaderProgramToUse(Dptr<unShaderProgram> ppProgram) {
 		m_ppShaderProgram = dcast<ShaderProgram,unShaderProgram>(ppProgram);
 		if (m_ppShaderProgram.m_pointer!=nullptr) {
 			//fill out the uniform details.

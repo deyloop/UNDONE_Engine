@@ -206,9 +206,6 @@
     <ClInclude Include="UniformDataInterface.h">
       <Filter>Header Files\Components\Graphics Components\Graphic Material Dependencies</Filter>
     </ClInclude>
-    <ClInclude Include="DObjectBuffer.h">
-      <Filter>Header Files\SubSystems</Filter>
-    </ClInclude>
     <ClInclude Include="IWindowUser.h">
       <Filter>Header Files\SubSystems</Filter>
     </ClInclude>
@@ -257,9 +254,6 @@
     <ClInclude Include="GENERATE_FUNCTIONS.h">
       <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="DPointer.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Graphic2D.h">
       <Filter>Header Files\Components\Graphics Components</Filter>
     </ClInclude>
@@ -271,6 +265,15 @@
     </ClInclude>
     <ClInclude Include="unComponent.h">
       <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectBuffer.h">
+      <Filter>Header Files\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Dptr.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectContainer.h">
+      <Filter>Header Files\SubSystems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

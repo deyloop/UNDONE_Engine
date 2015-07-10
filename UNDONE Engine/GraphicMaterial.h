@@ -33,7 +33,7 @@ namespace UNDONE_ENGINE {
 		void Release( ) { Unload( ); };
 
 		void OnParentBeingChilded( );
-		void SetShaderProgramToUse(DPointer<unShaderProgram> ppShaderProgram);
+		void SetShaderProgramToUse(Dptr<unShaderProgram> ppShaderProgram);
 
 		UniformDataInterface& GetUniformDataInterface( ) { return m_DataInterface; };
 		
@@ -61,7 +61,7 @@ namespace UNDONE_ENGINE {
 		vector<int>						m_UniformDataLocations;
 		vector<MaterialProperty>		m_Properies;
 
-		DPointer<ShaderProgram>			m_ppShaderProgram;
+		Dptr<ShaderProgram>			m_ppShaderProgram;
 
 		int								m_num_parents;
 		int								m_instances;

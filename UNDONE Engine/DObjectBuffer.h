@@ -33,7 +33,7 @@ physically stored. THis Object buffer has the capabiltity to store any
 type of component you throw at it.
 -------------------------------------------------------------------------*/
 	class DObjectBuffer : public UnObjectBuffer {
-		vector<DPointer<Component>> m_Components;
+		vector<Dptr<Component>> m_Components;
 		vector<void*>				m_storage_vectors;
 		vector<void*>				m_storage_lists;
 		vector<size_t>				m_storage_types;
@@ -58,7 +58,7 @@ type of component you throw at it.
 		void DeleteAll(OwnerShip ownership = 0 );
 
 		template<typename T>
-		DPointer<T> CreateNew(OwnerShip ownership = 0);
+		Dptr<T> CreateNew(OwnerShip ownership = 0);
 
 		template<typename T>
 		vector<T>* GetListOf(OwnerShip ownership = 0);
@@ -66,10 +66,10 @@ type of component you throw at it.
 		void SortByPriority(OwnerShip ownership = 0);
 
 		Camera& GetControlCamera( ) { return m_Cam; }
-		DPointer<Component> GetComponentByName(const char* name, OwnerShip ownership = 0);
+		Dptr<Component> GetComponentByName(const char* name, OwnerShip ownership = 0);
 		
 		template<typename T>
-		DPointer<T> GetComponentByNameOfType(const char* name, OwnerShip ownership = 0);
+		Dptr<T> GetComponentByNameOfType(const char* name, OwnerShip ownership = 0);
 
 	#define _GENFUNC_DEC_DOBJECTBUFFER_H_
 	#include "GENERATE_FUNCTIONS.h"
@@ -136,7 +136,7 @@ type of component you throw at it.
 	[IN] storageList	-	the linked list.
 	-----------------------------------------------------------------------------*/
 	template<typename storagetype>
-	storagetype** MakeNew(vector<storagetype>& storageVector,
+	storagetype* MakeNew(vector<storagetype>& storageVector,
 						  list<storagetype*>& storageList) {
 		bool reallocate_list = Reallocating<storagetype>(storageVector);
 
@@ -154,7 +154,7 @@ type of component you throw at it.
 	
 #include <type_traits>
 	template<typename T>
-	DPointer<T> DObjectBuffer::CreateNew(OwnerShip ownership) {
+	Dptr<T> DObjectBuffer::CreateNew(OwnerShip ownership) {
 		m_empty = false;
 
 		vector<T>*	pvec = nullptr;
@@ -188,8 +188,8 @@ type of component you throw at it.
 			m_storage_owners.push_back(ownership);
 		}
 
-		T** pointer = MakeNew<T>(*pvec, *plist);
-		DPointer<T> returnval;
+		T* pointer = MakeNew<T>(*pvec, *plist);
+		Dptr<T> returnval;
 		returnval.m_pointer = pointer;
 		//Components are kept specially, So that they can be
 		//searched up by name later
@@ -198,7 +198,7 @@ type of component you throw at it.
 			//or not.
 
 			//So now we proceed...
-			DPointer<Component> clrg;
+			Dptr<Component> clrg;
 			clrg.m_pointer = (Component**)returnval.m_pointer;
 			m_Components.push_back(clrg);
 			//give the this DPOinter
@@ -288,18 +288,18 @@ type of component you throw at it.
 	[IN]	name:	the name of the componet.
 	----------------------------------------------------------------------------*/
 	template<typename T>
-	DPointer<T> DObjectBuffer::GetComponentByNameOfType(const char* name, OwnerShip ownership) {
-		for (DPointer<Component>& component:m_Components) {
+	Dptr<T> DObjectBuffer::GetComponentByNameOfType(const char* name, OwnerShip ownership) {
+		for (Dptr<Component>& component:m_Components) {
 			if (component->name==name) {
-				//Contruct a DPointer of the given type.
-				DPointer<T> returnComp;
-				returnComp.m_pointer = (T**)(component.m_pointer);
+				//Contruct a Dptr of the given type.
+				Dptr<T> returnComp;
+				returnComp.m_pointer = (T*)(component.m_pointer);
 				return returnComp;
 			}
 		}
 		//If the program got untill here, that means there isn't a component 
 		//present with that name, so we give out a fake one.
-		DPointer<T> ErrorComponent;
+		Dptr<T> ErrorComponent;
 		ErrorComponent.m_pointer = nullptr;
 		return ErrorComponent;
 	}

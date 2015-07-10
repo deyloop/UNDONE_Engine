@@ -244,7 +244,7 @@ namespace UNDONE_ENGINE {
 
 	/*-------------------------------------------------------------------------*/
 
-	void Font::SetShaderProgram(DPointer<ShaderProgram> a_shShaderProgram) {
+	void Font::SetShaderProgram(Dptr<ShaderProgram> a_shShaderProgram) {
 		m_ppShaderProgram = a_shShaderProgram;
 	}
 }

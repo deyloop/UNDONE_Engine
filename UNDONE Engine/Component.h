@@ -10,7 +10,7 @@ Author	:	Anurup Dey
 
 #include "unComponent.h"
 #include <string>					//We are going to use this to store names
-#include "DPointer.h"				//We are associated to the DObjectBuffer.
+#include "Dptr.h"				//We are associated to the DObjectBuffer.
 
 using namespace std;
 
@@ -29,7 +29,7 @@ namespace UNDONE_ENGINE {
 		~Component( ) { Release( ); }
 
 		void Release( );
-		void SetParent(DPointer<GameObject> ppParent);
+		void SetParent(Dptr<GameObject> ppParent);
 		void Rename(const char* newName);
 
 		virtual void Load( ) = 0;
@@ -40,13 +40,13 @@ namespace UNDONE_ENGINE {
 		unsigned GetPriority(unsigned priority_level);
 		void SetPriority(unsigned priority, unsigned priority_level);
 
-		DPointer<GameObject> GetParent( ) { return m_ppParent; };
+		Dptr<GameObject> GetParent( ) { return m_ppParent; };
 		int GetNumber() { return m_number; }
 	
 		string name;
 	protected:
-		DPointer<GameObject>	m_ppParent;
-		DPointer<Component>		m_ppMyself;
+		Dptr<GameObject>	m_ppParent;
+		Dptr<Component>		m_ppMyself;
 #define NUM_MAX_PRIORITIES 2
 		int						m_num_priority[NUM_MAX_PRIORITIES];
 		int						m_number;

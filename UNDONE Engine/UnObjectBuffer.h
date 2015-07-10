@@ -9,7 +9,7 @@ Author	:	Anurup Dey
 #ifndef _UN_OBJECTBUFFER_H_
 #define _UN_OBJECTBUFFER_H_
 
-#include "DPointer.h"
+#include "Dptr.h"
 
 namespace UNDONE_ENGINE{
 	

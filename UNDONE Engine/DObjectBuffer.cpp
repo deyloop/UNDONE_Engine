@@ -37,8 +37,8 @@ namespace UNDONE_ENGINE {
 	Returns:
 	THe required component if it exists, otherwise a DPOINTER with a nullptr
 	----------------------------------------------------------------------------*/
-	DPointer<Component> DObjectBuffer::GetComponentByName(const char* name,OwnerShip ownership) {
-		for (DPointer<Component>& component : m_Components) {
+	Dptr<Component> DObjectBuffer::GetComponentByName(const char* name,OwnerShip ownership) {
+		for (Dptr<Component>& component : m_Components) {
 			if (component->name==name) {
 				return component;
 			}
@@ -46,7 +46,7 @@ namespace UNDONE_ENGINE {
 
 		//If the program got untill here, that means there isn't a component 
 		//present with that name, so we give out a fake one.
-		DPointer<Component> ErrorComponent;
+		Dptr<Component> ErrorComponent;
 		ErrorComponent.m_pointer = nullptr;
 		return ErrorComponent;
 	}

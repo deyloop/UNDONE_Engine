@@ -21,7 +21,7 @@ namespace UNDONE_ENGINE{
 
 	class unGraphic2D {
 	public:
-		virtual void SetTexture(DPointer<unTexture> ppTex) =0;
+		virtual void SetTexture(Dptr<unTexture> ppTex) =0;
 		virtual void SetImageRect(rect& rectref)=0;
 	};
 }
