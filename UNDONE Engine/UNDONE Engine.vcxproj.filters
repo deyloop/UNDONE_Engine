@@ -269,9 +269,6 @@
     <ClInclude Include="ObjectBuffer.h">
       <Filter>Header Files\SubSystems</Filter>
     </ClInclude>
-    <ClInclude Include="Dptr.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectContainer.h">
       <Filter>Header Files\SubSystems</Filter>
     </ClInclude>

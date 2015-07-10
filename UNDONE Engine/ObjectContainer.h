@@ -21,18 +21,18 @@ namespace UNDONE_ENGINE{
 		ObjectContainer<T> *m_pContainer;
 		unsigned int m_pos;
 	public:
-		ContIter(const ObjectContainer<T>* pContainer, unsigned int pos){
+		ContIter(ObjectContainer<T>* pContainer, unsigned int pos){
 			m_pos = pos;
 			m_pContainer = pContainer;
 		}
 
-		bool operator != (const ContIter<T>& other) const{
+		bool operator != (ContIter<T>& other){
 			return (m_pContainer != other.m_pContainer) && (m_pos != other.m_pos);
 		}
 
-		T& operator * () const;
+		T& operator * ();
 
-		const ContIter& operator ++ (){
+		ContIter& operator ++ (){
 			m_pos++;
 			return *this;
 		}
@@ -58,7 +58,7 @@ namespace UNDONE_ENGINE{
 		}
 
 		void Add(T obj){
-			if (num_obj_in_last_list == fixed_size){
+			if ((num_obj_in_last_list == fixed_size)||(num_lists == 0)){
 				//create new list.
 				const auto num_elems = fixed_size;
 				T* newlist = new T[num_elems];
@@ -72,34 +72,42 @@ namespace UNDONE_ENGINE{
 			}
 
 			//add the new objet.
-			(*listof_arrays[num_lists - 1])[num_obj_in_last_list] = obj;
+			(listof_arrays[num_lists - 1])[num_obj_in_last_list] = obj;
 			num_obj_in_last_list++;
 		}
 
-		T& operator [] (const unsigned int pos){
+		T& operator [] (unsigned int pos){
+			return at(pos);
+		}
+
+		T& at(unsigned int pos){
 			if (num_lists > 0){
-				if (pos <= fixed_size){
+				if (pos < fixed_size){
 					//get the object from first list.
-					return (*(listof_arrays[0]))[pos - 1];
-				} else {
-					const auto list_num = (pos / fixed_size) - 1;
-					const auto obj_num = (pos % fixed_size) - 1;
-					return (*(listof_arrays[list_num]))[obj_num];
+					return ((listof_arrays[0]))[pos];
+				}
+				else {
+					auto list_num = (pos / fixed_size);
+					auto obj_num = (pos % fixed_size);
+					return ((listof_arrays[list_num]))[obj_num];
 				}
 			}
+			T newT;
+			Add(newT);
+			return *(this->end());
 		}
 
-		ContIter<T> begin() const{
-			return ContIter(this, 0);
+		ContIter<T> begin() {
+			return ContIter<T>(this, 0);
 		}
 
-		ContIter<T> end() const{
-			return ContIter(this, fixed_size*num_lists - 1);
+		ContIter<T> end() {
+			return ContIter<T>(this, fixed_size*num_lists - 1);
 		}
 	};
 	template <class T>
-	T& ContIter<T>::operator * () const{
-		return m_pContainer[m_pos];
+	T& ContIter<T>::operator * () {
+		return m_pContainer->at(m_pos);
 	}
 }
 #endif
