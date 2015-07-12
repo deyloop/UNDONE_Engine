@@ -12,7 +12,6 @@ namespace UNDONE_ENGINE {
 	Summary: Default Constructor
 	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	WorldTransform::WorldTransform( ) {
-		m_ppParentTransform.m_pointer = nullptr;
 		m_sync_num		= 0;
 		m_par_sync_num	= 0;
 		m_parented		= false;
@@ -24,7 +23,7 @@ namespace UNDONE_ENGINE {
 	}
 
 	void WorldTransform::OnParentBeingChilded( ) {
-		m_ppParentTransform.m_pointer = m_ppParent->GetParent( )->GetComponent<WorldTransform>().m_pointer;
+		m_ppParentTransform = m_ppParent->GetParent( )->GetComponent<WorldTransform>();
 		m_parented = true;
 	}
 

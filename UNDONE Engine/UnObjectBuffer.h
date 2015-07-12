@@ -40,7 +40,6 @@ namespace UNDONE_ENGINE{
 		GENFUNCS()
 		
 		virtual Camera& GetControlCamera() = 0;
-		virtual unGraphic2D& Getttt() = 0;
 	};
 };
 #endif

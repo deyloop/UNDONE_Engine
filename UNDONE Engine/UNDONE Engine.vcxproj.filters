@@ -78,9 +78,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DObjectBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -111,7 +108,7 @@
     <ClCompile Include="unComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Dpointer.cpp">
+    <ClCompile Include="ObjectBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -270,6 +267,9 @@
       <Filter>Header Files\SubSystems</Filter>
     </ClInclude>
     <ClInclude Include="ObjectContainer.h">
+      <Filter>Header Files\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Dptr.h">
       <Filter>Header Files\SubSystems</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,12 +5,12 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "Undone_Engine.h"
-#include "DObjectBuffer.h"
+#include "ObjectBuffer.h"
 #include "SystemComponent.h"
 #include "UNDONE_DEBUG.h"
 
 namespace UNDONE_ENGINE {
-	DObjectBuffer::DObjectBuffer( ) {
+	ObjectBuffer::ObjectBuffer( ) {
 		m_empty = true;
 		m_init_vec_size = 100;
 		m_num_owners = 0;
@@ -18,13 +18,13 @@ namespace UNDONE_ENGINE {
 	/*-------------------------------------------------------------------------
 	DEfault Destructor.
 	-------------------------------------------------------------------------*/
-	DObjectBuffer::~DObjectBuffer( ) {
+	ObjectBuffer::~ObjectBuffer( ) {
 		if (m_storage_vectors.size( )!=0) {
 			SystemComponent::GetInstance( )->ShowMessage("Some types of objects were not released",
 														 "MEMORY LEAK WARNING!");
 		}
 		m_Components.clear( );
-		m_storage_lists.clear( );
+		m_pointer_table_lists.clear( );
 		m_storage_vectors.clear( );
 		m_storage_types.clear( );
 		m_empty = true;
@@ -37,7 +37,7 @@ namespace UNDONE_ENGINE {
 	Returns:
 	THe required component if it exists, otherwise a DPOINTER with a nullptr
 	----------------------------------------------------------------------------*/
-	Dptr<Component> DObjectBuffer::GetComponentByName(const char* name,OwnerShip ownership) {
+	Dptr<Component> ObjectBuffer::GetComponentByName(const char* name,OwnerShip ownership) {
 		for (Dptr<Component>& component : m_Components) {
 			if (component->name==name) {
 				return component;

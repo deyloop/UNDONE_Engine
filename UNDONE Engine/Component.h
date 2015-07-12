@@ -10,7 +10,7 @@ Author	:	Anurup Dey
 
 #include "unComponent.h"
 #include <string>					//We are going to use this to store names
-#include "Dptr.h"				//We are associated to the DObjectBuffer.
+#include "Dptr.h"				//We are associated to the ObjectBuffer.
 
 using namespace std;
 
@@ -54,7 +54,7 @@ namespace UNDONE_ENGINE {
 		virtual void OnParentSet( ) = 0;
 		
 
-		friend class DObjectBuffer;
+		friend class ObjectBuffer;
 	private:
 		static int num_Components;
 	};

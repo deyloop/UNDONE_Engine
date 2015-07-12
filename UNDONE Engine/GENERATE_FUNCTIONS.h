@@ -33,13 +33,13 @@ to that component can be generated automatically.
 	#undef _GENFUNC_DEC_DOBJECTBUFFER_H_
 #elif defined _GENFUNC_DEF_DOBJECTBUFFER_CPP_
 	#define GENERATE_FUNCTIONS(type)																			\
-	void DObjectBuffer::DeleteAll_ ## type (UNDONE_ENGINE::OwnerShip ownership){											\
+	void ObjectBuffer::DeleteAll_ ## type (UNDONE_ENGINE::OwnerShip ownership){											\
 		DeleteAll<type>(ownership);																			\
 	}																									\
-	UNDONE_ENGINE::Dptr<un##type> DObjectBuffer::CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership){									\
+	UNDONE_ENGINE::Dptr<un##type> ObjectBuffer::CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership){									\
 		return dcast<un##type,type>(CreateNew<type>(ownership));																		\
 	}																									\
-	UNDONE_ENGINE::Dptr<un##type> DObjectBuffer::Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership){			\
+	UNDONE_ENGINE::Dptr<un##type> ObjectBuffer::Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership){			\
 		return dcast<un##type,type>(GetComponentByNameOfType<type>(name, ownership));												\
 	}
 	#undef _GENFUNC_DEF_DOBJECTBUFFER_CPP_

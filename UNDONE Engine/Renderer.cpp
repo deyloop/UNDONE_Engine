@@ -29,7 +29,7 @@ namespace UNDONE_ENGINE {
 	[IN] pGraphicsBuffer	:	pointer to an objectbuffer containing the objects to
 	be rendered.
 	-----------------------------------------------------------------------------*/
-	bool Renderer::Initialize(DObjectBuffer* pGraphicsBuffer,glm::mat4& _2DProjectionref) {
+	bool Renderer::Initialize(ObjectBuffer* pGraphicsBuffer,glm::mat4& _2DProjectionref) {
 		if (pGraphicsBuffer) {
 			m_pGraphicsBuffer = pGraphicsBuffer;
 			m_p2DProjMat = &_2DProjectionref;

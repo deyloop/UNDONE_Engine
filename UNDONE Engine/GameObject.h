@@ -17,14 +17,6 @@ Author	:	Anurup Dey
 using std::vector;
 namespace UNDONE_ENGINE {
 
-	#define _GEN_FORWARD_DEC_COMPS_
-	#include "GENERATE_FUNCTIONS.h"
-	GENFUNCS()
-
-	#define _GEN_FORWARD_DEC_COMPS_INT_
-	#include "GENERATE_FUNCTIONS.h"
-	GENFUNCS()
-
 	/*-----------------------------------------------------------------------------
 	A game object is any object that is there in the game. Its behavior is
 	customized with adding and removing components.
@@ -37,7 +29,7 @@ namespace UNDONE_ENGINE {
 		void Release();
 
 		template<class ComponentType>
-		Dptr<ComponentType>				GetComponent() const;
+		Dptr<ComponentType>				GetComponent();
 
 		virtual void Load();
 		virtual void Unload();
@@ -71,7 +63,7 @@ namespace UNDONE_ENGINE {
 	type, if it is present, otherwise a null pointer.
 	-----------------------------------------------------------------------------*/
 	template <class ComponentType>
-	Dptr<ComponentType> GameObject::GetComponent() const {
+	Dptr<ComponentType> GameObject::GetComponent() {
 		Dptr<ComponentType> component;
 		
 
@@ -99,7 +91,7 @@ namespace UNDONE_ENGINE {
 		//Not cjecking if the component already exists, just adding it to 
 		//the object
 		Dptr<Component> comp;
-		comp = rComponent;
+		comp = dcast<Component,ComponentType>(rComponent);
 		m_Components.push_back(comp);
 		m_Component_types.push_back(new_component_type);
 	}

@@ -21,7 +21,7 @@ namespace UNDONE_ENGINE {
 	class Timer;
 	class InputHandeller;
 	struct InputContext;
-	class DObjectBuffer;
+	class ObjectBuffer;
 	class GraphicsEngine;
 	class Window;
 	class SystemComponent;
@@ -71,7 +71,7 @@ namespace UNDONE_ENGINE {
 		Window*				m_pUserWindow;
 		SystemComponent*	m_pSystemComponent;
 		GraphicsEngine*		m_pGraphicsEngine;
-		DObjectBuffer*		m_pObjectBuffer;
+		ObjectBuffer*		m_pObjectBuffer;
 		InputHandeller*		m_pInputHandeller;
 		Timer*				m_pTimer;
 

@@ -62,7 +62,7 @@ Parameters:
 -------------------------------------------------------------------------------*/
 void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	
-	//pObjectBuffer->SetInitAllocSize(100);
+	pObjectBuffer->SetInitAllocSize(100);
 	
 	
 	Dptr<unShader> shVertex			= pObjectBuffer->CreateNew_Shader();
@@ -70,17 +70,17 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	Dptr<unShaderProgram> spMain		= pObjectBuffer->CreateNew_ShaderProgram();
 	Dptr<unMesh> cube_mesh			= pObjectBuffer->CreateNew_Mesh( );
 	Dptr<unMesh> monkey_mesh			= pObjectBuffer->CreateNew_Mesh( );
-	monkey_mesh->SetModelFile("monkey.obj");
+	//monkey_mesh.Obj().SetModelFile("monkey.obj");
 	
 	Dptr<unGraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Greenmaterial = pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Yellowmaterial= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
-	Dptr<unTexture> tex = pObjectBuffer->CreateNew_Texture();/*
+	Dptr<unTexture> tex = pObjectBuffer->CreateNew_Texture();
 	Dptr<unGraphic2D> _2dgraphic = pObjectBuffer->CreateNew_Graphic2D( );
 	tex->SetTexture2D("HOUSE.png", true);
-	(_2dgraphic.ptr())->SetTexture(tex);
+	_2dgraphic->SetTexture(tex);
 	Dptr<unGameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform> _2dtrans = pObjectBuffer->CreateNew_WorldTransform( );
 	//_2dtrans->TranslateAbs(1.0f, 1.f, 0.0f);
@@ -92,9 +92,9 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	m.hieght = 0.5f;
 	m.width = 1.0f;
 
-	_2dgraphic->SetImageRect(m);
+	(_2dgraphic.ptr())->SetImageRect(m);
 
-	_2dobj->AddWorldTransform(_2dtrans);
+	_2dobj.Obj().AddWorldTransform(_2dtrans);
 	_2dobj->AddGraphic2D(_2dgraphic);
 	
 	shVertex->LoadShader("shader.vert", GL_VERTEX_SHADER);
@@ -174,16 +174,15 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 			BlockGroup2->AddComponent<GameObject>(go_scene);
 		}
 	}
-	
+	*/
 	Dptr<unGameObject>		cu = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
 	Dptr<unGraphic3D>		cg = pObjectBuffer->CreateNew_Graphic3D( );
 	cu->AddWorldTransform(ct);
 	cu->AddMesh(cube_mesh);//change to monkey later
 	cu->AddGraphicMaterial(material[rand() % 5]);
-	cu->AddGraphic3D(cg);*/
-	unGraphic2D& gtt = pObjectBuffer->Getttt();
-	gtt.SetTexture(tex);
+	cu->AddGraphic3D(cg);
+	
 	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(-2.01f, 2.0f, -2.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));

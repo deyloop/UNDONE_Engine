@@ -78,7 +78,7 @@ namespace UNDONE_ENGINE {
 	true on success, false on falure.
 	-----------------------------------------------------------------------------*/
 	bool GraphicsEngine::Initialize(WindowHandle window, IGraphicsUser* pFrameWork,
-									DObjectBuffer* pGraphicsBuffer,
+									ObjectBuffer* pGraphicsBuffer,
 									int context_version_major, int context_version_minor,
 									bool windowed) {
 		m_pFrameWork = pFrameWork;

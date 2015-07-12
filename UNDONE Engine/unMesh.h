@@ -15,7 +15,7 @@ namespace UNDONE_ENGINE{
 	----------------------------------------------------------------------------*/
 	class unMesh{
 	public:
-		virtual inline void SetModelFile(const char* filename) = 0;
+		virtual void SetModelFile(const char* filename) = 0;
 	};
 }
 #endif

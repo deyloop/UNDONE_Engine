@@ -12,7 +12,7 @@ Author	:	Anurup Dey
 namespace UNDONE_ENGINE{
 	typedef  unsigned int OwnerShip;
 	
-	class DObjectBuffer;
+	class ObjectBuffer;
 
 	/*-----------------------------------------------------------------------------
 	The scene represents a segment of the game or application having its own memory
@@ -22,7 +22,7 @@ namespace UNDONE_ENGINE{
 	-----------------------------------------------------------------------------*/
 	class Scene {
 	public:
-		virtual void Load(DObjectBuffer* pObjectBuffer)	= 0;
+		virtual void Load(ObjectBuffer* pObjectBuffer)	= 0;
 		virtual void UnLoad( )	= 0;
 		virtual void Release( ) = 0;
 
