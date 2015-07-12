@@ -8,6 +8,9 @@ Author	:	Anurup Dey
 
 #ifndef _UN_GRAPHIC2D_H_
 #define _UN_GRAPHIC2D_H_
+
+#include "unComponent.h"
+
 namespace UNDONE_ENGINE{
 	
 	class unTexture;
@@ -16,9 +19,9 @@ namespace UNDONE_ENGINE{
 		float x, y, width, hieght;
 	};
 
-	class unGraphic2D{
+	class unGraphic2D {
 	public:
-		virtual void SetTexture(DPointer<unTexture> ppTex) =0;
+		virtual void SetTexture(Dptr<unTexture> ppTex) =0;
 		virtual void SetImageRect(rect& rectref)=0;
 	};
 }

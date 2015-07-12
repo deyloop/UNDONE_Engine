@@ -12,6 +12,7 @@ Author	:	Anurup Dey
 #include "SystemComponent.h"
 
 #include "UnFramework.h"
+#include "UnObjectBuffer.h"
 
 #include "unGameObject.h"
 #include "unWorldTransform.h"
@@ -25,6 +26,8 @@ Author	:	Anurup Dey
 
 
 #include "unCamera.h"
+
+#include "Camera.h"
 
 UNDONE_API UNDONE_ENGINE::UnFramework* Create_Un_Framwork_Inst(IApp* pAppa);
 

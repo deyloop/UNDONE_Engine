@@ -151,7 +151,7 @@ namespace UNDONE_ENGINE {
 		bool        m_invertY;
 		bool        m_enableYMovement;
 	};
-}
+};
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////

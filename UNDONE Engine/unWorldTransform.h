@@ -8,6 +8,7 @@ Author	:	Anurup Dey
 
 #ifndef _UN_WORLDTRANSFORM_H_
 #define _UN_WORLDTRANSFORM_H_
+#include "unComponent.h"
 #include <glm.hpp>
 using namespace glm;
 

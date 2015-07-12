@@ -31,7 +31,9 @@ namespace UNDONE_ENGINE {
 		Mesh( );
 		~Mesh( ) { Release( ); }
 
-		void SetModelFile(const char* filename) { m_model_file = filename; };
+		void SetModelFile(const char* filename) {
+			m_model_file = filename; 
+		};
 		
 		void Load( );
 		

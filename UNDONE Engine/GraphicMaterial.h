@@ -33,7 +33,7 @@ namespace UNDONE_ENGINE {
 		void Release( ) { Unload( ); };
 
 		void OnParentBeingChilded( );
-		void SetShaderProgramToUse(DPointer<unShaderProgram> ppShaderProgram);
+		void SetShaderProgramToUse(Dptr<unShaderProgram> ppShaderProgram);
 
 		UniformDataInterface& GetUniformDataInterface( ) { return m_DataInterface; };
 		
@@ -42,11 +42,11 @@ namespace UNDONE_ENGINE {
 		void ApplyMaterial( );
 		void Unload( );
 		
-		void SetDiffuseColor(float& r, float& g, float& b);
-		void SetProperty(const char* property_name, float& value);
-		void SetProperty(const char* property_name, int& value) { };
-		void SetProperty(const char* property_name,float& x, float& y, float& z);
-		void SetProperty(const char* property_name, float& x, float& y, float& z, float& w) { };
+		void SetDiffuseColor(float r, float g, float b);
+		void SetProperty(const char* property_name, float value);
+		void SetProperty(const char* property_name, int value) { };
+		void SetProperty(const char* property_name,float x, float y, float z);
+		void SetProperty(const char* property_name, float x, float y, float z, float w) { };
 		//TODO: Add all types of property setters.
 
 		static void SetCurrentlyActiveProgram(UINT uiID) { s_ActiveShaderProgram = uiID; };
@@ -61,7 +61,7 @@ namespace UNDONE_ENGINE {
 		vector<int>						m_UniformDataLocations;
 		vector<MaterialProperty>		m_Properies;
 
-		DPointer<ShaderProgram>			m_ppShaderProgram;
+		Dptr<ShaderProgram>			m_ppShaderProgram;
 
 		int								m_num_parents;
 		int								m_instances;

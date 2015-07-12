@@ -17,6 +17,7 @@ namespace UNDONE_ENGINE {
 	
 	class ShaderProgram;
 	class WorldTransform;
+	class Texture;
 
 	struct _2DRenderParams{
 		glm::mat4 ProjectionMat;
@@ -35,10 +36,10 @@ namespace UNDONE_ENGINE {
 		void Unload( );
 
 		void OnParentBeingChilded( ) { };
-		void SetTexture(DPointer<unTexture> ppTex);
+		void SetTexture(Dptr<unTexture> ppTex);
 		void SetImageRect(rect& rectref);
 
-		static void SetShader(DPointer<ShaderProgram> ppShaderProgram);
+		static void SetShader(Dptr<ShaderProgram> ppShaderProgram);
 		static void SetScreenDimentions(int h, int w) {
 			screenhieght = h;
 			screenwidth = w;
@@ -46,14 +47,14 @@ namespace UNDONE_ENGINE {
 
 	private:
 		void OnParentSet( );
-		DPointer<Texture>				m_ppTexture;
-		DPointer<WorldTransform>		m_ppWorldTransform;
+		Dptr<Texture>				m_ppTexture;
+		Dptr<WorldTransform>		m_ppWorldTransform;
 
 		static int HMVP ;
 		static int HSampler;
 		int HRECT;
 
-		static DPointer<ShaderProgram>	m_ppShaderProgram;
+		static Dptr<ShaderProgram>	m_ppShaderProgram;
 		static unsigned					m_uiVBO[3];
 		static unsigned					m_uiVAO[1];
 		

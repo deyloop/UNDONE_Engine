@@ -24,7 +24,7 @@ namespace UNDONE_ENGINE {
 
 	unsigned Graphic2D::m_uiVAO[1] = {0};
 	unsigned Graphic2D::m_uiVBO[3] = {0};
-	DPointer<ShaderProgram> Graphic2D::m_ppShaderProgram;
+	Dptr<ShaderProgram> Graphic2D::m_ppShaderProgram;
 
 	Graphic2D::Graphic2D( ) { 
 		m_ppTexture.m_pointer			= nullptr;
@@ -95,7 +95,7 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
-	void Graphic2D::SetTexture(DPointer<unTexture> ppTex) {
+	void Graphic2D::SetTexture(Dptr<unTexture> ppTex) {
 		if (ppTex.m_pointer) {
 			m_ppTexture = dcast<Texture,unTexture>(ppTex);
 
@@ -156,7 +156,7 @@ namespace UNDONE_ENGINE {
 		glDeleteVertexArrays(1, m_uiVAO);
 	}
 
-	void Graphic2D::SetShader(DPointer<ShaderProgram> ppShaderProgram) {
+	void Graphic2D::SetShader(Dptr<ShaderProgram> ppShaderProgram) {
 		m_ppShaderProgram = ppShaderProgram;
 		if (m_ppShaderProgram.m_pointer) {
 			m_ppShaderProgram->UseProgram( );

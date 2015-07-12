@@ -16,7 +16,6 @@ namespace UNDONE_ENGINE {
 	Default Constructor
 	-----------------------------------------------------------------------------*/
 	Component::Component( ) {
-		m_ppParent.m_pointer = nullptr;
 		char str[20];
 		m_number = num_Components;
 		sprintf_s(str, "Component_%i", num_Components);
@@ -61,7 +60,7 @@ namespace UNDONE_ENGINE {
 	Parameters:
 	[IN] parent	:	pointer to a GameObject acting as the parent of this Component.
 	-----------------------------------------------------------------------------*/
-	void Component::SetParent(DPointer<GameObject> ppParent) {
+	void Component::SetParent(Dptr<GameObject> ppParent) {
 		if ((ppParent.ptr())!=nullptr) {
 			m_ppParent = ppParent;
 			//Increase primary priority to one more than parent's

@@ -10,20 +10,12 @@ Author	:	Anurup Dey
 //includes:
 #include "Header.h"
 #include "unGameObject.h"	//For dll Interface
-#include "DPointer.h"		//To be compaible with the framework
+#include "Dptr.h"		//To be compaible with the framework
 #include "Component.h"		//because thats what we are made up of
 #include <vector>			//Need to store components together.
 #include <typeinfo>			//For handelling types of different /unknown Components
 using std::vector;
 namespace UNDONE_ENGINE {
-
-	#define _GEN_FORWARD_DEC_COMPS_
-	#include "GENERATE_FUNCTIONS.h"
-	GENFUNCS()
-
-	#define _GEN_FORWARD_DEC_COMPS_INT_
-	#include "GENERATE_FUNCTIONS.h"
-	GENFUNCS()
 
 	/*-----------------------------------------------------------------------------
 	A game object is any object that is there in the game. Its behavior is
@@ -37,13 +29,13 @@ namespace UNDONE_ENGINE {
 		void Release();
 
 		template<class ComponentType>
-		DPointer<ComponentType>				GetComponent() const;
+		Dptr<ComponentType>				GetComponent();
 
 		virtual void Load();
 		virtual void Unload();
 
 		template<class ComponentType>
-		void AddComponent(DPointer<ComponentType> rComponent);
+		void AddComponent(Dptr<ComponentType> rComponent);
 		template<class ComponentType>
 		void RemoveComponent();
 		void RemoveComponentByName(const char* name) { };
@@ -58,7 +50,7 @@ namespace UNDONE_ENGINE {
 		void OnParentSet();
 
 	private:
-		vector<DPointer<Component>>	m_Components;
+		vector<Dptr<Component>>	m_Components;
 		vector<size_t>				m_Component_types;
 
 
@@ -71,16 +63,16 @@ namespace UNDONE_ENGINE {
 	type, if it is present, otherwise a null pointer.
 	-----------------------------------------------------------------------------*/
 	template <class ComponentType>
-	DPointer<ComponentType> GameObject::GetComponent() const {
-		DPointer<ComponentType> component;
-		component.m_pointer = nullptr;
+	Dptr<ComponentType> GameObject::GetComponent() {
+		Dptr<ComponentType> component;
+		
 
 		size_t Requested_type = typeid(ComponentType).hash_code();
 		//search if we have such a component type in us,
 		unsigned int i = 0;
 		for (auto& type : m_Component_types) {
 			if (type == Requested_type) {
-				component.m_pointer = (ComponentType**)m_Components[i].m_pointer;
+				component = dcast<ComponentType,Component>(m_Components[i]);
 				break;
 			}
 			++i;
@@ -93,13 +85,13 @@ namespace UNDONE_ENGINE {
 	Template function for adding a component.
 	-----------------------------------------------------------------------------*/
 	template<class ComponentType>
-	void GameObject::AddComponent(DPointer<ComponentType> rComponent) {
+	void GameObject::AddComponent(Dptr<ComponentType> rComponent) {
 		Set_Parent((Component*)rComponent.ptr());
 		size_t new_component_type = typeid(ComponentType).hash_code();
 		//Not cjecking if the component already exists, just adding it to 
 		//the object
-		DPointer<Component> comp;
-		comp.m_pointer = (Component**)rComponent.m_pointer;
+		Dptr<Component> comp;
+		comp = dcast<Component,ComponentType>(rComponent);
 		m_Components.push_back(comp);
 		m_Component_types.push_back(new_component_type);
 	}

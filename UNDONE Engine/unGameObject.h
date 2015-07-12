@@ -8,7 +8,8 @@ Author	:	Anurup Dey
 
 #ifndef _UN_GAMEOBJECT_H_
 #define _UN_GAMEOBJECT_H_
-#include "DPointer.h"
+#include "Dptr.h"
+#include "unComponent.h"
 
 namespace UNDONE_ENGINE{
 	class unGameObject{

@@ -1,41 +1,40 @@
 /******************************************************************************
 Project	:	UNDONE Engine
-File	:	DObjectBuffer.h
+File	:	ObjectBuffer.h
 Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#ifndef UNDONE_DOBJECTBUFFER_H
-#define UNDONE_DOBJECTBUFFER_H
+#ifndef UNDONE_OBJECTBUFFER_H
+#define UNDONE_OBJECTBUFFER_H
 
-
-#include "Undone_Engine.h"
 #include "UnObjectBuffer.h"
-#include <vector>					//We use these for storage.
+#include "Dptr.h"
+#include <vector>
 #include <list>
 #include <algorithm>
+#include <type_traits>
 
-#include "Header.h"
-#include "Component.h"				//The Object buffer can only store components
 #include "Camera.h"
-#include "Graphic2D.h"
+#include "Component.h"
+#include "Header.h"
 
 using namespace std;
 
-namespace UNDONE_ENGINE {
-	
-	typedef  unsigned int OwnerShip;
+namespace UNDONE_ENGINE{
 
-/*-------------------------------------------------------------------------
-THe Object buffer is the place where all the components of the game are 
-physically stored. THis Object buffer has the capabiltity to store any 
-type of component you throw at it.
--------------------------------------------------------------------------*/
-	class DObjectBuffer : public UnObjectBuffer {
-		vector<Dptr<Component>> m_Components;
+
+
+	/*-------------------------------------------------------------------------
+	The Object buffer is the place where all the components of the game are
+	physically stored. This Object buffer has the capabiltity to store any
+	type of component you throw at it. It also separates objects by ownership.
+	-------------------------------------------------------------------------*/
+	class ObjectBuffer : public UnObjectBuffer{
+		vector<Dptr<Component>>		m_Components;
 		vector<void*>				m_storage_vectors;
-		vector<void*>				m_storage_lists;
+		vector<void*>				m_pointer_table_lists;
 		vector<size_t>				m_storage_types;
 		vector<OwnerShip>			m_storage_owners;
 		bool						m_empty;
@@ -44,18 +43,16 @@ type of component you throw at it.
 		unsigned int				m_init_vec_size;
 		unsigned int				m_num_owners;
 
-		unGraphic2D& Getttt(){ return (unGraphic2D&)ttt; }
 	public:
 
-		Graphic2D ttt;
-		DObjectBuffer( );
-		~DObjectBuffer( );
+		ObjectBuffer();
+		~ObjectBuffer();
 
 		void SetInitAllocSize(unsigned int size) { m_init_vec_size = size; }
-		OwnerShip CreateOwnerShip( ) { ++m_num_owners; return m_num_owners; }
+		OwnerShip CreateOwnerShip() { ++m_num_owners; return m_num_owners; }
 
 		template<typename T>
-		void DeleteAll(OwnerShip ownership = 0 );
+		void DeleteAll(OwnerShip ownership = 0);
 
 		template<typename T>
 		Dptr<T> CreateNew(OwnerShip ownership = 0);
@@ -65,15 +62,15 @@ type of component you throw at it.
 		template<typename T>
 		void SortByPriority(OwnerShip ownership = 0);
 
-		Camera& GetControlCamera( ) { return m_Cam; }
+		Camera& GetControlCamera() { return m_Cam; }
 		Dptr<Component> GetComponentByName(const char* name, OwnerShip ownership = 0);
-		
+
 		template<typename T>
 		Dptr<T> GetComponentByNameOfType(const char* name, OwnerShip ownership = 0);
-
-	#define _GENFUNC_DEC_DOBJECTBUFFER_H_
-	#include "GENERATE_FUNCTIONS.h"
-	GENFUNCS()
+		
+#define _GENFUNC_DEC_DOBJECTBUFFER_H_
+#include "GENERATE_FUNCTIONS.h"
+		GENFUNCS()
 
 	};
 
@@ -83,10 +80,10 @@ type of component you throw at it.
 	bool Reallocating(vector<storagetype>& vec_to_check);
 	template<typename storagetype>
 	void Reallocate_vector(vector<storagetype>& storageVector,
-						   list<storagetype*>& storageList);
+		list<list<IPointer*>>& pointerTableList);
 	template<typename storagetype>
-	storagetype** MakeNew(vector<storagetype>& storageVector,
-						  list<storagetype*>& storageList);
+	Dptr<storagetype> MakeNew(vector<storagetype>& storageVector,
+		list<list<IPointer*>>& pointerTableList);
 
 	/*-----------------------------------------------------------------------------
 	Template function for checking if a container vector is about to relocate or
@@ -99,8 +96,8 @@ type of component you throw at it.
 	-----------------------------------------------------------------------------*/
 	template<typename storagetype>
 	bool Reallocating(vector<storagetype>& vec_to_check) {
-		if (!vec_to_check.empty( )) {
-			if (vec_to_check.size( )==vec_to_check.capacity( )) {
+		if (!vec_to_check.empty()) {
+			if (vec_to_check.size() == vec_to_check.capacity()) {
 				//things gonna change
 				return true;
 			}
@@ -117,11 +114,14 @@ type of component you throw at it.
 	-----------------------------------------------------------------------------*/
 	template<typename storagetype>
 	void Reallocate_vector(vector<storagetype>& storageVector,
-						   list<storagetype*>& storageList) {
-		int i = 0;
-		for (auto& ref_in_list:storageList) {
-			ref_in_list = &storageVector[i];
-			i++;
+		list<list<IPointer*>>& pointerTableList) {
+		
+		for (list<IPointer*>& Table_in_list : pointerTableList) {
+			int i = 0;
+			for (IPointer* pointer_in_table : Table_in_list){
+				((Dptr<storagetype>*)pointer_in_table)->Relink(&storageVector[i]);
+				i++;
+			}
 		}
 		//NOTE: this doesn't yet allow for rearrangement of objects in the 
 		//vector, so don't try that yet.
@@ -136,111 +136,123 @@ type of component you throw at it.
 	[IN] storageList	-	the linked list.
 	-----------------------------------------------------------------------------*/
 	template<typename storagetype>
-	storagetype* MakeNew(vector<storagetype>& storageVector,
-						  list<storagetype*>& storageList) {
+	Dptr<storagetype> MakeNew(vector<storagetype>& storageVector,
+		list<list<IPointer*>>& pointerTableList) {
 		bool reallocate_list = Reallocating<storagetype>(storageVector);
 
 		storagetype object;
 		storageVector.push_back(object);
 
 		if (reallocate_list) {
-			Reallocate_vector<storagetype>(storageVector, storageList);
+			Reallocate_vector<storagetype>(storageVector, pointerTableList);
 		}
 
-		storageList.push_back(&storageVector.back( ));
-		return &storageList.back( );
+		//Create new table
+		list<IPointer*> newTable;
+		pointerTableList.push_back(newTable);
+
+		//now create a new pointer and put it in new table.
+		Dptr<storagetype> newptr;
+		newptr.Link(&storageVector.back(), &pointerTableList.back());
+
+		return newptr;
 	}
 
-	
-#include <type_traits>
 	template<typename T>
-	Dptr<T> DObjectBuffer::CreateNew(OwnerShip ownership) {
+	Dptr<T> ObjectBuffer::CreateNew(OwnerShip ownership) {
 		m_empty = false;
 
-		vector<T>*	pvec = nullptr;
-		list<T*>*	plist = nullptr;
+		vector<T>*				pvec = nullptr;
+		list<list<IPointer*>>*	plist = nullptr;
 
 		//Check if we already store this type of objects.
-		size_t this_type = typeid(T).hash_code( );
-		for (unsigned x = 0; x<m_storage_owners.size( ); ++x) {
-			if (m_storage_owners[x]==ownership) {
-				if (m_storage_types[x]==this_type) {
+		size_t this_type = typeid(T).hash_code();
+		for (unsigned x = 0; x<m_storage_owners.size(); ++x) {
+			if (m_storage_owners[x] == ownership) {
+				if (m_storage_types[x] == this_type) {
 					//This type is stored.
 					//we now get the corresponding vector and list.
 					pvec = (vector<T>*)m_storage_vectors[x];
-					plist = (list<T*>*)m_storage_lists[x];
+					plist = (list<list<IPointer*>>*)m_pointer_table_lists[x];
 				}
-				
+
 			}
 		}
-		
-		if (pvec==nullptr && plist==nullptr) {
+
+		if (pvec == nullptr && plist == nullptr) {
 			//the type is not already stored. make arrangements
 			//to store it.
-			pvec = new vector<T>( );
-			plist = new list<T*>( );
+			pvec = new vector<T>();
+			plist = new list<list<IPointer*>>();
 			//Make pre-Allocated space.
 			pvec->reserve(m_init_vec_size);
 
 			m_storage_vectors.push_back((void*)pvec);
-			m_storage_lists.push_back((void*)plist);
+			m_pointer_table_lists.push_back((void*)plist);
 			m_storage_types.push_back(this_type);
 			m_storage_owners.push_back(ownership);
 		}
 
-		T* pointer = MakeNew<T>(*pvec, *plist);
-		Dptr<T> returnval;
-		returnval.m_pointer = pointer;
+		Dptr<T> pointer = MakeNew<T>(*pvec, *plist);
 		//Components are kept specially, So that they can be
 		//searched up by name later
-		if (is_base_of<Component,T>::value) {
+		if (is_base_of<Component, T>::value) {
 			//That line above checks if the type is derived from Component
 			//or not.
 
 			//So now we proceed...
 			Dptr<Component> clrg;
-			clrg.m_pointer = (Component**)returnval.m_pointer;
+			clrg.Link((Component*)pointer.m_pointer,pointer.m_pPointerTable);
+
 			m_Components.push_back(clrg);
 			//give the this DPOinter
 			clrg->m_ppMyself = clrg;
 		}
-		return returnval;
+		return pointer;
 	}
 
 	/*-------------------------------------------------------------------------
 	Deletes all objects of the given type.
-	Parameters	:	
-		T	-	the type of objects to be deleted.
+	Parameters	:
+	T	-	the type of objects to be deleted.
 	Since the buffer doesn't have access to the type of objects it stores,
-	Each system should be responsible for calling this function for each 
+	Each system should be responsible for calling this function for each
 	type of object it uses.
 	----------------------------------------------------------------------------*/
 	template<typename T>
-	void DObjectBuffer::DeleteAll(OwnerShip ownership) {
-		vector<T>*	pvec = nullptr;
-		list<T*>*	plist = nullptr;
+	void ObjectBuffer::DeleteAll(OwnerShip ownership) {
+		vector<T>*				pvec = nullptr;
+		list<list<IPointer*>>*	plist = nullptr;
 
 		//Check if we already store this type of objects.
-		size_t this_type = typeid(T).hash_code( );
-		for (unsigned i = 0; i<m_storage_owners.size( ); ++i) {
-			if (m_storage_owners[i]==ownership) {
-				if (m_storage_types[i]==this_type) {
+		size_t this_type = typeid(T).hash_code();
+		for (unsigned i = 0; i<m_storage_owners.size(); ++i) {
+			if (m_storage_owners[i] == ownership) {
+				if (m_storage_types[i] == this_type) {
 					//This type is stored.
 					//we now get the corresponding vector and list.
 					pvec = (vector<T>*)m_storage_vectors[i];
-					plist = (list<T*>*)m_storage_lists[i];
+					plist = (list<list<IPointer*>>*)m_pointer_table_lists[i];
 					//Now we empty the list and the vector.
-					pvec->clear( ); plist->clear( );
+					//need to tell each pointer out there that your object
+					//has been deleted...
+					for (list<IPointer*>& Table : *plist){
+						for (IPointer* pointer : Table){
+							pointer->Object_deleted = true;
+						}
+					}
+
+					pvec->clear(); plist->clear();
 
 					//delete the vector and list.
 					delete pvec;
 					delete plist;
 					//erase the pos in storage.
-					m_storage_vectors.erase(m_storage_vectors.begin( )+i);
-					m_storage_lists.erase(m_storage_lists.begin( )+i);
+					m_storage_vectors.erase(m_storage_vectors.begin() + i);
+					m_pointer_table_lists.erase(m_pointer_table_lists.begin() + i);
 					//We don't store this type anymore.
-					m_storage_types.erase(m_storage_types.begin( )+i);
-					m_storage_owners.erase(m_storage_owners.begin( )+i);
+					m_storage_types.erase(m_storage_types.begin() + i);
+					m_storage_owners.erase(m_storage_owners.begin() + i);
 					return;
 				}
 			}
@@ -252,13 +264,13 @@ type of component you throw at it.
 	Useed to Get a vector of corresponding things.
 	----------------------------------------------------------------------------*/
 	template<typename T>
-	vector<T>* DObjectBuffer::GetListOf(OwnerShip ownership ) {
+	vector<T>* ObjectBuffer::GetListOf(OwnerShip ownership) {
 
 		//Check if we already store this type of objects.
-		size_t this_type = typeid(T).hash_code( );
-		for (unsigned x = 0; x<m_storage_owners.size( ); ++x) {
-			if (m_storage_owners[x]==ownership) {
-				if (m_storage_types[x]==this_type) {
+		size_t this_type = typeid(T).hash_code();
+		for (unsigned x = 0; x<m_storage_owners.size(); ++x) {
+			if (m_storage_owners[x] == ownership) {
+				if (m_storage_types[x] == this_type) {
 					//This type is stored.
 					//we now get the corresponding vector
 					return ((vector<T>*)m_storage_vectors[x]);
@@ -269,12 +281,12 @@ type of component you throw at it.
 		//In such a case, we create an empty vector and add it under
 		//the current ownership. 
 		vector<T>*	pvec = new vector<T>();
-		list<T*>*	plist = new list<T*>();
+		list<list<IPointer*>>*	plist = new list<list<IPointer*>>();
 		//Make pre-Allocated space.
 		pvec->reserve(m_init_vec_size);
 
 		m_storage_vectors.push_back((void*)pvec);
-		m_storage_lists.push_back((void*)plist);
+		m_pointer_table_lists.push_back((void*)plist);
 		m_storage_types.push_back(this_type);
 		m_storage_owners.push_back(ownership);
 
@@ -288,12 +300,12 @@ type of component you throw at it.
 	[IN]	name:	the name of the componet.
 	----------------------------------------------------------------------------*/
 	template<typename T>
-	Dptr<T> DObjectBuffer::GetComponentByNameOfType(const char* name, OwnerShip ownership) {
-		for (Dptr<Component>& component:m_Components) {
-			if (component->name==name) {
-				//Contruct a Dptr of the given type.
+	Dptr<T> ObjectBuffer::GetComponentByNameOfType(const char* name, OwnerShip ownership) {
+		for (Dptr<Component>& component : m_Components) {
+			if (component->name == name) {
+				//Contruct a DPointer of the given type.
 				Dptr<T> returnComp;
-				returnComp.m_pointer = (T*)(component.m_pointer);
+				returnComp.Link((T*)(component.m_pointer),component.m_pPointerTable);
 				return returnComp;
 			}
 		}
@@ -303,21 +315,22 @@ type of component you throw at it.
 		ErrorComponent.m_pointer = nullptr;
 		return ErrorComponent;
 	}
-
+	/*
 	template<class T>
 	bool Compare_list(T* ra, T* rb) {
 		Component* a = (Component*)ra;
 		Component* b = (Component*)rb;
 		for (unsigned level = 0;
-			 a->GetPriority(level)!=-1||b->GetPriority(level)!=-1;
-			 ++level) {
-			if (a->GetPriority(level)==b->GetPriority(level)) {
+			a->GetPriority(level) != -1 || b->GetPriority(level) != -1;
+			++level) {
+			if (a->GetPriority(level) == b->GetPriority(level)) {
 				continue;
-			} else {
-				return a->GetPriority(level)<=b->GetPriority(level);
+			}
+			else {
+				return a->GetPriority(level) <= b->GetPriority(level);
 			}
 		}
-		return a->GetNumber( ) < b->GetNumber( );;
+		return a->GetNumber() < b->GetNumber();;
 	}
 
 	template<class T>
@@ -325,19 +338,20 @@ type of component you throw at it.
 		//Component* a = (Component*)&ra;
 		//Component* b = (Component*)&rb;
 		for (unsigned level = 0;
-			 a.GetPriority(level)!=-1||b.GetPriority(level)!=-1;
-			 ++level) {
-			if (a.GetPriority(level)==b.GetPriority(level)) {
+			a.GetPriority(level) != -1 || b.GetPriority(level) != -1;
+			++level) {
+			if (a.GetPriority(level) == b.GetPriority(level)) {
 				continue;
-			} else {
-				return (a.GetPriority(level))<=(b.GetPriority(level));
+			}
+			else {
+				return (a.GetPriority(level)) <= (b.GetPriority(level));
 			}
 		}
 		return a.GetNumber() < b.GetNumber();
 	}
-
+	*/
 	template<typename T>
-	void DObjectBuffer::SortByPriority(OwnerShip ownership) {
+	void ObjectBuffer::SortByPriority(OwnerShip ownership) {
 		//we proceed to sort, only if T is a type of Component.
 		if (!is_base_of<Component, T>::value) {
 			return;
@@ -345,35 +359,37 @@ type of component you throw at it.
 
 		//first, we get the vector and lists to sort,
 		vector<T>* pvec = nullptr;
-		list<T*>* plist = nullptr;
+		list<list<IPointer*>>* plist = nullptr;
 		//Check if we already store this type of objects.
-		size_t this_type = typeid(T).hash_code( );
-		for (unsigned x = 0; x<m_storage_owners.size( ); ++x) {
-			if (m_storage_owners[x]==ownership) {
-				if (m_storage_types[x]==this_type) {
+		size_t this_type = typeid(T).hash_code();
+		for (unsigned x = 0; x<m_storage_owners.size(); ++x) {
+			if (m_storage_owners[x] == ownership) {
+				if (m_storage_types[x] == this_type) {
 					//This type is stored.
 					//we now get the corresponding vector and list.
 					pvec = (vector<T>*)m_storage_vectors[x];
-					plist = (list<T*>*)m_storage_lists[x];
+					plist = (list<list<IPointer*>>*)m_pointer_table_lists[x];
 				}
 
 			}
 		}
 
-		if (pvec==nullptr && plist==nullptr) {
+		if (pvec == nullptr && plist == nullptr) {
 			//the type is not already stored.
 			return;
 		}
-
+		/*
 		//sorting...
 		//STEP 1: sort the linked list first...
 		plist->sort(Compare_list<T>);
 		//STEP 2: sort the vector..
-		sort(pvec->begin( ), pvec->end( ), Compare_vec<T>);
+		sort(pvec->begin(), pvec->end(), Compare_vec<T>);
 		//STEP 3: relink the list to the vector.
 		Reallocate_vector<T>(*pvec, *plist);
 		//STEP 4 : enjoy the view!
+		*/
 		return;
+		
 	}
 }
 #endif

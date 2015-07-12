@@ -8,7 +8,6 @@ Author	:	Anurup Dey
 
 #ifndef _UN_MESH_H_
 #define _UN_MESH_H_
-
 namespace UNDONE_ENGINE{
 	/*----------------------------------------------------------------------------
 	A Mesh data structure holds data about geometry. Must be used in conjuction

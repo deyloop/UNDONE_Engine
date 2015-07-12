@@ -12,7 +12,7 @@ any new components you add later to this file so that the functons corresponding
 to that component can be generated automatically.
 -------------------------------------------------------------------------------*/
 
-#include "DPointer.h"
+#include "Dptr.h"
 
 #ifdef GENERATE_FUNCTIONS
 #undef GENERATE_FUNCTIONS
@@ -22,32 +22,33 @@ to that component can be generated automatically.
 #ifdef _GENFUNC_DEC_UNOBJECTBUFFER_H_
 	#define  GENERATE_FUNCTIONS(type)																		\
 		virtual void DeleteAll_ ## type (UNDONE_ENGINE::OwnerShip ownership = 0) = 0;										\
-		virtual UNDONE_ENGINE::DPointer<un##type> CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership = 0) = 0;							\
-		virtual UNDONE_ENGINE::DPointer<un##type> Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership = 0) = 0; 
+		virtual UNDONE_ENGINE::Dptr<un##type> CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership = 0) = 0;							\
+		virtual UNDONE_ENGINE::Dptr<un##type> Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership = 0) = 0; 
 	#undef _GENFUNC_DEC_UNOBJECTBUFFER_H_
 #elif defined _GENFUNC_DEC_DOBJECTBUFFER_H_
 	#define GENERATE_FUNCTIONS(type)																		\
 		void DeleteAll_ ## type (UNDONE_ENGINE::OwnerShip ownership = 0);													\
-		UNDONE_ENGINE::DPointer<un##type> CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership = 0);										\
-		UNDONE_ENGINE::DPointer<un##type> Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership = 0);
+		UNDONE_ENGINE::Dptr<un##type> CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership = 0);										\
+		UNDONE_ENGINE::Dptr<un##type> Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership = 0);
 	#undef _GENFUNC_DEC_DOBJECTBUFFER_H_
 #elif defined _GENFUNC_DEF_DOBJECTBUFFER_CPP_
 	#define GENERATE_FUNCTIONS(type)																			\
-	void DObjectBuffer::DeleteAll_ ## type (UNDONE_ENGINE::OwnerShip ownership){											\
+	void ObjectBuffer::DeleteAll_ ## type (UNDONE_ENGINE::OwnerShip ownership){											\
 		DeleteAll<type>(ownership);																			\
 	}																									\
-	UNDONE_ENGINE::DPointer<un##type> DObjectBuffer::CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership){									\
+	UNDONE_ENGINE::Dptr<un##type> ObjectBuffer::CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership){									\
 		return dcast<un##type,type>(CreateNew<type>(ownership));																		\
 	}																									\
-	UNDONE_ENGINE::DPointer<un##type> DObjectBuffer::Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership){			\
+	UNDONE_ENGINE::Dptr<un##type> ObjectBuffer::Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership){			\
 		return dcast<un##type,type>(GetComponentByNameOfType<type>(name, ownership));												\
 	}
 	#undef _GENFUNC_DEF_DOBJECTBUFFER_CPP_
 
-//for DPointer
+//for Dptr
 #elif defined _GENFUNC_DEC_DPOINTER_H_
 	#define GENERATE_FUNCTIONS(type)\
-	template struct DPointer<type>;
+	template struct Dptr<type>;\
+	template struct Dptr < un##type > ;
 	#undef _GENFUNC_DEC_DPOINTER_H_
 
 //General use
@@ -63,24 +64,24 @@ to that component can be generated automatically.
 //For GameObject
 #elif defined _GENFUNC_DEC_UNGAMEOBJECT_H_
 	#define GENERATE_FUNCTIONS(type)\
-		virtual DPointer<un##type> Get ## type() = 0;\
-		virtual void Add ## type (DPointer<un ## type> rComponent) = 0;\
+		virtual Dptr<un##type> Get ## type() = 0;\
+		virtual void Add ## type (Dptr<un ## type> rComponent) = 0;\
 		virtual void Remove ## type () = 0;\
 		virtual void Remove ## type ## byName(const char* name) = 0;
 	#undef _GENFUNC_DEC_UNGAMEOBJECT_H_
 #elif defined _GENFUNC_DEC_GAMEOBJECT_H_
 	#define GENERATE_FUNCTIONS(type)\
-		UNDONE_ENGINE::DPointer<un##type> Get ## type();\
-		void Add ## type (UNDONE_ENGINE::DPointer<un ## type> rComponent);\
+		UNDONE_ENGINE::Dptr<un##type> Get ## type();\
+		void Add ## type (UNDONE_ENGINE::Dptr<un ## type> rComponent);\
 		void Remove ## type();\
 		void Remove ## type ## byName(const char* name);
 	#undef _GENFUNC_DEC_GAMEOBJECT_H_
 #elif defined _GENFUNC_DEF_GAMEOBJECT_CPP_
 #define GENERATE_FUNCTIONS(type)\
-		DPointer<un ## type> GameObject::Get ## type(){\
+		Dptr<un ## type> GameObject::Get ## type(){\
 			return dcast<un ## type,type>(GetComponent<type>());\
 		}\
-		void GameObject::Add ## type (DPointer<un ## type> rComponent){\
+		void GameObject::Add ## type (Dptr<un ## type> rComponent){\
 			 AddComponent<type>(dcast<type,un ## type>(rComponent));\
 		}\
 		void GameObject::Remove ## type (){\
@@ -106,7 +107,8 @@ to that component can be generated automatically.
 	GENERATE_FUNCTIONS(Graphic2D)\
 
 #define GENFUNCS()\
-	GENFUNCS_ONLY_FOR_COMPONENTS() GENERATE_FUNCTIONS(Texture)\
+	GENFUNCS_ONLY_FOR_COMPONENTS() \
+	GENERATE_FUNCTIONS(Texture)\
 	GENERATE_FUNCTIONS(Shader)\
 	GENERATE_FUNCTIONS(ShaderProgram)\
 

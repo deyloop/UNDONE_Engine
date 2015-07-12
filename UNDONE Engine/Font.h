@@ -18,7 +18,7 @@ using std::vector;
 using namespace std;
 
 #include "Texture.h"
-#include "DPointer.h"
+#include "Dptr.h"
 
 namespace UNDONE_ENGINE {
 
@@ -39,7 +39,7 @@ namespace UNDONE_ENGINE {
 
 		void releaseFont( );
 
-		void SetShaderProgram(DPointer<ShaderProgram> shaderProgram);
+		void SetShaderProgram(Dptr<ShaderProgram> shaderProgram);
 
 	private:
 		void createChar(int iIndex);
@@ -59,7 +59,7 @@ namespace UNDONE_ENGINE {
 
 		FT_Library	m_ftLib;
 		FT_Face		m_ftFace;
-		DPointer<ShaderProgram> m_ppShaderProgram;
+		Dptr<ShaderProgram> m_ppShaderProgram;
 	};
 }
 

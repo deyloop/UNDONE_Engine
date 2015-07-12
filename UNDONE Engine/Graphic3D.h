@@ -49,9 +49,9 @@ namespace UNDONE_ENGINE {
 		void OnDestroy( ) { };
 
 	protected:
-		DPointer<WorldTransform>	m_ppworldTransform;
-		DPointer<Mesh>				m_ppMesh;
-		DPointer<GraphicMaterial>	m_ppMaterial;
+		Dptr<WorldTransform>	m_ppworldTransform;
+		Dptr<Mesh>				m_ppMesh;
+		Dptr<GraphicMaterial>	m_ppMaterial;
 
 		void OnParentSet( );
 	};

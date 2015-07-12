@@ -12,7 +12,7 @@ Author	:	Anurup Dey
 #include <glew.h>
 #include "SystemComponent.h"
 #include "Renderer.h"
-#include "DObjectBuffer.h"
+#include "ObjectBuffer.h"
 
 
 namespace UNDONE_ENGINE {
@@ -31,7 +31,7 @@ namespace UNDONE_ENGINE {
 
 		bool Initialize(WindowHandle window,
 						IGraphicsUser* pFrameWork,
-						DObjectBuffer* pGraphicsBuffer,
+						ObjectBuffer* pGraphicsBuffer,
 						int context_version_major = 3,
 						int context_version_minor = 1,
 						bool windowed = true);
@@ -62,7 +62,7 @@ namespace UNDONE_ENGINE {
 		ContextCreationPrameters	m_ContextParams;
 		DisplayMode					m_DisplayMode;
 
-		DObjectBuffer*		m_pGraphicsBuffer;
+		ObjectBuffer*		m_pGraphicsBuffer;
 		IGraphicsUser*		m_pFrameWork;
 		SystemComponent*	m_pSystem;
 		Renderer*			m_pRenderer;
