@@ -192,3 +192,4 @@ ModelManifest.xml
 *.lib
 *.tlog
 *.idb
+*.exe
