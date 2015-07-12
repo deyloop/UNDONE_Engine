@@ -251,7 +251,7 @@ namespace UNDONE_ENGINE {
 			//Do it!
 			
 			m_pRenderer->Render( );
-			font.print("TEXT WORKS!\n hurray!", -1, 0, 2);
+			//font.print("TEXT WORKS!\n hurray!", -1, 0, 2);
 		}
 
 		
