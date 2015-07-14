@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include <ObjectContainer.h>
+#include <list>
+using std::list;
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace UNDONE_ENGINE;
@@ -35,6 +37,12 @@ namespace UNDONE_Unit_Tests
 			for (auto& num : int_cont){
 				Assert::AreEqual(k, num);
 				++k;
+
+				list<int>* plist = new list<int>();
+				plist->push_back(55);
+				plist->push_back(77);
+
+				plist->remove(55);
 			}
 		}
 

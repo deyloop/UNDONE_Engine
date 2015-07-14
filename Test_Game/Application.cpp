@@ -7,7 +7,7 @@ Author	:	Anurup Dey
 #include "Maze.h"
 
 #include <Texture.h>
-#include<glew.h>
+#include <glew.h>
 
 #include <UNDONE_DEBUG.h>
 
@@ -70,7 +70,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	Dptr<unShaderProgram> spMain		= pObjectBuffer->CreateNew_ShaderProgram();
 	Dptr<unMesh> cube_mesh			= pObjectBuffer->CreateNew_Mesh( );
 	Dptr<unMesh> monkey_mesh			= pObjectBuffer->CreateNew_Mesh( );
-	//monkey_mesh.Obj().SetModelFile("monkey.obj");
+	monkey_mesh.Obj().SetModelFile("monkey.obj");
 	
 	Dptr<unGraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew_GraphicMaterial( );
@@ -142,9 +142,9 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	BlockGroup2	->	AddWorldTransform(grouTrans);
 	grouTrans	->	TranslateRel(10.0f, 0.0f, 0.0f);
 	BlockGroup	->	AddGameObject(BlockGroup2);
-
-#define SIZE 30
-	/*Maze maze;
+	/*
+#define SIZE 10
+	Maze maze;
 	maze.Generate(SIZE);
 
 	for (int j = 0; j<SIZE; ++j) {

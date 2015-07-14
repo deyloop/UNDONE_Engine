@@ -7,7 +7,6 @@
 using std::list;
 
 namespace UNDONE_ENGINE{
-	class ObjectBuffer;
 
 	class IPointer{
 	public:
@@ -26,33 +25,40 @@ namespace UNDONE_ENGINE{
 		Dptr(){
 			m_pointer = nullptr;
 			m_pPointerTable = nullptr;
-			Object_deleted = false;
+			Object_deleted = true;
+			linked = false;
 		}
 
 		~Dptr(){
 			//remove yourself from the table.
-			if ((!Object_deleted) && m_pPointerTable) m_pPointerTable->remove(this);
+			if ((!Object_deleted) && m_pPointerTable)
+				if (m_pPointerTable->size() != 0)
+					m_pPointerTable->remove((IPointer*)this);
 		}
 
-		/*Dptr(Dptr<T>& other){
+		Dptr(Dptr<T> const & other){
 			*this = other;
-		}*/
+		}
 
 		T* operator -> ()	{ return m_pointer; }
 		T& operator * ()	{ return *m_pointer; }
 		T* ptr()			{ return m_pointer; }
 		T& Obj()			{ return *m_pointer; }
 		
-		Dptr<T>& operator = (Dptr<T>& other){
-			if (!Object_deleted && m_pointer && m_pPointerTable){
+	
+		Dptr<T>& operator = (Dptr<T> const & other){
+			if (linked && !Object_deleted && m_pointer && m_pPointerTable){
 				//remove yourself from previous table
-				m_pPointerTable->remove(this);
+				if (m_pPointerTable->size() != 0)
+				m_pPointerTable->remove((IPointer*)this);
 			}
 
 			//now switch tables
-			m_pointer = other.m_pointer;
+			m_pointer = other.m_pointer; 
 			m_pPointerTable = other.m_pPointerTable;
-			if(m_pPointerTable) m_pPointerTable->push_back(this);
+			Object_deleted = other.Object_deleted;
+			linked = true;
+			if (!Object_deleted && m_pPointerTable) m_pPointerTable->push_back((IPointer*)this);
 
 			return *this;
 		}
@@ -61,15 +67,17 @@ namespace UNDONE_ENGINE{
 		void Link(T* pPointer, list<IPointer*>* pTable){
 			m_pointer = dynamic_cast<T*>(pPointer);
 			m_pPointerTable = pTable;
-
+			Object_deleted = false;
 			//Add this to table now.
 			if (m_pPointerTable){
-				m_pPointerTable->push_back(this);
+				m_pPointerTable->push_back((IPointer*)this);
 			}
+			linked = true;
 		}
 
 		void Relink(T* pPointer){
 			m_pointer = (T*)pPointer;
+			linked = true;
 		}
 	};
 

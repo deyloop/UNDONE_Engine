@@ -37,7 +37,9 @@ to that component can be generated automatically.
 		DeleteAll<type>(ownership);																			\
 	}																									\
 	UNDONE_ENGINE::Dptr<un##type> ObjectBuffer::CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership){									\
-		return dcast<un##type,type>(CreateNew<type>(ownership));																		\
+		Dptr<un##type> newdptr;\
+		newdptr = dcast<un##type,type>(CreateNew<type>(ownership));\
+		return 	newdptr;																\
 	}																									\
 	UNDONE_ENGINE::Dptr<un##type> ObjectBuffer::Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership){			\
 		return dcast<un##type,type>(GetComponentByNameOfType<type>(name, ownership));												\

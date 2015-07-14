@@ -153,6 +153,7 @@ namespace UNDONE_ENGINE{
 
 		//now create a new pointer and put it in new table.
 		Dptr<storagetype> newptr;
+		newptr.Object_deleted = false;
 		newptr.Link(&storageVector.back(), &pointerTableList.back());
 
 		return newptr;
