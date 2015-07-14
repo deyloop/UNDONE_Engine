@@ -12,7 +12,7 @@ The engine is able to access the graphics hardware to use fully accelerated hard
 
 It can load 3d models of many supported and widely used formats such as obj, collada, blend, 3ds, maya and more!
 
-Can load up all majorly available image formats.
+Can load up all major,y available image formats.
 
 Has a component based architecture which makes using the engine easy.
 
@@ -23,7 +23,7 @@ A customized memory management module.
 
 * Summary of set up
    
-To set up the project, fork it and check for the following dependancies:
+To set up the project, clone it and check for the following dependancies:
 The Open Asset Import Library (AssImp).
 FreeImage library.
 FreeType library.
@@ -32,7 +32,6 @@ The GL Extention Wrangler (GLEW)
 The GL Maths library headers (GLM)
 
 In order to contribute to this project, please send pull request or get in contact with me.
-I would really love to see people working with me on this.
 
 ### Who do I talk to? ###
 
