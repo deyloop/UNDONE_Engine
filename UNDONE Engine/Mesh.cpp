@@ -39,7 +39,8 @@ namespace UNDONE_ENGINE {
 	}
 
 	/*----------------------------------------------------------------------------
-	Loads the Mesh from file or otherwise.
+	Loads the Mesh from file or otherwise. (At the current momment, this simply 
+	sets up geometry for a cube.
 	----------------------------------------------------------------------------*/
 	void Mesh::Load( ) {
 
