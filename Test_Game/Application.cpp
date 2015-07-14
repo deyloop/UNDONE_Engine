@@ -6,7 +6,6 @@ Author	:	Anurup Dey
 #include "Application.h"
 #include "Maze.h"
 
-#include <Texture.h>
 #include <glew.h>
 
 #include <UNDONE_DEBUG.h>
@@ -142,7 +141,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	BlockGroup2	->	AddWorldTransform(grouTrans);
 	grouTrans	->	TranslateRel(10.0f, 0.0f, 0.0f);
 	BlockGroup	->	AddGameObject(BlockGroup2);
-	/*
+	
 #define SIZE 10
 	Maze maze;
 	maze.Generate(SIZE);
@@ -153,28 +152,28 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 			if (maze.data[i+j*SIZE] == SPACE) continue;
 
 			cout<<"\n";
-			Dptr<GameObject> go_scene		= pObjectBuffer->CreateNew_GameObject( );
-			Dptr<WorldTransform> transform1 = pObjectBuffer->CreateNew_WorldTransform( );
-			Dptr<Graphic3D> graphic1		= pObjectBuffer->CreateNew__3DGraphic( );
+			Dptr<unGameObject> go_scene		= pObjectBuffer->CreateNew_GameObject( );
+			Dptr<unWorldTransform> transform1 = pObjectBuffer->CreateNew_WorldTransform( );
+			Dptr<unGraphic3D> graphic1		= pObjectBuffer->CreateNew_Graphic3D( );
 			
-			go_scene	->	Rename((string	("GameObject")	+i+j).c_str());
-			transform1	->	Rename((string	("Transform" )	+i+j).c_str());
-			graphic1	->	Rename((string	( "Graphic"	 )	+i+j).c_str());
+			//go_scene	->	Rename((string	("GameObject")	+i+j).c_str());
+			//transform1	->	Rename((string	("Transform" )	+i+j).c_str());
+			//graphic1	->	Rename((string	( "Graphic"	 )	+i+j).c_str());
 			
-			graphic1->OnInit( );
+			//graphic1->OnInit( );
 			
-			go_scene->AddComponent<WorldTransform>(transform1);
-			go_scene->AddComponent<Mesh>(cube_mesh);
-			go_scene->AddComponent<GraphicMaterial>(material.at(rand()%5));
-			go_scene->AddComponent<Graphic3D>(graphic1);
+			go_scene->AddWorldTransform(transform1);
+			go_scene->AddMesh(cube_mesh);
+			go_scene->AddGraphicMaterial(material.at(rand()%5));
+			go_scene->AddGraphic3D(graphic1);
 			
 			transform1->TranslateAbs((float)i, 0,(float)j);
 			transform1->ScaleAbs(0.5f, (float)1, 0.5f);
 
-			BlockGroup2->AddComponent<GameObject>(go_scene);
+			BlockGroup2->AddGameObject(go_scene);
 		}
 	}
-	*/
+	
 	Dptr<unGameObject>		cu = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
 	Dptr<unGraphic3D>		cg = pObjectBuffer->CreateNew_Graphic3D( );
