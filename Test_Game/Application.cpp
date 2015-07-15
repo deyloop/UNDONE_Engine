@@ -142,7 +142,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	grouTrans	->	TranslateRel(10.0f, 0.0f, 0.0f);
 	BlockGroup	->	AddGameObject(BlockGroup2);
 	
-#define SIZE 10
+#define SIZE 30
 	Maze maze;
 	maze.Generate(SIZE);
 
