@@ -11,22 +11,25 @@ namespace UNDONE_ENGINE{
 	class IPointer{
 	public:
 		bool Object_deleted;
-		//virtual void Link(void* pPointer, list<IPointer*>* pTable) = 0;
-		//virtual void Relink(void* pPointer) = 0;
 	};
 
 	template <typename T>
 	class Dptr : public IPointer{
 		bool linked;
+
+		void Initialize(){
+			m_pointer		= nullptr;
+			m_pPointerTable = nullptr;
+			Object_deleted	= true;
+			linked			= false;
+		}
+
 	public:
 		T*	m_pointer;
 		list<IPointer*>* m_pPointerTable;
 
 		Dptr(){
-			m_pointer = nullptr;
-			m_pPointerTable = nullptr;
-			Object_deleted = true;
-			linked = false;
+			Initialize();
 		}
 
 		~Dptr(){
@@ -37,6 +40,7 @@ namespace UNDONE_ENGINE{
 		}
 
 		Dptr(Dptr<T> const & other){
+			Initialize();
 			*this = other;
 		}
 
