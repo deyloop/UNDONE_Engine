@@ -21,7 +21,7 @@ namespace UNDONE_ENGINE {
 	A game object is any object that is there in the game. Its behavior is
 	customized with adding and removing components.
 	-----------------------------------------------------------------------------*/
-	class GameObject : public Component, public unGameObject {
+	class GameObject : public unGameObject, public Component {
 	public:
 		GameObject();
 		~GameObject() { Release(); }

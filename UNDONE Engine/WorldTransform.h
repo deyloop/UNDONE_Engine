@@ -14,7 +14,7 @@ Author:		Anurup Dey
 using namespace glm;
 
 namespace UNDONE_ENGINE {
-	class WorldTransform : public Component, public unWorldTransform {
+	class WorldTransform : public unWorldTransform, public Component {
 	public:
 		WorldTransform( );
 		~WorldTransform( ) { Reset( ); }

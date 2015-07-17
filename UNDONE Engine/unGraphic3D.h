@@ -12,7 +12,7 @@ Author	:	Anurup Dey
 #include "unComponent.h"
 
 namespace UNDONE_ENGINE{
-	class unGraphic3D{
+	class unGraphic3D :public virtual unComponent{
 	public:
 		virtual ~unGraphic3D(){}
 		//no exposed functionality from here.

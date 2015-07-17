@@ -23,7 +23,7 @@ namespace UNDONE_ENGINE {
 		glm::mat4 ProjectionMat;
 	};
 
-	class Graphic2D : public Component, public unGraphic2D {
+	class Graphic2D : public unGraphic2D, public Component {
 	public:
 		Graphic2D( );
 		~Graphic2D( );

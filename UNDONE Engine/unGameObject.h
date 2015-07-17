@@ -12,7 +12,7 @@ Author	:	Anurup Dey
 #include "unComponent.h"
 
 namespace UNDONE_ENGINE{
-	class unGameObject{
+	class unGameObject: public virtual unComponent{
 	public:
 		#define _GENFUNC_DEC_UNGAMEOBJECT_H_
 		#include "GENERATE_FUNCTIONS.h"

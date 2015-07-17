@@ -61,7 +61,7 @@ Parameters:
 -------------------------------------------------------------------------------*/
 void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	
-	pObjectBuffer->SetInitAllocSize(100);
+	//pObjectBuffer->SetInitAllocSize(500);
 	
 	
 	Dptr<unShader> shVertex			= pObjectBuffer->CreateNew_Shader();
@@ -105,8 +105,8 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 
 	spMain->LinkProgram();
 	
-	//Redmaterial	->Rename("RedMaterial");
-	//Bluematerial->Rename("BlueMaterial");
+	Redmaterial	->Rename("RedMaterial");
+	Bluematerial->Rename("BlueMaterial");
 	
 	Redmaterial		->	SetShaderProgramToUse(spMain);
 	Greenmaterial	->	SetShaderProgramToUse(spMain);
@@ -120,7 +120,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	Yellowmaterial	->	SetDiffuseColor(1.0f, 1.0f, 0.0f);
 	Pinkmaterial	->	SetDiffuseColor(1.0f, 0.0f, 127.0f/255.0f);
 	
-	//cube_mesh->Rename("CubeMesh");
+	cube_mesh->Rename("CubeMesh");
 	
 	vector<Dptr<unGraphicMaterial>> material;
 	material.reserve(5);
@@ -156,11 +156,9 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 			Dptr<unWorldTransform> transform1 = pObjectBuffer->CreateNew_WorldTransform( );
 			Dptr<unGraphic3D> graphic1		= pObjectBuffer->CreateNew_Graphic3D( );
 			
-			//go_scene	->	Rename((string	("GameObject")	+i+j).c_str());
-			//transform1	->	Rename((string	("Transform" )	+i+j).c_str());
-			//graphic1	->	Rename((string	( "Graphic"	 )	+i+j).c_str());
-			
-			//graphic1->OnInit( );
+			go_scene	->	Rename((string	("GameObject")	+i+j).c_str());
+			transform1	->	Rename((string	("Transform" )	+i+j).c_str());
+			graphic1	->	Rename((string	( "Graphic"	 )	+i+j).c_str());
 			
 			go_scene->AddWorldTransform(transform1);
 			go_scene->AddMesh(cube_mesh);
@@ -238,7 +236,7 @@ Updates Application specific things like AI, ui response, etc.
 void Application::Update(){
 
 	//BlockGroup->worldTransform->RotateRel(0.0f, 0.3f, 0.0f);
-	cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
+	//cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

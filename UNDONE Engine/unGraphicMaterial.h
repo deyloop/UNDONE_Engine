@@ -19,7 +19,7 @@ namespace UNDONE_ENGINE{
 	THe material of the object will decide how it will appear on screen.
 	Contains the instructions on how to draw the mesh.
 	-------------------------------------------------------------------------*/
-	class unGraphicMaterial{
+	class unGraphicMaterial : public virtual unComponent{
 	public:
 		virtual void SetShaderProgramToUse(Dptr<unShaderProgram> ppShaderProgram) = 0;
 

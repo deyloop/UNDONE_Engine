@@ -23,14 +23,14 @@ namespace UNDONE_ENGINE {
 	Components are the biulding blocks of game objects. These may be combined in
 	GameObjects to give any behavior needed.
 	-----------------------------------------------------------------------------*/
-	class Component {
+	class Component : public virtual unComponent{
 	public:
 		Component( );
 		~Component( ) { Release( ); }
 
 		void Release( );
 		void SetParent(Dptr<GameObject> ppParent);
-		void Rename(const char* newName);
+		virtual void Rename(const char* newName);
 
 		virtual void Load( ) = 0;
 		virtual void Unload( ) = 0;

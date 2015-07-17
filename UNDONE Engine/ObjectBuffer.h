@@ -115,13 +115,19 @@ namespace UNDONE_ENGINE{
 	template<typename storagetype>
 	void Reallocate_vector(vector<storagetype>& storageVector,
 		list<list<IPointer*>>& pointerTableList) {
-		
-		for (list<IPointer*>& Table_in_list : pointerTableList) {
-			int i = 0;
-			for (IPointer* pointer_in_table : Table_in_list){
-				((Dptr<storagetype>*)pointer_in_table)->Relink(&storageVector[i]);
-				i++;
+		int i = 0;
+		for (list<IPointer*>& Table : pointerTableList) {
+			
+			for (IPointer* pointer : Table){
+				size_t pointer_type = pointer->Get_Type();
+				const size_t Component_type = typeid(Component).hash_code();
+				if (pointer_type == Component_type){
+					((Dptr<Component>*)pointer)->Relink<storagetype>(&storageVector[i]);
+				} else {
+					((Dptr<storagetype>*)pointer)->Relink<storagetype>(&storageVector[i]);
+				}
 			}
+			i++;
 		}
 		//NOTE: this doesn't yet allow for rearrangement of objects in the 
 		//vector, so don't try that yet.

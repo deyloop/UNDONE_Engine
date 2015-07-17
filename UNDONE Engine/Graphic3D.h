@@ -31,7 +31,7 @@ namespace UNDONE_ENGINE {
 	This class represents a 3D graphical Object. Inherits most of its props
 	from the GraphicalObject. NOTE: All 3D graphics behave alike.
 	-----------------------------------------------------------------------------*/
-	class Graphic3D : public Component , public unGraphic3D{
+	class Graphic3D : public unGraphic3D, public Component{
 	public:
 		Graphic3D( );
 		~Graphic3D( ) { Release( ); }

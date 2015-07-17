@@ -13,7 +13,7 @@ Author	:	Anurup Dey
 using namespace glm;
 
 namespace UNDONE_ENGINE{
-	class unWorldTransform{
+	class unWorldTransform : public virtual unComponent{
 	public:
 		virtual void Reset() = 0;
 		virtual void TranslateAbs(float x, float y, float z)	= 0;

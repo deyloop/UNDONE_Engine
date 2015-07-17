@@ -25,7 +25,7 @@ namespace UNDONE_ENGINE {
 	THe material of the object will decide how it will appear on screen. 
 	Contains the instructions on how to draw the mesh.
 	-------------------------------------------------------------------------*/
-	class GraphicMaterial : public Component, public unGraphicMaterial {
+	class GraphicMaterial : public unGraphicMaterial, public Component {
 	public:
 		GraphicMaterial( );
 		~GraphicMaterial( ) { Release( ); }

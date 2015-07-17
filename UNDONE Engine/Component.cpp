@@ -51,7 +51,7 @@ namespace UNDONE_ENGINE {
 			return;
 		} else {
 			m_num_priority[priority_level] = priority;
-			coutput("'s primary priority set to "+(int)m_num_priority[0]+"\n");
+			coutput(name+"'s primary priority set to "+(int)m_num_priority[0]+"\n");
 		}
 	}
 

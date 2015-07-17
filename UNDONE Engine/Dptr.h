@@ -4,6 +4,9 @@
 #define _INDONE_DPTR_H_
 
 #include <list>
+#include <typeinfo>
+//#include "Header.h"
+;
 using std::list;
 
 namespace UNDONE_ENGINE{
@@ -11,6 +14,7 @@ namespace UNDONE_ENGINE{
 	class IPointer{
 	public:
 		bool Object_deleted;
+		virtual size_t Get_Type() = 0;
 	};
 
 	template <typename T>
@@ -78,10 +82,14 @@ namespace UNDONE_ENGINE{
 			}
 			linked = true;
 		}
-
-		void Relink(T* pPointer){
+		template <class T2>
+		void Relink(T2* pPointer){
 			m_pointer = (T*)pPointer;
 			linked = true;
+		}
+
+		size_t Get_Type(){
+			return typeid(T).hash_code();
 		}
 	};
 
