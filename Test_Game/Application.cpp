@@ -61,7 +61,7 @@ Parameters:
 -------------------------------------------------------------------------------*/
 void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	
-	//pObjectBuffer->SetInitAllocSize(500);
+	pObjectBuffer->SetInitAllocSize(500);
 	
 	
 	Dptr<unShader> shVertex			= pObjectBuffer->CreateNew_Shader();
