@@ -55,7 +55,7 @@ Alternatively, if you have an idea but don't know how to impliment it, you can j
 You can similarly use the **Issues** page to notify of any undiscovered bugs. Please Tag that issue as a bug when you do so.
 
 #### Credit for Contribution ####
-You may name yourself as the author of any source files *you create*. **In case you modify any existing code, you are not allowed to place your name into the source file.**
+**PLEASE READ THE ACCOMPANIED LICENSE PLACED IN THE REPOSITORY WITH THE CODE**
 
 ### Who do I talk to? ###
 
