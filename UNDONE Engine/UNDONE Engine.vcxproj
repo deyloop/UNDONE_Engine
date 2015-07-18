@@ -102,7 +102,6 @@
     <ClCompile Include="StringAddition.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="unComponent.cpp" />
     <ClCompile Include="Undone_Engine.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowSystemComponent.cpp" />
@@ -118,7 +117,6 @@
     <ClInclude Include="GENERATE_FUNCTIONS.h" />
     <ClInclude Include="Graphic2D.h" />
     <ClInclude Include="Graphic3D.h" />
-    <ClInclude Include="GraphicalObject.h" />
     <ClInclude Include="GraphicMaterial.h" />
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="Header.h" />
@@ -137,7 +135,6 @@
     <ClInclude Include="SceneStack.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
-    <ClInclude Include="SimpleObject.h" />
     <ClInclude Include="SystemComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />

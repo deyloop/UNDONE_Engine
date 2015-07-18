@@ -108,21 +108,12 @@
     <ClCompile Include="Graphic3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="unComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GraphicalObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UNDONE_Engine_declr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FrameWork.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UNDONE_DEBUG.h">
