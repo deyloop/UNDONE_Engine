@@ -66,10 +66,6 @@ namespace UNDONE_ENGINE {
 		void SetProperty(const char* property_name, float x, float y, float z, float w) { };
 		//TODO: Add all types of property setters.
 
-		static void SetCurrentlyActiveProgram(UINT uiID) { s_ActiveShaderProgram = uiID; };
-		//Why should these guys track whic program is active? 
-		//cant the programs track that themselves?
-
 	private:
 		
 		void OnParentSet( );
@@ -83,9 +79,6 @@ namespace UNDONE_ENGINE {
 		int								m_num_parents;
 		int								m_instances;
 		bool							m_loaded;
-		
-		static unsigned int				s_ActiveShaderProgram;
-
 	};
 };
 

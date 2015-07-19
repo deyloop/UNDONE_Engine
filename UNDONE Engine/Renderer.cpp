@@ -77,7 +77,6 @@ namespace UNDONE_ENGINE {
 		render_params.View_x_Projection *= *(m_pGraphicsBuffer->GetControlCamera( ).GetViewMatrix( ));
 
 		Mesh::SetCurrentlyBoundVAO(0);
-		GraphicMaterial::SetCurrentlyActiveProgram(0);
 
 		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<Graphic3D>( )) {
 			graphic.Render(render_params);

@@ -31,8 +31,6 @@ Author	:	Anurup Dey
 
 namespace UNDONE_ENGINE {
 
-	unsigned int GraphicMaterial::s_ActiveShaderProgram = 0;
-
 	/*-------------------------------------------------------------------------
 	Default Constructor.
 	-------------------------------------------------------------------------*/
@@ -274,10 +272,7 @@ namespace UNDONE_ENGINE {
 	void GraphicMaterial::ApplyMaterial( ) {
 		if (m_ppShaderProgram.m_pointer==nullptr) return;
 
-		if (s_ActiveShaderProgram!=m_ppShaderProgram->GetProgramID( )) { 
-			m_ppShaderProgram->UseProgram( );
-			s_ActiveShaderProgram = m_ppShaderProgram->GetProgramID( );
-		}
+		m_ppShaderProgram->UseProgram( );
 
 		//update uniforms.
 		unsigned data_interface_index = 0;
