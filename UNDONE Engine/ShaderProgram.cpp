@@ -26,6 +26,8 @@ Author	:	Anurup Dey
 
 namespace UNDONE_ENGINE {
 
+	UINT ShaderProgram::CurrentProgramInUse = 0;
+
 	/*-----------------------------------------------------------------------------
 	Defualt constructor.
 	-----------------------------------------------------------------------------*/
@@ -81,7 +83,9 @@ namespace UNDONE_ENGINE {
 	Makes the program come under use
 	-----------------------------------------------------------------------------*/
 	void ShaderProgram::UseProgram( ) {
-		if (bLinked)glUseProgram(uiProgram);
+		if (bLinked){
+			if (uiProgram != CurrentProgramInUse) glUseProgram(uiProgram);
+		}
 	}
 }
 ///////////////////////////////////////////////////////////////////////////////
