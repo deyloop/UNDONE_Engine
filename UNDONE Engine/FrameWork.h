@@ -66,7 +66,6 @@ namespace UNDONE_ENGINE {
 							  int oldHieght,
 							  int oldWidth);
 
-		void  OnCreateContext( ) { };
 		const int   GetScreenHieght( ) const;
 		const int   GetScreenWidth( ) const;
 		const float GetElapsedTime( ) const;

@@ -36,7 +36,6 @@ namespace UNDONE_ENGINE {
 	{
 	public:
 
-		virtual void  OnCreateContext() = 0;
 		virtual const int   GetScreenHieght() const = 0;
 		virtual const int   GetScreenWidth() const = 0;
 		virtual const float GetElapsedTime() const = 0;

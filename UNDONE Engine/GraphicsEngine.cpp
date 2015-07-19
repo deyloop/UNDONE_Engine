@@ -201,8 +201,6 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void GraphicsEngine::OnCreateContext( ) {
 	
-		//tell the framework 
-		if (m_pFrameWork) m_pFrameWork->OnCreateContext( );
 		//Set up 2D.
 		
 		Dptr<Shader> vertexShader = m_pGraphicsBuffer->CreateNew<Shader>( );
