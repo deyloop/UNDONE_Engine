@@ -13,7 +13,7 @@ Environment	:	IDE		-Microsoft Visual Studio 2010.
 ******************************************************************************/
 //////////////////////////////////////////////////////////////////////////////
 
-#include <vld.h>
+//#include <vld.h>
 #include <Undone_Engine.h>
 #include "Application.h"
 #include <iostream>
