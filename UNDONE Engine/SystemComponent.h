@@ -103,9 +103,9 @@ namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
 	Interface for OS specific function wrapper which abstracts the OS functions.
 	----------------------------------------------------------------------------*/
-	class UNDONE_API SystemComponent {
+	class SystemComponent {
 	public:
-		static SystemComponent* GetInstance( );
+		UNDONE_API static SystemComponent* GetInstance( );
 
 		virtual bool CreateGLContext(WindowHandle handle,
 									 PixelFormatParameters PixelParams,
@@ -138,7 +138,6 @@ namespace UNDONE_ENGINE {
 		virtual __int64 GetSystemTickRate( ) = 0;
 		virtual __int64 GetCurrentTickCount( ) = 0;
 
-		virtual void HandleWindowEvents( ) = 0;
 		virtual void FrameInput( ) = 0;
 
 		virtual unsigned GetSystemDirectory_(char* buffer, int size ) = 0;

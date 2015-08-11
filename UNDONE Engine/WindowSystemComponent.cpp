@@ -587,19 +587,6 @@ namespace UNDONE_ENGINE {
 		GetWindowPlacement(hWnd, wndplcmnt);
 	}
 
-
-
-	void WindowsSystemComponent::HandleWindowEvents( ) {
-		MSG msg;
-		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-
-			if (msg.message==WM_QUIT) break;
-
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-	}
-
 	void WindowsSystemComponent::FrameInput( ) {
 		m_First_Input_loop = true;
 	}

@@ -26,6 +26,8 @@ Author	:	Anurup Dey
 #ifndef _UN_COMPONENT_
 #define _UN_COMPONENT_
 
+#pragma warning(disable : 4250)
+
 namespace UNDONE_ENGINE{
 	class unComponent{
 	public:
