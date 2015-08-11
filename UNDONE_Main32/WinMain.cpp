@@ -47,8 +47,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 		SafelyDelete(pSysComponent);
 		return 1;
 	}
-	
-	pSysComponent->CreateConsole( );
 
 	//call the main() function
 	int returncode = main();

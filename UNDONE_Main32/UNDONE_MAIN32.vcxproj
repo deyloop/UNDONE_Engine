@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,13 +19,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -40,12 +40,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;E:\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\DACsoft\Projects\UNDONE Engine\Debug;E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\DACsoft\Projects\UNDONE Engine\Debug;F:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>E:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;E:\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\DACsoft\Projects\UNDONE Engine\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\DACsoft\Projects\UNDONE Engine\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,9 +79,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
