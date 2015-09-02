@@ -86,7 +86,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	Dptr<unShaderProgram> spMain		= pObjectBuffer->CreateNew_ShaderProgram();
 	Dptr<unMesh> cube_mesh			= pObjectBuffer->CreateNew_Mesh( );
 	Dptr<unMesh> monkey_mesh			= pObjectBuffer->CreateNew_Mesh( );
-	monkey_mesh.Obj().SetModelFile("monkey.obj");
+	monkey_mesh->SetModelFile("monkey.obj");
 	
 	Dptr<unGraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew_GraphicMaterial( );
@@ -193,7 +193,7 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	Dptr<unWorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
 	Dptr<unGraphic3D>		cg = pObjectBuffer->CreateNew_Graphic3D( );
 	cu->AddWorldTransform(ct);
-	cu->AddMesh(cube_mesh);//change to monkey later
+	cu->AddMesh(monkey_mesh);//change to monkey later
 	cu->AddGraphicMaterial(material[rand() % 5]);
 	cu->AddGraphic3D(cg);
 	
