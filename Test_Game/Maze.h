@@ -1,5 +1,5 @@
 /******************************************************************************
-File	:	Maze.h
+File		:	Maze.h
 Author	:	Anurup Dey
 
 				Copyright (C) 2015  Anurup Dey

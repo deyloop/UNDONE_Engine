@@ -1,5 +1,5 @@
 /******************************************************************************
-File	:	Maze.cpp
+File		:	Maze.cpp
 Author	:	Anurup Dey
 
 				Copyright (C) 2015  Anurup Dey
@@ -30,7 +30,8 @@ Maze::Maze(){
 }
 
 bool Maze::edge_condition(position p){
-	if (p%m_size == 0 || p%m_size == (m_size - 1) || p / m_size == 0 || p / m_size == (m_size - 1))
+	if (p%m_size == 0 || p%m_size == (m_size - 1) || 
+		 p / m_size == 0 || p / m_size == (m_size - 1)   )
 		return true;
 	else return false;
 }
