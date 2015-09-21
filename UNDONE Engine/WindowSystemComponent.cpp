@@ -492,15 +492,54 @@ namespace UNDONE_ENGINE {
 			pEvent->key.keycode = KEY_0;
 			return 1;
 		case VK_OEM_COMMA:
-			pEvent->key.keycode = KEY_0;
+			pEvent->key.keycode = KEY_COMMA;
 			return 1;
-		case '[':
-			pEvent->key.keycode = KEY_0;
+		case VK_OEM_PERIOD:
+			pEvent->key.keycode = KEY_PERIOD;
 			return 1;
-		case '?':
-			pEvent->key.keycode = KEY_0;
+		case VK_OEM_MINUS:
+			pEvent->key.keycode = KEY_MINUS;
 			return 1;
-			//... more such cases...
+		case VK_OEM_PLUS:
+			pEvent->key.keycode = KEY_PLUS;
+			return 1;
+		case VK_SUBTRACT:
+			pEvent->key.keycode = KEY_NUM_MINUS;
+			return 1;
+		case VK_ADD:
+			pEvent->key.keycode = KEY_NUM_PLUS;
+			return 1;
+		case VK_MULTIPLY:
+			pEvent->key.keycode = KEY_NUM_MULTIPLY;
+			return 1;
+		case VK_SEPARATOR:
+			pEvent->key.keycode = KEY_QUESTIONMARK;
+			return 1;
+		case VK_DIVIDE:
+			pEvent->key.keycode = KEY_NUM_DIVIDE;
+			return 1;
+		case VK_OEM_1://;: key
+			pEvent->key.keycode = KEY_SEMICOLON;
+			return 1;
+		case VK_OEM_2://? key
+			pEvent->key.keycode = KEY_QUESTIONMARK;
+			return 1;
+		case VK_OEM_3://~
+			pEvent->key.keycode = KEY_TILDY;
+			return 1;
+		case VK_OEM_4://'[{' key
+			pEvent->key.keycode = KEY_CURLYBRACE_OPEN;
+			return 1;
+		case VK_OEM_5://'\|' key
+			pEvent->key.keycode = KEY_FORWARDSLASH;
+			return 1;
+		case VK_OEM_6://']}' key
+			pEvent->key.keycode = KEY_CURLYBRACE_CLOSE;
+			return 1;
+		case VK_OEM_7://'single quote' key
+			pEvent->key.keycode = KEY_QUOTE;
+			return 1;
+			//all keys covered.
 		default:
 			return -1;
 		}
@@ -1093,14 +1132,18 @@ namespace UNDONE_ENGINE {
 								return 0; //ignoring the event.
 							else {
 								KeyPressed[pEvent->key.keycode] = true;
+							
 							}
 						} else if (pEvent->event.type == EVENT_KEYUP) {
 							KeyPressed[pEvent->key.keycode] = false;
+							
 						}
+						return 1;
 					}
 				}//keyboard
-				break;
+				
 			}//input
+			return -1;
 
 			default:
 				//Things that are not input are windows messages.
