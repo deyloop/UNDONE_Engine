@@ -120,6 +120,7 @@ namespace UNDONE_ENGINE {
 		virtual int GetInputEvent(InputEvent* pEvent) = 0;
 		virtual void ShowMessage(char* message, char* tittle) = 0;
 		virtual void Post_Quit_Mesage(int returncode) = 0;
+		virtual void NewFrame() = 0;
 
 		virtual WindowHandle CreateNewWindow(char* title, WindowStyle style,
 											 int width, int hieght,

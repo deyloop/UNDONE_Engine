@@ -52,7 +52,7 @@ namespace UNDONE_ENGINE {
 
 	//Keycodes for key board events.
 	typedef enum Key {
-		KEY_ESCAPE = 0,
+		KEY_ESCAPE = 1,
 		//function keys
 		KEY_F1,
 		KEY_F2,
@@ -85,29 +85,34 @@ namespace UNDONE_ENGINE {
 		KEY_END,
 		KEY_HOME,
 		KEY_DELETE,
+		KEY_CLEAR,
 		//Numbers ( top row )
-		KEY_0 = 0x30,
+		KEY_0,
 		KEY_1, KEY_2, KEY_3, KEY_4, KEY_5,
 		KEY_6, KEY_7, KEY_8, KEY_9,
 		//Alphabet keys,
-		KEY_A = 0x41,
+		KEY_A,
 		KEY_B, KEY_C, KEY_D, KEY_E, KEY_F, KEY_G, KEY_H, KEY_I,
 		KEY_J, KEY_K, KEY_L, KEY_M, KEY_N, KEY_O, KEY_P, KEY_Q,
 		KEY_R, KEY_S, KEY_T, KEY_U, KEY_V, KEY_W, KEY_X, KEY_Y,
-		KEY_Z,
+		KEY_Z,KEY_COMMA,KEY_FULLSTOP,KEY_BACKSLASH,
 		//NumPad keys,
 		KEY_NUM_0, KEY_NUM_1, KEY_NUM_2, KEY_NUM_3, KEY_NUM_4,
 		KEY_NUM_5, KEY_NUM_6, KEY_NUM_7, KEY_NUM_8, KEY_NUM_9,
-		KEY_MULTIPLY, KEY_DIVIDE, KEY_SUBTRACT, KEY_ADD,
-		KEY_DECIMAL, 
+		KEY_NUM_DECIMAL,
+		KEY_MULTIPLY, KEY_DIVIDE, KEY_SUBTRACT, KEY_ADD, 
 		KEY_NUMLOCK,
 		KEY_SEPARATOR,
 		KEY_SCROLLLOCK,
+		KEY_NUM_ENTER,
 		//Some more wierd keys,'
 		KEY_LSHIFT,
 		KEY_RSHIFT,
 		KEY_LCTRL,
 		KEY_RCTRL,
+		KEY_LALT,
+		KEY_RALT,
+		KEY_INSERT,
 		//...
 		KEY_IRRELEVENT
 	} key_code;
@@ -126,6 +131,7 @@ namespace UNDONE_ENGINE {
 	typedef struct KeyBoardEvent {
 		Event_Type  type;
 		Key			keycode;
+		char        KeyName[20];
 	} KeyBoardEvent;
 
 	//Data of mouse movement

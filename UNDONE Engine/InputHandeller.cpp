@@ -42,6 +42,7 @@ namespace UNDONE_ENGINE {
 					{
 						
 						case EVENT_KEYDOWN:
+						case EVENT_KEYPRESS:
 							//check if keycode is relevent,
 							if (pair.desired_event.key.keycode==KEY_IRRELEVENT) 
 							{
@@ -54,9 +55,7 @@ namespace UNDONE_ENGINE {
 								pair.pCall_command->execute(context.m_pControl, p_given_event);
 							}
 							break;
-						case EVENT_KEYPRESS:
-							//I am lazy.
-							break;
+						
 						case EVENT_MOUSEMOVE:
 							//just go forth with it
 							pair.pCall_command->execute(context.m_pControl, p_given_event);

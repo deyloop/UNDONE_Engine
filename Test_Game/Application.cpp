@@ -225,11 +225,11 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	MBUEvnt.mouse_button.button = MOUSE_BUTTON_L;
 	InputPair pairMBU(MBUEvnt, *Disable_Mouse);
 	
-	MoveFEvnt.event.type	 = EVENT_KEYDOWN;
+	MoveFEvnt.event.type	 = EVENT_KEYPRESS;
 	MoveFEvnt.key.keycode	 = KEY_W;
 	InputPair pairW(MoveFEvnt, *Move_Forward);
 
-	MoveBEvnt.event.type	= EVENT_KEYDOWN;
+	MoveBEvnt.event.type	= EVENT_KEYPRESS;
 	MoveBEvnt.key.keycode	= KEY_S;
 	InputPair pairS(MoveBEvnt, *Move_Backward);
 

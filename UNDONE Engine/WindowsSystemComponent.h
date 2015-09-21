@@ -146,6 +146,7 @@ namespace UNDONE_ENGINE {
 
 
 		UNDONE_API void FrameInput( );
+        UNDONE_API void NewFrame();
 
 		unsigned GetSystemDirectory_(char* buffer, int size ) { return GetWindowsDirectory(buffer, size); }
 
@@ -166,6 +167,7 @@ namespace UNDONE_ENGINE {
 
 		bool	  CheckMutex(string Appname);
 		void	  RegisterWindowClass( );
+		int       EvaluateKeyBaordInput(const RAWKEYBOARD& rawKB, InputEvent* pEvent);
 
 		bool	  m_ClassRegistered;
 		bool	  m_DevicesRegistered;
@@ -174,6 +176,10 @@ namespace UNDONE_ENGINE {
 
 		WindowDataBase m_WindowDB;
 		static WindowsSystemComponent* pWindowsInstance;
+
+		//input
+		RAWINPUTDEVICE m_KeyBoard_Device;
+		UINT WM_NEWFRAME, WM_KEYPRESS;
 	};
 };
 #endif

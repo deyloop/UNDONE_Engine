@@ -125,6 +125,9 @@ namespace UNDONE_ENGINE {
 	void FrameWork::Run( ) {
 		m_running = true;
 		while (m_running) {
+			
+			//m_pSystemComponent->NewFrame();
+
 			InputEvent InputEvent;
 			while (m_pSystemComponent->GetInputEvent(&InputEvent)>0) {
 				if (InputEvent.event.type==EVENT_QUIT) {

@@ -78,6 +78,10 @@ namespace UNDONE_ENGINE {
 		if (!CheckMutex(ApplicationName)) return false;
 
 		RegisterWindowClass( );
+
+		WM_NEWFRAME = RegisterWindowMessage("NEWFRAME");
+		WM_KEYPRESS = RegisterWindowMessage("KEYPRESS");
+
 		return true;
 	}
 
@@ -134,6 +138,377 @@ namespace UNDONE_ENGINE {
 		//Register the Window Class.
 		RegisterClassEx(&windef);
 		m_ClassRegistered = true;
+	}
+
+	/*----------------------------------------------------------------------------
+	Evaluates the rawKeyboard input and converts it into an INputEvent.
+	Parameters:
+	[IN]		rawKB	-	reference to the Raw keyboard data.
+	[IN,OUT]	pEvent	-	pointer to the Input Event Object to which the 
+							converted data will be stored.
+	Returns: 
+	0 for no interesting input
+	1 for valid input
+	-1 for error
+	----------------------------------------------------------------------------*/
+	int WindowsSystemComponent::EvaluateKeyBaordInput(const RAWKEYBOARD & rawKB, InputEvent * pEvent) {
+
+		UINT virtualKey = rawKB.VKey;
+		UINT scanCode   = rawKB.MakeCode;
+		UINT flags      = rawKB.Flags;
+
+		// a key can either produce a "make" or "break" scancode. this is used to differentiate between down-presses and releases
+		const bool wasUp = ((flags & RI_KEY_BREAK) != 0);
+		if (wasUp) pEvent->type = EVENT_KEYUP;
+		else pEvent->type = EVENT_KEYDOWN;
+
+		if (virtualKey == 255) {
+			//discard 'fake keys' which are part of an 
+			//escape sequence
+			return 0;
+		} else if (virtualKey == VK_SHIFT) {
+			//correct left hand/right hand shift.
+			virtualKey = MapVirtualKey(scanCode, MAPVK_VSC_TO_VK_EX);
+		} else if (virtualKey == VK_NUMLOCK) {
+			//correct pause/break and numlock silliness
+			//and set extended bit.
+			scanCode = MapVirtualKey(virtualKey, MAPVK_VK_TO_VSC) | 0x100;
+		}
+
+		//e0 and e1 are escape sequences used for certain special keys
+		//such as PRINT and PAUSE/BREAK.
+		const bool isE0 = ((flags & RI_KEY_E0) != 0);
+		const bool isE1 = ((flags & RI_KEY_E1) != 0);
+
+		if (isE1)
+			//for escaped sequences, turn the virtual key code 
+			//into the correct Scancode.
+			//However, MapVertualKey is unable to map VK_PAUSE 
+			//(its a known bug. We do that by hand.
+			if (virtualKey == VK_PAUSE)
+				scanCode = 0x45;
+			else
+				scanCode = MapVirtualKey(virtualKey, MAPVK_VK_TO_VSC);
+
+		// getting a human-readable string
+		UINT key = (scanCode << 16) | (isE0 << 24);
+		GetKeyNameText((LONG)key, pEvent->key.KeyName, 20);
+
+		switch (virtualKey) {
+			// right-hand CONTROL and ALT have their e0 bit set
+		case VK_CONTROL:
+			if (isE0) {
+				pEvent->key.keycode = KEY_RCTRL;
+				return 1;
+			} else {
+				pEvent->key.keycode = KEY_LCTRL;
+			}
+
+		case VK_MENU:
+			if (isE0) {
+				pEvent->key.keycode = KEY_RALT;
+				return 1;
+			} else {
+				pEvent->key.keycode = KEY_LALT;
+				return 1;
+			}
+
+			// NUMPAD ENTER has its e0 bit set
+		case VK_RETURN:
+			if (isE0) {
+				pEvent->key.keycode = KEY_NUM_ENTER;
+				return 1;
+			} else {
+				pEvent->key.keycode = KEY_ENTER;
+				return 1;
+			}
+
+			// the standard INSERT, DELETE, HOME, END, PRIOR and NEXT keys will always have their e0 bit set, but the
+			// corresponding keys on the NUMPAD will not.
+		case VK_INSERT:
+			if (!isE0) {
+				pEvent->key.keycode = KEY_NUM_0;
+				return 1;
+			} else {
+				pEvent->key.keycode = KEY_INSERT;
+				return 1;
+			}
+
+		case VK_DELETE:
+			if (!isE0) {
+				pEvent->key.keycode = KEY_NUM_DECIMAL;
+				return 1;
+			} else {
+				pEvent->key.keycode = KEY_DELETE;
+				return 1;
+			}
+
+		case VK_HOME:
+			if (!isE0) {
+				pEvent->key.keycode = KEY_NUM_7;
+			} else {
+				pEvent->key.keycode = KEY_HOME;
+			}
+			return 1;
+
+		case VK_END:
+			if (!isE0)
+				pEvent->key.keycode = KEY_NUM_1;
+			else
+				pEvent->key.keycode = KEY_END;
+			return 1;
+
+		case VK_PRIOR:
+			if (!isE0)
+				pEvent->key.keycode = KEY_NUM_9;
+			else
+				pEvent->key.keycode = KEY_PAGEUP;
+			return 1;
+
+		case VK_NEXT:
+			if (!isE0)
+				pEvent->key.keycode = KEY_NUM_3;
+			else
+				pEvent->key.keycode = KEY_PAGEDOWN;
+			return 1;
+
+			// the standard arrow keys will always have their e0 bit set, but the
+			// corresponding keys on the NUMPAD will not.
+		case VK_LEFT:
+			if (!isE0)
+				pEvent->key.keycode = KEY_NUM_4;
+			else
+				pEvent->key.keycode = KEY_ARROW_LEFT;
+			return 1;
+
+		case VK_RIGHT:
+			if (!isE0)
+				pEvent->key.keycode = KEY_NUM_6;
+			else
+				pEvent->key.keycode = KEY_ARROW_RIGHT;
+			return 1;
+
+		case VK_UP:
+			if (!isE0)
+				pEvent->key.keycode = KEY_NUM_8;
+			else
+				pEvent->key.keycode = KEY_ARROW_UP;
+			return 1;
+
+		case VK_DOWN:
+			if (!isE0)
+				pEvent->key.keycode = KEY_NUM_2;
+			else
+				pEvent->key.keycode = KEY_ARROW_DOWN;
+			return 1;
+
+			// NUMPAD 5 doesn't have its e0 bit set
+		case VK_CLEAR:
+			if (!isE0)
+				pEvent->key.keycode = KEY_NUM_5;
+			else
+				pEvent->key.keycode = KEY_CLEAR;
+			return 1;
+
+		case VK_ESCAPE:
+			pEvent->key.keycode = KEY_ESCAPE;
+			return 1;
+			//Now for the Function keys
+
+		case VK_F1:
+			pEvent->key.keycode = KEY_F1;
+			return 1;
+
+		case VK_F2:
+			pEvent->key.keycode = KEY_F2;
+			return 1;
+
+		case VK_F3:
+			pEvent->key.keycode = KEY_F3;
+			return 1;
+
+		case VK_F4:
+			pEvent->key.keycode = KEY_F4;
+			return 1;
+
+		case VK_F5:
+			pEvent->key.keycode = KEY_F5;
+			return 1;
+
+		case VK_F6:
+			pEvent->key.keycode = KEY_F6;
+			return 1;
+
+		case VK_F7:
+			pEvent->key.keycode = KEY_F7;
+			return 1;
+
+		case VK_F8:
+			pEvent->key.keycode = KEY_F8;
+			return 1;
+
+		case VK_F9:
+			pEvent->key.keycode = KEY_F9;
+			return 1;
+
+		case VK_F10:
+			pEvent->key.keycode = KEY_F10;
+			return 1;
+
+		case VK_F11:
+			pEvent->key.keycode = KEY_F11;
+			return 1;
+
+		case VK_F12:
+			pEvent->key.keycode = KEY_F12;
+			return 1;
+		case VK_SPACE:
+			pEvent->key.keycode = KEY_SPACEBAR;
+			return 1;
+		case VK_LSHIFT:
+			pEvent->key.keycode = KEY_LSHIFT;
+			return 1;
+		case VK_RSHIFT:
+			pEvent->key.keycode = KEY_RSHIFT;
+			return 1;
+		case VK_NUMLOCK:
+			pEvent->key.keycode = KEY_NUMLOCK;
+			return 1;
+		case VK_CAPITAL:
+			pEvent->key.keycode = KEY_CAPSLOCK;
+			return 1;
+		case '\b':
+			pEvent->key.keycode = KEY_BACKSPACE;
+			return 1;
+		case '\t':
+			pEvent->key.keycode = KEY_TAB;
+			return 1;
+		case 'A':
+			pEvent->key.keycode = KEY_A;
+			return 1;
+		case 'B':
+			pEvent->key.keycode = KEY_B;
+			return 1;
+		case 'C':
+			pEvent->key.keycode = KEY_C;
+			return 1;
+		case 'D':
+			pEvent->key.keycode = KEY_D;
+			return 1;
+		case 'E':
+			pEvent->key.keycode = KEY_E;
+			return 1;
+		case 'F':
+			pEvent->key.keycode = KEY_F;
+			return 1;
+		case 'G':
+			pEvent->key.keycode = KEY_G;
+			return 1;
+		case 'H':
+			pEvent->key.keycode = KEY_H;
+			return 1;
+		case 'I':
+			pEvent->key.keycode = KEY_I;
+			return 1;
+		case 'J':
+			pEvent->key.keycode = KEY_J;
+			return 1;
+		case 'K':
+			pEvent->key.keycode = KEY_K;
+			return 1;
+		case 'L':
+			pEvent->key.keycode = KEY_L;
+			return 1;
+		case 'M':
+			pEvent->key.keycode = KEY_M;
+			return 1;
+		case 'N':
+			pEvent->key.keycode = KEY_N;
+			return 1;
+		case 'O':
+			pEvent->key.keycode = KEY_O;
+			return 1;
+		case 'P':
+			pEvent->key.keycode = KEY_P;
+			return 1;
+		case 'Q':
+			pEvent->key.keycode = KEY_Q;
+			return 1;
+		case 'R':
+			pEvent->key.keycode = KEY_R;
+			return 1;
+		case 'S':
+			pEvent->key.keycode = KEY_S;
+			return 1;
+		case 'T':
+			pEvent->key.keycode = KEY_T;
+			return 1;
+		case 'U':
+			pEvent->key.keycode = KEY_U;
+			return 1;
+		case 'V':
+			pEvent->key.keycode = KEY_V;
+			return 1;
+		case 'W':
+			pEvent->key.keycode = KEY_W;
+			return 1;
+		case 'X':
+			pEvent->key.keycode = KEY_X;
+			return 1;
+		case 'Y':
+			pEvent->key.keycode = KEY_Y;
+			return 1;
+		case 'Z':
+			pEvent->key.keycode = KEY_Z;
+			return 1;
+		case '1':
+			pEvent->key.keycode = KEY_1;
+			return 1;
+		case '2':
+			pEvent->key.keycode = KEY_2;
+			return 1;
+		case '3':
+			pEvent->key.keycode = KEY_3;
+			return 1;
+		case '4':
+			pEvent->key.keycode = KEY_4;
+			return 1;
+		case '5':
+			pEvent->key.keycode = KEY_5;
+			return 1;
+		case '6':
+			pEvent->key.keycode = KEY_6;
+			return 1;
+		case '7':
+			pEvent->key.keycode = KEY_7;
+			return 1;
+		case '8':
+			pEvent->key.keycode = KEY_8;
+			return 1;
+		case '9':
+			pEvent->key.keycode = KEY_9;
+			return 1;
+		case '0':
+			pEvent->key.keycode = KEY_0;
+			return 1;
+		case VK_OEM_COMMA:
+			pEvent->key.keycode = KEY_0;
+			return 1;
+		case '[':
+			pEvent->key.keycode = KEY_0;
+			return 1;
+		case '?':
+			pEvent->key.keycode = KEY_0;
+			return 1;
+			//... more such cases...
+		default:
+			return -1;
+		}
+
+		
+
+		return 0;
+
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -591,6 +966,16 @@ namespace UNDONE_ENGINE {
 		m_First_Input_loop = true;
 	}
 
+	/*-------------------------------------------------------------------------
+	Called at each frame. Does some per frame system stuff like posting the 
+	NEW_FRAME Event to the event que. 
+	-------------------------------------------------------------------------*/
+	UNDONE_API void WindowsSystemComponent::NewFrame( ) {
+		//send out the newframe event.
+		//PostMessage(NULL,WM_NEWFRAME,100,100);
+		return;
+	}
+
 	/*-----------------------------------------------------------------------------
 	Returns:
 	0	if the message is not relevant or there is no message in the que.
@@ -603,166 +988,128 @@ namespace UNDONE_ENGINE {
 		POINTS ptCursor;
 		static POINTS ptPrevCursor;
 		static bool first = true;
+		static bool keyinit = false;
 		static bool KeyPressed[256] = {false};
+		static bool KeyPosted[256] = {false};
+		static bool Currentkeysync = false;
 		
+		if (!keyinit) {
+			m_KeyBoard_Device.usUsagePage = 0x01;
+			m_KeyBoard_Device.usUsage = 0x06;
+			m_KeyBoard_Device.dwFlags = RIDEV_NOLEGACY;
+			m_KeyBoard_Device.hwndTarget = m_WindowDB.GetHWND(0);
+			RegisterRawInputDevices(&m_KeyBoard_Device, 1, sizeof(m_KeyBoard_Device));
+			keyinit = true;
+		}
+		
+		//send out keydpress messages first.
+		for (unsigned i = 0; i < 256; ++i) {
+			if (KeyPressed[i] && KeyPosted[i] != Currentkeysync) {
+				pEvent->key.type = EVENT_KEYPRESS;
+				pEvent->key.keycode = (Key)i;
+				KeyPosted[i]= !KeyPosted[i];
+				return 1;
+			}
+		}
+		Currentkeysync = !Currentkeysync;
+
 		//Check if there is one
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)>0) {
 			//There is a message we are getting..
 			TranslateMessage(&msg);
 			//Now parse this message to our own struct.
+
 			switch (msg.message) {
+			
+			case WM_QUIT:
+				//The OS wants the App to quit.
+				//So tell the caller the same.
+				pEvent->event.type = EVENT_QUIT;
+				return 1;
+				
+			//Mouse
+			case WM_MOUSEMOVE:
+				if (first) {
+					ptPrevCursor = MAKEPOINTS(msg.lParam);
+					first = false;
+				}
 
-				case WM_QUIT:
-					//The OS wants the App to quit.
-					//So tell the caller the same.
-					pEvent->event.type = EVENT_QUIT;
-					return 1;
-				case WM_MOUSEMOVE:
-					if (first) {
-						ptPrevCursor = MAKEPOINTS(msg.lParam);
-						first = false;
+				pEvent->event.type = EVENT_MOUSEMOVE;
+				ptCursor = MAKEPOINTS(msg.lParam);
+				pEvent->mouse_motion.mouse_pos_x = ptCursor.x;
+				pEvent->mouse_motion.mouse_pos_y = ptCursor.y;
+				pEvent->mouse_motion.delta_x = ptCursor.x - ptPrevCursor.x;
+				pEvent->mouse_motion.delta_y = ptPrevCursor.y - ptCursor.y;
+
+				ptPrevCursor = ptCursor;
+				return 1;
+			case WM_LBUTTONDOWN:
+				pEvent->event.type = EVENT_MOUSEBUTTONDOWN;
+				pEvent->mouse_button.button = MOUSE_BUTTON_L;
+				SetCapture(msg.hwnd);
+				return 1;
+			case WM_MBUTTONDOWN:
+				pEvent->event.type = EVENT_MOUSEBUTTONDOWN;
+				pEvent->mouse_button.button = MOUSE_BUTTON_M;
+				SetCapture(msg.hwnd);
+				return 1;
+			case WM_RBUTTONDOWN:
+				SetCapture(msg.hwnd);
+				pEvent->event.type = EVENT_MOUSEBUTTONDOWN;
+				pEvent->mouse_button.button = MOUSE_BUTTON_R;
+				return 1;
+			case WM_LBUTTONUP:
+				pEvent->event.type = EVENT_MOUSEBUTTONUP;
+				pEvent->mouse_button.button = MOUSE_BUTTON_L;
+				ReleaseCapture();
+				return 1;
+			case WM_MBUTTONUP:
+				pEvent->event.type = EVENT_MOUSEBUTTONUP;
+				pEvent->mouse_button.button = MOUSE_BUTTON_M;
+				ReleaseCapture();
+				return 1;
+			case WM_RBUTTONUP:
+				pEvent->event.type = EVENT_MOUSEBUTTONUP;
+				pEvent->mouse_button.button = MOUSE_BUTTON_R;
+				ReleaseCapture();
+				return 1;
+			
+			//Keyboard
+			case WM_INPUT:
+			{
+				char buffer[sizeof(RAWINPUT)] = {};
+				UINT size = sizeof(RAWINPUT);
+				GetRawInputData(reinterpret_cast<HRAWINPUT>(msg.lParam),
+					RID_INPUT,
+					buffer,
+					&size,
+					sizeof(RAWINPUTHEADER));
+				//extract keyboard input data
+				RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(buffer);
+				if (raw->header.dwType == RIM_TYPEKEYBOARD) {
+					if (EvaluateKeyBaordInput( raw->data.keyboard, pEvent ) > 0) {
+						if (pEvent->event.type == EVENT_KEYDOWN) {
+							if(KeyPressed[pEvent->key.keycode])
+								return 0; //ignoring the event.
+							else {
+								KeyPressed[pEvent->key.keycode] = true;
+							}
+						} else if (pEvent->event.type == EVENT_KEYUP) {
+							KeyPressed[pEvent->key.keycode] = false;
+						}
 					}
+				}//keyboard
+				break;
+			}//input
 
-					pEvent->event.type = EVENT_MOUSEMOVE;
-					ptCursor = MAKEPOINTS(msg.lParam);
-					pEvent->mouse_motion.mouse_pos_x = ptCursor.x;
-					pEvent->mouse_motion.mouse_pos_y = ptCursor.y;
-					pEvent->mouse_motion.delta_x = ptCursor.x-ptPrevCursor.x;
-					pEvent->mouse_motion.delta_y = ptPrevCursor.y-ptCursor.y;
-
-					ptPrevCursor = ptCursor;
-					return 1;
-				case WM_LBUTTONDOWN:
-					pEvent->event.type = EVENT_MOUSEBUTTONDOWN;
-					pEvent->mouse_button.button = MOUSE_BUTTON_L;
-					SetCapture(m_WindowDB.GetHWND(0));
-					return 1;
-				case WM_MBUTTONDOWN:
-					pEvent->event.type = EVENT_MOUSEBUTTONDOWN;
-					pEvent->mouse_button.button = MOUSE_BUTTON_M;
-					SetCapture(m_WindowDB.GetHWND(0));
-					return 1;
-				case WM_RBUTTONDOWN:
-					SetCapture(m_WindowDB.GetHWND(0));
-					pEvent->event.type = EVENT_MOUSEBUTTONDOWN;
-					pEvent->mouse_button.button = MOUSE_BUTTON_R;
-					return 1;
-				case WM_LBUTTONUP:
-					pEvent->event.type = EVENT_MOUSEBUTTONUP;
-					pEvent->mouse_button.button = MOUSE_BUTTON_L;
-					ReleaseCapture( );
-					return 1;
-				case WM_MBUTTONUP:
-					pEvent->event.type = EVENT_MOUSEBUTTONUP;
-					pEvent->mouse_button.button = MOUSE_BUTTON_M;
-					ReleaseCapture( );
-					return 1;
-				case WM_RBUTTONUP:
-					pEvent->event.type = EVENT_MOUSEBUTTONUP;
-					pEvent->mouse_button.button = MOUSE_BUTTON_R;
-					ReleaseCapture( );
-					return 1;
-
-				case WM_KEYDOWN:
-					//A key was pressed down. 
-					pEvent->key.type = EVENT_KEYDOWN;
-					//Lets see which key it was..
-
-					switch (msg.wParam) {
-
-						case VK_ESCAPE:
-							pEvent->key.keycode = KEY_ESCAPE;
-							return 1;
-							//Now for the Function keys
-
-						case VK_F1:
-							pEvent->key.keycode = KEY_F1;
-							return 1;
-
-						case VK_F2:
-							pEvent->key.keycode = KEY_F2;
-							return 1;
-
-						case VK_F3:
-							pEvent->key.keycode = KEY_F3;
-							return 1;
-
-						case VK_F4:
-							pEvent->key.keycode = KEY_F4;
-							return 1;
-
-						case VK_F5:
-							pEvent->key.keycode = KEY_F5;
-							return 1;
-
-						case VK_F6:
-							pEvent->key.keycode = KEY_F6;
-							return 1;
-
-						case VK_F7:
-							pEvent->key.keycode = KEY_F7;
-							return 1;
-
-						case VK_F8:
-							pEvent->key.keycode = KEY_F8;
-							return 1;
-
-						case VK_F9:
-							pEvent->key.keycode = KEY_F9;
-							return 1;
-
-						case VK_F10:
-							pEvent->key.keycode = KEY_F10;
-							return 1;
-
-						case VK_F11:
-							pEvent->key.keycode = KEY_F11;
-							return 1;
-
-						case VK_F12:
-							pEvent->key.keycode = KEY_F12;
-							return 1;
-
-							//Now the Arrow keys
-						case VK_UP:
-							pEvent->key.keycode = KEY_ARROW_UP;
-							return 1;
-
-						case VK_DOWN:
-							pEvent->key.keycode = KEY_ARROW_DOWN;
-							return 1;
-
-						case VK_LEFT:
-							pEvent->key.keycode = KEY_ARROW_LEFT;
-							return 1;
-						case VK_RIGHT:
-							pEvent->key.keycode = KEY_ARROW_RIGHT;
-							return 1;
-							//... more such cases...
-						default:
-							//Unrecognised key found.
-							return -1;
-					}
-
-				case WM_CHAR:
-					pEvent->key.type = EVENT_KEYDOWN;
-					switch (msg.wParam) {
-						case 'w':
-							pEvent->key.keycode = KEY_W;
-							return 1;
-						case 's':
-							pEvent->key.keycode = KEY_S;
-							return 1;
-					}
-					return 0;
-
-				default:
-					//Things that are not input are windows messages.
-					//Let them go to our window proc
-					DispatchMessage(&msg);
-					return 0;
+			default:
+				//Things that are not input are windows messages.
+				//Let them go to our window proc
+				DispatchMessage(&msg);
+				return 0;
 			}
 		} else return 0;
+
 	}
 
 	void WindowsSystemComponent::Swipe_Buffers(DeviceContext context) {
