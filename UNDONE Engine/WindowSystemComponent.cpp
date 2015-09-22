@@ -1012,6 +1012,7 @@ namespace UNDONE_ENGINE {
 	UNDONE_API void WindowsSystemComponent::NewFrame( ) {
 		//send out the newframe event.
 		//PostMessage(NULL,WM_NEWFRAME,100,100);
+		Currentkeysync = !Currentkeysync;
 		return;
 	}
 
@@ -1030,7 +1031,7 @@ namespace UNDONE_ENGINE {
 		static bool keyinit = false;
 		static bool KeyPressed[256] = {false};
 		static bool KeyPosted[256] = {false};
-		static bool Currentkeysync = false;
+		
 		
 		if (!keyinit) {
 			m_KeyBoard_Device.usUsagePage = 0x01;
@@ -1050,7 +1051,7 @@ namespace UNDONE_ENGINE {
 				return 1;
 			}
 		}
-		Currentkeysync = !Currentkeysync;
+		
 
 		//Check if there is one
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)>0) {

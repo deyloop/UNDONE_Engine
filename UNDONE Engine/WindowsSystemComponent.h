@@ -180,6 +180,7 @@ namespace UNDONE_ENGINE {
 		//input
 		RAWINPUTDEVICE m_KeyBoard_Device;
 		UINT WM_NEWFRAME, WM_KEYPRESS;
+		bool Currentkeysync;
 	};
 };
 #endif

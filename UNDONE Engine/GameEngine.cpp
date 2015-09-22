@@ -126,7 +126,7 @@ namespace UNDONE_ENGINE {
 		m_running = true;
 		while (m_running) {
 			
-			//m_pSystemComponent->NewFrame();
+			m_pSystemComponent->NewFrame();
 
 			InputEvent InputEvent;
 			while (m_pSystemComponent->GetInputEvent(&InputEvent)>0) {
