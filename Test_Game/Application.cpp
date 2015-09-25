@@ -252,7 +252,7 @@ Updates Application specific things like AI, ui response, etc.
 -----------------------------------------------------------------------------*/
 void Application::Update(){
 
-	//BlockGroup->worldTransform->RotateRel(0.0f, 0.3f, 0.0f);
+	BlockGroup->GetWorldTransform()->RotateRel(0.0f, 0.3f, 0.0f);
 	//cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );

@@ -104,7 +104,7 @@ namespace UNDONE_ENGINE {
 
 		HINSTANCE	getHInstance( ) { return m_appInstance; }
 
-		UNDONE_API int GetInputEvent(InputEvent* pEvent);
+		UNDONE_API int GetInputEvent(InputEvent* pEvent,__int64 given_time);
 
 		UNDONE_API bool CreateGLContext(WindowHandle handle,
 							 PixelFormatParameters PixelParams,
@@ -146,7 +146,7 @@ namespace UNDONE_ENGINE {
 
 
 		UNDONE_API void FrameInput( );
-        UNDONE_API void NewFrame();
+        UNDONE_API void NewInputFrame();
 
 		unsigned GetSystemDirectory_(char* buffer, int size ) { return GetWindowsDirectory(buffer, size); }
 

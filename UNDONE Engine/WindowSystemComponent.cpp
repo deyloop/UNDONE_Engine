@@ -23,6 +23,7 @@ Author	:	Anurup Dey
 
 #include "WindowsSystemComponent.h"
 #include <iostream>
+#include <deque>
 
 #ifdef _WINDOWS_OS_
 namespace UNDONE_ENGINE {
@@ -1009,9 +1010,9 @@ namespace UNDONE_ENGINE {
 	Called at each frame. Does some per frame system stuff like posting the 
 	NEW_FRAME Event to the event que. 
 	-------------------------------------------------------------------------*/
-	UNDONE_API void WindowsSystemComponent::NewFrame( ) {
+	UNDONE_API void WindowsSystemComponent::NewInputFrame( ) {
 		//send out the newframe event.
-		//PostMessage(NULL,WM_NEWFRAME,100,100);
+		
 		Currentkeysync = !Currentkeysync;
 		return;
 	}
@@ -1022,7 +1023,7 @@ namespace UNDONE_ENGINE {
 	1   for some message is recieved and is successfully returned via pEvent.
 	-1  for if an error occured.
 	-----------------------------------------------------------------------------*/
-	int WindowsSystemComponent::GetInputEvent(InputEvent* pEvent) {
+	int WindowsSystemComponent::GetInputEvent(InputEvent* pEvent, __int64 given_time) {
 		//Get the message
 		MSG msg;
 		POINTS ptCursor;
@@ -1031,6 +1032,7 @@ namespace UNDONE_ENGINE {
 		static bool keyinit = false;
 		static bool KeyPressed[256] = {false};
 		static bool KeyPosted[256] = {false};
+		static std::deque<MSG> msgque;
 		
 		
 		if (!keyinit) {
@@ -1053,12 +1055,17 @@ namespace UNDONE_ENGINE {
 		}
 		
 
-		//Check if there is one
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)>0) {
-			//There is a message we are getting..
-			TranslateMessage(&msg);
-			//Now parse this message to our own struct.
+		//get next pending messages into our msg que
+		if(PeekMessage( &msg, NULL, 0, 0, PM_REMOVE )>0) {
+			msgque.push_back(msg);
+		}
 
+		//now we get one message at a time from the que.
+		if(msgque.size() > 0 && __int64(msgque.front().time) <= given_time){
+			msg = msgque.front( );
+			msgque.pop_front();
+			//Now parse this message to our own struct.
+			pEvent->event.timestamp = msg.time;
 			switch (msg.message) {
 			
 			case WM_QUIT:

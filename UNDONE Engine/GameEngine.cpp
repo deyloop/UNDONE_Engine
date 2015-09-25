@@ -124,24 +124,47 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void FrameWork::Run( ) {
 		m_running = true;
+
+		__int64 current_time = m_pSystemComponent->GetCurrentTickCount();
+		const __int64 dt     = m_pSystemComponent->GetSystemTickRate( ) / 200;
+		__int64 t            = 0;
+		__int64 accumulator  = 0;
+		const __int64 maxframetime = dt*30;
+
 		while (m_running) {
 			
-			m_pSystemComponent->NewFrame();
-
-			InputEvent InputEvent;
-			while (m_pSystemComponent->GetInputEvent(&InputEvent)>0) {
-				if (InputEvent.event.type==EVENT_QUIT) {
-					//need to quit now...
-					m_running = false;
-					break;
+			
+			
+			__int64 newtime   = m_pSystemComponent->GetCurrentTickCount( );
+			__int64 frametime = newtime - current_time;
+			if(frametime > maxframetime ) frametime = maxframetime;
+			current_time = newtime;
+			 
+			accumulator += frametime;
+			while (accumulator >= dt){
+				m_pSystemComponent->NewInputFrame();
+				
+				InputEvent InputEvent;
+				while (m_pSystemComponent->GetInputEvent( &InputEvent , current_time ) > 0) {
+					if (InputEvent.event.type == EVENT_QUIT) {
+						//need to quit now...
+						m_running = false;
+						break;
+					}
+					//Handle other input
+					m_pInputHandeller->HandleInput( InputEvent );
 				}
-				//Handle other input
-				m_pInputHandeller->HandleInput(InputEvent);
+
+				if (m_pTimer!=nullptr && m_active) {
+					m_pTimer->Update( );
+					m_pApplication->Update( );
+				}
+
+				t += dt;
+				accumulator -= dt;
 			}
 			//Advance in game loop.
-			if (m_pGraphicsEngine!=nullptr &&m_pTimer!=nullptr && m_active) {
-				m_pTimer->Update( );
-				m_pApplication->Update( );
+			if (m_pGraphicsEngine!=nullptr && m_active) {
 				m_pGraphicsEngine->RenderScene( );
 			}
 

@@ -134,19 +134,22 @@ namespace UNDONE_ENGINE {
 	};
 	//Data common to all events
 	typedef struct CommonEventData {
-		Event_Type type;
+		Event_Type      type;
+		unsigned _int64 timestamp;
 	}CommonEvent;
 
 	//Data regarding Keybourd events
 	typedef struct KeyBoardEvent {
-		Event_Type  type;
-		Key			keycode;
-		char        KeyName[20];
+		Event_Type      type;
+		unsigned _int64 timestamp;
+		Key			    keycode;
+		char            KeyName[20];
 	} KeyBoardEvent;
 
 	//Data of mouse movement
 	typedef struct MouseMotionEvent {
 		Event_Type type;
+		unsigned _int64 timestamp;
 		short mouse_pos_x;
 		short mouse_pos_y;
 		short delta_x;
@@ -155,19 +158,22 @@ namespace UNDONE_ENGINE {
 
 	//Data of mouse button event.
 	struct MouseButtonEvent {
-		Event_Type type;
-		MouseButton button;
+		Event_Type      type;
+		unsigned _int64 timestamp;
+		MouseButton     button;
 		//...
 	};
 
 	//Data of mouse wheel movement.
 	struct MouseWheelEvent {
-		Event_Type type;
+		Event_Type      type;
+		unsigned _int64 timestamp;
 	};
 
 	//the input data structure.
 	union InputEvent {
 		Event_Type			type;
+		unsigned _int64     timestamp;
 		CommonEvent			event;
 		KeyBoardEvent		key;
 		MouseMotionEvent	mouse_motion;
