@@ -78,10 +78,13 @@ namespace UNDONE_ENGINE {
 		//if yes, the do not initialize.
 		if (!CheckMutex(ApplicationName)) return false;
 
-		RegisterWindowClass( );
+		first = true;
+		keyinit = false;
+		for (auto& key : KeyPressed) key = false;
+		for (auto& key : KeyPosted) key = false;
+		Currentkeysync = true;
 
-		WM_NEWFRAME = RegisterWindowMessage("NEWFRAME");
-		WM_KEYPRESS = RegisterWindowMessage("KEYPRESS");
+		RegisterWindowClass( );
 
 		return true;
 	}
@@ -615,6 +618,16 @@ namespace UNDONE_ENGINE {
 
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
+
+	/*-----------------------------------------------------------------------------
+	Resets the keyboard data.
+	-----------------------------------------------------------------------------*/
+	void WindowsSystemComponent::Reset_KeyBoard( ) {
+		for (auto& key : KeyPressed) key = false;
+		for (auto& key : KeyPosted) key = false;
+		Currentkeysync = true;
+	}
+
 	/*-----------------------------------------------------------------------------
 	Summary: Windows Event Handeller. Routes Appropriate windows messages to the
 	window's event handeller.
@@ -639,6 +652,7 @@ namespace UNDONE_ENGINE {
 					handeller->OnPaint( );
 					break;
 				case WM_SIZE:
+					Reset_KeyBoard( );
 					switch (wParam) {
 						case SIZE_MINIMIZED:
 							handeller->OnMinimized( );
@@ -650,6 +664,9 @@ namespace UNDONE_ENGINE {
 							handeller->OnResize(LOWORD(lParam), HIWORD(lParam));
 							break;
 					}
+					break;
+				case WM_KILLFOCUS:
+					Reset_KeyBoard( );
 					break;
 				case WM_DESTROY:
 					handeller->OnDestroy( );
@@ -1008,10 +1025,9 @@ namespace UNDONE_ENGINE {
 
 	/*-------------------------------------------------------------------------
 	Called at each frame. Does some per frame system stuff like posting the 
-	NEW_FRAME Event to the event que. 
+	KeyPress Event to the event que. 
 	-------------------------------------------------------------------------*/
 	UNDONE_API void WindowsSystemComponent::NewInputFrame( ) {
-		//send out the newframe event.
 		
 		Currentkeysync = !Currentkeysync;
 		return;
@@ -1027,12 +1043,7 @@ namespace UNDONE_ENGINE {
 		//Get the message
 		MSG msg;
 		POINTS ptCursor;
-		static POINTS ptPrevCursor;
-		static bool first = true;
-		static bool keyinit = false;
-		static bool KeyPressed[256] = {false};
-		static bool KeyPosted[256] = {false};
-		static std::deque<MSG> msgque;
+		
 		
 		
 		if (!keyinit) {

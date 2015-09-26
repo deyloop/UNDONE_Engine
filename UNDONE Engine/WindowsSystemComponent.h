@@ -38,6 +38,7 @@ Author	:	Anurup Dey
 #include <wglew.h>
 #include <io.h>
 #include <Fcntl.h>
+#include <deque>
 using namespace std;
 
 #define _ClassName "XXXANURUPHEXClassXXX"	//the class name that will be registered.
@@ -159,6 +160,7 @@ namespace UNDONE_ENGINE {
 								 WPARAM wParam,
 								 LPARAM lParam);
 		bool InitializeGLEW( );
+		void Reset_KeyBoard( );
 
 		HINSTANCE m_appInstance;
 		HANDLE    m_hMutex;
@@ -179,8 +181,13 @@ namespace UNDONE_ENGINE {
 
 		//input
 		RAWINPUTDEVICE m_KeyBoard_Device;
-		UINT WM_NEWFRAME, WM_KEYPRESS;
-		bool Currentkeysync;
+		bool   Currentkeysync;
+		POINTS ptPrevCursor;
+		bool   first;
+		bool   keyinit;
+		bool   KeyPressed[256];
+		bool   KeyPosted[256];
+		std::deque<MSG> msgque;
 	};
 };
 #endif
