@@ -52,7 +52,7 @@ namespace UNDONE_ENGINE {
 		virtual void Load( ) = 0;
 		virtual void Unload( ) = 0;
 		
-		virtual void OnParentBeingChilded( ) = 0;
+		virtual void OnParentAdopted( ) = 0;
 
 		unsigned GetPriority(unsigned priority_level);
 		void SetPriority(unsigned priority, unsigned priority_level);

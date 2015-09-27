@@ -37,6 +37,12 @@
     <Filter Include="Header Files\SubSystems\Scenes and States">
       <UniqueIdentifier>{32aebc3f-cc05-4cdb-98f4-5a50f0cde177}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Misc.">
+      <UniqueIdentifier>{6c82ddf2-7e8b-4ee6-8eba-ad70cbe285f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Scripting">
+      <UniqueIdentifier>{9cd7ae38-62a3-4907-8524-55bf6faa9190}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -108,15 +114,12 @@
     <ClCompile Include="Graphic3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BehaviorAttachement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UNDONE_Engine_declr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FrameWork.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="UNDONE_DEBUG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UnFramework.h">
@@ -209,64 +212,73 @@
     <ClInclude Include="ObjectBuffer.h">
       <Filter>Header Files\SubSystems</Filter>
     </ClInclude>
-    <ClInclude Include="Dptr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GENERATE_FUNCTIONS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphic3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectContainer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="unCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="unComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="unGameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="unGraphic2D.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
     <ClInclude Include="unGraphic3D.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="unGraphicMaterial.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="unGraphic2D.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="unComponent.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="unCamera.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
     <ClInclude Include="unMesh.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="UnObjectBuffer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="unGraphicMaterial.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
     <ClInclude Include="unShader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="unShaderProgram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="unTexture.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="UnObjectBuffer.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
     <ClInclude Include="unWorldTransform.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="unTexture.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="unShaderProgram.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Dptr.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic2D.h">
+      <Filter>Header Files\Components\Graphics Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphic3D.h">
+      <Filter>Header Files\Components\Graphics Components</Filter>
+    </ClInclude>
+    <ClInclude Include="UNDONE_Engine_declr.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="UNDONE_DEBUG.h">
+      <Filter>Header Files\Misc.</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Header Files\Misc.</Filter>
+    </ClInclude>
+    <ClInclude Include="GENERATE_FUNCTIONS.h">
+      <Filter>Header Files\Misc.</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorAttachement.h">
+      <Filter>Header Files\Components\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="unBehaviorAttachement.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="HeaderSnippet.snippet">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Misc.</Filter>
     </Xml>
   </ItemGroup>
 </Project>

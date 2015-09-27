@@ -1,6 +1,6 @@
 /******************************************************************************
 Project	:	UNDONE Engine
-File	:	Mesh.h
+File	:	BehaviorAttachement.h
 Author	:	Anurup Dey
 
 				Copyright (C) 2015  Anurup Dey
@@ -23,59 +23,40 @@ Author	:	Anurup Dey
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#ifndef _MESH_H_
-#define _MESH_H_
+#ifndef UNDONE_BEHAVIORATTACHEMENT_H
+#define UNDONE_BEHAVIORATTACHEMENT_H
 
-//includes
-#include "Component.h"		//Mesh IS a component
-#include "unMesh.h"
-#include <glew.h>			//used for the VAOs and the VBOs
-#include <gl\GL.h>
-#include <gl\GLU.h>
+#include "Component.h"
+#include "unBehaviorAttachement.h"
 
-#include <string>
-using std::string;
-
-typedef  unsigned int UINT;
+#include <vector>
+using std::vector;
 
 namespace UNDONE_ENGINE {
-	/*----------------------------------------------------------------------------
-	A Mesh data structure holds data about geometry. Must be used in conjuction
-	with a Graphic3D Compnent to work properly.
-	----------------------------------------------------------------------------*/
-	class Mesh : public unMesh, public Component {
+	
+	class Behavior;
+
+	/*-------------------------------------------------------------------------
+	THe BehaviorAttachement component acts as a glue which will attach a 
+	behavior script to the GameObject. Multiple scripts can be attached per
+	GameObject using Attachement one point.
+	-------------------------------------------------------------------------*/
+	class BehaviorAttachement : public unBehaviorAttachement , public Component {
 	public:
-		Mesh( );
-		~Mesh( ) { Release( ); }
-
-		void SetModelFile(const char* filename) {
-			m_model_file = filename; 
-		};
-		
 		void Load( );
-		
-		void Render( );
-	
 		void Unload( );
-		void Release( );
 
-		void OnParentAdopted( );
+		void OnParentAdopted( ) {};
 
-		static void SetCurrentlyBoundVAO(UINT uiVAOID) { currently_bound_VAO = uiVAOID; };
-	
-	private:
+		void AddBehavior(const char* script_name, Behavior* behavior_script );
+
+	protected:
 		void OnParentSet( );
-		
-		UINT uiVBO[2];
-		UINT uiVAO[1];
-		
-		UINT m_num_parents;
-		
-		bool		mesh_loaded;
-		int			m_instances;
-		string		m_model_file;
-		unsigned	m_num_verts;
-		static UINT currently_bound_VAO;
+
+	private:
+		vector<Behavior*>     m_BehaviorList;
+		vector<const char*>   m_Names;
 	};
 }
+
 #endif

@@ -51,7 +51,7 @@ namespace UNDONE_ENGINE {
 
 	}
 
-	void GraphicMaterial::OnParentBeingChilded( ) {
+	void GraphicMaterial::OnParentAdopted( ) {
 
 	}
 

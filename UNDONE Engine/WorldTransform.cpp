@@ -39,7 +39,7 @@ namespace UNDONE_ENGINE {
 		
 	}
 
-	void WorldTransform::OnParentBeingChilded( ) {
+	void WorldTransform::OnParentAdopted( ) {
 		m_ppParentTransform = m_ppParent->GetParent( )->GetComponent<WorldTransform>();
 		m_parented = true;
 	}

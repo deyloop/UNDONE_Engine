@@ -88,7 +88,7 @@ namespace UNDONE_ENGINE {
 			
 			//see if parent has parent
 			if ((ppParent->GetParent( )).m_pointer) { 
-				OnParentBeingChilded( );
+				OnParentAdopted( );
 			}
 			
 			OnParentSet( );

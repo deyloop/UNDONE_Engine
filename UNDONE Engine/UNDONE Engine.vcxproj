@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\include;F:\Dey\DACsoft\Tools and IDE\Assimp\include;F:\Dey\DACsoft\Tools and IDE\FreeImage\Dist;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\Dey\DACsoft\Tools and IDE\glm-0.9.5.4\glm\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\objs\win32\vc2010;F:\Dey\DACsoft\Tools and IDE\FreeImage\Dist;F:\Dey\DACsoft\Projects\UNDONE Engine\Release;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <LibraryPath>F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\builds\windows\vc2010\x64\Release Multithreaded;F:\Dey\DACsoft\Tools and IDE\FreeImage-NEW\FreeImage\Dist\x64;F:\Dey\DACsoft\Projects\UNDONE Engine\x64\Release;F:\Dey\DACsoft\Tools and IDE\Assimp\lib\x64;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -163,6 +163,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BehaviorAttachement.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="WorldTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BehaviorAttachement.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Dptr.h" />
@@ -209,7 +211,6 @@
     <ClInclude Include="MaterialProperty.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ObjectBuffer.h" />
-    <ClInclude Include="ObjectContainer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneStack.h" />
@@ -218,6 +219,7 @@
     <ClInclude Include="SystemComponent.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="unBehaviorAttachement.h" />
     <ClInclude Include="unCamera.h" />
     <ClInclude Include="unComponent.h" />
     <ClInclude Include="UNDONE_DEBUG.h" />

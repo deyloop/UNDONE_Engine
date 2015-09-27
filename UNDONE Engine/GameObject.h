@@ -57,7 +57,7 @@ namespace UNDONE_ENGINE {
 		void RemoveComponent();
 		void RemoveComponentByName(const char* name) { };
 
-		virtual void OnParentBeingChilded();
+		virtual void OnParentAdopted();
 
 		#define _GENFUNC_DEC_GAMEOBJECT_H_
 		#include "GENERATE_FUNCTIONS.h"

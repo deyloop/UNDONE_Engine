@@ -52,7 +52,7 @@ namespace UNDONE_ENGINE {
 		void Render(_2DRenderParams& render_params );
 		void Unload( );
 
-		void OnParentBeingChilded( ) { };
+		void OnParentAdopted( ) { };
 		void SetTexture(Dptr<unTexture> ppTex);
 		void SetImageRect(rect& rectref);
 

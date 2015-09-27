@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\Dey\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dey\DACsoft\Projects\UNDONE Engine\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>F:\Dey\DACsoft\Projects\UNDONE Engine\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

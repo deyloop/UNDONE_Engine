@@ -31,3 +31,4 @@ Author	:	Anurup Dey
 #include "Graphic3D.h"
 #include "Graphic2D.h"
 #include "Camera.h"
+#include "BehaviorAttachement.h"

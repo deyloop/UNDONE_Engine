@@ -151,7 +151,7 @@ namespace UNDONE_ENGINE {
 		
 	}
 
-	void Mesh::OnParentBeingChilded( ) {
+	void Mesh::OnParentAdopted( ) {
 		//Honestly, we don't care.
 	}
 }

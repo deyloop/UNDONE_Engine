@@ -56,11 +56,11 @@ namespace UNDONE_ENGINE {
 		//Tell all children
 		for (auto& childComponent:m_Components) {
 			childComponent->SetPriority(GetPriority(0)+1,0);
-			childComponent->OnParentBeingChilded();
+			childComponent->OnParentAdopted();
 		}
 	}
 
-	void GameObject::OnParentBeingChilded( ) {
+	void GameObject::OnParentAdopted( ) {
 		//We do nothing...
 	}
 

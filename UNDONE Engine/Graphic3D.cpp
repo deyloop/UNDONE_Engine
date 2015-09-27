@@ -107,7 +107,7 @@ namespace UNDONE_ENGINE {
 
 	}
 
-	void Graphic3D::OnParentBeingChilded( ) {
+	void Graphic3D::OnParentAdopted( ) {
 		//We Do Nothing...
 	}
 

@@ -39,7 +39,7 @@ namespace UNDONE_ENGINE {
 		void Load( ) { };
 		void Unload( ) { };
 
-		void OnParentBeingChilded( );
+		void OnParentAdopted( );
 
 		void Reset( );
 		void TranslateAbs(float x, float y, float z);

@@ -49,7 +49,7 @@ namespace UNDONE_ENGINE {
 
 		void Release( ) { Unload( ); };
 
-		void OnParentBeingChilded( );
+		void OnParentAdopted( );
 		void SetShaderProgramToUse(Dptr<unShaderProgram> ppShaderProgram);
 
 		UniformDataInterface& GetUniformDataInterface( ) { return m_DataInterface; };
