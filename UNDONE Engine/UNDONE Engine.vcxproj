@@ -67,20 +67,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\include;F:\Dey\DACsoft\Tools and IDE\Assimp\include;F:\Dey\DACsoft\Tools and IDE\FreeImage\Dist;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\Dey\DACsoft\Tools and IDE\glm-0.9.5.4\glm\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\objs\win32\vc2010;F:\Dey\DACsoft\Tools and IDE\FreeImage\Dist;F:\Dey\DACsoft\Projects\UNDONE Engine\Debug;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\Includes\glm\glm;$(SolutionDir)Dependencies\Includes\GLEW\GL;$(SolutionDir)Dependencies\Includes\FreeType;$(SolutionDir)Dependencies\Includes\FreeImage;$(SolutionDir)Dependencies\Includes\Assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\Libs\x86\Debug;$(SolutionDir)\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\include;F:\Dey\DACsoft\Tools and IDE\Assimp\include;F:\Dey\DACsoft\Tools and IDE\FreeImage\Dist;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\Dey\DACsoft\Tools and IDE\glm-0.9.5.4\glm\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dey\DACsoft\Tools and IDE\Assimp\lib\x64;F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\builds\windows\vc2010\x64\Release Multithreaded;F:\Dey\DACsoft\Tools and IDE\FreeImage\FreeImage\x64\Debug;F:\Dey\DACsoft\Projects\UNDONE Engine\x64\Debug;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\Includes\glm\glm;$(SolutionDir)Dependencies\Includes\GLEW\GL;$(SolutionDir)Dependencies\Includes\FreeType;$(SolutionDir)Dependencies\Includes\FreeImage;$(SolutionDir)Dependencies\Includes\Assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\Libs\x64\Debug;$(SolutionDir)\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\include;F:\Dey\DACsoft\Tools and IDE\Assimp\include;F:\Dey\DACsoft\Tools and IDE\FreeImage\Dist;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\Dey\DACsoft\Tools and IDE\glm-0.9.5.4\glm\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\objs\win32\vc2010;F:\Dey\DACsoft\Tools and IDE\FreeImage\Dist;F:\Dey\DACsoft\Projects\UNDONE Engine\Release;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Dependencies\Libs\x86\Release;$(SolutionDir)Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\Includes\glm\glm;$(SolutionDir)Dependencies\Includes\GLEW\GL;$(SolutionDir)Dependencies\Includes\FreeType;$(SolutionDir)Dependencies\Includes\FreeImage;$(SolutionDir)Dependencies\Includes\Assimp\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\include;F:\Dey\DACsoft\Tools and IDE\Assimp\include;F:\Dey\DACsoft\Tools and IDE\FreeImage\Dist;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\Dey\DACsoft\Tools and IDE\glm-0.9.5.4\glm\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dey\DACsoft\Tools and IDE\freetype-2.5.3\builds\windows\vc2010\x64\Release Multithreaded;F:\Dey\DACsoft\Tools and IDE\FreeImage-NEW\FreeImage\Dist\x64;F:\Dey\DACsoft\Projects\UNDONE Engine\x64\Release;F:\Dey\DACsoft\Tools and IDE\Assimp\lib\x64;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\Includes\glm\glm;$(SolutionDir)Dependencies\Includes\GLEW\GL;$(SolutionDir)Dependencies\Includes\FreeType;$(SolutionDir)Dependencies\Includes\FreeImage;$(SolutionDir)Dependencies\Includes\Assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Dependencies\Libs\x64\Release;$(SolutionDir)x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -88,7 +88,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>E:\DACsoft\Tools and IDE\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL; UNDONE_EXPORTS;_CRT_SECURE_NO_WARNINGS%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL; UNDONE_EXPORTS;GLM_FORCE_RADIANS_CRT_SECURE_NO_WARNINGS%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -105,7 +105,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>E:\DACsoft\Tools and IDE\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL; UNDONE_EXPORTS;_CRT_SECURE_NO_WARNINGS%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL; UNDONE_EXPORTS;GLM_FORCE_RADIANS_CRT_SECURE_NO_WARNINGS%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -124,7 +124,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>F:\Dey\DACsoft\Tools and IDE\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL; UNDONE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL; UNDONE_EXPORTS;GLM_FORCE_RADIANS%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
@@ -147,7 +147,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>F:\Dey\DACsoft\Tools and IDE\SDL2-2.0.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_WINDLL; UNDONE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDLL; UNDONE_EXPORTS;GLM_FORCE_RADIANS%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>

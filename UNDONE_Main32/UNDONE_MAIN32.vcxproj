@@ -67,20 +67,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\Dey\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dey\DACsoft\Projects\UNDONE Engine\Debug;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\Includes\GLEW\GL;$(SolutionDir)UNDONE Engine;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\Dey\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dey\DACsoft\Projects\UNDONE Engine\Debug;F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\Includes\GLEW\GL;$(SolutionDir)UNDONE Engine;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\Dey\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dey\DACsoft\Projects\UNDONE Engine\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\Includes\GLEW\GL;$(SolutionDir)UNDONE Engine;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)UNDONE Engine\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>F:\Dey\DACsoft\Tools and IDE\GLEW\glew-1.11.0\include\GL;F:\Dey\DACsoft\Projects\UNDONE Engine\UNDONE Engine;$(IncludePath)</IncludePath>
-    <LibraryPath>F:\Dey\DACsoft\Projects\UNDONE Engine\x64\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\Includes\GLEW\GL;$(SolutionDir)UNDONE Engine;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
