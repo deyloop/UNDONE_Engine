@@ -113,6 +113,8 @@ namespace UNDONE_ENGINE {
 			//m_pGraphicsEngine->SetResolution(800, 600);
 			ToggleFullscreen( );
 		}
+
+        m_pGraphicsEngine->ToggleVSYNC( );
 		//start the timer
 		Pause(false, false);
 
@@ -133,7 +135,13 @@ namespace UNDONE_ENGINE {
 
 		while (m_running) {
 			
-			
+            //this here displays the fps in the tittlebar.
+           /* char FPS[30];
+            sprintf_s( FPS, "UNDONE    FPS : %.2f", GetFPS( ) );
+            m_pSystemComponent->SetWindowTittle( m_pUserWindow->GetHandle( ),FPS);
+            */
+            
+            m_pTimer->Update( );
 			
 			__int64 newtime   = m_pSystemComponent->GetCurrentTickCount( );
 			__int64 frametime = newtime - current_time;
@@ -156,7 +164,7 @@ namespace UNDONE_ENGINE {
 				}
 
 				if (m_pTimer!=nullptr && m_active) {
-					m_pTimer->Update( );
+					
 					m_pApplication->Update( );
 				}
 

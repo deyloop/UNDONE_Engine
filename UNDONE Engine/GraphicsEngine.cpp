@@ -45,6 +45,7 @@ namespace UNDONE_ENGINE {
 		m_2DProjMat = glm::mat4(1.0f);
 
 		m_windowed = true;
+        m_VSYNC = false;
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -140,6 +141,14 @@ namespace UNDONE_ENGINE {
 		ResetScreen( );
 
 	}
+
+    void GraphicsEngine::ToggleVSYNC( ) {
+        if (m_pSystem && m_pRenderer) {
+            m_VSYNC = !m_VSYNC;
+            m_pSystem->setSwapInterval( m_VSYNC );
+            m_pRenderer->ToggleVSYNC( );
+        }
+    }
 
 	/*-----------------------------------------------------------------------------
 	Sets the screen res.

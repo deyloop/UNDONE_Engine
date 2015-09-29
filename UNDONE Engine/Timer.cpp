@@ -80,7 +80,13 @@ namespace UNDONE_ENGINE {
 		m_timeElapsed = (float)(m_currentTime-m_lastTime)/(float)m_ticksPerSecond;
 		m_runningTime += m_timeElapsed;
 
-		// Update FPS
+		
+
+		m_lastTime = m_currentTime;
+	}
+    
+    const float Timer::GetFPS( ) {
+        // Update FPS
 		m_numFrames++;
 		if (m_currentTime-m_lastFPSUpdate>=m_FPSUpdateInterval) {
 			float currentTime = (float)m_currentTime/(float)m_ticksPerSecond;
@@ -90,9 +96,8 @@ namespace UNDONE_ENGINE {
 			m_lastFPSUpdate = m_currentTime;
 			m_numFrames = 0;
 		}
-
-		m_lastTime = m_currentTime;
-	}
+        return m_fps;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

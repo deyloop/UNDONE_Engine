@@ -23,7 +23,7 @@ Author	:	Anurup Dey
 ///////////////////////////////////////////////////////////////////////////////
 #include "Mesh.h" 
 #include "UNDONE_DEBUG.h"
-#include <assimp/Importer.hpp>
+#include <assimp\Importer.hpp>
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
 #include <glm.hpp>

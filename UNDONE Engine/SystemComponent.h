@@ -142,6 +142,8 @@ namespace UNDONE_ENGINE {
 		virtual void FrameInput( ) = 0;
 
 		virtual unsigned GetSystemDirectory_(char* buffer, int size ) = 0;
+        virtual void SetWindowTittle(WindowHandle window, const char* newTitle ) = 0;
+        virtual void setSwapInterval( int interval ) = 0;
 
 	private:
 		static SystemComponent* pInstance;

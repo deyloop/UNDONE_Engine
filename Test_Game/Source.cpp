@@ -2,8 +2,8 @@
 Project		:	Hexagon Engine
 File		:	Program.cpp
 Author		:	Anurup Dey
-Environment	:	IDE		-Microsoft Visual Studio 2010.
-				OS		-Microsoft Windows 7 Ultimate.
+Environment	:	IDE		-Microsoft Visual Studio 2015 Enterprise.
+				OS		-Microsoft Windows 10 pro.
 				PC model-IBM Lenovo ThinkCentre Edge Tower.
 				CPU		-Intel(R) Pentium(R) CPU G680
 							@ 2.70Ghz,2.69Ghz.
@@ -25,15 +25,12 @@ using namespace std;
 This is the starting point of the whole program.
 -----------------------------------------------------------------------------*/
 int main( ) {
-	cout<<"UNDONE Engine Test Game (Debug Console).\t\n"
-		   <<"By Anurup Dey.\n\n"
-		   <<"Initializing\n\n\n";
-
-	Application*	pApp	= new Application( );
+    
+    Application*	pApp	= new Application( );
 	UnFramework*	pUNDONE = Create_Un_Framwork_Inst(pApp);
 
 	pApp->LinkToEngine(pUNDONE);
-	pUNDONE->Initialise("UNDONE", 1000, 700);
+	pUNDONE->Initialise("UNDONE", 1000, 700, false);
 
 	//time to rock n roll!
 	pUNDONE->Run( );
@@ -45,4 +42,5 @@ int main( ) {
 	delete pUNDONE;
 
 	return 0;
+
 }

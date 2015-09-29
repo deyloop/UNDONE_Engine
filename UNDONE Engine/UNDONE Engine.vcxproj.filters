@@ -275,6 +275,9 @@
     <ClInclude Include="unBehaviorAttachement.h">
       <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
+    <ClInclude Include="Behavior.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="HeaderSnippet.snippet">

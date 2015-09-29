@@ -1,6 +1,6 @@
 /******************************************************************************
 Project	:	UNDONE Engine
-File	:   BehaviorAttachment.cpp
+File	:   Behavior.h
 Author	:	Anurup Dey
 
                 Copyright (C) 2015  Anurup Dey
@@ -21,38 +21,23 @@ Author	:	Anurup Dey
 
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
-#include "BehaviorAttachement.h"
-#include "Behavior.h"
+#pragma once
+
+#ifndef _UNDONE_BEHAVIOR_H_
+#define _UNDONE_BEHAVIOR_H_
 
 namespace UNDONE_ENGINE {
 
-    void BehaviorAttachement::Load( ) {
-        //calls the Load() function on all the scripts.
-        for (auto& behavior : m_BehaviorList) {
-            //call
-            behavior->Load( );
-        }
-    }
+    /*-------------------------------------------------------------------------
+    This interface must be implimented by all behavior scripts to be written
+    for the UNDONE Engine.
+    -------------------------------------------------------------------------*/
+    class Behavior {
+    public:
+        virtual void Load( ) = 0;
+        virtual void UnLoad( ) = 0;
 
-    void BehaviorAttachement::Unload( ) {
-        //calss the UnLoad() function on all scripts.
-         for (auto& behavior : m_BehaviorList) {
-            //call
-             behavior->UnLoad( );
-        }
-    }
-
-    void BehaviorAttachement::AddBehavior( const char* script_name,
-                                           Behavior * behavior_script ) {
-        m_BehaviorList.push_back( behavior_script );
-        m_Names.push_back( script_name );
-
-    }
-
-    void BehaviorAttachement::OnParentSet( ) {
-
-
-
-    }
-
+    };
 }
+
+#endif

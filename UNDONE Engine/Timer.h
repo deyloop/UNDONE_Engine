@@ -41,7 +41,7 @@ namespace UNDONE_ENGINE {
 		void Update( );
 
 		const bool IsStopped( ) const { return m_timerStopped; }
-		const float GetFPS( ) const { return m_fps; }
+        const float GetFPS( );
 		const float GetRunningTime( ) const { return m_runningTime; }
 		const float GetElapsedTime( ) const { return m_timerStopped ? 0.0f: m_timeElapsed; }
 

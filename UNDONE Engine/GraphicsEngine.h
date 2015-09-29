@@ -55,6 +55,7 @@ namespace UNDONE_ENGINE {
 
 		void ToggleFullscreen( );
 		void ToggleRenderMode( ) { };
+        void ToggleVSYNC( );
 
 		void RenderScene( );
 
@@ -72,7 +73,7 @@ namespace UNDONE_ENGINE {
 		OpenGLContext		m_GLContext;
 		DeviceContext		m_DeviceContext;
 		bool				m_windowed;
-
+        bool                m_VSYNC;
 		
 
 		PixelFormatParameters		m_PixelFormatParams;

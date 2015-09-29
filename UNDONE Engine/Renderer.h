@@ -42,12 +42,15 @@ namespace UNDONE_ENGINE {
 
 		bool Initialize(ObjectBuffer* pGraphicsBuffer,glm::mat4& _2DProjmatref);
 		void Render( );
+
+        void ToggleVSYNC( ) { m_VSYNC = !m_VSYNC; }
 	private:
 		void Render3D( );
 		void Render2D( );
 
 		ObjectBuffer* m_pGraphicsBuffer;
-		glm::mat4*	   m_p2DProjMat;
+		glm::mat4*	  m_p2DProjMat;
+        bool          m_VSYNC;
 		//TOADD:
 		//the sprite_Manager object pointer
 		//the control_camera object

@@ -81,6 +81,7 @@ namespace UNDONE_ENGINE {
 		IWindowEventHandeller*	GetEventHandeller(WindowHandle handle);
 		IWindowEventHandeller*  GetEventHandeller(HWND handle);
 		bool					SlotAvalable( );
+        UINT                    GetNumWindows( ) { return num_Windows; }
 
 	private:
 		UINT			num_Windows;
@@ -133,6 +134,8 @@ namespace UNDONE_ENGINE {
 		UNDONE_API void UpdateWindowPlacement(WindowHandle handle,
 										   WindowPlacementPtr* pWndPlcment);
 		UNDONE_API void SetWindowStyle(WindowHandle handle, WindowStyle style);
+        UNDONE_API void SetWindowTittle( WindowHandle window, const char* newTitle );
+        UNDONE_API void setSwapInterval( int interval );
 
 		inline __int64 GetSystemTickRate( ) {
 			__int64 rate;
