@@ -28,6 +28,9 @@ Author	:	Anurup Dey
 #include <vector>
 #include "InputEvent.h"
 #include "UNDONE_Engine_declr.h"
+#include <functional>
+
+using std::function;
 using std::vector;
 
 namespace UNDONE_ENGINE {
@@ -40,15 +43,18 @@ namespace UNDONE_ENGINE {
 	class UNDONE_API  Command {
 	public:
 		virtual ~Command( ) { };
-		virtual void execute(InputControl* control, InputEvent& given_event) = 0;
+        virtual void execute( InputControl* control, InputEvent& given_event ) {};
 	};
 
-	struct UNDONE_API InputPair {
-		InputPair(InputEvent des_event, Command& pcommand)
-			:desired_event(des_event), pCall_command(&pcommand) { };
-
-		InputEvent	desired_event;
-		Command*	pCall_command;
+	struct InputPair {
+		InputPair(InputEvent des_event,const function<void(void)> callback)
+            :Desired_event( des_event ), Callback( callback ), fCallback( [] (float x){} ) {
+        };
+        InputPair(InputEvent des_event,const function<void(float)> callback, int no_use)
+            :Desired_event( des_event ), fCallback( callback ), Callback( [] {} ) { };
+        InputEvent	              Desired_event;
+        function<void( void )>	  Callback;
+        function<void( float )>   fCallback;
 	};
 	
 	/*-----------------------------------------------------------------------------

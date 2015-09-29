@@ -212,26 +212,26 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	
 	ExitEvent.event.type		= EVENT_KEYDOWN;
 	ExitEvent.key.keycode		= KEY_ESCAPE;
-	InputPair pair2(ExitEvent, *Exit);
+    InputPair pair( ExitEvent, [=]{SystemComponent::GetInstance()->Post_Quit_Mesage( 0 ); } );
 
 	KeyEventL.event.type = EVENT_MOUSEMOVE;
-	InputPair pair(KeyEventL, *Yaw_Pitch);
+    InputPair pair2( KeyEventL, [&](float x) {Yaw_Pitch->execute( m_pcam, x ); },0);
 
 	MBDEvnt.event.type			= EVENT_MOUSEBUTTONDOWN;
 	MBDEvnt.mouse_button.button = MOUSE_BUTTON_L;
-	InputPair pairMBD(MBDEvnt, *Enable_Mouse);
+	InputPair pairMBD(MBDEvnt, [&] {Enable_Mouse->execute( m_pcam, KeyEventL ); });
 	
 	MBUEvnt.event.type			= EVENT_MOUSEBUTTONUP;
 	MBUEvnt.mouse_button.button = MOUSE_BUTTON_L;
-	InputPair pairMBU(MBUEvnt, *Disable_Mouse);
+	InputPair pairMBU(MBUEvnt, [&] {Disable_Mouse->execute( m_pcam, KeyEventL ); });
 	
 	MoveFEvnt.event.type	 = EVENT_KEYPRESS;
 	MoveFEvnt.key.keycode	 = KEY_W;
-	InputPair pairW(MoveFEvnt, *Move_Forward);
+	InputPair pairW(MoveFEvnt, [&] {Move_Forward->execute( m_pcam, KeyEventL ); } );
 
 	MoveBEvnt.event.type	= EVENT_KEYPRESS;
 	MoveBEvnt.key.keycode	= KEY_S;
-	InputPair pairS(MoveBEvnt, *Move_Backward);
+	InputPair pairS(MoveBEvnt,  [&] {Move_Backward->execute( m_pcam, KeyEventL ); });
 
 	vector<InputContext>& contexts = m_pFrameWork->GetInputContextListForEditing( );
 	InputContext cameracontrolcontext;

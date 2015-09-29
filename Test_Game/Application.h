@@ -47,7 +47,7 @@ protected:
 
 	bool initialized;
 
-	Command* Yaw_Pitch ;
+	Yaw_PitchCommand* Yaw_Pitch ;
 	Command* Exit ;
 	Command* Move_Forward ;
 	Command* Move_Backward ;

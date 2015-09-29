@@ -35,7 +35,7 @@ namespace UNDONE_ENGINE {
 			for (auto& pair:context.m_pairs)
 			{	//...for each pair...
 				
-				if (p_given_event.event.type==pair.desired_event.event.type) 
+				if (p_given_event.event.type==pair.Desired_event.event.type) 
 				{
 					
 					switch (p_given_event.event.type) 
@@ -44,27 +44,27 @@ namespace UNDONE_ENGINE {
 						case EVENT_KEYDOWN:
 						case EVENT_KEYPRESS:
 							//check if keycode is relevent,
-							if (pair.desired_event.key.keycode==KEY_IRRELEVENT) 
+							if (pair.Desired_event.key.keycode==KEY_IRRELEVENT) 
 							{
 								//just go forth with it
-								pair.pCall_command->execute(context.m_pControl, p_given_event);
+								pair.Callback();
 								
 							} 
-							else if (pair.desired_event.key.keycode==p_given_event.key.keycode) 
+							else if (pair.Desired_event.key.keycode==p_given_event.key.keycode) 
 							{
-								pair.pCall_command->execute(context.m_pControl, p_given_event);
+								pair.Callback();
 							}
 							break;
 						
 						case EVENT_MOUSEMOVE:
 							//just go forth with it
-							pair.pCall_command->execute(context.m_pControl, p_given_event);
+							pair.fCallback(p_given_event.mouse_motion.delta_x);
 							break;
 						case EVENT_MOUSEBUTTONDOWN: 
 						case EVENT_MOUSEBUTTONUP:
-							if (pair.desired_event.mouse_button.button==p_given_event.mouse_button.button)
+							if (pair.Desired_event.mouse_button.button==p_given_event.mouse_button.button)
 							{
-								pair.pCall_command->execute(context.m_pControl, p_given_event);
+								pair.Callback();
 								
 							}
 							break;
