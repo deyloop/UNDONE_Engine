@@ -16,21 +16,17 @@ Environment	:	IDE		-Microsoft Visual Studio 2015 Enterprise.
 //#include <vld.h>
 #include <Undone_Engine.h>
 #include "Application.h"
-#include <iostream>
-using namespace std;
-
-#define UND_DEBUG_L5
 
 /*-----------------------------------------------------------------------------
 This is the starting point of the whole program.
 -----------------------------------------------------------------------------*/
 int main( ) {
-    
-    Application*	pApp	= new Application( );
+	
+	Application*	pApp	= new Application( );
 	UnFramework*	pUNDONE = Create_Un_Framwork_Inst(pApp);
 
 	pApp->LinkToEngine(pUNDONE);
-	pUNDONE->Initialise("UNDONE", 1000, 700);
+	pUNDONE->Initialise("UNDONE", 1000, 700,false);
 
 	//time to rock n roll!
 	pUNDONE->Run( );

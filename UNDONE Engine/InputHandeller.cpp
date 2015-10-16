@@ -58,7 +58,7 @@ namespace UNDONE_ENGINE {
 						
 						case EVENT_MOUSEMOVE:
 							//just go forth with it
-							pair.fCallback(p_given_event.mouse_motion.delta_x);
+							pair.fCallback(p_given_event.mouse_motion.delta_x,p_given_event.mouse_motion.delta_y);
 							break;
 						case EVENT_MOUSEBUTTONDOWN: 
 						case EVENT_MOUSEBUTTONUP:

@@ -48,13 +48,13 @@ namespace UNDONE_ENGINE {
 
 	struct InputPair {
 		InputPair(InputEvent des_event,const function<void(void)> callback)
-            :Desired_event( des_event ), Callback( callback ), fCallback( [] (float x){} ) {
+            :Desired_event( des_event ), Callback( callback ), fCallback( [] (float x,float y){} ) {
         };
-        InputPair(InputEvent des_event,const function<void(float)> callback, int no_use)
+        InputPair(InputEvent des_event,const function<void(float,float)> callback, int no_use)
             :Desired_event( des_event ), fCallback( callback ), Callback( [] {} ) { };
-        InputEvent	              Desired_event;
-        function<void( void )>	  Callback;
-        function<void( float )>   fCallback;
+        InputEvent	                     Desired_event;
+        function<void( void )>	         Callback;
+        function<void( float, float )>   fCallback;
 	};
 	
 	/*-----------------------------------------------------------------------------

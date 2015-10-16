@@ -54,10 +54,11 @@ namespace UNDONE_ENGINE {
 	
 	class Yaw_PitchCommand : public Command {
 	public:
-		void execute(InputControl* control, float x) {
+		void execute(InputControl* control, float x, float y) {
 			MoveControl* m_control = (MoveControl*)control;
 				if (!(m_control->moused)) return;
-				m_control->Yaw(-x*0.5f);
+                //m_control->Pitch( -y*0.5f );
+				m_control->MoveUp(-y*0.1f);
 			
 		}
 	};

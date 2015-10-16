@@ -53,5 +53,7 @@ protected:
 	Command* Move_Backward ;
 	Command* Enable_Mouse ;
 	Command* Disable_Mouse ;
+    Dptr<unGameObject>		cu;
+    glm::vec3 forward;
 };
 #endif
