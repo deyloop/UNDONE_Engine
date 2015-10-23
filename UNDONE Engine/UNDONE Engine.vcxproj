@@ -226,6 +226,7 @@
     <ClInclude Include="UNDONE_DEBUG.h" />
     <ClInclude Include="Undone_Engine.h" />
     <ClInclude Include="UNDONE_Engine_declr.h" />
+    <ClInclude Include="unEngineInterfaces.h" />
     <ClInclude Include="UnFramework.h" />
     <ClInclude Include="unGameObject.h" />
     <ClInclude Include="unGraphic2D.h" />
@@ -234,7 +235,6 @@
     <ClInclude Include="UniformDataInterface.h" />
     <ClInclude Include="UniformType.h" />
     <ClInclude Include="unMesh.h" />
-    <ClInclude Include="UnObjectBuffer.h" />
     <ClInclude Include="unShader.h" />
     <ClInclude Include="unShaderProgram.h" />
     <ClInclude Include="unTexture.h" />

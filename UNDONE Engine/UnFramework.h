@@ -27,11 +27,12 @@ Author	:	Anurup Dey
 #define _UN_FRAMEWORK_H_
 
 #include "UNDONE_Engine_declr.h"
+#include "unEngineInterfaces.h"
 #include <vector> //going to cause some trouble
 using std::vector;
 
 namespace UNDONE_ENGINE{
-	class UnObjectBuffer;
+	class unObjectBuffer;
 };
 
 /*-----------------------------------------------------------------------------
@@ -41,7 +42,7 @@ game objects, thier interaction and games logic, etc.
 -----------------------------------------------------------------------------*/
 class IApp{
 public:
-	virtual void LoadScene(UNDONE_ENGINE::UnObjectBuffer* pObjectBuffer/*context acceptors etc*/) = 0;
+	virtual void LoadScene(UNDONE_ENGINE::unObjectBuffer* pObjectBuffer/*context acceptors etc*/) = 0;
 	virtual void Update(/*parameters to be decided*/) = 0;
 };
 
@@ -77,6 +78,11 @@ namespace UNDONE_ENGINE{
 		virtual void UnloadScene(Scene* pscene)							= 0;
 	
 		virtual vector<InputContext>& GetInputContextListForEditing()	= 0;
+
+		unInput*         Input;
+		unGraphics*      Graphics;
+		unObjectBuffer*  Objectbuffer;
+
 	};
 
 	

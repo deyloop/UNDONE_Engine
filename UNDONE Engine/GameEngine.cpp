@@ -92,11 +92,16 @@ namespace UNDONE_ENGINE {
 							   int width, int height,
 							   bool windowed) {
 		m_pSystemComponent = SystemComponent::GetInstance( );
-		m_pUserWindow = new Window( );
-		m_pGraphicsEngine = new GraphicsEngine( );
-		m_pObjectBuffer = new ObjectBuffer( );
-		m_pInputHandeller = new InputHandeller( );
-		m_pTimer = new Timer( );
+		m_pUserWindow      = new Window( );
+		m_pGraphicsEngine  = new GraphicsEngine( );
+		m_pObjectBuffer    = new ObjectBuffer( );
+		m_pInputHandeller  = new InputHandeller( );
+		m_pTimer           = new Timer( );
+
+		//Get things available to the interface.
+		Graphics      = m_pGraphicsEngine;
+		Input         = m_pInputHandeller;
+		Objectbuffer  = m_pObjectBuffer;
 
 		//Initialize the subsystems..
 
@@ -114,7 +119,7 @@ namespace UNDONE_ENGINE {
 			ToggleFullscreen( );
 		}
 
-        m_pGraphicsEngine->ToggleVSYNC( );
+		m_pGraphicsEngine->ToggleVSYNC( );
 		//start the timer
 		Pause(false, false);
 
@@ -135,13 +140,13 @@ namespace UNDONE_ENGINE {
 
 		while (m_running) {
 			
-            //this here displays the fps in the tittlebar.
-           /* char FPS[30];
-            sprintf_s( FPS, "UNDONE    FPS : %.2f", GetFPS( ) );
-            m_pSystemComponent->SetWindowTittle( m_pUserWindow->GetHandle( ),FPS);
-            */
-            
-            m_pTimer->Update( );
+			//this here displays the fps in the tittlebar.
+		   /* char FPS[30];
+			sprintf_s( FPS, "UNDONE    FPS : %.2f", GetFPS( ) );
+			m_pSystemComponent->SetWindowTittle( m_pUserWindow->GetHandle( ),FPS);
+			*/
+			
+			m_pTimer->Update( );
 			
 			__int64 newtime   = m_pSystemComponent->GetCurrentTickCount( );
 			__int64 frametime = newtime - current_time;

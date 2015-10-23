@@ -236,9 +236,6 @@
     <ClInclude Include="unShader.h">
       <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="UnObjectBuffer.h">
-      <Filter>Header Files\DLLInterfaces</Filter>
-    </ClInclude>
     <ClInclude Include="unWorldTransform.h">
       <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
@@ -276,6 +273,9 @@
       <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
     <ClInclude Include="Behavior.h">
+      <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="unEngineInterfaces.h">
       <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
   </ItemGroup>

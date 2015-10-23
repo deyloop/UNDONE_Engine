@@ -28,6 +28,7 @@ Author	:	Anurup Dey
 //some includes.
 #include <vector>	
 #include "InputContext.h"
+#include "unEngineInterfaces.h"
 using std::vector;
 
 namespace UNDONE_ENGINE {
@@ -38,7 +39,7 @@ namespace UNDONE_ENGINE {
 	handelling. It checks the input and compaires with a contex list, and calls
 	the corresponding callback functions for that inputEvent.
 	-----------------------------------------------------------------------------*/
-	class InputHandeller {
+	class InputHandeller: public unInput {
 	public:
 		InputHandeller( ) { };
 		~InputHandeller( ) { };

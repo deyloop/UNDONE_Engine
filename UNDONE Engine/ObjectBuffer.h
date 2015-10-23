@@ -26,7 +26,7 @@ Author	:	Anurup Dey
 #ifndef UNDONE_OBJECTBUFFER_H
 #define UNDONE_OBJECTBUFFER_H
 
-#include "UnObjectBuffer.h"
+#include "unEngineInterfaces.h"
 #include "Dptr.h"
 #include <vector>
 #include <list>
@@ -48,7 +48,7 @@ namespace UNDONE_ENGINE{
 	physically stored. This Object buffer has the capabiltity to store any
 	type of component you throw at it. It also separates objects by ownership.
 	-------------------------------------------------------------------------*/
-	class ObjectBuffer : public UnObjectBuffer{
+	class ObjectBuffer : public unObjectBuffer{
 		vector<Dptr<Component>>		m_Components;
 		vector<void*>				m_storage_vectors;
 		vector<void*>				m_pointer_table_lists;

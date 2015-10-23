@@ -30,6 +30,7 @@ Author	:	Anurup Dey
 #include "SystemComponent.h"
 #include "Renderer.h"
 #include "ObjectBuffer.h"
+#include "unEngineInterfaces.h"
 
 
 namespace UNDONE_ENGINE {
@@ -39,7 +40,7 @@ namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
 	This class handles all the tasks related to graphics.
 	-----------------------------------------------------------------------------*/
-	class GraphicsEngine {
+	class GraphicsEngine : public unGraphics {
 	public:
 		GraphicsEngine( );
 		~GraphicsEngine( ) { Release( ); }
