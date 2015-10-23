@@ -64,6 +64,15 @@ public:
 	}
 };
 
+ class bro : public Behavior {
+	public:
+		void Load( )  {};
+		void UnLoad() {};
+		void Left( ) {
+			Gameobject->GetWorldTransform( )->TranslateRel( -0.01f, 0.0f, 0.0f );
+		}
+ };
+
 /*-----------------------------------------------------------------------------
 Summary:	This function is called by the framework while initialising. Its
 			called only at the begining of the runing of the application.
@@ -76,7 +85,7 @@ Parameters:
 [in,out]	*object_buffer	- The empty Object Buffer to be used in this app
 							  and which has to be pre- filled. (pointer)
 -------------------------------------------------------------------------------*/
-void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
+void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	
 	pObjectBuffer->SetInitAllocSize(500);
 	
@@ -196,8 +205,14 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	cu->AddMesh(monkey_mesh);//change to monkey later
 	cu->AddGraphicMaterial(material[rand() % 5]);
 	cu->AddGraphic3D(cg);
+	Dptr<unBehaviorAttachement> att = pObjectBuffer->CreateNew_BehaviorAttachement( );
+	cu->AddBehaviorAttachement( att );
 	
-    cu->GetWorldTransform( )->ScaleAbs( 0.5, 0.5, 0.5 );
+	bro* broscript = new bro( );
+
+	att->AddBehavior( "bro", broscript );
+
+	cu->GetWorldTransform( )->ScaleAbs( 0.5, 0.5, 0.5 );
 	pObjectBuffer->GetControlCamera( ).SetPosition(glm::vec3(-2.01f, 2.0f, -2.0f));
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
@@ -210,45 +225,45 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	Disable_Mouse	= new Disable_Yaw_Pitch_Command( );
 
 	InputEvent KeyEventL,ExitEvent,MoveFEvnt,MoveBEvnt,MBDEvnt,MBUEvnt;
-    InputEvent RightKey, LeftKey;
-    InputEvent MonkeyMoveF, MonkeyMoveB, MonkeyTurnLeft, MonkeyTurnRight;
+	InputEvent RightKey, LeftKey;
+	InputEvent MonkeyMoveF, MonkeyMoveB, MonkeyTurnLeft, MonkeyTurnRight;
 	
-    forward = vec3( 0.0f, 0.0f, 0.05f );
+	forward = vec3( 0.0f, 0.0f, 0.05f );
 
-    MonkeyMoveF.event.type = EVENT_KEYPRESS;
-    MonkeyMoveF.key.keycode = KEY_ARROW_UP;
-    InputPair pairMF( MonkeyMoveF, [&] {cu->GetWorldTransform( )->TranslateRel(unvec3((forward*0.5f))); } );
+	MonkeyMoveF.event.type = EVENT_KEYPRESS;
+	MonkeyMoveF.key.keycode = KEY_ARROW_UP;
+	InputPair pairMF( MonkeyMoveF, [&] {cu->GetWorldTransform( )->TranslateRel(unvec3((forward*0.5f))); } );
 
-    MonkeyMoveB.event.type = EVENT_KEYPRESS;
-    MonkeyMoveB.key.keycode = KEY_ARROW_DOWN;
-    InputPair pairMB( MonkeyMoveB, [&] {cu->GetWorldTransform( )->TranslateRel(unvec3((-forward*0.5f))); } );
+	MonkeyMoveB.event.type = EVENT_KEYPRESS;
+	MonkeyMoveB.key.keycode = KEY_ARROW_DOWN;
+	InputPair pairMB( MonkeyMoveB, [&] {cu->GetWorldTransform( )->TranslateRel(unvec3((-forward*0.5f))); } );
 
-    MonkeyTurnLeft.event.type = EVENT_KEYPRESS;
-    MonkeyTurnLeft.key.keycode = KEY_ARROW_LEFT;
-    InputPair pairML( MonkeyTurnLeft, [&] {cu->GetWorldTransform( )->RotateRel( 0.0f, 0.9f, 0.0f ); 
-                                          glm::mat4 rot = glm::rotate( 0.9f, vec3(0.0f,1.0f,0.0f ));
-                                            forward = mat3(rot) * forward ;} );
+	MonkeyTurnLeft.event.type = EVENT_KEYPRESS;
+	MonkeyTurnLeft.key.keycode = KEY_ARROW_LEFT;
+	InputPair pairML( MonkeyTurnLeft, /*[&] {cu->GetWorldTransform( )->RotateRel( 0.0f, 0.9f, 0.0f ); 
+										  glm::mat4 rot = glm::rotate( 0.9f, vec3(0.0f,1.0f,0.0f ));
+											forward = mat3(rot) * forward ;}*/bind(&bro::Left,broscript) );
 
-    MonkeyTurnRight.event.type = EVENT_KEYPRESS;
-    MonkeyTurnRight.key.keycode = KEY_ARROW_RIGHT;
-    InputPair pairMR( MonkeyTurnRight, [&] {cu->GetWorldTransform( )->RotateRel( 0.0f, -0.9f, 0.0f ); 
-                                            glm::mat4 rot = glm::rotate( -0.9f, vec3(0.0f,1.0f,0.0f ));
-                                            forward = mat3(rot) * forward ; } );
+	MonkeyTurnRight.event.type = EVENT_KEYPRESS;
+	MonkeyTurnRight.key.keycode = KEY_ARROW_RIGHT;
+	InputPair pairMR( MonkeyTurnRight, [&] {cu->GetWorldTransform( )->RotateRel( 0.0f, -0.9f, 0.0f ); 
+											glm::mat4 rot = glm::rotate( -0.9f, vec3(0.0f,1.0f,0.0f ));
+											forward = mat3(rot) * forward ; } );
 
-    RightKey.event.type = EVENT_KEYPRESS;
-    RightKey.key.keycode = KEY_D;
-    InputPair pairR( RightKey, [=] {m_pcam->Strafe( -0.1f ); } );
+	RightKey.event.type = EVENT_KEYPRESS;
+	RightKey.key.keycode = KEY_D;
+	InputPair pairR( RightKey, [=] {m_pcam->Strafe( -0.1f ); } );
 
-    LeftKey.event.type = EVENT_KEYPRESS;
-    LeftKey.key.keycode = KEY_A;
-    InputPair pairL( LeftKey, [=] {m_pcam->Strafe( 0.1f ); } );
+	LeftKey.event.type = EVENT_KEYPRESS;
+	LeftKey.key.keycode = KEY_A;
+	InputPair pairL( LeftKey, [=] {m_pcam->Strafe( 0.1f ); } );
 
 	ExitEvent.event.type		= EVENT_KEYDOWN;
 	ExitEvent.key.keycode		= KEY_ESCAPE;
-    InputPair pair( ExitEvent, [=]{SystemComponent::GetInstance()->Post_Quit_Mesage( 0 ); } );
+	InputPair pair( ExitEvent, [=]{SystemComponent::GetInstance()->Post_Quit_Mesage( 0 ); } );
 
 	KeyEventL.event.type = EVENT_MOUSEMOVE;
-    InputPair pair2( KeyEventL, [&](float x, float y) {Yaw_Pitch->execute( m_pcam, x ,y); },0);
+	InputPair pair2( KeyEventL, [&](float x, float y) {Yaw_Pitch->execute( m_pcam, x ,y); },0);
 
 	MBDEvnt.event.type			= EVENT_MOUSEBUTTONDOWN;
 	MBDEvnt.mouse_button.button = MOUSE_BUTTON_L;
@@ -275,12 +290,12 @@ void Application::LoadScene(UnObjectBuffer* pObjectBuffer){
 	cameracontrolcontext.m_pairs.push_back(pairS);
 	cameracontrolcontext.m_pairs.push_back(pairMBD);
 	cameracontrolcontext.m_pairs.push_back(pairMBU);
-    cameracontrolcontext.m_pairs.push_back( pairL );
-    cameracontrolcontext.m_pairs.push_back( pairMR );
-    cameracontrolcontext.m_pairs.push_back( pairMF );
-    cameracontrolcontext.m_pairs.push_back( pairML );
-    cameracontrolcontext.m_pairs.push_back( pairMB );
-    cameracontrolcontext.m_pairs.push_back( pairR );
+	cameracontrolcontext.m_pairs.push_back( pairL );
+	cameracontrolcontext.m_pairs.push_back( pairMR );
+	cameracontrolcontext.m_pairs.push_back( pairMF );
+	cameracontrolcontext.m_pairs.push_back( pairML );
+	cameracontrolcontext.m_pairs.push_back( pairMB );
+	cameracontrolcontext.m_pairs.push_back( pairR );
 
 	contexts.push_back(cameracontrolcontext);
 
@@ -293,9 +308,9 @@ Updates Application specific things like AI, ui response, etc.
 void Application::Update(){
 
 	//BlockGroup->GetWorldTransform()->RotateRel(0.0f, 0.3f, 0.0f);
-    m_pcam->SetLookAt( cu->GetWorldTransform( )->GetPosition( ) );
+	m_pcam->SetLookAt( cu->GetWorldTransform( )->GetPosition( ) );
    // m_pcam->SetPosition( cu->GetWorldTransform( )->GetPosition( ) + vec3( 10.0f, 10.0f, 0.0f ) );
-    //cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
+	//cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
 	//m_pcam->Yaw(0.01f);
 	m_pcam->Update( );
 	

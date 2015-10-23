@@ -35,6 +35,7 @@ using std::vector;
 namespace UNDONE_ENGINE {
 	
 	class Behavior;
+	class UnFramework;
 
 	/*-------------------------------------------------------------------------
 	THe BehaviorAttachement component acts as a glue which will attach a 
@@ -49,7 +50,7 @@ namespace UNDONE_ENGINE {
 		void OnParentAdopted( ) {};
 
 		void AddBehavior(const char* script_name, Behavior* behavior_script );
-
+		static void setFramework( UnFramework* pFramework );
 	protected:
 		void OnParentSet( );
 

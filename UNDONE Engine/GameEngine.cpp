@@ -63,6 +63,7 @@ namespace UNDONE_ENGINE {
 		}
 		if (m_pObjectBuffer){
 			m_pObjectBuffer->DeleteAll<GameObject>();
+			m_pObjectBuffer->DeleteAll<BehaviorAttachement>( );
 		}
 		if (m_pGraphicsEngine) {
 			delete m_pGraphicsEngine;
@@ -102,6 +103,8 @@ namespace UNDONE_ENGINE {
 		Graphics      = m_pGraphicsEngine;
 		Input         = m_pInputHandeller;
 		Objectbuffer  = m_pObjectBuffer;
+
+		BehaviorAttachement::setFramework( this );
 
 		//Initialize the subsystems..
 
@@ -200,8 +203,8 @@ namespace UNDONE_ENGINE {
 		m_renderingPaused = (m_renderingPauseCount>0);
 		m_timerPaused = (m_timerPauseCount>0);
 
-		if (m_timerPaused && m_pTimer!=NULL)		m_pTimer->Stop( );
-		else if (!m_timerPaused && m_pTimer!=NULL)	m_pTimer->Start( );
+		if (m_timerPaused && m_pTimer!=nullptr)		    m_pTimer->Stop( );
+		else if (!m_timerPaused && m_pTimer!=nullptr)	m_pTimer->Start( );
 
 	}
 

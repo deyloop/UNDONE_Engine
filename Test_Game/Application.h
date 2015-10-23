@@ -37,7 +37,7 @@ public:
 	void Release();
 
 	void LinkToEngine(UnFramework* pFrameWork);
-	void LoadScene(UnObjectBuffer* pObjectBuffer);
+	void LoadScene(unObjectBuffer* pObjectBuffer);
 	void Update();
 protected:
 	UnFramework*		m_pFrameWork;
@@ -53,7 +53,7 @@ protected:
 	Command* Move_Backward ;
 	Command* Enable_Mouse ;
 	Command* Disable_Mouse ;
-    Dptr<unGameObject>		cu;
-    glm::vec3 forward;
+	Dptr<unGameObject>		cu;
+	glm::vec3 forward;
 };
 #endif

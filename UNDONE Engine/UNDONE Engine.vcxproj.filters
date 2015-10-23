@@ -272,11 +272,11 @@
     <ClInclude Include="unBehaviorAttachement.h">
       <Filter>Header Files\DLLInterfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Behavior.h">
-      <Filter>Header Files\DLLInterfaces</Filter>
-    </ClInclude>
     <ClInclude Include="unEngineInterfaces.h">
       <Filter>Header Files\DLLInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Behavior.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

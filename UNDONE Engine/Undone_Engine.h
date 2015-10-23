@@ -29,7 +29,6 @@ Author	:	Anurup Dey
 #include "SystemComponent.h"
 
 #include "UnFramework.h"
-#include "UnObjectBuffer.h"
 
 #include "unGameObject.h"
 #include "unWorldTransform.h"
@@ -40,6 +39,8 @@ Author	:	Anurup Dey
 #include "unMesh.h"
 #include "unGraphic3D.h"
 #include "unGraphic2D.h"
+#include "unBehaviorAttachement.h"
+#include "Behavior.h"
 
 
 #include "unCamera.h"

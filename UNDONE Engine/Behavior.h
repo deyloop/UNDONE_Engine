@@ -26,17 +26,27 @@ Author	:	Anurup Dey
 #ifndef _UNDONE_BEHAVIOR_H_
 #define _UNDONE_BEHAVIOR_H_
 
+
+#include "unEngineInterfaces.h"
+#include "unGameObject.h"
+
 namespace UNDONE_ENGINE {
+
 
     /*-------------------------------------------------------------------------
     This interface must be implimented by all behavior scripts to be written
     for the UNDONE Engine.
     -------------------------------------------------------------------------*/
     class Behavior {
-    public:
+    public: 
         virtual void Load( ) = 0;
         virtual void UnLoad( ) = 0;
+    
+        static unInput*        Input;
+        static unGraphics*     Graphics;
+        static unObjectBuffer* Objectbuffer;
 
+        Dptr<unGameObject> Gameobject;
     };
 }
 

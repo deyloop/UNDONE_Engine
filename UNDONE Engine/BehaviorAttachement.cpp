@@ -22,9 +22,21 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "BehaviorAttachement.h"
+#include "UnFramework.h"
 #include "Behavior.h"
 
 namespace UNDONE_ENGINE {
+
+    //static subsystem pointers for behaviors
+    unInput*        Behavior::Input        = nullptr;
+    unGraphics*     Behavior::Graphics     = nullptr;
+    unObjectBuffer* Behavior::Objectbuffer = nullptr;
+
+    void BehaviorAttachement::setFramework( UnFramework* pFramework ) {
+        Behavior::Graphics     = pFramework->Graphics;
+        Behavior::Input        = pFramework->Input;
+        Behavior::Objectbuffer = pFramework->Objectbuffer;
+    }
 
     void BehaviorAttachement::Load( ) {
         //calls the Load() function on all the scripts.
@@ -46,6 +58,7 @@ namespace UNDONE_ENGINE {
                                            Behavior * behavior_script ) {
         m_BehaviorList.push_back( behavior_script );
         m_Names.push_back( script_name );
+        behavior_script->Gameobject = dcast<unGameObject, GameObject>(m_ppParent);
 
     }
 
