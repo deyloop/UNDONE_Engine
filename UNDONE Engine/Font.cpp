@@ -33,6 +33,9 @@ Author	:	Anurup Dey
 
 namespace UNDONE_ENGINE { 
 	
+	int Font::screenhieght = 0;
+	int Font::screenwidth = 0;
+
 	Font::Font( ) {
 		bLoaded = false;
 		m_ppShaderProgram.m_pointer = nullptr;
@@ -126,7 +129,7 @@ namespace UNDONE_ENGINE {
 		
 		glBindBuffer(GL_ARRAY_BUFFER, m_uiVBO);
 		
-		for (int i = 0; i<128; ++i)createChar(i);
+		for (int i = 0; i < 128; ++i)createChar( i );
 		bLoaded = true;
 		
 		
@@ -170,7 +173,7 @@ namespace UNDONE_ENGINE {
 	Result:	Prints text at specified position
 	with specified pixel size.
 	/*-------------------------------------------------------------------------*/
-	void Font::print(string sText, int x, int y, int iPXSize) {
+	void Font::print(string sText, float x, float y, float iPXSize) {
 
 		if (!bLoaded)return;
 		if (m_ppShaderProgram.m_pointer){
@@ -180,33 +183,34 @@ namespace UNDONE_ENGINE {
 			glUniform1i(glGetUniformLocation(progID, "gSampler"), 0);
 			
 			glDisable(GL_DEPTH_TEST);
-			glEnable(GL_BLEND);
+			//glDisable(GL_BLEND);
+			glEnable( GL_BLEND );
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			
 			
-			int iCurX = x, iCurY = y;
+			float iCurX = x, iCurY = y;
 			if (iPXSize==-1)iPXSize = iLoadedPixelSize;
 			float fScale = float(iPXSize)/float(iLoadedPixelSize);
 			for (unsigned int i = 0; i<sText.size( ); ++i) {
 				if (sText[i]=='\n') {
 					iCurX = x;
-					iCurY -= iNewLine*iPXSize/iLoadedPixelSize;
+					iCurY -= iNewLine*fScale;
 					continue;
 				}
 				int iIndex = int(sText[i]);
-				iCurX += 1;// ((iBearingX[iIndex])*iPXSize / iLoadedPixelSize);
+				iCurX += ((iBearingX[iIndex])*fScale);
 				if (sText[i]!=' ') {
 					
 					tCharTextures[iIndex].BindTexture( );
-					glm::mat4 mModelView = glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX)/32, float(iCurY)/32, 0.0f));
-					mModelView = glm::scale(mModelView, glm::vec3(fScale/64));
+					glm::mat4 mModelView = glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX)*fScale, float(iCurY)*fScale, 0.0f));
+					mModelView = glm::scale(mModelView, glm::vec3(fScale/iLoadedPixelSize));
 					glUniformMatrix4fv(glGetUniformLocation(progID,"gMVP"), 1,GL_FALSE, &mModelView[0][0]);
 					// Draw character
 					glDrawArrays(GL_TRIANGLE_STRIP, iIndex*4, 4);
 					
 				}
 
-				iCurX += 1;// ((iAdvX[iIndex] - iBearingX[iIndex]))*iPXSize / iLoadedPixelSize;
+				iCurX += ((iAdvX[iIndex] - iBearingX[iIndex]))*fScale;
 			}
 			glDisable(GL_BLEND);
 			glEnable(GL_DEPTH_TEST);
@@ -226,7 +230,7 @@ namespace UNDONE_ENGINE {
 	with specified pixel size.
 	/*-------------------------------------------------------------------------*/
 
-	void Font::printFormatted(int x, int y, int iPXSize, char* sText, ...) {
+	void Font::printFormatted(float x, float y, float iPXSize, char* sText, ...) {
 		char buf[512];
 		va_list ap;
 		va_start(ap, sText);

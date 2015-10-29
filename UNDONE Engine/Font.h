@@ -51,19 +51,23 @@ namespace UNDONE_ENGINE {
 
 		const int GetTextWidth(string Text, int pixelSize);
 
-		void print(string sText, int x, int y, int iPXSize = -1);
-		void printFormatted(int x, int y, int iPXSize, char* sText, ...);
+		void print(string sText, float x, float y, float iPXSize = -1);
+		void printFormatted(float x, float y, float iPXSize, char* sText, ...);
 
 		void releaseFont( );
 
 		void SetShaderProgram(Dptr<ShaderProgram> shaderProgram);
+		static void SetScreenDimentions(int h, int w) {
+			screenhieght = h;
+			screenwidth = w;
+		}
 
 	private:
 		void createChar(int iIndex);
 
 		Texture tCharTextures[256];
-		int iAdvX[256], iAdvY[256];
-		int iBearingX[256], iBearingY[256];
+		float iAdvX[256], iAdvY[256];
+		float iBearingX[256], iBearingY[256];
 		int iCharWidth[256], iCharHeight[256];
 		int iLoadedPixelSize, iNewLine;
 
@@ -77,6 +81,9 @@ namespace UNDONE_ENGINE {
 		FT_Library	m_ftLib;
 		FT_Face		m_ftFace;
 		Dptr<ShaderProgram> m_ppShaderProgram;
+
+		static int screenwidth;
+		static int screenhieght;
 	};
 }
 

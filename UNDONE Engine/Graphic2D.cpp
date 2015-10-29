@@ -119,7 +119,6 @@ namespace UNDONE_ENGINE {
 			int image_hieght = m_ppTexture->getHeight( );
 			int image_width = m_ppTexture->getWidth( );
 
-			m_TranslateCorrection = glm::translate(glm::vec3(-1.0f, -1.0f, 0.0f));
 			m_ScaleCorrection = glm::scale(glm::vec3((image_width/(float)screenwidth),
 													 image_hieght/(float)screenhieght,
 													 1.0f));
@@ -157,7 +156,7 @@ namespace UNDONE_ENGINE {
 		HRECT = glGetUniformLocation(progID, "gRect");
 
 		glUniform1fv(HRECT, 8, Rect_coords);
-		glUniformMatrix4fv(HMVP, 1, GL_FALSE, &(m_TranslateCorrection*m_ppWorldTransform->GetTransform( )*m_ScaleCorrection)[0][0]);
+		glUniformMatrix4fv(HMVP, 1, GL_FALSE, &(m_ppWorldTransform->GetTransform( )*m_ScaleCorrection)[0][0]);
 		glUniform1i(HSampler, 0);
 
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

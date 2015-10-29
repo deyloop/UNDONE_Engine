@@ -108,7 +108,7 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	_2dgraphic->SetTexture(tex);
 	Dptr<unGameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform> _2dtrans = pObjectBuffer->CreateNew_WorldTransform( );
-	//_2dtrans->TranslateAbs(1.0f, 1.f, 0.0f);
+	_2dtrans->TranslateAbs(-1.0f, -1.f, 0.0f);
 	//_2dtrans->RotateAbs(0.0f, 0.0f, 45.0f);
 	
 	rect m;
@@ -240,9 +240,9 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 
 	MonkeyTurnLeft.event.type = EVENT_KEYPRESS;
 	MonkeyTurnLeft.key.keycode = KEY_ARROW_LEFT;
-	InputPair pairML( MonkeyTurnLeft, /*[&] {cu->GetWorldTransform( )->RotateRel( 0.0f, 0.9f, 0.0f ); 
+	InputPair pairML( MonkeyTurnLeft, [&] {cu->GetWorldTransform( )->RotateRel( 0.0f, 0.9f, 0.0f ); 
 										  glm::mat4 rot = glm::rotate( 0.9f, vec3(0.0f,1.0f,0.0f ));
-											forward = mat3(rot) * forward ;}*/bind(&bro::Left,broscript) );
+											forward = mat3(rot) * forward ;}/*bind(&bro::Left,broscript)*/ );
 
 	MonkeyTurnRight.event.type = EVENT_KEYPRESS;
 	MonkeyTurnRight.key.keycode = KEY_ARROW_RIGHT;
@@ -307,11 +307,13 @@ Updates Application specific things like AI, ui response, etc.
 -----------------------------------------------------------------------------*/
 void Application::Update(){
 
-	//BlockGroup->GetWorldTransform()->RotateRel(0.0f, 0.3f, 0.0f);
 	m_pcam->SetLookAt( cu->GetWorldTransform( )->GetPosition( ) );
-   // m_pcam->SetPosition( cu->GetWorldTransform( )->GetPosition( ) + vec3( 10.0f, 10.0f, 0.0f ) );
-	//cout<<"FrameRate: "<<m_pFrameWork->GetFPS( )<<"\n";
-	//m_pcam->Yaw(0.01f);
+	if (m_pcam->GetPosition( )->y <= 5)
+		m_pcam->SetPosition( glm::vec3(
+			m_pcam->GetPosition( )->x,
+			5,
+			m_pcam->GetPosition( )->z )
+			);
 	m_pcam->Update( );
 	
 }

@@ -45,7 +45,7 @@ namespace UNDONE_ENGINE {
 		m_2DProjMat = glm::mat4(1.0f);
 
 		m_windowed = true;
-        m_VSYNC = false;
+		m_VSYNC = false;
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -142,13 +142,13 @@ namespace UNDONE_ENGINE {
 
 	}
 
-    void GraphicsEngine::ToggleVSYNC( ) {
-        if (m_pSystem && m_pRenderer) {
-            m_VSYNC = !m_VSYNC;
-            m_pSystem->setSwapInterval( m_VSYNC );
-            m_pRenderer->ToggleVSYNC( );
-        }
-    }
+	void GraphicsEngine::ToggleVSYNC( ) {
+		if (m_pSystem && m_pRenderer) {
+			m_VSYNC = !m_VSYNC;
+			m_pSystem->setSwapInterval( m_VSYNC );
+			m_pRenderer->ToggleVSYNC( );
+		}
+	}
 
 	/*-----------------------------------------------------------------------------
 	Sets the screen res.
@@ -171,6 +171,7 @@ namespace UNDONE_ENGINE {
 		glViewport(0, 0, width, hieght);
 
 		Graphic2D::SetScreenDimentions(hieght, width);
+		Font::SetScreenDimentions( hieght, width );
 
 		m_pGraphicsBuffer->GetControlCamera( ).SetAspectRatio((float)width/(float)hieght);
 
@@ -236,7 +237,7 @@ namespace UNDONE_ENGINE {
 
 		
 		font.SetShaderProgram(_FontShader);
-		font.LoadSystemFont("arial.ttf", 32);
+		font.LoadSystemFont("calibri.ttf", 64);
 
 		
 		//GL State variables.
@@ -273,9 +274,12 @@ namespace UNDONE_ENGINE {
 	void GraphicsEngine::RenderScene( ) {
 		if (m_pRenderer) {
 			//Do it!
-			
 			m_pRenderer->Render( );
-			//font.print("TEXT WORKS!\n hurray!", -1, 0, 2);
+            font.printFormatted(
+                -30/*-m_pFrameWork->GetScreenWidth( ) / 2.0f*/,
+                30/*-m_pFrameWork->GetScreenHieght( ) / 2.0f*/,
+                2,
+                "Frame Rate: %.2f", m_pFrameWork->GetFPS( ));
 		}
 
 		

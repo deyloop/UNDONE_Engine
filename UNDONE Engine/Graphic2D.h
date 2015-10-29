@@ -79,7 +79,6 @@ namespace UNDONE_ENGINE {
 		static int screenhieght;
 
 		glm::mat4						m_ScaleCorrection;
-		glm::mat4						m_TranslateCorrection;
 		rect							m_rect;
 	};
 }

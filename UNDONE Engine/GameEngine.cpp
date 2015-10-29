@@ -143,12 +143,6 @@ namespace UNDONE_ENGINE {
 
 		while (m_running) {
 			
-			//this here displays the fps in the tittlebar.
-		   /* char FPS[30];
-			sprintf_s( FPS, "UNDONE    FPS : %.2f", GetFPS( ) );
-			m_pSystemComponent->SetWindowTittle( m_pUserWindow->GetHandle( ),FPS);
-			*/
-			
 			m_pTimer->Update( );
 			
 			__int64 newtime   = m_pSystemComponent->GetCurrentTickCount( );

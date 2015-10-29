@@ -39,6 +39,7 @@ namespace UNDONE_ENGINE {
 		virtual const int   GetScreenHieght() const = 0;
 		virtual const int   GetScreenWidth() const = 0;
 		virtual const float GetElapsedTime() const = 0;
+        virtual const float GetFPS( ) const = 0;
 	};
 }
 #endif
