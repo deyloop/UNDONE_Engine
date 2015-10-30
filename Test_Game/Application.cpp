@@ -46,7 +46,6 @@ Default destructor
 void Application::Release(){
 	if (initialized) {
 		delete Yaw_Pitch;
-		delete Exit;
 		delete Move_Forward;
 		delete Move_Backward;
 		delete Enable_Mouse;
@@ -55,22 +54,29 @@ void Application::Release(){
 	}
 }
 
-class ExitCommand : public Command {
-public:
-	SystemComponent* m_pcomp;
-	ExitCommand(SystemComponent* b) :m_pcomp(b) { };
-	virtual void execute(InputControl* control, InputEvent& given_event) {
-		m_pcomp->Post_Quit_Mesage(0);
-	}
-};
-
  class bro : public Behavior {
 	public:
 		void Load( )  {};
 		void UnLoad() {};
-		void Left( ) {
-			Gameobject->GetWorldTransform( )->TranslateRel( -0.01f, 0.0f, 0.0f );
+		
+		void TurnLeft( ) {
+			Gameobject->GetWorldTransform( )->RotateRel( 0.0f, 0.9f, 0.0f );
 		}
+
+		void TurnRight( ) {
+			Gameobject->GetWorldTransform( )->RotateRel( 0.0f, -0.9f, 0.0f );
+
+		}
+
+		void MoveBackward( ) {
+			Gameobject->GetWorldTransform( )->TranslateRel(unvec3((-Gameobject->GetWorldTransform()->GetForward()*0.05f)));
+		}
+
+		void MoveForward( ) {
+			Gameobject->GetWorldTransform( )->TranslateRel(unvec3((Gameobject->GetWorldTransform()->GetForward()*0.05f)));
+
+		}
+
  };
 
 /*-----------------------------------------------------------------------------
@@ -218,7 +224,6 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
 
 	Yaw_Pitch		= new Yaw_PitchCommand( );
-	Exit			= new ExitCommand(SystemComponent::GetInstance() );
 	Move_Forward	= new MoveForwardCommand( );
 	Move_Backward	= new MoveBackwardCommand( );
 	Enable_Mouse	= new Enable_Yaw_Pitch_Command( );
@@ -227,28 +232,22 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	InputEvent KeyEventL,ExitEvent,MoveFEvnt,MoveBEvnt,MBDEvnt,MBUEvnt;
 	InputEvent RightKey, LeftKey;
 	InputEvent MonkeyMoveF, MonkeyMoveB, MonkeyTurnLeft, MonkeyTurnRight;
-	
-	forward = vec3( 0.0f, 0.0f, 0.05f );
 
 	MonkeyMoveF.event.type = EVENT_KEYPRESS;
 	MonkeyMoveF.key.keycode = KEY_ARROW_UP;
-	InputPair pairMF( MonkeyMoveF, [&] {cu->GetWorldTransform( )->TranslateRel(unvec3((forward*0.5f))); } );
+	InputPair pairMF( MonkeyMoveF, bind(&bro::MoveForward,broscript ));
 
 	MonkeyMoveB.event.type = EVENT_KEYPRESS;
 	MonkeyMoveB.key.keycode = KEY_ARROW_DOWN;
-	InputPair pairMB( MonkeyMoveB, [&] {cu->GetWorldTransform( )->TranslateRel(unvec3((-forward*0.5f))); } );
+	InputPair pairMB( MonkeyMoveB, bind(&bro::MoveBackward,broscript ));
 
 	MonkeyTurnLeft.event.type = EVENT_KEYPRESS;
 	MonkeyTurnLeft.key.keycode = KEY_ARROW_LEFT;
-	InputPair pairML( MonkeyTurnLeft, [&] {cu->GetWorldTransform( )->RotateRel( 0.0f, 0.9f, 0.0f ); 
-										  glm::mat4 rot = glm::rotate( 0.9f, vec3(0.0f,1.0f,0.0f ));
-											forward = mat3(rot) * forward ;}/*bind(&bro::Left,broscript)*/ );
+	InputPair pairML( MonkeyTurnLeft, bind((&bro::TurnLeft),broscript));
 
 	MonkeyTurnRight.event.type = EVENT_KEYPRESS;
 	MonkeyTurnRight.key.keycode = KEY_ARROW_RIGHT;
-	InputPair pairMR( MonkeyTurnRight, [&] {cu->GetWorldTransform( )->RotateRel( 0.0f, -0.9f, 0.0f ); 
-											glm::mat4 rot = glm::rotate( -0.9f, vec3(0.0f,1.0f,0.0f ));
-											forward = mat3(rot) * forward ; } );
+	InputPair pairMR( MonkeyTurnRight, bind(&bro::TurnRight,broscript ));
 
 	RightKey.event.type = EVENT_KEYPRESS;
 	RightKey.key.keycode = KEY_D;

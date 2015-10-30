@@ -70,6 +70,13 @@ namespace UNDONE_ENGINE {
 		void SetYScale(float y) { ScaleAbs(m_scaleX, y, m_scaleZ); }
 		void SetZScale(float z) { ScaleAbs(m_scaleX, m_scaleY, z); }
 
+	   const vec3 GetUp( )        { return normalize( vec3(m_rotation*vec4( 0,  1, 0, 1 )));}
+	   const vec3 GetDown( )      { return normalize( vec3(m_rotation*vec4( 0, -1, 0, 1 )));}
+	   const vec3 GetLeft( )      { return normalize( vec3(m_rotation*vec4( 1,  0, 0, 1 )));}
+	   const vec3 GetRight( )     { return normalize( vec3(m_rotation*vec4(-1,  0, 0, 1 )));}
+	   const vec3 GetForward( )   { return normalize( vec3(m_rotation*vec4( 0,  0, 1, 1 )));}
+	   const vec3 GetBackWard( )  { return normalize( vec3(m_rotation*vec4( 0,  0,-1, 1 )));}
+
 	protected:
 		void UpdateMatLocal( ) { 
 			m_localTransform = m_translation*m_rotation*m_scale;
