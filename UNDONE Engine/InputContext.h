@@ -34,17 +34,6 @@ using std::function;
 using std::vector;
 
 namespace UNDONE_ENGINE {
-	
-	class UNDONE_API InputControl {
-	public:
-		virtual ~InputControl( ) { };
-	};
-
-	class UNDONE_API  Command {
-	public:
-		virtual ~Command( ) { };
-        virtual void execute( InputControl* control, InputEvent& given_event ) {};
-	};
 
 	struct InputPair {
 		InputPair(InputEvent des_event,const function<void(void)> callback)
@@ -61,7 +50,6 @@ namespace UNDONE_ENGINE {
 	Contexts store the data needed to execute input handelling.
 	-----------------------------------------------------------------------------*/
 	struct InputContext {
-		InputControl*		m_pControl;
 		vector<InputPair>	m_pairs;
 	};
 }

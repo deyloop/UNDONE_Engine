@@ -45,11 +45,6 @@ Default destructor
 ------------------------------------------------------------------------------*/
 void Application::Release(){
 	if (initialized) {
-		delete Yaw_Pitch;
-		delete Move_Forward;
-		delete Move_Backward;
-		delete Enable_Mouse;
-		delete Disable_Mouse;
 		initialized = false;
 	}
 }
@@ -223,12 +218,6 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	pObjectBuffer->GetControlCamera( ).SetLookAt(glm::vec3(0.0f));
 	m_pcam = &(pObjectBuffer->GetControlCamera( ));
 
-	Yaw_Pitch		= new Yaw_PitchCommand( );
-	Move_Forward	= new MoveForwardCommand( );
-	Move_Backward	= new MoveBackwardCommand( );
-	Enable_Mouse	= new Enable_Yaw_Pitch_Command( );
-	Disable_Mouse	= new Disable_Yaw_Pitch_Command( );
-
 	InputEvent KeyEventL,ExitEvent,MoveFEvnt,MoveBEvnt,MBDEvnt,MBUEvnt;
 	InputEvent RightKey, LeftKey;
 	InputEvent MonkeyMoveF, MonkeyMoveB, MonkeyTurnLeft, MonkeyTurnRight;
@@ -262,27 +251,26 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	InputPair pair( ExitEvent, [=]{SystemComponent::GetInstance()->Post_Quit_Mesage( 0 ); } );
 
 	KeyEventL.event.type = EVENT_MOUSEMOVE;
-	InputPair pair2( KeyEventL, [&](float x, float y) {Yaw_Pitch->execute( m_pcam, x ,y); },0);
+    InputPair pair2( KeyEventL, [&]( float x, float y ) {if (!(m_pcam->moused)) return; m_pcam->MoveUp( -y*0.1f ); }, 0 );
 
 	MBDEvnt.event.type			= EVENT_MOUSEBUTTONDOWN;
 	MBDEvnt.mouse_button.button = MOUSE_BUTTON_L;
-	InputPair pairMBD(MBDEvnt, [&] {Enable_Mouse->execute( m_pcam, KeyEventL ); });
+    InputPair pairMBD( MBDEvnt, [&] {m_pcam->moused = true; } );
 	
 	MBUEvnt.event.type			= EVENT_MOUSEBUTTONUP;
 	MBUEvnt.mouse_button.button = MOUSE_BUTTON_L;
-	InputPair pairMBU(MBUEvnt, [&] {Disable_Mouse->execute( m_pcam, KeyEventL ); });
+    InputPair pairMBU( MBUEvnt, [&] {m_pcam->moused = false; } );
 	
 	MoveFEvnt.event.type	 = EVENT_KEYPRESS;
 	MoveFEvnt.key.keycode	 = KEY_W;
-	InputPair pairW(MoveFEvnt, [&] {Move_Forward->execute( m_pcam, KeyEventL ); } );
+    InputPair pairW( MoveFEvnt, [&] {m_pcam->MoveForward( 0.1f ); } );
 
 	MoveBEvnt.event.type	= EVENT_KEYPRESS;
 	MoveBEvnt.key.keycode	= KEY_S;
-	InputPair pairS(MoveBEvnt,  [&] {Move_Backward->execute( m_pcam, KeyEventL ); });
+    InputPair pairS( MoveBEvnt, [&] {m_pcam->MoveForward( -0.1f ); } );
 
 	vector<InputContext>& contexts = m_pFrameWork->GetInputContextListForEditing( );
 	InputContext cameracontrolcontext;
-	cameracontrolcontext.m_pControl = m_pcam;
 	cameracontrolcontext.m_pairs.push_back(pair);
 	cameracontrolcontext.m_pairs.push_back(pair2);
 	cameracontrolcontext.m_pairs.push_back(pairW);

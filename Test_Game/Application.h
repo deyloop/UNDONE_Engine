@@ -42,16 +42,10 @@ public:
 protected:
 	UnFramework*		m_pFrameWork;
 	Camera*				m_pcam;
-	vector<Command*>	m_Cmds;
 	Dptr<unGameObject> BlockGroup;
 
 	bool initialized;
 
-	Yaw_PitchCommand* Yaw_Pitch ;
-	Command* Move_Forward ;
-	Command* Move_Backward ;
-	Command* Enable_Mouse ;
-	Command* Disable_Mouse ;
 	Dptr<unGameObject>		cu;
 	glm::vec3 forward;
 };

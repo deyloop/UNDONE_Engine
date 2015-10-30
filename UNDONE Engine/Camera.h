@@ -35,7 +35,7 @@ Author	:	Anurup.Dey
 
 namespace UNDONE_ENGINE {
 
-	class UNDONE_API MoveControl : public InputControl {
+	class MoveControl {
 	public:
 		MoveControl( ) {
 			moused = false;
@@ -51,50 +51,7 @@ namespace UNDONE_ENGINE {
 		bool moused;
 	};
 
-	
-	class Yaw_PitchCommand : public Command {
-	public:
-		void execute(InputControl* control, float x, float y) {
-			MoveControl* m_control = (MoveControl*)control;
-				if (!(m_control->moused)) return;
-                //m_control->Pitch( -y*0.5f );
-				m_control->MoveUp(-y*0.1f);
-			
-		}
-	};
 
-	class Enable_Yaw_Pitch_Command : public Command {
-	public:
-		void execute(InputControl* control, InputEvent& given_event) {
-			MoveControl* m_control = (MoveControl*)control;
-			m_control->moused = true;
-		}
-	};
-
-	class Disable_Yaw_Pitch_Command : public Command {
-	public:
-		void execute(InputControl* control, InputEvent& given_event) {
-			MoveControl* m_control = (MoveControl*)control;
-			m_control->moused = false;
-		}
-	};
-
-
-	class MoveForwardCommand : public Command {
-	public:
-		void execute(InputControl* control, InputEvent& given_event) {
-			MoveControl* m_control = (MoveControl*)control;
-			m_control->MoveForward(0.1f);
-		}
-	};
-
-	class MoveBackwardCommand : public Command {
-	public:
-		void execute(InputControl* control, InputEvent& given_event) {
-			MoveControl* m_control = (MoveControl*)control;
-			m_control->MoveForward(-0.1f);
-		}
-	};
 	/*-----------------------------------------------------------------------------
 	THis class object structure represents the camera object, which is used to get
 	the view of the world. This class controls and encapsulates the view and
