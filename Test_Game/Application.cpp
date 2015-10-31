@@ -295,7 +295,7 @@ Updates Application specific things like AI, ui response, etc.
 void Application::Update(){
 
 	m_pcam->SetLookAt( cu->GetWorldTransform( )->GetPosition( ) );
-	if (m_pcam->GetPosition( )->y <= 5)
+	if (m_pcam->GetPosition( )->y < 5)
 		m_pcam->SetPosition( glm::vec3(
 			m_pcam->GetPosition( )->x,
 			5,

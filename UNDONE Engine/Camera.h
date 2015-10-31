@@ -31,25 +31,13 @@ Author	:	Anurup.Dey
 #include <gtx/transform.hpp>
 #include "InputContext.h"
 #include "UNDONE_Engine_declr.h"
+#include "Component.h"
+#include "unCamera.h"
 #include <iostream>
 
 namespace UNDONE_ENGINE {
 
-	class MoveControl {
-	public:
-		MoveControl( ) {
-			moused = false;
-		}
-		virtual void Yaw(float degrees) = 0;
-		virtual void MoveForward(float units) = 0;
-		virtual void Strafe(float units) = 0;
-		virtual void MoveUp(float units)=0;
-
-		virtual void Pitch(float degrees)=0;
-		virtual void Roll(float degrees)=0;
-
-		bool moused;
-	};
+	class WorldTransform;
 
 
 	/*-----------------------------------------------------------------------------
@@ -57,68 +45,48 @@ namespace UNDONE_ENGINE {
 	the view of the world. This class controls and encapsulates the view and
 	projection transforms of the objects when rendered to the screen.
 	-----------------------------------------------------------------------------*/
-	class Camera :public MoveControl {
+	class Camera :public unCamera, public Component {
 	public:
-		UNDONE_API Camera( );
+		Camera( );
 
-		virtual void YawLeft( ) { Yaw(1.0f); }
-		virtual void YawRight( ) { Yaw(-1.0f); }
+		void Load( ) {};
+		void Unload( ) {};
 
-		UNDONE_API void CreateProjectionMatrix(float fov, float aspect, float nearPlane, float farPlane);
-		void MoveForward(float units);
-		void Strafe(float units);
-		void MoveUp(float units);
+		void OnParentAdopted( ) {};
+		
+		void CreateProjectionMatrix(float fov, float aspect, float nearPlane, float farPlane);
+		
+		void Update( );
 
-		void Yaw(float degrees);
-		void Pitch(float degrees);
-		void Roll(float degrees);
-		UNDONE_API void Update( );
+		void SetLookAt(float x, float y, float z);
+		void SetFOV(float fov) { CreateProjectionMatrix(fov, m_aspect, m_nearPlane, m_farPlane); }
+		void SetAspectRatio(float aspect) { CreateProjectionMatrix(m_fov, aspect, m_nearPlane, m_farPlane); }
+		void SetNearPlane(float plane) { CreateProjectionMatrix(m_fov, m_aspect, plane, m_farPlane); }
+		void SetFarPlane(float plane) { CreateProjectionMatrix(m_fov, m_aspect, m_nearPlane, plane); }
 
-		UNDONE_API void SetPosition(glm::vec3& refPosition);
-		UNDONE_API void SetLookAt(glm::vec3& refLookAt);
-		UNDONE_API void SetFOV(float fov) { CreateProjectionMatrix(fov, m_aspect, m_nearPlane, m_farPlane); }
-		UNDONE_API void SetAspectRatio(float aspect) { CreateProjectionMatrix(m_fov, aspect, m_nearPlane, m_farPlane); }
-		UNDONE_API void SetNearPlane(float plane) { CreateProjectionMatrix(m_fov, m_aspect, plane, m_farPlane); }
-		UNDONE_API void SetFarPlane(float plane) { CreateProjectionMatrix(m_fov, m_aspect, m_nearPlane, plane); }
-		UNDONE_API void SetMaxVelocity(float maxVelocity) { m_maxVelocity = maxVelocity; }
-		UNDONE_API void SetInvertY(bool invert) { m_invertY = invert; }
-		UNDONE_API void SetMaxPitch(float maxPitch) { m_maxPitch = maxPitch; }
-
-		glm::mat4* GetViewMatrix( ) { return &m_view; }
-		glm::mat4* GetProjectionMatrix( ) { return &m_projection; }
-		glm::vec3* GetPosition( ) { return &m_position; }
+        glm::mat4* GetViewMatrix( ) { return &m_view; }
+        glm::mat4* GetProjectionMatrix( ) { return &m_projection; }
 		glm::vec3* GetLookAt( ) { return &m_lookAt; }
 		float GetFOV( ) { return m_fov; }
 		float GetAspectRatio( ) { return m_aspect; }
 		float GetNearPlane( ) { return m_nearPlane; }
 		float GetFarPlane( ) { return m_farPlane; }
-		float GetMaxVelocity( ) { return m_maxVelocity; }
-		bool  GetInvertY( ) { return m_invertY; }
-		float GetPitch( ) { return m_pitch; }
-		float GetYaw( ) { return m_yaw; }
-		float GetMaxPitch( ) { return m_maxPitch; }
 
 	private:
 
-		glm::mat4	m_view;
-		glm::mat4	m_projection;
-		glm::vec3	m_right;
-		glm::vec3	m_up;
-		glm::vec3	m_look;
-		glm::vec3	m_position;
-		glm::vec3	m_lookAt;
-		glm::vec3	m_velocity;
+		void OnParentSet( );
+		Dptr<WorldTransform> m_pTransform;
 
-		float       m_yaw;
-		float       m_pitch;
-		float       m_maxPitch;
-		float       m_maxVelocity;
+		glm::mat4   m_view;
+		glm::mat4	m_projection;
+	
+		glm::vec3	m_look;
+		glm::vec3	m_lookAt;
+	
 		float       m_fov;
 		float       m_aspect;
 		float       m_nearPlane;
 		float       m_farPlane;
-		bool        m_invertY;
-		bool        m_enableYMovement;
 	};
 };
 #endif
