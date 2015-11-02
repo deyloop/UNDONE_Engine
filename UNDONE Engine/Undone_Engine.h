@@ -41,11 +41,9 @@ Author	:	Anurup Dey
 #include "unGraphic2D.h"
 #include "unBehaviorAttachement.h"
 #include "Behavior.h"
-
-
 #include "unCamera.h"
+#include "InputContext.h"
 
-#include "Camera.h"
 
 UNDONE_API UNDONE_ENGINE::UnFramework* Create_Un_Framwork_Inst(IApp* pAppa);
 

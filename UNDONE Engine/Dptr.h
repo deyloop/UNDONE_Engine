@@ -29,7 +29,7 @@ Author	:	Anurup Dey
 #include <list>
 #include <typeinfo>
 //#include "Header.h"
-;
+
 using std::list;
 
 namespace UNDONE_ENGINE{

@@ -123,7 +123,8 @@ to that component can be generated automatically.
 	GENERATE_FUNCTIONS(GraphicMaterial)\
 	GENERATE_FUNCTIONS(Graphic3D)\
 	GENERATE_FUNCTIONS(Graphic2D)\
-    GENERATE_FUNCTIONS(BehaviorAttachement)\
+	GENERATE_FUNCTIONS(BehaviorAttachement)\
+	GENERATE_FUNCTIONS(Camera)\
 
 #define GENFUNCS()\
 	GENFUNCS_ONLY_FOR_COMPONENTS() \

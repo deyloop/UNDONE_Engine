@@ -56,7 +56,7 @@ namespace UNDONE_ENGINE{
 		vector<OwnerShip>			m_storage_owners;
 		bool						m_empty;
 
-		Camera						m_Cam;
+		Dptr<Camera>				m_Cam;
 		unsigned int				m_init_vec_size;
 		unsigned int				m_num_owners;
 
@@ -79,7 +79,9 @@ namespace UNDONE_ENGINE{
 		template<typename T>
 		void SortByPriority(OwnerShip ownership = 0);
 
-		Camera& GetControlCamera() { return m_Cam; }
+		Dptr<unCamera> GetControlCamera( ) { return dcast<unCamera,Camera>(m_Cam); }
+		void setControlCamera( Dptr<unCamera> camera );
+
 		Dptr<Component> GetComponentByName(const char* name, OwnerShip ownership = 0);
 
 		template<typename T>

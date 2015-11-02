@@ -47,7 +47,7 @@ namespace UNDONE_ENGINE {
 		void RotateAbs(float x, float y, float z);
 		void RotateRel(float x, float y, float z);
 		void ScaleAbs(float x, float y, float z);
-		void ScaleRel(float x, float y, float z);
+		void ScaleRel( float x, float y, float z );
 
 		mat4& GetTransform( );
 		vec3& GetPosition( ) { return m_position; }
@@ -69,6 +69,7 @@ namespace UNDONE_ENGINE {
 		void SetXScale(float x) { ScaleAbs(x, m_scaleY, m_scaleZ); }
 		void SetYScale(float y) { ScaleAbs(m_scaleX, y, m_scaleZ); }
 		void SetZScale(float z) { ScaleAbs(m_scaleX, m_scaleY, z); }
+		void SetLookAt( float x, float y, float z );
 
 	   const vec3 GetUp( )        { return normalize( vec3(m_rotation*vec4( 0,  1, 0, 1 )));}
 	   const vec3 GetDown( )      { return normalize( vec3(m_rotation*vec4( 0, -1, 0, 1 )));}

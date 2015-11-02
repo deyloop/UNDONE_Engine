@@ -26,6 +26,9 @@ Author	:	Anurup Dey
 
 #include <vector>
 #include <Undone_Engine.h>
+#include "Bro.h"
+#include "Camera_Script.h"
+
 using namespace UNDONE_ENGINE;
 using namespace std;
 
@@ -41,12 +44,15 @@ public:
 	void Update();
 protected:
 	UnFramework*		m_pFrameWork;
-	Camera*				m_pcam;
-	Dptr<unGameObject> BlockGroup;
+	Dptr<unGameObject>	m_cam;
+	Dptr<unGameObject>  BlockGroup;
 
 	bool initialized;
 
 	Dptr<unGameObject>		cu;
 	glm::vec3 forward;
+
+    bro                     broscript;
+    Camera_Script           camscrpt;
 };
 #endif

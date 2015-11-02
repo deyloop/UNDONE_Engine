@@ -117,9 +117,10 @@ namespace UNDONE_ENGINE {
 		m_rotationZ = z;
 
 		m_rotation = glm::mat4(1.0f);
-		m_rotation = glm::rotate(m_rotation, x, glm::vec3(1.0f, 0.0f, 0.0f));
-		m_rotation = glm::rotate(m_rotation, y, glm::vec3(0.0f, 1.0f, 0.0f));
-		m_rotation = glm::rotate(m_rotation, z, glm::vec3(0.0f, 0.0f, 1.0f));
+		
+        m_rotation *= glm::rotate(y, glm::vec3(0.0f, 1.0f, 0.0f));
+        m_rotation *= glm::rotate(x, glm::vec3(1.0f, 0.0f, 0.0f));
+		m_rotation *= glm::rotate(z, glm::vec3(0.0f, 0.0f, 1.0f));
 
 		UpdateMatLocal( );
 	}
@@ -195,5 +196,22 @@ namespace UNDONE_ENGINE {
 
 		m_worldTransform = m_parentTransform*m_localTransform;
 		return m_worldTransform;
+	}
+
+   
+
+	void WorldTransform::SetLookAt( float x, float y, float z ) {
+		
+		vec3 lookPoint = vec3 ( x, y, z );
+		
+		vec3 lookDir =  normalize(lookPoint - m_position);
+
+		float lookLengthOnXZ = sqrtf( lookDir.z*lookDir.z + lookDir.x*lookDir.x );
+		m_rotationX = -degrees(atan2f( lookDir.y, lookLengthOnXZ ));
+		m_rotationY = degrees(atan2f( lookDir.x, lookDir.z ));
+
+		RotateAbs( m_rotationX, m_rotationY, m_rotationZ );
+
+		UpdateMatLocal( );
 	}
 }

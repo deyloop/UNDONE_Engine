@@ -31,6 +31,8 @@ namespace UNDONE_ENGINE {
 		m_empty = true;
 		m_init_vec_size = 0;
 		m_num_owners = 0;
+
+        m_Cam = CreateNew<Camera>( );
 	}
 	/*-------------------------------------------------------------------------
 	DEfault Destructor.
@@ -47,6 +49,10 @@ namespace UNDONE_ENGINE {
 		m_empty = true;
 	}
 
+    void ObjectBuffer::setControlCamera( Dptr<unCamera> camera ) {
+        m_Cam = dcast<Camera, unCamera>( camera );
+	}
+
 	/*----------------------------------------------------------------------------
 	Returns a Components with the given name.
 	Parameters:
@@ -54,6 +60,7 @@ namespace UNDONE_ENGINE {
 	Returns:
 	THe required component if it exists, otherwise a DPOINTER with a nullptr
 	----------------------------------------------------------------------------*/
+		
 	Dptr<Component> ObjectBuffer::GetComponentByName(const char* name,OwnerShip ownership) {
 		for (Dptr<Component>& component : m_Components) {
 			if (component->name==name) {

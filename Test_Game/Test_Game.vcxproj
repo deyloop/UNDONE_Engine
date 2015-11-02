@@ -25,6 +25,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Bro.h" />
+    <ClInclude Include="Camera_Script.h" />
     <ClInclude Include="Maze.h" />
   </ItemGroup>
   <ItemGroup>

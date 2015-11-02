@@ -60,12 +60,13 @@ namespace UNDONE_ENGINE{
 		virtual void SetXScale(float x) 						= 0;
 		virtual void SetYScale(float y) 						= 0;
 		virtual void SetZScale(float z) 						= 0;
-        virtual const vec3 GetUp( )                           =0;
-        virtual const vec3 GetDown( )                         =0;
-        virtual const vec3 GetLeft( )                         =0;
-        virtual const vec3 GetRight( )                        =0;
-        virtual const vec3 GetForward( )                      =0;
-        virtual const vec3 GetBackWard( )                     =0;
+		virtual const vec3 GetUp( )                           =0;
+		virtual const vec3 GetDown( )                         =0;
+		virtual const vec3 GetLeft( )                         =0;
+		virtual const vec3 GetRight( )                        =0;
+		virtual const vec3 GetForward( )                      =0;
+		virtual const vec3 GetBackWard( )                     =0;
+        virtual void SetLookAt ( float, float, float )        = 0;
 	};                                                        
 }
 #endif

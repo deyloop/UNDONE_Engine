@@ -72,7 +72,8 @@ namespace UNDONE_ENGINE {
 		#include "GENERATE_FUNCTIONS.h"
 		GENFUNCS()
 		
-		virtual Camera& GetControlCamera() = 0;
+		virtual Dptr<unCamera> GetControlCamera() = 0;
+        virtual void setControlCamera( Dptr<unCamera> camera ) = 0;
 	};
 }
 #endif

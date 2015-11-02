@@ -75,7 +75,9 @@ namespace UNDONE_ENGINE {
 		m_lookAt       = position + m_look;
 
 		//Calculate the new matrix
-		m_view = glm::lookAt( position, m_lookAt, glm::vec3( 0.0f, 1.f, 0.0f ));
+        m_view = glm::lookAt( position, m_lookAt, glm::vec3( 0.0f, 1.f, 0.0f ));
+
+  
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -85,11 +87,8 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	void Camera::SetLookAt(float x, float y, float z) {
 		if (m_pTransform.m_pointer == nullptr) return;
-
-		m_lookAt = vec3( x, y, z );
-		
-		vec3& position = m_pTransform->GetPosition( );
-		m_look = glm::normalize( m_lookAt - position);
+	   
+		m_pTransform->SetLookAt( x, y, z );
 	}
 
 }

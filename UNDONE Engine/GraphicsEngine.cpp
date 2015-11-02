@@ -28,6 +28,7 @@ Author	:	Anurup Dey
 #include "Font.h"
 #include "Shader.h"
 #include "ShaderProgram.h"
+#include "Camera.h"
 
 
 
@@ -65,6 +66,7 @@ namespace UNDONE_ENGINE {
 			m_pGraphicsBuffer->DeleteAll<Graphic2D>( );
 			m_pGraphicsBuffer->DeleteAll<WorldTransform>( );
 			m_pGraphicsBuffer->DeleteAll<GraphicMaterial>( );
+            m_pGraphicsBuffer->DeleteAll<Camera>( );
 			m_pGraphicsBuffer = nullptr;
 		}
 		if (m_pFrameWork) {
@@ -173,7 +175,7 @@ namespace UNDONE_ENGINE {
 		Graphic2D::SetScreenDimentions(hieght, width);
 		Font::SetScreenDimentions( hieght, width );
 
-		m_pGraphicsBuffer->GetControlCamera( ).SetAspectRatio((float)width/(float)hieght);
+		dcast<Camera,unCamera>(m_pGraphicsBuffer->GetControlCamera( ))->SetAspectRatio((float)width/(float)hieght);
 
 	}
 	/*-----------------------------------------------------------------------------

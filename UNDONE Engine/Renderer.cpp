@@ -76,8 +76,9 @@ namespace UNDONE_ENGINE {
 		//loop for each object in the buffer...
 
 		RenderParams render_params;
-		render_params.View_x_Projection = *(m_pGraphicsBuffer->GetControlCamera( ).GetProjectionMatrix( ));
-		render_params.View_x_Projection *= *(m_pGraphicsBuffer->GetControlCamera( ).GetViewMatrix( ));
+        dcast<Camera, unCamera>( m_pGraphicsBuffer->GetControlCamera( ) )->Update( );
+		render_params.View_x_Projection = *(dcast<Camera,unCamera>(m_pGraphicsBuffer->GetControlCamera( ))->GetProjectionMatrix( ));
+		render_params.View_x_Projection *= *(dcast<Camera,unCamera>(m_pGraphicsBuffer->GetControlCamera( ))->GetViewMatrix( ));
 
 		Mesh::SetCurrentlyBoundVAO(0);
 
