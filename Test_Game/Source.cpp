@@ -26,7 +26,7 @@ int main( ) {
 	UnFramework*	pUNDONE = Create_Un_Framwork_Inst(pApp);
 
 	pApp->LinkToEngine(pUNDONE);
-	pUNDONE->Initialise("Test Game", 1000, 700);
+	pUNDONE->Initialise("Test Game", 1000, 700, /*false*/);
 
 	//time to rock n roll!
 	pUNDONE->Run( );

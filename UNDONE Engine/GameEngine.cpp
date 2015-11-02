@@ -122,7 +122,7 @@ namespace UNDONE_ENGINE {
 			ToggleFullscreen( );
 		}
 
-		m_pGraphicsEngine->ToggleVSYNC( );
+		//m_pGraphicsEngine->ToggleVSYNC( );
 		//start the timer
 		Pause(false, false);
 

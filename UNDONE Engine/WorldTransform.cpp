@@ -118,8 +118,8 @@ namespace UNDONE_ENGINE {
 
 		m_rotation = glm::mat4(1.0f);
 		
-        m_rotation *= glm::rotate(y, glm::vec3(0.0f, 1.0f, 0.0f));
-        m_rotation *= glm::rotate(x, glm::vec3(1.0f, 0.0f, 0.0f));
+		m_rotation *= glm::rotate(y, glm::vec3(0.0f, 1.0f, 0.0f));
+		m_rotation *= glm::rotate(x, glm::vec3(1.0f, 0.0f, 0.0f));
 		m_rotation *= glm::rotate(z, glm::vec3(0.0f, 0.0f, 1.0f));
 
 		UpdateMatLocal( );

@@ -75,7 +75,7 @@ namespace UNDONE_ENGINE {
 		m_lookAt       = position + m_look;
 
 		//Calculate the new matrix
-        m_view = glm::lookAt( position, m_lookAt, glm::vec3( 0.0f, 1.f, 0.0f ));
+		m_view = glm::lookAt( position, m_lookAt, glm::vec3( 0.0f, 1.f, 0.0f ));
 
   
 	}
