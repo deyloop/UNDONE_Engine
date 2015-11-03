@@ -24,6 +24,7 @@ Author	:	Anurup Dey
 #include "BehaviorAttachement.h"
 #include "UnFramework.h"
 #include "Behavior.h"
+#include "GameObject.h"
 
 namespace UNDONE_ENGINE {
 
@@ -58,7 +59,11 @@ namespace UNDONE_ENGINE {
                                            Behavior * behavior_script ) {
         m_BehaviorList.push_back( behavior_script );
         m_Names.push_back( script_name );
-        behavior_script->Gameobject = dcast<unGameObject, GameObject>(m_ppParent);
+        behavior_script->m_GameObject = dcast<unGameObject, GameObject>(m_ppParent);
+        
+        #define _GEN_DEF_BEHAVIOR_ATT_CPP_
+        #include "GENERATE_FUNCTIONS.h"
+        GEN_FUNCTIONS_ONLY_COMPS_NO_GAMEOBJECT()
 
     }
 

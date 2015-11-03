@@ -10,40 +10,44 @@ class Camera_Script : public Behavior {
 		void Load( )  {};
 		void UnLoad() {};
 		
-        Dptr<unGameObject> target;
+		Dptr<unGameObject> target;
 
 		void TurnLeft( ) {
-            Gameobject->GetWorldTransform( )->TranslateRel( unvec3( (Gameobject->GetWorldTransform( )->GetLeft( )*0.1f) ));
+			m_WorldTransform->TranslateRel( unvec3( (m_WorldTransform->GetLeft( )*0.1f) ));
 		}
 
 		void TurnRight( ) {
-            Gameobject->GetWorldTransform( )->TranslateRel( unvec3( (Gameobject->GetWorldTransform( )->GetRight( )*0.1f) ));
+			m_WorldTransform->TranslateRel( unvec3( (m_WorldTransform->GetRight( )*0.1f) ));
 
 		}
 
 		void MoveBackward( ) {
-			Gameobject->GetWorldTransform( )->TranslateRel(unvec3((-Gameobject->GetWorldTransform()->GetForward()*0.05f)));
+			m_WorldTransform->TranslateRel(unvec3((-m_WorldTransform->GetForward()*0.05f)));
 		}
 
 		void MoveForward( ) {
-			Gameobject->GetWorldTransform( )->TranslateRel(unvec3((Gameobject->GetWorldTransform()->GetForward()*0.05f)));
+			m_WorldTransform->TranslateRel(unvec3((m_WorldTransform->GetForward()*0.05f)));
 
 		}
 
-        void Update( ) {
-            vec3 pos = Gameobject->GetWorldTransform( )->GetPosition( );
-            if (pos.y <= 5) {
-                Gameobject->GetWorldTransform( )->TranslateAbs(
-                    pos.x,
-                    5, 
-                    pos.z );
-            }
+		void Update( ) {
+			vec3 pos = m_WorldTransform->GetPosition( );
+			if (pos.y <= 5) {
+				m_WorldTransform->TranslateAbs(
+					pos.x,
+					5, 
+					pos.z );
+			}
 
-            Gameobject->GetCamera( )->SetLookAt(unvec3(target->GetWorldTransform()->GetPosition()));
-        }
+			if (!(distance(target->GetWorldTransform( )->GetPosition( ) , pos) <= 6.0f)) {
+				MoveForward( );
+			}
+
+			m_Camera->SetLookAt(unvec3(target->GetWorldTransform()->GetPosition()));
+		}
 
 private:
-    Dptr<unCamera> cam;
+	Dptr<unCamera> cam;
  };
 
 #endif

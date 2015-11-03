@@ -27,8 +27,7 @@ Author	:	Anurup Dey
 #define _UNDONE_BEHAVIOR_H_
 
 
-#include "unEngineInterfaces.h"
-#include "unGameObject.h"
+#include "Undone_Engine.h"
 
 namespace UNDONE_ENGINE {
 
@@ -46,8 +45,11 @@ namespace UNDONE_ENGINE {
         static unGraphics*     Graphics;
         static unObjectBuffer* Objectbuffer;
 
-        Dptr<unGameObject> Gameobject;
+        #define _GENDEC_DEF_BEHAVIOR_CPP_
+        #include "GENERATE_FUNCTIONS.h"
+        GENFUNCS_ONLY_FOR_COMPONENTS()
+
+        
     };
 }
-
 #endif

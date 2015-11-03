@@ -202,7 +202,7 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	camtransform->TranslateAbs( 1, 1, 1 );
 	camscrpt.target = cu;
 
-	InputEvent KeyEventL,ExitEvent,MoveFEvnt,MoveBEvnt,MBDEvnt,MBUEvnt;
+    InputEvent ExitEvent;
 	InputEvent RightKey, LeftKey;
 	InputEvent MonkeyMoveF, MonkeyMoveB, MonkeyTurnLeft, MonkeyTurnRight;
 
@@ -234,20 +234,10 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	ExitEvent.key.keycode		= KEY_ESCAPE;
 	InputPair pair( ExitEvent, [=]{SystemComponent::GetInstance()->Post_Quit_Mesage( 0 ); } );
 
-	
-	MoveFEvnt.event.type	 = EVENT_KEYPRESS;
-	MoveFEvnt.key.keycode	 = KEY_W;
-	InputPair pairW( MoveFEvnt, bind(&Camera_Script::MoveForward,&camscrpt) );
-
-	MoveBEvnt.event.type	= EVENT_KEYPRESS;
-	MoveBEvnt.key.keycode	= KEY_S;
-	InputPair pairS( MoveBEvnt, bind(&Camera_Script::MoveBackward,&camscrpt));
 
 	vector<InputContext>& contexts = m_pFrameWork->GetInputContextListForEditing( );
 	InputContext cameracontrolcontext;
 	cameracontrolcontext.m_pairs.push_back(pair);
-	cameracontrolcontext.m_pairs.push_back(pairW);
-	cameracontrolcontext.m_pairs.push_back(pairS);
 	cameracontrolcontext.m_pairs.push_back( pairL );
 	cameracontrolcontext.m_pairs.push_back( pairMR );
 	cameracontrolcontext.m_pairs.push_back( pairMF );

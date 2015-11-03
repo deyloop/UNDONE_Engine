@@ -109,6 +109,14 @@ to that component can be generated automatically.
 			RemoveComponentByName(name);\
 		}
 		#undef _GENFUNC_DEF_GAMEOBJECT_CPP_
+#elif defined _GENDEC_DEF_BEHAVIOR_CPP_
+#define GENERATE_FUNCTIONS(type)\
+       Dptr<un ## type > m_## type;
+       #undef _GENDEC_DEF_BEHAVIOR_CPP_
+#elif defined _GEN_DEF_BEHAVIOR_ATT_CPP_
+#define GENERATE_FUNCTIONS(type)\
+       behavior_script->m_##type = m_ppParent->Get##type();
+       #undef _GEN_DEF_BEHAVIOR_ATT_CPP_
 
 #endif
 
@@ -116,15 +124,19 @@ to that component can be generated automatically.
 	Please insert a Macro call to GENERATE_FUNCTIONS for each new Component
 	you create under here.
 	-------------------------------------------------------------------------*/
-#define GENFUNCS_ONLY_FOR_COMPONENTS()\
-	GENERATE_FUNCTIONS(GameObject)\
-	GENERATE_FUNCTIONS(WorldTransform)\
+#define GEN_FUNCTIONS_ONLY_COMPS_NO_GAMEOBJECT()\
+    GENERATE_FUNCTIONS(WorldTransform)\
 	GENERATE_FUNCTIONS(Mesh)\
 	GENERATE_FUNCTIONS(GraphicMaterial)\
 	GENERATE_FUNCTIONS(Graphic3D)\
 	GENERATE_FUNCTIONS(Graphic2D)\
 	GENERATE_FUNCTIONS(BehaviorAttachement)\
 	GENERATE_FUNCTIONS(Camera)\
+
+#define GENFUNCS_ONLY_FOR_COMPONENTS()\
+	GENERATE_FUNCTIONS(GameObject)\
+    GEN_FUNCTIONS_ONLY_COMPS_NO_GAMEOBJECT()\
+	
 
 #define GENFUNCS()\
 	GENFUNCS_ONLY_FOR_COMPONENTS() \

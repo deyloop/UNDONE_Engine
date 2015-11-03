@@ -12,20 +12,20 @@ class bro : public Behavior {
 		void UnLoad() {};
 		
 		void TurnLeft( ) {
-			Gameobject->GetWorldTransform( )->RotateRel( 0.0f, 0.9f, 0.0f );
+			m_WorldTransform->RotateRel( 0.0f, 0.9f, 0.0f );
 		}
 
 		void TurnRight( ) {
-			Gameobject->GetWorldTransform( )->RotateRel( 0.0f, -0.9f, 0.0f );
+			m_WorldTransform->RotateRel( 0.0f, -0.9f, 0.0f );
 
 		}
 
 		void MoveBackward( ) {
-			Gameobject->GetWorldTransform( )->TranslateRel(unvec3((-Gameobject->GetWorldTransform()->GetForward()*0.05f)));
+			m_WorldTransform->TranslateRel(unvec3((-m_WorldTransform->GetForward()*0.05f)));
 		}
 
 		void MoveForward( ) {
-			Gameobject->GetWorldTransform( )->TranslateRel(unvec3((Gameobject->GetWorldTransform()->GetForward()*0.05f)));
+			m_WorldTransform->TranslateRel(unvec3((m_WorldTransform->GetForward()*0.05f)));
 
 		}
 
