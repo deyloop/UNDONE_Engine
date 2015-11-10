@@ -66,7 +66,7 @@ namespace UNDONE_ENGINE {
 			m_pGraphicsBuffer->DeleteAll<Graphic2D>( );
 			m_pGraphicsBuffer->DeleteAll<WorldTransform>( );
 			m_pGraphicsBuffer->DeleteAll<GraphicMaterial>( );
-            m_pGraphicsBuffer->DeleteAll<Camera>( );
+			m_pGraphicsBuffer->DeleteAll<Camera>( );
 			m_pGraphicsBuffer = nullptr;
 		}
 		if (m_pFrameWork) {
@@ -277,11 +277,11 @@ namespace UNDONE_ENGINE {
 		if (m_pRenderer) {
 			//Do it!
 			m_pRenderer->Render( );
-            font.printFormatted(
-                -30/*-m_pFrameWork->GetScreenWidth( ) / 2.0f*/,
-                30/*-m_pFrameWork->GetScreenHieght( ) / 2.0f*/,
-                2,
-                "Frame Rate: %.2f", m_pFrameWork->GetFPS( ));
+			font.printFormatted(
+				0/*-m_pFrameWork->GetScreenWidth( ) / 2.0f*/,
+				0/*-m_pFrameWork->GetScreenHieght( ) / 2.0f*/,
+				32,
+				"Frame Rate: %.2f", m_pFrameWork->GetFPS( ));
 		}
 
 		

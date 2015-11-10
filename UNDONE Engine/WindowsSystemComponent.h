@@ -39,6 +39,7 @@ Author	:	Anurup Dey
 #include <io.h>
 #include <Fcntl.h>
 #include <deque>
+#include <vector>
 using namespace std;
 
 #define _ClassName "XXXANURUPHEXClassXXX"	//the class name that will be registered.
@@ -75,19 +76,21 @@ namespace UNDONE_ENGINE {
 		HGLRC&				GetWindowsGLContext(WindowHandle Handle);
 
 		HDC&				GetWindowsDeviceContext(WindowHandle Handle);
-
+		OpenGLContext       AddGLContext( HGLRC winContext );
+		HGLRC&              GetwinGLContext( OpenGLContext context );
 		DeviceContext		GetDeviceContext(WindowHandle Handle);
 
 		IWindowEventHandeller*	GetEventHandeller(WindowHandle handle);
 		IWindowEventHandeller*  GetEventHandeller(HWND handle);
 		bool					SlotAvalable( );
-        UINT                    GetNumWindows( ) { return num_Windows; }
+		UINT                    GetNumWindows( ) { return num_Windows; }
 
 	private:
 		UINT			num_Windows;
 		UINT			num_Placements;
 		WindowEntry		Windows[NUMWINDOWS];
 		WINDOWPLACEMENT WindowPlacements[NUMWINDOWS];
+		vector<HGLRC>   GL_Contexts;
 	};
 
 	/*----------------------------------------------------------------------------
@@ -108,11 +111,12 @@ namespace UNDONE_ENGINE {
 
 		UNDONE_API int GetInputEvent(InputEvent* pEvent,__int64 given_time);
 
-		UNDONE_API bool CreateGLContext(WindowHandle handle,
-							 PixelFormatParameters PixelParams,
-							 ContextCreationPrameters ContextParams,
-							 OpenGLContext& OGLContext,
-							 DeviceContext& DevContext);
+		UNDONE_API bool CreateGLContext( WindowHandle handle,
+										 PixelFormatParameters PixelParams,
+										 ContextCreationPrameters ContextParams,
+										 OpenGLContext& OGLContext,
+										 DeviceContext& DevContext,
+										 unsigned num_contexts = 1);
 		UNDONE_API void GetDeviceDisplayMode(char* DeviceName, DisplayMode& devMode);
 		UNDONE_API bool SetDeviceDisplayMode(char* DeviceName, DisplayMode newMode, bool tellSys = false);
 		UNDONE_API void Swipe_Buffers(DeviceContext context);
@@ -134,8 +138,8 @@ namespace UNDONE_ENGINE {
 		UNDONE_API void UpdateWindowPlacement(WindowHandle handle,
 										   WindowPlacementPtr* pWndPlcment);
 		UNDONE_API void SetWindowStyle(WindowHandle handle, WindowStyle style);
-        UNDONE_API void SetWindowTittle( WindowHandle window, const char* newTitle );
-        UNDONE_API void setSwapInterval( int interval );
+		UNDONE_API void SetWindowTittle( WindowHandle window, const char* newTitle );
+		UNDONE_API void setSwapInterval( int interval );
 
 		inline __int64 GetSystemTickRate( ) {
 			__int64 rate;
@@ -150,7 +154,7 @@ namespace UNDONE_ENGINE {
 
 
 		UNDONE_API void FrameInput( );
-        UNDONE_API void NewInputFrame();
+		UNDONE_API void NewInputFrame();
 
 		unsigned GetSystemDirectory_(char* buffer, int size ) { return GetWindowsDirectory(buffer, size); }
 

@@ -111,7 +111,8 @@ namespace UNDONE_ENGINE {
 									 PixelFormatParameters PixelParams,
 									 ContextCreationPrameters ContextParams,
 									 OpenGLContext& OGLContext,
-									 DeviceContext& DevContext) = 0;
+									 DeviceContext& DevContext,
+                                     unsigned num_contexts = 1) = 0;
 		virtual void GetDeviceDisplayMode(char* DeviceName, DisplayMode& devMode) = 0;
 		virtual bool SetDeviceDisplayMode(char* DeviceName, DisplayMode newMode, bool tellSys = false) = 0;
 		virtual void Swipe_Buffers(DeviceContext context) = 0;
@@ -142,8 +143,8 @@ namespace UNDONE_ENGINE {
 		virtual void FrameInput( ) = 0;
 
 		virtual unsigned GetSystemDirectory_(char* buffer, int size ) = 0;
-        virtual void SetWindowTittle(WindowHandle window, const char* newTitle ) = 0;
-        virtual void setSwapInterval( int interval ) = 0;
+		virtual void SetWindowTittle(WindowHandle window, const char* newTitle ) = 0;
+		virtual void setSwapInterval( int interval ) = 0;
 
 	private:
 		static SystemComponent* pInstance;

@@ -24,7 +24,7 @@ Author	:	Anurup Dey
 #pragma once
 
 #ifndef _UNDONE_DPTR_H_
-#define _INDONE_DPTR_H_
+#define _UNDONE_DPTR_H_
 
 #include <list>
 #include <typeinfo>

@@ -600,7 +600,7 @@ namespace UNDONE_ENGINE {
 														   WPARAM wParam,
 														   LPARAM lParam) {
 
-        static const WindowsSystemComponent* pinst = (WindowsSystemComponent*)SystemComponent::GetInstance( );
+		static const WindowsSystemComponent* pinst = (WindowsSystemComponent*)SystemComponent::GetInstance( );
 		if (msg==WM_CREATE) {
 			if (FAILED(SetWindowLongPtr(hWnd,
 				GWLP_USERDATA,
@@ -644,39 +644,39 @@ namespace UNDONE_ENGINE {
 													 LPARAM lParam) {
 		//evet handling goes here..
 		//get the pointer to the window's event handeller.
-        if (m_WindowDB.GetNumWindows( ) != 0) {
-            IWindowEventHandeller* handeller = m_WindowDB.GetEventHandeller( hWnd );
-            if (handeller) {
-                switch (msg) {
-                    case WM_CREATE:
-                        handeller->OnCreate( );
-                        break;
-                    case WM_PAINT:
-                        handeller->OnPaint( );
-                        break;
-                    case WM_SIZE:
-                        Reset_KeyBoard( );
-                        switch (wParam) {
-                            case SIZE_MINIMIZED:
-                                handeller->OnMinimized( );
-                                break;
-                            case SIZE_MAXIMIZED:
-                                handeller->OnMaximized( LOWORD( lParam ), HIWORD( lParam ) );
-                                break;
-                            default:
-                                handeller->OnResize( LOWORD( lParam ), HIWORD( lParam ) );
-                                break;
-                        }
-                        break;
-                    case WM_KILLFOCUS:
-                        Reset_KeyBoard( );
-                        break;
-                    case WM_DESTROY:
-                        handeller->OnDestroy( );
-                        break;
-                }
-            }
-        }
+		if (m_WindowDB.GetNumWindows( ) != 0) {
+			IWindowEventHandeller* handeller = m_WindowDB.GetEventHandeller( hWnd );
+			if (handeller) {
+				switch (msg) {
+					case WM_CREATE:
+						handeller->OnCreate( );
+						break;
+					case WM_PAINT:
+						handeller->OnPaint( );
+						break;
+					case WM_SIZE:
+						Reset_KeyBoard( );
+						switch (wParam) {
+							case SIZE_MINIMIZED:
+								handeller->OnMinimized( );
+								break;
+							case SIZE_MAXIMIZED:
+								handeller->OnMaximized( LOWORD( lParam ), HIWORD( lParam ) );
+								break;
+							default:
+								handeller->OnResize( LOWORD( lParam ), HIWORD( lParam ) );
+								break;
+						}
+						break;
+					case WM_KILLFOCUS:
+						Reset_KeyBoard( );
+						break;
+					case WM_DESTROY:
+						handeller->OnDestroy( );
+						break;
+				}
+			}
+		}
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
@@ -725,7 +725,8 @@ namespace UNDONE_ENGINE {
 												 PixelFormatParameters PixelParams,
 												 ContextCreationPrameters ContextParams,
 												 OpenGLContext& OGLContext,
-												 DeviceContext& DevContext) {
+												 DeviceContext& DevContext,
+												 unsigned num_contexts) {
 		if (!InitializeGLEW( )) return false;
 
 		//Get the window HWND handle
@@ -797,7 +798,7 @@ namespace UNDONE_ENGINE {
 		}
 		//Need to tell the caller about the new contexts.
 		OGLContext = m_WindowDB.GetGLContext(handle);
-        DevContext = m_WindowDB.GetDeviceContext( handle );
+		DevContext = m_WindowDB.GetDeviceContext( handle );
 
 		return true;
 	}
@@ -991,14 +992,14 @@ namespace UNDONE_ENGINE {
 		SetWindowLongPtr(hWnd, GWL_STYLE, wndStyle);
 	}
 
-    void WindowsSystemComponent::SetWindowTittle(WindowHandle window, const char * newTitle ) {
-        HWND handle = m_WindowDB.GetHWND( window );
-        SetWindowText( handle, newTitle );
-    }
+	void WindowsSystemComponent::SetWindowTittle(WindowHandle window, const char * newTitle ) {
+		HWND handle = m_WindowDB.GetHWND( window );
+		SetWindowText( handle, newTitle );
+	}
 
-    void WindowsSystemComponent::setSwapInterval( int interval ) {
-        wglSwapIntervalEXT( interval );
-    }
+	void WindowsSystemComponent::setSwapInterval( int interval ) {
+		wglSwapIntervalEXT( interval );
+	}
 
 	/*-----------------------------------------------------------------------------
 	Returns the infoemation regarding the window's placement.
@@ -1292,6 +1293,13 @@ namespace UNDONE_ENGINE {
 
 	HDC& WindowDataBase::GetWindowsDeviceContext(WindowHandle Handle) {
 		return Windows[Handle].m_DeviceContext;
+	}
+	OpenGLContext WindowDataBase::AddGLContext( HGLRC winContext ) {
+		GL_Contexts.push_back( winContext );
+		return GL_Contexts.size( )-1;
+	}
+	HGLRC & WindowDataBase::GetwinGLContext( OpenGLContext context ) {
+		return GL_Contexts[context];
 	}
 };
 

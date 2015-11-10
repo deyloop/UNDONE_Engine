@@ -199,10 +199,10 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	batt->AddBehavior( "camscript", &camscrpt );
 
 	cu->GetWorldTransform( )->ScaleAbs( 0.5, 0.5, 0.5 );
-	camtransform->TranslateAbs( 1, 1, 1 );
+	camtransform->TranslateAbs( 0, 20, -30 );
 	camscrpt.target = cu;
 
-    InputEvent ExitEvent;
+	InputEvent ExitEvent;
 	InputEvent RightKey, LeftKey;
 	InputEvent MonkeyMoveF, MonkeyMoveB, MonkeyTurnLeft, MonkeyTurnRight;
 

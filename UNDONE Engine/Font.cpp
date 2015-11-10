@@ -183,8 +183,8 @@ namespace UNDONE_ENGINE {
 			glUniform1i(glGetUniformLocation(progID, "gSampler"), 0);
 			
 			glDisable(GL_DEPTH_TEST);
-			//glDisable(GL_BLEND);
-			glEnable( GL_BLEND );
+			glDisable(GL_BLEND);
+			//glEnable( GL_BLEND );
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			
 			
@@ -202,8 +202,9 @@ namespace UNDONE_ENGINE {
 				if (sText[i]!=' ') {
 					
 					tCharTextures[iIndex].BindTexture( );
-					glm::mat4 mModelView = glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX)*fScale, float(iCurY)*fScale, 0.0f));
-					mModelView = glm::scale(mModelView, glm::vec3(fScale/iLoadedPixelSize));
+					glm::mat4 mModelView = glm::scale(mModelView, glm::vec3(fScale,fScale,0));
+
+					mModelView *= glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX), float(iCurY), 0.0f));
 					glUniformMatrix4fv(glGetUniformLocation(progID,"gMVP"), 1,GL_FALSE, &mModelView[0][0]);
 					// Draw character
 					glDrawArrays(GL_TRIANGLE_STRIP, iIndex*4, 4);
