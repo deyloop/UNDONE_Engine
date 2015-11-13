@@ -73,7 +73,7 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	Dptr<unShaderProgram> spMain		= pObjectBuffer->CreateNew_ShaderProgram();
 	Dptr<unMesh> cube_mesh			= pObjectBuffer->CreateNew_Mesh( );
 	Dptr<unMesh> monkey_mesh			= pObjectBuffer->CreateNew_Mesh( );
-	monkey_mesh->SetModelFile("monkey.obj");
+	//monkey_mesh->SetModelFile("monkey.obj");
 	
 	Dptr<unGraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew_GraphicMaterial( );
@@ -82,11 +82,12 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	Dptr<unGraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unTexture> tex = pObjectBuffer->CreateNew_Texture();
 	Dptr<unGraphic2D> _2dgraphic = pObjectBuffer->CreateNew_Graphic2D( );
-	tex->SetTexture2D("HOUSE.png", true);
+	tex->SetTexture2D("Test_Texture.jpg", true);
 	_2dgraphic->SetTexture(tex);
 	Dptr<unGameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform> _2dtrans = pObjectBuffer->CreateNew_WorldTransform( );
 	_2dtrans->TranslateAbs(-1.0f, -1.f, 0.0f);
+    _2dtrans->ScaleAbs( 0.5, 0.5, 1.0f );
 	//_2dtrans->RotateAbs(0.0f, 0.0f, 45.0f);
 	
 	rect m;
@@ -123,6 +124,12 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	Greenmaterial	->	SetDiffuseColor(0.0f, 1.0f, 0.0f);
 	Yellowmaterial	->	SetDiffuseColor(1.0f, 1.0f, 0.0f);
 	Pinkmaterial	->	SetDiffuseColor(1.0f, 0.0f, 127.0f/255.0f);
+
+    Bluematerial	->	AddTexture(tex,0);
+    Redmaterial		->	AddTexture(tex,0);
+    Greenmaterial	->	AddTexture(tex,0);
+    Yellowmaterial	->	AddTexture(tex,0);
+    Pinkmaterial	->	AddTexture(tex,0);
 	
 	cube_mesh->Rename("CubeMesh");
 	
@@ -199,7 +206,7 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	batt->AddBehavior( "camscript", &camscrpt );
 
 	cu->GetWorldTransform( )->ScaleAbs( 0.5, 0.5, 0.5 );
-	camtransform->TranslateAbs( 0, 20, -30 );
+	camtransform->TranslateAbs( 0, 2, -3 );
 	camscrpt.target = cu;
 
 	InputEvent ExitEvent;

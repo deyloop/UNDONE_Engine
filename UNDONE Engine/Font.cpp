@@ -120,7 +120,7 @@ namespace UNDONE_ENGINE {
 
 		bError = (bool)FT_New_Face(m_ftLib, File.c_str( ), 0, &m_ftFace);
 		if (bError)return false;
-		FT_Set_Pixel_Sizes(m_ftFace, PixelSize, PixelSize);
+		FT_Set_Pixel_Sizes(m_ftFace, 0 , PixelSize);
 		iLoadedPixelSize = PixelSize;
 
 		glGenVertexArrays(1, &m_uiVAO);
@@ -183,8 +183,8 @@ namespace UNDONE_ENGINE {
 			glUniform1i(glGetUniformLocation(progID, "gSampler"), 0);
 			
 			glDisable(GL_DEPTH_TEST);
-			glDisable(GL_BLEND);
-			//glEnable( GL_BLEND );
+			//glDisable(GL_BLEND);
+			glEnable( GL_BLEND );
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			
 			
@@ -194,24 +194,24 @@ namespace UNDONE_ENGINE {
 			for (unsigned int i = 0; i<sText.size( ); ++i) {
 				if (sText[i]=='\n') {
 					iCurX = x;
-					iCurY -= iNewLine*fScale;
+					iCurY -= iNewLine;
 					continue;
 				}
 				int iIndex = int(sText[i]);
-				iCurX += ((iBearingX[iIndex])*fScale);
-				if (sText[i]!=' ') {
+				iCurX += ((iBearingX[iIndex]));
+	
 					
-					tCharTextures[iIndex].BindTexture( );
-					glm::mat4 mModelView = glm::scale(mModelView, glm::vec3(fScale,fScale,0));
-
-					mModelView *= glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX), float(iCurY), 0.0f));
-					glUniformMatrix4fv(glGetUniformLocation(progID,"gMVP"), 1,GL_FALSE, &mModelView[0][0]);
-					// Draw character
-					glDrawArrays(GL_TRIANGLE_STRIP, iIndex*4, 4);
+				tCharTextures[iIndex].BindTexture( );
+				glm::mat4 mModelView = glm::mat4( 1.0f );
+				mModelView = glm::scale(mModelView, glm::vec3(fScale/64,fScale/64,1.0f));
+				mModelView = glm::translate(mModelView, glm::vec3(float(iCurX), float(iCurY), 0.0f));
+				glUniformMatrix4fv(glGetUniformLocation(progID,"gMVP"), 1,GL_FALSE, &mModelView[0][0]);
+				// Draw character
+				glDrawArrays(GL_TRIANGLE_STRIP, iIndex*4, 4);
 					
-				}
+				
 
-				iCurX += ((iAdvX[iIndex] - iBearingX[iIndex]))*fScale;
+				iCurX += ((iAdvX[iIndex] - iBearingX[iIndex]));
 			}
 			glDisable(GL_BLEND);
 			glEnable(GL_DEPTH_TEST);

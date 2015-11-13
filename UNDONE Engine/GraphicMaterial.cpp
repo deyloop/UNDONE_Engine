@@ -168,7 +168,11 @@ namespace UNDONE_ENGINE {
 							break;
 						}
 						case GL_SAMPLER_2D:
-							break;
+                        {
+                            Dptr<Texture> tex;
+                            m_Textures.push_back( tex );
+                            break;
+                        }
 						case GL_SAMPLER_CUBE:
 							break;
 
@@ -253,6 +257,13 @@ namespace UNDONE_ENGINE {
 		SetProperty("gDiffuse", r, g, b );
 	}
 
+    void GraphicMaterial::AddTexture( Dptr<unTexture> pTex, unsigned texunit ) {
+        if (texunit < m_Textures.size( )) {
+            m_Textures[texunit] = dcast<Texture, unTexture>( pTex );
+        }
+
+    }
+
 	void GraphicMaterial::SetProperty(const char* property_name, float x, float y, float z) {
 		if (m_loaded) {
 			//traverse through the list of properties to get to the 
@@ -336,15 +347,17 @@ namespace UNDONE_ENGINE {
 										   GL_FALSE,
 										   property.data.Data_fp);
 						break;
-
-					case GL_SAMPLER_2D:
-						break;
-					case GL_SAMPLER_CUBE:
-						break;
-
 				}
 			}
 		}
+
+        int i = 0;
+        for (auto& texture : m_Textures) {
+            texture->BindTexture( i );
+            texture->setFiltering( TEXTURE_FILTER_MAG_NEAREST, TEXTURE_FILTER_MIN_NEAREST );
+            
+            ++i;
+        }
 	}
 
 }

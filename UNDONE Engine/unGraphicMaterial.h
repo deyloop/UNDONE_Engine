@@ -32,6 +32,7 @@ Author	:	Anurup Dey
 namespace UNDONE_ENGINE{
 
 	class unShaderProgram;
+    class unTexture;
 	/*-------------------------------------------------------------------------
 	THe material of the object will decide how it will appear on screen.
 	Contains the instructions on how to draw the mesh.
@@ -45,6 +46,7 @@ namespace UNDONE_ENGINE{
 		virtual void SetProperty(const char* property_name, int value) = 0;
 		virtual void SetProperty(const char* property_name, float x, float y, float z) = 0;
 		virtual void SetProperty(const char* property_name, float x, float y, float z, float w) = 0;
-	};
+        virtual void AddTexture( Dptr<unTexture> tex, unsigned unit ) = 0;
+    };
 }
 #endif

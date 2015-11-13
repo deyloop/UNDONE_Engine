@@ -66,7 +66,7 @@ namespace UNDONE_ENGINE {
 	private:
 		void OnParentSet( );
 		
-		UINT uiVBO[2];
+		UINT uiVBO[3];
 		UINT uiVAO[1];
 		
 		UINT m_num_parents;

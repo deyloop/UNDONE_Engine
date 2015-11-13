@@ -3,11 +3,14 @@
 uniform mat4 gMVP;
 uniform mat4 gWorld;
 uniform vec3 gDiffuse;
+uniform sampler2D gSampler;
 
-in vec3 inPosition; 
+in vec3 inPosition;
+in vec2 inTexCoord; 
 in vec3 inNormal;
  
-smooth out vec3 theColor; 
+smooth out vec3 theColor;
+smooth out vec2 outTexCoord; 
 
 void main() 
 { 
@@ -18,5 +21,6 @@ void main()
    vec3 light2dir = vec3(0.5,-0.5,5.0f);
    vec3 Ambient = vec3(0.1,0.1,0.1);
    float mag = dot(normalize(lightdir),transNormal);
-   theColor = Ambient + (gDiffuse*(mag));
+   theColor = Ambient + ((mag)*gDiffuse);
+   outTexCoord = inTexCoord;
 }

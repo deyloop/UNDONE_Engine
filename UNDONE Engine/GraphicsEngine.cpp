@@ -239,7 +239,7 @@ namespace UNDONE_ENGINE {
 
 		
 		font.SetShaderProgram(_FontShader);
-		font.LoadSystemFont("calibri.ttf", 64);
+		font.LoadSystemFont("calibri.ttf", 32);
 
 		
 		//GL State variables.
@@ -276,12 +276,15 @@ namespace UNDONE_ENGINE {
 	void GraphicsEngine::RenderScene( ) {
 		if (m_pRenderer) {
 			//Do it!
+			static float y = 1.0f, x = 1.0f;
+			x -= 1.0f; y += 1.0f;
 			m_pRenderer->Render( );
-			font.printFormatted(
-				0/*-m_pFrameWork->GetScreenWidth( ) / 2.0f*/,
-				0/*-m_pFrameWork->GetScreenHieght( ) / 2.0f*/,
-				32,
-				"Frame Rate: %.2f", m_pFrameWork->GetFPS( ));
+			/*font.printFormatted(
+				0/*-m_pFrameWork->GetScreenWidth( ) / 2.0f,
+				0/*m_pFrameWork->GetScreenHieght( ) / 2.0f,
+				2,
+				"Frame Rate: %.2f\nx = %f y = %f\nWWWWW", m_pFrameWork->GetFPS( ),x,y);
+			*/
 		}
 
 		

@@ -32,6 +32,7 @@ Author	:	Anurup Dey
 #include "UniformDataInterface.h"
 #include "ShaderProgram.h"
 #include "MaterialProperty.h"
+#include "Texture.h"
 #include <glm.hpp>
 
 
@@ -60,6 +61,7 @@ namespace UNDONE_ENGINE {
 		void Unload( );
 		
 		void SetDiffuseColor(float r, float g, float b);
+        void AddTexture( Dptr<unTexture> pTex, unsigned texunit );
 		void SetProperty(const char* property_name, float value);
 		void SetProperty(const char* property_name, int value) { };
 		void SetProperty(const char* property_name,float x, float y, float z);
@@ -73,6 +75,7 @@ namespace UNDONE_ENGINE {
 		UniformDataInterface			m_DataInterface;
 		vector<int>						m_UniformDataLocations;
 		vector<MaterialProperty>		m_Properies;
+        vector<Dptr<Texture>>           m_Textures;
 
 		Dptr<ShaderProgram>			m_ppShaderProgram;
 

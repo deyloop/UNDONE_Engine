@@ -78,12 +78,13 @@ namespace UNDONE_ENGINE {
 			const aiFace& face = mesh->mFaces[j];
 			for (int k = 0; k<3; ++k) {
 				aiVector3D pos = mesh->mVertices[face.mIndices[k]];
-				//aiVector3D uv = mesh->mTextureCoords[0][face.mIndices[k]];
+				aiVector3D uv = mesh->mTextureCoords[0][face.mIndices[k]];
 				aiVector3D normal = mesh->HasNormals( ) ? mesh->mNormals[face.mIndices[k]] : aiVector3D(1.0f, 1.0f, 1.0f);
 				vertices.push_back(pos.x);
 				vertices.push_back(pos.y);
 				vertices.push_back(pos.z);
-				//uvs.push_back(uv);
+				uvs.push_back( uv.y );
+                uvs.push_back( uv.x );
 				normals.push_back(normal.x);
 				normals.push_back(normal.y);
 				normals.push_back(normal.z);
@@ -92,7 +93,7 @@ namespace UNDONE_ENGINE {
 		}
 		
 		glGenVertexArrays(1, uiVAO);
-		glGenBuffers(2, uiVBO);
+		glGenBuffers(3, uiVBO);
 		// Setup whole cube
 		glBindVertexArray(uiVAO[0]);
 
@@ -101,7 +102,12 @@ namespace UNDONE_ENGINE {
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-		glBindBuffer(GL_ARRAY_BUFFER, uiVBO[1]);
+        glBindBuffer(GL_ARRAY_BUFFER, uiVBO[1]);
+		glBufferData(GL_ARRAY_BUFFER, uvs.size()*sizeof(float), &uvs[0], GL_STATIC_DRAW);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, uiVBO[2]);
 		glBufferData(GL_ARRAY_BUFFER, normals.size()*sizeof(float), &normals[0], GL_STATIC_DRAW);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -116,7 +122,7 @@ namespace UNDONE_ENGINE {
 		if (m_num_parents>0) return;
 
 		if (mesh_loaded) {
-			glDeleteBuffers(2, uiVBO);
+			glDeleteBuffers(3, uiVBO);
 			glDeleteVertexArrays(1, uiVAO);
 			mesh_loaded = false;
 		}
