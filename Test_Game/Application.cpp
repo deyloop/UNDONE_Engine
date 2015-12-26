@@ -73,7 +73,7 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	Dptr<unShaderProgram> spMain		= pObjectBuffer->CreateNew_ShaderProgram();
 	Dptr<unMesh> cube_mesh			= pObjectBuffer->CreateNew_Mesh( );
 	Dptr<unMesh> monkey_mesh			= pObjectBuffer->CreateNew_Mesh( );
-	//monkey_mesh->SetModelFile("monkey.obj");
+	monkey_mesh->SetModelFile("monkey.obj");
 	
 	Dptr<unGraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew_GraphicMaterial( );
@@ -81,8 +81,10 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	Dptr<unGraphicMaterial> Yellowmaterial= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unTexture> tex = pObjectBuffer->CreateNew_Texture();
+    Dptr<unTexture> tex2 = pObjectBuffer->CreateNew_Texture( );
 	Dptr<unGraphic2D> _2dgraphic = pObjectBuffer->CreateNew_Graphic2D( );
 	tex->SetTexture2D("Test_Texture.jpg", true);
+    tex2->SetTexture2D( "HOUSE.jpg", true );
 	_2dgraphic->SetTexture(tex);
 	Dptr<unGameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform> _2dtrans = pObjectBuffer->CreateNew_WorldTransform( );
@@ -128,7 +130,7 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
     Bluematerial	->	AddTexture(tex,0);
     Redmaterial		->	AddTexture(tex,0);
     Greenmaterial	->	AddTexture(tex,0);
-    Yellowmaterial	->	AddTexture(tex,0);
+    Yellowmaterial	->	AddTexture(tex2,0);
     Pinkmaterial	->	AddTexture(tex,0);
 	
 	cube_mesh->Rename("CubeMesh");
@@ -186,9 +188,11 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	cu = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
 	Dptr<unGraphic3D>		cg = pObjectBuffer->CreateNew_Graphic3D( );
-	cu->AddWorldTransform(ct);
+	//ct->ScaleRel( -0.01f, -0.01f, 0.01f );
+    cu->AddWorldTransform(ct);
+    
 	cu->AddMesh(monkey_mesh);//change to monkey later
-	cu->AddGraphicMaterial(material[rand() % 5]);
+	cu->AddGraphicMaterial(Yellowmaterial);
 	cu->AddGraphic3D(cg);
 	Dptr<unBehaviorAttachement> att = pObjectBuffer->CreateNew_BehaviorAttachement( );
 	cu->AddBehaviorAttachement( att );

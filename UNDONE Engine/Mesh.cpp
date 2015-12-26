@@ -78,8 +78,8 @@ namespace UNDONE_ENGINE {
 			const aiFace& face = mesh->mFaces[j];
 			for (int k = 0; k<3; ++k) {
 				aiVector3D pos = mesh->mVertices[face.mIndices[k]];
-				aiVector3D uv = mesh->mTextureCoords[0][face.mIndices[k]];
-				aiVector3D normal = mesh->HasNormals( ) ? mesh->mNormals[face.mIndices[k]] : aiVector3D(1.0f, 1.0f, 1.0f);
+                aiVector3D uv = mesh->HasTextureCoords( 0 ) ? mesh->mTextureCoords[0][face.mIndices[k]] : aiVector3D( 1.0f );
+				aiVector3D normal = mesh->HasNormals( ) ? mesh->mNormals[face.mIndices[k]] : aiVector3D(1.0f);
 				vertices.push_back(pos.x);
 				vertices.push_back(pos.y);
 				vertices.push_back(pos.z);

@@ -27,7 +27,6 @@ Author	:	Anurup Dey
 
 #include <freetype.h>
 #include <glew.h>
-#include <gtc/matrix_transform.hpp>
 #include <cmath>
 #include <iostream>
 
@@ -35,6 +34,7 @@ namespace UNDONE_ENGINE {
 	
 	int Font::screenhieght = 0;
 	int Font::screenwidth = 0;
+    glm::mat4 Font::proj = glm::mat4( 1.0f );
 
 	Font::Font( ) {
 		bLoaded = false;
@@ -116,9 +116,9 @@ namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------*/
 
 	bool Font::LoadFont(string File, int PixelSize) {
-		bool bError = (bool)FT_Init_FreeType(&m_ftLib);
+		FT_Error bError = FT_Init_FreeType(&m_ftLib);
 
-		bError = (bool)FT_New_Face(m_ftLib, File.c_str( ), 0, &m_ftFace);
+		bError = FT_New_Face(m_ftLib, File.c_str( ), 0, &m_ftFace);
 		if (bError)return false;
 		FT_Set_Pixel_Sizes(m_ftFace, 0 , PixelSize);
 		iLoadedPixelSize = PixelSize;
@@ -188,37 +188,37 @@ namespace UNDONE_ENGINE {
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			
 			
-			float iCurX = x, iCurY = y;
-			if (iPXSize==-1)iPXSize = iLoadedPixelSize;
-			float fScale = float(iPXSize)/float(iLoadedPixelSize);
-			for (unsigned int i = 0; i<sText.size( ); ++i) {
-				if (sText[i]=='\n') {
-					iCurX = x;
-					iCurY -= iNewLine;
-					continue;
-				}
-				int iIndex = int(sText[i]);
-				iCurX += ((iBearingX[iIndex]));
-	
-					
-				tCharTextures[iIndex].BindTexture( );
-				glm::mat4 mModelView = glm::mat4( 1.0f );
-				mModelView = glm::scale(mModelView, glm::vec3(fScale/64,fScale/64,1.0f));
-				mModelView = glm::translate(mModelView, glm::vec3(float(iCurX), float(iCurY), 0.0f));
-				glUniformMatrix4fv(glGetUniformLocation(progID,"gMVP"), 1,GL_FALSE, &mModelView[0][0]);
-				// Draw character
-				glDrawArrays(GL_TRIANGLE_STRIP, iIndex*4, 4);
-					
-				
-
-				iCurX += ((iAdvX[iIndex] - iBearingX[iIndex]));
-			}
-			glDisable(GL_BLEND);
-			glEnable(GL_DEPTH_TEST);
-	
-			std::cout<<"PRINTING TEXT!\n";
 			
+			if (iPXSize==-1)iPXSize = iLoadedPixelSize;
+            float fScale = float( iPXSize ) / float(iLoadedPixelSize);
+            float iCurX = x , iCurY = y;
 
+            for (unsigned int i = 0; i < sText.size( ); ++i) {
+                if (sText[i] == '\n')
+                {
+                    iCurX = x;
+                    iCurY -= iNewLine*iPXSize / iLoadedPixelSize;
+                    continue;
+                }
+                int iIndex = int( sText[i] );
+                iCurX += iBearingX[iIndex] * iPXSize / iLoadedPixelSize;
+                if (sText[i] != ' ')
+                {
+                    tCharTextures[iIndex].BindTexture( );
+                    glm::mat4 mModelView = glm::translate( glm::mat4( 1.0f ), glm::vec3( float( iCurX ), float( iCurY ), 0.0f ) );
+                    mModelView = glm::scale( mModelView, glm::vec3( fScale ) );
+                    mModelView = proj * mModelView;
+                    glUniformMatrix4fv( glGetUniformLocation( progID, "gMVP" ), 1, GL_FALSE, &mModelView[0][0] );
+                    // Draw character
+                    glDrawArrays( GL_TRIANGLE_STRIP, iIndex * 4, 4 );
+                }
+
+                iCurX += (iAdvX[iIndex] - iBearingX[iIndex])*iPXSize / iLoadedPixelSize;
+            }
+            glDisable( GL_BLEND );
+            glEnable( GL_DEPTH_TEST );
+	
+			
 		}
 	}
 

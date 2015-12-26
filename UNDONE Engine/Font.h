@@ -33,6 +33,7 @@ Author	:	Anurup Dey
 std::string;
 using std::vector;
 using namespace std;
+#include <gtc/matrix_transform.hpp>
 
 #include "Texture.h"
 #include "Dptr.h"
@@ -60,6 +61,7 @@ namespace UNDONE_ENGINE {
 		static void SetScreenDimentions(int h, int w) {
 			screenhieght = h;
 			screenwidth = w;
+            proj = glm::ortho( 0.0f, float( screenwidth ), 0.0f, float( screenhieght ) );
 		}
 
 	private:
@@ -84,6 +86,7 @@ namespace UNDONE_ENGINE {
 
 		static int screenwidth;
 		static int screenhieght;
+        static glm::mat4 proj;
 	};
 }
 
