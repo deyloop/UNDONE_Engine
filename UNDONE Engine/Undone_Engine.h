@@ -50,4 +50,6 @@ UNDONE_API UNDONE_ENGINE::UnFramework* Create_Un_Framwork_Inst(IApp* pAppa);
 #define unvec3(vec) vec.x, vec.y, vec.z
 #define unvec4(vec) vec.x, vec.y, vec.z, vec.w
 
+#define SafelyDelete(x){x->Release();delete x;}
+
 #endif

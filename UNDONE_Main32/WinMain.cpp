@@ -43,7 +43,7 @@ int main( ) {
 		return 1;
 	}
 
-	//call the main() function
+	//call the Dmain() function
 	int returncode = Dmain();
 
 	//cleanup

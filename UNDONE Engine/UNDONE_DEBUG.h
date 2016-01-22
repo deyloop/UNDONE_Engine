@@ -7,15 +7,17 @@
 #include "UNDONE_Engine_declr.h"
 using namespace std;
 
-#define UNDONE_DEBUG_OUTPUT
+//#define UNDONE_DEBUG_OUTPUT
 
 inline void _coutput(std::string message) {
-#ifdef UNDONE_DEBUG_OUTPUT
 	std::cout<<message;
-#endif
 };
 
+#ifdef UNDONE_DEBUG_OUTPUT
 #define coutput(message) _coutput(std::string("")+message)
+#else
+#define coutput(message)
+#endif
 
 string UNDONE_API operator +(string lhs, int rhs);
 string UNDONE_API operator +(string lhs, float rhs);

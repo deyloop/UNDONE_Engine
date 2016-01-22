@@ -22,20 +22,18 @@ This is the starting point of the whole program.
 -----------------------------------------------------------------------------*/
 int Dmain( ) {
 	
-	Application*	pApp	= new Application( );
-	UnFramework*	pUNDONE = Create_Un_Framwork_Inst(pApp);
+	Application	App;
+	UnFramework*	pUNDONE = Create_Un_Framwork_Inst(&App);
 
-	pApp->LinkToEngine(pUNDONE);
+	App.LinkToEngine(pUNDONE);
 	pUNDONE->Initialise("Test Game", 1000, 700/*,false*/);
 
 	//time to rock n roll!
 	pUNDONE->Run( );
 
 	//Cleanup!
-	pApp->Release( );
-	pUNDONE->Release( );
-	delete pApp;
-	delete pUNDONE;
+	App.Release( );
+	SafelyDelete(pUNDONE);
 
 	return 0;
 

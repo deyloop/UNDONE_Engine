@@ -4,6 +4,7 @@
 #define _BRO_H_
 
 #include <Undone_Engine.h>
+#include <iostream>
 using namespace UNDONE_ENGINE;
 
 class bro : public Behavior {

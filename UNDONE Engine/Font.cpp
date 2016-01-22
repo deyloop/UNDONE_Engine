@@ -142,8 +142,6 @@ namespace UNDONE_ENGINE {
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, 0);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, (void*)(sizeof(glm::vec2)));
-		
-		cout<<"FONT LOADED!\n\n";
 	
 		return true;
 	}
