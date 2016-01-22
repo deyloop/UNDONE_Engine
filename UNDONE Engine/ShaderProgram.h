@@ -43,13 +43,12 @@ namespace UNDONE_ENGINE {
 
 		void UseProgram( );
 
-		UINT GetProgramID( ) { return uiProgram; }
-
+		const UINT GetProgramID( ) const { return uiProgram; }
+		const bool IsLinked() const;
 		ShaderProgram( );
 
 	private:
 		UINT uiProgram; // ID of program
-		bool bLinked;	// Whether program was linked and is ready to use
 		static UINT CurrentProgramInUse;
 	};
 }

@@ -27,7 +27,6 @@ Author	:	Anurup Dey
 #include <glew.h>
 #include <gl\GL.h>
 #include "SystemComponent.h"
-#include "UNDONE_DEBUG.h"
 
 namespace UNDONE_ENGINE {
 
@@ -190,7 +189,6 @@ namespace UNDONE_ENGINE {
 				m_Properies.push_back(newProperty);
 
 			}//for loop over next uniforms discovered.
-			coutput(name+" aquired Shader Program\n");
 			m_loaded = true;
 		}
 	}

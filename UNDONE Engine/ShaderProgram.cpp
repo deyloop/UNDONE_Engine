@@ -28,12 +28,20 @@ namespace UNDONE_ENGINE {
 
 	UINT ShaderProgram::CurrentProgramInUse = 0;
 
+	/*----------------------------------------------------------------------------
+	checks by the opengl interface if the program has been linked.
+	----------------------------------------------------------------------------*/
+	const bool ShaderProgram::IsLinked( ) const {
+		GLint isLinked = GL_FALSE;
+		glGetProgramiv(uiProgram, GL_LINK_STATUS, (int *)&isLinked);
+		return isLinked;
+	}
+
 	/*-----------------------------------------------------------------------------
 	Defualt constructor.
 	-----------------------------------------------------------------------------*/
 	ShaderProgram::ShaderProgram( ) {
 		uiProgram = 0;
-		bLinked = false;
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -47,8 +55,7 @@ namespace UNDONE_ENGINE {
 	Deletes the Program.
 	-----------------------------------------------------------------------------*/
 	void ShaderProgram::DeleteProgram( ) {
-		if (!bLinked)return;
-		bLinked = false;
+		if (!IsLinked())return;
 		glDeleteProgram(uiProgram);
 	}
 
@@ -75,15 +82,18 @@ namespace UNDONE_ENGINE {
 		glLinkProgram(uiProgram);
 		int iLinkStatus;
 		glGetProgramiv(uiProgram, GL_LINK_STATUS, &iLinkStatus);
-		bLinked = iLinkStatus==GL_TRUE;
-		return bLinked;
+
+		//The Shader program provides a record of all the uniforms.
+
+
+		return iLinkStatus == GL_TRUE;
 	}
 
 	/*-----------------------------------------------------------------------------
 	Makes the program come under use
 	-----------------------------------------------------------------------------*/
 	void ShaderProgram::UseProgram( ) {
-		if (bLinked){
+		if (IsLinked()){
 			if (uiProgram != CurrentProgramInUse) glUseProgram(uiProgram);
 		}
 	}
