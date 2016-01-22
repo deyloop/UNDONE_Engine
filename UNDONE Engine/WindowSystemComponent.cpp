@@ -71,17 +71,18 @@ namespace UNDONE_ENGINE {
 	[IN]	hInstance	-	the handle the the application instance.
 	Returns: true on success, false otherwise.
 	-----------------------------------------------------------------------------*/
-	bool WindowsSystemComponent::Initialise(HINSTANCE hInstance, string ApplicationName) {
-		m_appInstance = hInstance;
+	bool WindowsSystemComponent::Initialise(string ApplicationName) {
+		m_appInstance = GetModuleHandle(NULL);
 
 		//Check if the App already has an instance running.
 		//if yes, the do not initialize.
 		if (!CheckMutex(ApplicationName)) return false;
 
-		first = true;
+		//initializes keyboard variables.
+		first	= true;
 		keyinit = false;
-		for (auto& key : KeyPressed) key = false;
-		for (auto& key : KeyPosted) key = false;
+		for (auto& key : KeyPressed) key	= false;
+		for (auto& key : KeyPosted)	 key	= false;
 		Currentkeysync = true;
 
 		RegisterWindowClass( );

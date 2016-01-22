@@ -104,7 +104,7 @@ namespace UNDONE_ENGINE {
 
 		UNDONE_API static WindowsSystemComponent* GetWindowsInstance( );
 
-		UNDONE_API bool Initialise(HINSTANCE hInstance, string ApplicationName);
+		UNDONE_API bool Initialise(string ApplicationName);
 		UNDONE_API void Release( );
 
 		HINSTANCE	getHInstance( ) { return m_appInstance; }

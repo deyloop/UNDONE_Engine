@@ -30,7 +30,6 @@ Author	:	Anurup Dey
 #include "SystemComponent.h"			//header for the System Interface.
 #include "Scene.h"
 #include "SceneStack.h"
-#include <thread>
 
 namespace UNDONE_ENGINE {
 	/*--------------------------------------------------------------------------//*
@@ -118,7 +117,6 @@ namespace UNDONE_ENGINE {
 		m_pApplication->LoadScene(m_pObjectBuffer);
 
 		if (!windowed) {
-			//m_pGraphicsEngine->SetResolution(800, 600);
 			ToggleFullscreen( );
 		}
 

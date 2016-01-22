@@ -153,7 +153,7 @@ namespace UNDONE_ENGINE {
 /*-----------------------------------------------------------------------------
 Definition of the main function.
 -----------------------------------------------------------------------------*/
-#define main DAC_main
-int main( );
+#define Dmain DAC_main
+int Dmain( );
 
 #endif

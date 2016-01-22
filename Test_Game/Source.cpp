@@ -20,7 +20,7 @@ Environment	:	IDE		-Microsoft Visual Studio 2015 Enterprise.
 /*-----------------------------------------------------------------------------
 This is the starting point of the whole program.
 -----------------------------------------------------------------------------*/
-int main( ) {
+int Dmain( ) {
 	
 	Application*	pApp	= new Application( );
 	UnFramework*	pUNDONE = Create_Un_Framwork_Inst(pApp);
