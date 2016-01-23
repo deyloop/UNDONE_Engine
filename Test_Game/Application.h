@@ -50,6 +50,7 @@ protected:
 	bool initialized;
 
 	Dptr<unGameObject>		cu;
+	Dptr<unGameObject>		BlockGroup2;
 	glm::vec3 forward;
 
     bro                     broscript;

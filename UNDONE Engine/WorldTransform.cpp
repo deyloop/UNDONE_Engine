@@ -159,7 +159,7 @@ namespace UNDONE_ENGINE {
 
 		m_scale = glm::scale(m_scale, glm::vec3(x, y, z));
 
-		++m_sync_num; UpdateMatLocal( );
+		UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -175,7 +175,7 @@ namespace UNDONE_ENGINE {
 		m_scaleZ += z;
 		m_scale = glm::scale(m_scale, glm::vec3(x, y, z));
 
-		++m_sync_num; UpdateMatLocal( );
+		UpdateMatLocal( );
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -187,11 +187,10 @@ namespace UNDONE_ENGINE {
 			return m_localTransform;
 		} 
 		
-		if (m_ppParentTransform->GetTransform()!=m_parentTransform) {
+		if (m_ppParentTransform->m_sync_num!=m_sync_num) {
 			
 			m_parentTransform = (m_ppParentTransform->GetTransform( ));
 			m_par_sync_num = m_ppParentTransform->m_sync_num;
-			++m_sync_num;
 		}
 
 		m_worldTransform = m_parentTransform*m_localTransform;

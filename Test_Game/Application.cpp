@@ -147,12 +147,12 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	srand((unsigned int)time(0));
 
 	BlockGroup = pObjectBuffer->CreateNew_GameObject( );
-	Dptr<unGameObject>		BlockGroup2 = pObjectBuffer->CreateNew_GameObject( );
+			BlockGroup2 = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform>	grouTrans2	= pObjectBuffer->CreateNew_WorldTransform( );
 	Dptr<unWorldTransform>	grouTrans	= pObjectBuffer->CreateNew_WorldTransform( );
 	BlockGroup	->	AddWorldTransform(grouTrans2);
 	BlockGroup2	->	AddWorldTransform(grouTrans);
-	grouTrans	->	TranslateRel(10.0f, 0.0f, 0.0f);
+	grouTrans	->	TranslateRel(10.0f, 0.0f, 20.0f);
 	BlockGroup	->	AddGameObject(BlockGroup2);
 	
 #define SIZE 30
@@ -266,6 +266,8 @@ Updates Application specific things like AI, ui response, etc.
 -----------------------------------------------------------------------------*/
 void Application::Update(){
 	camscrpt.Update( );
+	//BlockGroup2->GetWorldTransform()->RotateRel(0,0.5,0 );
+	//BlockGroup->GetWorldTransform()->RotateRel(0,-0.7,0 );
 }
 
 /*-----------------------------------------------------------------------------

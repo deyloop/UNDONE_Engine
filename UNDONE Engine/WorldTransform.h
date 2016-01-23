@@ -77,7 +77,7 @@ namespace UNDONE_ENGINE {
 	   const vec3 GetRight( )     { return normalize( vec3(m_rotation*vec4(-1,  0, 0, 1 )));}
 	   const vec3 GetForward( )   { return normalize( vec3(m_rotation*vec4( 0,  0, 1, 1 )));}
 	   const vec3 GetBackWard( )  { return normalize( vec3(m_rotation*vec4( 0,  0,-1, 1 )));}
-
+	
 	protected:
 		void UpdateMatLocal( ) { 
 			m_localTransform = m_translation*m_rotation*m_scale;
