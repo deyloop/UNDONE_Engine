@@ -60,15 +60,13 @@ namespace UNDONE_ENGINE {
 	sets up geometry for a cube.
 	----------------------------------------------------------------------------*/
 	void Mesh::Load( ) {
+		if(mesh_loaded) return; //already loaded.
 
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(m_model_file.c_str(),
 										aiProcess_Triangulate|
 										aiProcess_SortByPType);
 		if (!scene) return;
-		std::vector< float > vertices;
-		std::vector< float > uvs;
-		std::vector< float > normals;
 
 		m_num_verts = 0;
 
@@ -80,39 +78,47 @@ namespace UNDONE_ENGINE {
 				aiVector3D pos = mesh->mVertices[face.mIndices[k]];
                 aiVector3D uv = mesh->HasTextureCoords( 0 ) ? mesh->mTextureCoords[0][face.mIndices[k]] : aiVector3D( 1.0f );
 				aiVector3D normal = mesh->HasNormals( ) ? mesh->mNormals[face.mIndices[k]] : aiVector3D(1.0f);
-				vertices.push_back(pos.x);
-				vertices.push_back(pos.y);
-				vertices.push_back(pos.z);
-				uvs.push_back( uv.y );
-                uvs.push_back( uv.x );
-				normals.push_back(normal.x);
-				normals.push_back(normal.y);
-				normals.push_back(normal.z);
+				mesh_data.vertices.push_back(pos.x);
+				mesh_data.vertices.push_back(pos.y);
+				mesh_data.vertices.push_back(pos.z);
+				mesh_data.uvs.push_back( uv.y );
+                mesh_data.uvs.push_back( uv.x );
+				mesh_data.normals.push_back(normal.x);
+				mesh_data.normals.push_back(normal.y);
+				mesh_data.normals.push_back(normal.z);
 				++m_num_verts;
 			}
 		}
 		
+		mesh_loaded = true;
+	}
+
+	void Mesh::GPU_Upload( ) {
+		if(!mesh_loaded) return;
 		glGenVertexArrays(1, uiVAO);
 		glGenBuffers(3, uiVBO);
 		// Setup whole cube
 		glBindVertexArray(uiVAO[0]);
 
 		glBindBuffer(GL_ARRAY_BUFFER, uiVBO[0]);
-		glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(float), &vertices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, mesh_data.vertices.size()*sizeof(float), &mesh_data.vertices[0], GL_STATIC_DRAW);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, uiVBO[1]);
-		glBufferData(GL_ARRAY_BUFFER, uvs.size()*sizeof(float), &uvs[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, mesh_data.uvs.size()*sizeof(float), &mesh_data.uvs[0], GL_STATIC_DRAW);
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 		glBindBuffer(GL_ARRAY_BUFFER, uiVBO[2]);
-		glBufferData(GL_ARRAY_BUFFER, normals.size()*sizeof(float), &normals[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, mesh_data.normals.size()*sizeof(float), &mesh_data.normals[0], GL_STATIC_DRAW);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-		mesh_loaded = true;
+		//delete all the data from the client side.
+		mesh_data.vertices.clear();
+		mesh_data.uvs.clear();
+		mesh_data.normals.clear();
 	}
 
 	/*----------------------------------------------------------------------------
@@ -148,7 +154,6 @@ namespace UNDONE_ENGINE {
 	void Mesh::OnParentSet() {
 		if (m_num_parents == 0) {
 			++m_num_parents;
-			Load( );
 			return;
 		} else {
 

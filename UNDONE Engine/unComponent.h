@@ -32,6 +32,8 @@ namespace UNDONE_ENGINE{
 	class unComponent{
 	public:
 		virtual void Rename(const char*) = 0;
+		virtual void Load()=0;
+		virtual void Unload( ) = 0;
 	};
 }
 

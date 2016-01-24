@@ -214,7 +214,7 @@ namespace UNDONE_ENGINE {
 	void GraphicsEngine::OnCreateContext( ) {
 	
 		//Set up 2D.
-		
+		m_pGraphicsBuffer->SetInitAllocSize(20 );
 		Dptr<Shader> vertexShader = m_pGraphicsBuffer->CreateNew<Shader>( );
 		Dptr<Shader> fragmentShader = m_pGraphicsBuffer->CreateNew<Shader>( );
 		Dptr<Shader> FontFragmentShader = m_pGraphicsBuffer->CreateNew<Shader>();
@@ -226,15 +226,11 @@ namespace UNDONE_ENGINE {
 		FontFragmentShader->LoadShader("2DFontShader.frag", GL_FRAGMENT_SHADER);
         FontVertexShader->LoadShader( "2DFontShader.vert", GL_VERTEX_SHADER );
 		
-		_2DShader->CreateProgram( );
 		_2DShader->AddShaderToProgram(vertexShader.ptr());
 		_2DShader->AddShaderToProgram(fragmentShader.ptr( ));
-		_2DShader->LinkProgram( );
 
-		_FontShader->CreateProgram();
 		_FontShader->AddShaderToProgram(FontVertexShader.ptr());
 		_FontShader->AddShaderToProgram(FontFragmentShader.ptr());
-		_FontShader->LinkProgram();
 		
 		Graphic2D::SetShader(_2DShader);
 		Graphic2D::InitVAO( );

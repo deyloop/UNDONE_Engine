@@ -123,7 +123,7 @@ namespace UNDONE_ENGINE {
 		//m_pGraphicsEngine->ToggleVSYNC( );
 		//start the timer
 		Pause(false, false);
-
+		m_pGraphicsEngine->Upload( );
 		return true;	//mission complete!
 	}
 

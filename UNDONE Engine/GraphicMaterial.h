@@ -59,7 +59,8 @@ namespace UNDONE_ENGINE {
 		void Load( );
 		void ApplyMaterial( );
 		void Unload( );
-		
+		void GPU_Upload();
+
 		void SetDiffuseColor(float r, float g, float b);
         void AddTexture( Dptr<unTexture> pTex, unsigned texunit );
 		void SetProperty(const char* property_name, float value);
@@ -68,6 +69,7 @@ namespace UNDONE_ENGINE {
 		void SetProperty(const char* property_name, float x, float y, float z, float w) { };
 		//TODO: Add all types of property setters.
 
+		const bool IsLoaded() const {return m_loaded;}
 	private:
 		
 		void OnParentSet( );
@@ -79,7 +81,6 @@ namespace UNDONE_ENGINE {
 
 		Dptr<ShaderProgram>			m_ppShaderProgram;
 
-		int								m_num_parents;
 		int								m_instances;
 		bool							m_loaded;
 	};

@@ -30,9 +30,6 @@ Author	:	Anurup Dey
 #include "unGraphic3D.h"
 #include "UNDONE_Engine_declr.h"
 
-#include <glew.h>
-#include <gl\GL.h>
-#include <gl\GLU.h>
 
 namespace UNDONE_ENGINE {
 

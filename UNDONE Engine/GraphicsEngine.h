@@ -62,6 +62,23 @@ namespace UNDONE_ENGINE {
 
 		void OnCreateContext( );
 		void OnDestroyContext( );
+
+		template<class T>
+		void Upload_( ) {
+			vector<T>* list = m_pGraphicsBuffer->GetListOf<T>( );
+			for (auto& resource : *list)
+				resource.GPU_Upload();
+		}
+
+		void Upload( ){
+			Upload_<Shader>();
+			Upload_<ShaderProgram>();
+			Upload_<Texture>( );
+			Upload_<Mesh>();
+			Upload_<GraphicMaterial>();
+			Upload_<Graphic2D>();
+		}// temp member.
+
 		void ResetScreen( );
 		void SetResolution(const int hor, const int vert);
 

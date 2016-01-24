@@ -108,7 +108,6 @@ namespace UNDONE_ENGINE {
 		m_ppWorldTransform = m_ppParent->GetComponent<WorldTransform>();
 		if (m_ppWorldTransform.m_pointer) {
 			coutput(name+" aquired transform "+m_ppWorldTransform->name.c_str( )+"\n");
-			Load( );
 		}
 	}
 
@@ -128,6 +127,17 @@ namespace UNDONE_ENGINE {
 
 	void Graphic2D::Load( ) {
 		
+	}
+
+	void Graphic2D::GPU_Upload( ) {
+
+		if (m_ppShaderProgram.m_pointer) {
+			GLuint progID = m_ppShaderProgram->GetProgramID( );
+
+			HMVP			= glGetUniformLocation(progID, "gMVP");
+			HSampler		= glGetUniformLocation(progID, "gSampler");
+		}
+
 	}
 
 
@@ -174,12 +184,6 @@ namespace UNDONE_ENGINE {
 
 	void Graphic2D::SetShader(Dptr<ShaderProgram> ppShaderProgram) {
 		m_ppShaderProgram = ppShaderProgram;
-		if (m_ppShaderProgram.m_pointer) {
-			m_ppShaderProgram->UseProgram( );
-			GLuint progID = m_ppShaderProgram->GetProgramID( );
-
-			HMVP			= glGetUniformLocation(progID, "gMVP");
-			HSampler		= glGetUniformLocation(progID, "gSampler");
-		}
+		
 	}
 }

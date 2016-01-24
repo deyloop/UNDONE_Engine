@@ -34,19 +34,11 @@ namespace UNDONE_ENGINE {
 	Default Constructor.
 	-------------------------------------------------------------------------*/
 	GraphicMaterial::GraphicMaterial( ) {
-		m_num_parents = 0;
 		m_ppShaderProgram.m_pointer = nullptr;
 		m_loaded = false;
 	}
 
 	void GraphicMaterial::OnParentSet() {
-		if (m_num_parents==0) {
-			++m_num_parents;
-			Load( );
-			return;
-		} else {
-			++m_num_parents;
-		}
 
 	}
 
@@ -54,14 +46,9 @@ namespace UNDONE_ENGINE {
 
 	}
 
-	/*-----------------------------------------------------------------------------
-	Sets the shader program which must be used to render the graphic.
-	Parameters:
-	[IN]	pProgram	:	the pointer to the program to be used.
-	-----------------------------------------------------------------------------*/
-	void GraphicMaterial::SetShaderProgramToUse(Dptr<unShaderProgram> ppProgram) {
-		m_ppShaderProgram = dcast<ShaderProgram,unShaderProgram>(ppProgram);
-		if (m_ppShaderProgram.m_pointer!=nullptr) {
+	void GraphicMaterial::GPU_Upload( ) {
+		if (m_ppShaderProgram.m_pointer!=nullptr
+			&& m_ppShaderProgram->IsLinked()) {
 			//fill out the uniform details.
 			GLuint progID = m_ppShaderProgram->GetProgramID( );
 
@@ -186,16 +173,33 @@ namespace UNDONE_ENGINE {
 					} //switch on type.
 				}//if block for property not in interface.
 
-				m_Properies.push_back(newProperty);
-
+				bool inlist = false;
+				for (auto& prop : m_Properies) {
+					if(prop.name == newProperty.name){
+						newProperty.data = prop.data;
+						prop = newProperty;
+						inlist = true;
+					}
+				}
+				if(!inlist)m_Properies.push_back(newProperty);
 			}//for loop over next uniforms discovered.
 			m_loaded = true;
 		}
 	}
 
+	/*-----------------------------------------------------------------------------
+	Sets the shader program which must be used to render the graphic.
+	Parameters:
+	[IN]	pProgram	:	the pointer to the program to be used.
+	-----------------------------------------------------------------------------*/
+	void GraphicMaterial::SetShaderProgramToUse(Dptr<unShaderProgram> ppProgram) {
+		m_ppShaderProgram = dcast<ShaderProgram,unShaderProgram>(ppProgram);
+		
+	}
+
 	void GraphicMaterial::Load( ) {
-		//TODO: Add texture loading code here.
-		//Just a call to texture::Load(), probably.
+		//REMINDER: Textures are loaded separately.
+
 	}
 
 	void GraphicMaterial::Unload( ) {
@@ -247,7 +251,11 @@ namespace UNDONE_ENGINE {
 					break;
 				}
 			}
-			return;
+		} else {
+			MaterialProperty newprop;
+			newprop.name = property_name;
+			newprop.data.Data_f = value;
+			m_Properies.push_back(newprop);
 		}
 	}
 
@@ -256,9 +264,10 @@ namespace UNDONE_ENGINE {
 	}
 
     void GraphicMaterial::AddTexture( Dptr<unTexture> pTex, unsigned texunit ) {
-        if (texunit < m_Textures.size( )) {
+        if (texunit < m_Textures.size( )) 
             m_Textures[texunit] = dcast<Texture, unTexture>( pTex );
-        }
+		else
+			m_Textures.push_back(dcast<Texture, unTexture>(pTex ) );
 
     }
 
@@ -275,6 +284,11 @@ namespace UNDONE_ENGINE {
 					property.data.Data_fp = &vec[0][0];
 				}
 			}
+		}else {
+			MaterialProperty newprop;
+			newprop.name = property_name;
+			newprop.data.Data_fp = &(new glm::vec3(x, y, z))[0][0];
+			m_Properies.push_back(newprop);
 		}
 	}
 
@@ -351,10 +365,12 @@ namespace UNDONE_ENGINE {
 
         int i = 0;
         for (auto& texture : m_Textures) {
-            texture->BindTexture( i );
-            texture->setFiltering( TEXTURE_FILTER_MAG_NEAREST, TEXTURE_FILTER_MIN_NEAREST );
-            
+            if(texture.m_pointer){
+				texture->BindTexture( i );
+				texture->setFiltering( TEXTURE_FILTER_MAG_NEAREST, TEXTURE_FILTER_MIN_NEAREST );
+			}
             ++i;
+
         }
 	}
 

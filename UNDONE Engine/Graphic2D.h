@@ -49,6 +49,7 @@ namespace UNDONE_ENGINE {
 		static void DeleteVAO( );
 
 		void Load( );
+		void GPU_Upload();
 		void Render(_2DRenderParams& render_params );
 		void Unload( );
 

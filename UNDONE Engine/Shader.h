@@ -26,6 +26,10 @@ Author	:	Anurup Dey
 
 typedef  unsigned int UINT;
 #include "unShader.h"
+#include <vector>
+#include <string>
+using std::string;
+using std::vector;
 
 namespace UNDONE_ENGINE {
 
@@ -40,6 +44,7 @@ namespace UNDONE_ENGINE {
 		~Shader( ) { DeleteShader( ); }
 
 		bool LoadShader(const char* file, int type);
+		void GPU_Upload();
 		void DeleteShader( );
 
 		bool IsLoaded( ) { return bLoaded; }
@@ -49,6 +54,7 @@ namespace UNDONE_ENGINE {
 		UINT uiShader;		// ID of shader
 		int iType;			// GL_VERTEX_SHADER, GL_FRAGMENT_SHADER...
 		bool bLoaded;		// Whether shader was loaded and compiled
+		vector<string> sLines;
 	};
 
 }

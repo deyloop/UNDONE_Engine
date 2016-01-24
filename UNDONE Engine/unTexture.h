@@ -50,6 +50,9 @@ namespace UNDONE_ENGINE{
 		virtual int getWidth()	= 0;
 		virtual int getHeight() = 0;
 		virtual int getBPP()	= 0;
+
+		virtual void Load() = 0;
+		virtual void UnLoad() = 0;
 	};
 }
 #endif

@@ -38,6 +38,34 @@ namespace UNDONE_ENGINE {
 		bLoaded = false;
 	}
 
+	void Shader::GPU_Upload( ) {
+		if(bLoaded){
+			const char** program_code = (new const char*[sLines.size( )]);
+			for (unsigned int i = 0; i<sLines.size( ); i++)program_code[i] = const_cast<char*>(sLines[i].c_str( ));
+			uiShader = glCreateShader(iType);
+
+			glShaderSource((GLuint)uiShader, sLines.size(), program_code, NULL);
+			glCompileShader(uiShader);
+
+			delete[] program_code;
+
+			int iCompilationStatus;
+			glGetShaderiv(uiShader, GL_COMPILE_STATUS, &iCompilationStatus);
+
+			if (iCompilationStatus==GL_FALSE) {
+				GLsizei len;
+				glGetShaderiv(GetID( ), GL_INFO_LOG_LENGTH, &len);
+
+				GLchar* log = new GLchar[len+1];
+				glGetShaderInfoLog(GetID( ), len, &len, log);
+				SystemComponent::GetInstance( )->ShowMessage(log, "Shader could not compile.");
+				delete[] log;
+				//TODO: Do I need to Delete the shader?
+				return;
+			}
+		}
+	}
+
 	/*-----------------------------------------------------------------------------
 	Laods the shader from the given file name. Makes it ready to be used and linked
 	by a program.
@@ -55,34 +83,13 @@ namespace UNDONE_ENGINE {
 
 		// Get all lines from a file
 
-		vector<string> sLines;
+	
 		char sLine[255];
 		while (fgets(sLine, 255, fp))sLines.push_back(sLine);
 		fclose(fp);
 
-		const char** sProgram = new const char*[sLines.size( )];
-		for (unsigned int i = 0; i<sLines.size( ); i++)sProgram[i] = sLines[i].c_str( );
-
-		uiShader = glCreateShader(type);
-
-		glShaderSource((GLuint)uiShader, sLines.size( ), sProgram, NULL);
-		glCompileShader(uiShader);
-
-		delete[] sProgram;
-
-		int iCompilationStatus;
-		glGetShaderiv(uiShader, GL_COMPILE_STATUS, &iCompilationStatus);
-
-		if (iCompilationStatus==GL_FALSE) {
-			GLsizei len;
-			glGetShaderiv(GetID( ), GL_INFO_LOG_LENGTH, &len);
-
-			GLchar* log = new GLchar[len+1];
-			glGetShaderInfoLog(GetID( ), len, &len, log);
-			SystemComponent::GetInstance( )->ShowMessage(log, "Shader could not compile.");
-			delete[] log;
-			return false;
-		}
+		
+		
 		iType = type;
 		bLoaded = true;
 

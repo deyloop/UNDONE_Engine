@@ -27,6 +27,7 @@ Author	:	Anurup Dey
 #define _TEXTURE_H_
 
 #include "unTexture.h"
+#include <FreeImage.h>
 #include <string>
 using std::string;
 
@@ -44,7 +45,8 @@ namespace UNDONE_ENGINE {
 		void BindTexture(int textureUnit = 0);
 
 		void Load( );
-		void Unload( );
+		void UnLoad( );
+		void GPU_Upload();
 
 		void setSamplerParameter(unsigned parameter, unsigned value);
 		void setFiltering(int magnification, int minification);
@@ -69,6 +71,7 @@ namespace UNDONE_ENGINE {
 		int m_minification, m_magnification;
 
 		string m_filename;
+		FIBITMAP* bit_map;
 
 	};
 }

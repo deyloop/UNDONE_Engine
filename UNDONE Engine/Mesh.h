@@ -34,6 +34,8 @@ Author	:	Anurup Dey
 #include <gl\GLU.h>
 
 #include <string>
+#include <vector>
+using std::vector;
 using std::string;
 
 typedef  unsigned int UINT;
@@ -53,6 +55,7 @@ namespace UNDONE_ENGINE {
 		};
 		
 		void Load( );
+		void GPU_Upload();
 		
 		void Render( );
 	
@@ -76,6 +79,11 @@ namespace UNDONE_ENGINE {
 		string		m_model_file;
 		unsigned	m_num_verts;
 		static UINT currently_bound_VAO;
+		struct mesh_data{
+			vector< float > vertices,
+				            uvs,
+							normals;
+		} mesh_data;
 	};
 }
 #endif

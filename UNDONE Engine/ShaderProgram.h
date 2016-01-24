@@ -26,10 +26,13 @@ Author	:	Anurup Dey
 #define _SHADER_PROG_H_
 
 #include "unShaderProgram.h"
+#include <vector>
+using namespace std;
 
 namespace UNDONE_ENGINE {
 
 	class unShader;
+	class Shader;
 	/*-----------------------------------------------------------------------------
 	A class that Wraps OpenGL shader program and make its usage easy.
 	-----------------------------------------------------------------------------*/
@@ -40,6 +43,7 @@ namespace UNDONE_ENGINE {
 
 		bool AddShaderToProgram(unShader* shShader);
 		bool LinkProgram( );
+		void GPU_Upload();
 
 		void UseProgram( );
 
@@ -50,6 +54,7 @@ namespace UNDONE_ENGINE {
 	private:
 		UINT uiProgram; // ID of program
 		static UINT CurrentProgramInUse;
+		vector<Shader*> shaders;
 	};
 }
 #endif

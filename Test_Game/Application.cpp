@@ -73,8 +73,7 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	Dptr<unShaderProgram> spMain		= pObjectBuffer->CreateNew_ShaderProgram();
 	Dptr<unMesh> cube_mesh			= pObjectBuffer->CreateNew_Mesh( );
 	Dptr<unMesh> monkey_mesh			= pObjectBuffer->CreateNew_Mesh( );
-	monkey_mesh->SetModelFile("monkey.obj");
-	
+
 	Dptr<unGraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unGraphicMaterial> Greenmaterial = pObjectBuffer->CreateNew_GraphicMaterial( );
@@ -82,39 +81,17 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	Dptr<unGraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
 	Dptr<unTexture> tex = pObjectBuffer->CreateNew_Texture();
     Dptr<unTexture> tex2 = pObjectBuffer->CreateNew_Texture( );
-	Dptr<unGraphic2D> _2dgraphic = pObjectBuffer->CreateNew_Graphic2D( );
+
+	monkey_mesh->SetModelFile("monkey.obj");
 	tex->SetTexture2D("Test_Texture.jpg", true);
     tex2->SetTexture2D( "HOUSE.jpg", true );
-	_2dgraphic->SetTexture(tex);
-	Dptr<unGameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
-	Dptr<unWorldTransform> _2dtrans = pObjectBuffer->CreateNew_WorldTransform( );
-	_2dtrans->TranslateAbs(-1.0f, -1.f, 0.0f);
-    _2dtrans->ScaleAbs( 0.5, 0.5, 1.0f );
-	//_2dtrans->RotateAbs(0.0f, 0.0f, 45.0f);
-	
-	rect m;
-	m.x = 1.0f;
-	m.y = 1.0f;
-	m.hieght = 0.5f;
-	m.width = 1.0f;
-
-	(_2dgraphic.ptr())->SetImageRect(m);
-
-	_2dobj.Obj().AddWorldTransform(_2dtrans);
-	_2dobj->AddGraphic2D(_2dgraphic);
-	
+	tex->Load();
+	tex2->Load();
 	shVertex->LoadShader("shader.vert", GL_VERTEX_SHADER);
 	shFragment->LoadShader("shader.frag", GL_FRAGMENT_SHADER);
-
-	spMain->CreateProgram();
 	spMain->AddShaderToProgram(shVertex.ptr());
 	spMain->AddShaderToProgram(shFragment.ptr());
 
-	spMain->LinkProgram();
-	
-	Redmaterial	->Rename("RedMaterial");
-	Bluematerial->Rename("BlueMaterial");
-	
 	Redmaterial		->	SetShaderProgramToUse(spMain);
 	Greenmaterial	->	SetShaderProgramToUse(spMain);
 	Yellowmaterial	->	SetShaderProgramToUse(spMain);
@@ -132,9 +109,7 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
     Greenmaterial	->	AddTexture(tex,0);
     Yellowmaterial	->	AddTexture(tex2,0);
     Pinkmaterial	->	AddTexture(tex,0);
-	
-	cube_mesh->Rename("CubeMesh");
-	
+
 	vector<Dptr<unGraphicMaterial>> material;
 	material.reserve(5);
 
@@ -143,11 +118,32 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	material.push_back(Greenmaterial);
 	material.push_back(Yellowmaterial);
 	material.push_back(Pinkmaterial);
+
+
+	Dptr<unGraphic2D> _2dgraphic = pObjectBuffer->CreateNew_Graphic2D( );
+	Dptr<unGameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
+	Dptr<unWorldTransform> _2dtrans = pObjectBuffer->CreateNew_WorldTransform( );
+	_2dtrans->TranslateAbs(-1.0f, -1.f, 0.0f);
+    _2dtrans->ScaleAbs( 0.5, 0.5, 1.0f );
+	_2dgraphic->SetTexture(tex);
+	//_2dtrans->RotateAbs(0.0f, 0.0f, 45.0f);
 	
+	rect m;
+	m.x = 1.0f;
+	m.y = 1.0f;
+	m.hieght = 0.5f;
+	m.width = 1.0f;
+
+	(_2dgraphic.ptr())->SetImageRect(m);
+
+	_2dobj->AddWorldTransform(_2dtrans);
+	_2dobj->AddGraphic2D(_2dgraphic);
+	_2dobj->Load();
+
 	srand((unsigned int)time(0));
 
 	BlockGroup = pObjectBuffer->CreateNew_GameObject( );
-			BlockGroup2 = pObjectBuffer->CreateNew_GameObject( );
+	BlockGroup2 = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform>	grouTrans2	= pObjectBuffer->CreateNew_WorldTransform( );
 	Dptr<unWorldTransform>	grouTrans	= pObjectBuffer->CreateNew_WorldTransform( );
 	BlockGroup	->	AddWorldTransform(grouTrans2);
@@ -185,6 +181,8 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 		}
 	}
 	
+	BlockGroup->Load();
+
 	cu = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
 	Dptr<unGraphic3D>		cg = pObjectBuffer->CreateNew_Graphic3D( );
@@ -197,8 +195,10 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	Dptr<unBehaviorAttachement> att = pObjectBuffer->CreateNew_BehaviorAttachement( );
 	cu->AddBehaviorAttachement( att );
 
-	att->AddBehavior( "bro", &broscript );
+	cu->Load();
 
+	att->AddBehavior( "bro", &broscript );
+	
 	m_cam = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform> camtransform = pObjectBuffer->CreateNew_WorldTransform( );
 	Dptr<unCamera> cam = pObjectBuffer->GetControlCamera( );
@@ -208,10 +208,12 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	m_cam->AddCamera( cam );
 	m_cam->AddBehaviorAttachement( batt );
 	batt->AddBehavior( "camscript", &camscrpt );
+	m_cam->Load();
 
 	cu->GetWorldTransform( )->ScaleAbs( 0.5, 0.5, 0.5 );
 	camtransform->TranslateAbs( 0, 2, -3 );
 	camscrpt.target = cu;
+
 
 	InputEvent ExitEvent;
 	InputEvent RightKey, LeftKey;

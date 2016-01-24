@@ -22,6 +22,7 @@ Author	:	Anurup Dey
 ///////////////////////////////////////////////////////////////////////////////
 #include "ShaderProgram.h"
 #include "Shader.h"
+#include "SystemComponent.h"
 #include <glew.h>
 
 namespace UNDONE_ENGINE {
@@ -68,10 +69,9 @@ namespace UNDONE_ENGINE {
 	-----------------------------------------------------------------------------*/
 	bool ShaderProgram::AddShaderToProgram(unShader* shShader) {
 		Shader* pShader = (Shader*)shShader;
-		if (!pShader->IsLoaded( ))return false;
+		//if (!pShader->IsLoaded( ))return false;
 
-		glAttachShader(uiProgram, pShader->GetID( ));
-
+		shaders.push_back(pShader);
 		return true;
 	}
 
@@ -79,14 +79,31 @@ namespace UNDONE_ENGINE {
 	Links the program and makes it ready to be used.
 	-----------------------------------------------------------------------------*/
 	bool ShaderProgram::LinkProgram( ) {
+
+		for (auto shader : shaders) {
+			glAttachShader(uiProgram,shader->GetID());
+		}
+
 		glLinkProgram(uiProgram);
 		int iLinkStatus;
 		glGetProgramiv(uiProgram, GL_LINK_STATUS, &iLinkStatus);
 
-		//The Shader program provides a record of all the uniforms.
-
-
 		return iLinkStatus == GL_TRUE;
+	}
+
+	void ShaderProgram::GPU_Upload( ) {
+		CreateProgram( );
+		if (!LinkProgram( )) {
+			int len;
+			glGetProgramiv(uiProgram,GL_INFO_LOG_LENGTH,&len );
+
+			char* log = new char[len+1];
+			glGetProgramInfoLog(uiProgram,len,&len,log );
+			SystemComponent::GetInstance()->ShowMessage(log,"Shader Program Could not Link" );
+			delete[] log;
+			//TODO: Do I need to delete the program?
+			return;
+		}
 	}
 
 	/*-----------------------------------------------------------------------------

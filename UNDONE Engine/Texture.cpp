@@ -25,8 +25,6 @@ Author	:	Anurup Dey
 #include <glew.h>
 #include <gl\GL.h>
 
-#include <FreeImage.h>
-
 #include "UNDONE_DEBUG.h"
 
 namespace UNDONE_ENGINE {
@@ -45,9 +43,9 @@ namespace UNDONE_ENGINE {
 	}
 
 	void Texture::CreateFromData(
-		GLbyte * data, 
+		signed char * data, 
 		int width, int height, 
-		int BPP, GLenum format, 
+		int BPP,  unsigned int format, 
 		bool generateMipMaps) 
 	{
 		// Generate an OpenGL texture ID for this texture
@@ -70,44 +68,10 @@ namespace UNDONE_ENGINE {
 		m_bits_per_pixl = BPP;
 	}
 
-	/*----------------------------------------------------------------------------
-	Called by external agents when the texture requirements are needed to be loaded 
-	into Graphics memory. Call before binding the texture.
-	---------------------------------------------------------------------------*/
-	void Texture::Load( ) {
-		if (!m_loaded) {	//we want to load only once.
-			FREE_IMAGE_FORMAT image_format = FIF_UNKNOWN;
-			FIBITMAP* bit_map(0);
-
-			image_format = FreeImage_GetFileType(m_filename.c_str( ), 0);
-			if (image_format==FIF_UNKNOWN) {
-				//try to get the format from file extention.
-				image_format = FreeImage_GetFIFFromFilename(m_filename.c_str( ));
-
-				if (image_format==FIF_UNKNOWN) {
-					//still unkown, can't load file.
-					coutput("Texture loading FAILED: file format not supported: "
-							+m_filename.c_str( )+"\n");
-					return;
-				}
-			}
-
-			if (FreeImage_FIFSupportsReading(image_format)) {
-				bit_map = FreeImage_Load(image_format, m_filename.c_str( ));
-				if (!bit_map) {
-					coutput("Texture loading FAILED: file format not supported: "
-							+m_filename.c_str( )+"\n");
-					return;
-				}
-			}
-
+	void Texture::GPU_Upload( ) {
+		if (m_loaded) {
 			BYTE* Dataptr = FreeImage_GetBits(bit_map);
-
-			//set the properties.
-			m_width = FreeImage_GetWidth(bit_map);
-			m_hieght = FreeImage_GetHeight(bit_map);
-			m_bits_per_pixl = FreeImage_GetBPP(bit_map);
-
+			
 			//Genarate OpenGL texture ID for this texture.
 			glGenTextures(1, (GLuint*)&m_uiTexture);
 			glBindTexture(GL_TEXTURE_2D, m_uiTexture);
@@ -133,14 +97,50 @@ namespace UNDONE_ENGINE {
 			glGenSamplers(1, &m_uiSampler);
 
 			m_mipmaps_generated = m_generate_mip_maps;
+		}
+	}
 
-			coutput("Image Loaded from file: "+m_filename.c_str( )+"\n");
+	/*----------------------------------------------------------------------------
+	Called by external agents when the texture requirements are needed to be loaded 
+	into Graphics memory. Call before binding the texture.
+	---------------------------------------------------------------------------*/
+	void Texture::Load( ) {
+		if (!m_loaded) {	//we want to load only once.
+			FREE_IMAGE_FORMAT image_format = FIF_UNKNOWN;
+			bit_map = 0;
 
+			image_format = FreeImage_GetFileType(m_filename.c_str( ), 0);
+			if (image_format==FIF_UNKNOWN) {
+				//try to get the format from file extention.
+				image_format = FreeImage_GetFIFFromFilename(m_filename.c_str( ));
+
+				if (image_format==FIF_UNKNOWN) {
+					//still unkown, can't load file.
+					coutput("Texture loading FAILED: file format not supported: "
+							+m_filename.c_str( )+"\n");
+					return;
+				}
+			}
+
+			if (FreeImage_FIFSupportsReading(image_format)) {
+				bit_map = FreeImage_Load(image_format, m_filename.c_str( ));
+				if (!bit_map) {
+					coutput("Texture loading FAILED: file format not supported: "
+							+m_filename.c_str( )+"\n");
+					return;
+				}
+			}
+			
+			//set the properties.
+			m_width = FreeImage_GetWidth(bit_map);
+			m_hieght = FreeImage_GetHeight(bit_map);
+			m_bits_per_pixl = FreeImage_GetBPP(bit_map);
+			
 			m_loaded = true;
 		}
 	}
 
-	void Texture::Unload( ) {
+	void Texture::UnLoad( ) {
 		if (m_loaded) {
 			releaseTexture();
 		}
@@ -158,8 +158,7 @@ namespace UNDONE_ENGINE {
 		
 		m_filename = filename;
 		m_generate_mip_maps = generateMipMaps;
-		
-		Load( );
+
 		return true;
 	}
 
@@ -202,7 +201,7 @@ namespace UNDONE_ENGINE {
 	void Texture::BindTexture(int iTextureUnit) {
 		glActiveTexture(GL_TEXTURE0+iTextureUnit);
 		glBindTexture(GL_TEXTURE_2D, m_uiTexture);
-		glBindSampler(iTextureUnit, m_uiSampler);
+		(iTextureUnit, m_uiSampler);
 	}
 
 	/*-------------------------------------------------------------------------
