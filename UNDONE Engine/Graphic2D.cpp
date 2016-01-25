@@ -64,7 +64,7 @@ namespace UNDONE_ENGINE {
 			int vertexpos_loc = glGetAttribLocation(progID, "inPosition");
 			int texcoord_loc = glGetAttribLocation(progID, "inTexCoord");
 			int vertind_loc = glGetAttribLocation(progID, "inVertIndices");
-
+			
 			float vertices[12] = {
 				0.0f, 2.0f, 0.0f,	//top left
 				0.0f, 0.0f, 0.0f,	//bottom left
@@ -78,8 +78,6 @@ namespace UNDONE_ENGINE {
 				1.0f, 1.0f,
 				1.0f, 0.0f
 			};
-
-			unsigned vertIndeces[4] = {0,2,4,6};
 
 			glGenVertexArrays(1, m_uiVAO);
 			glGenBuffers(3, m_uiVBO);
@@ -95,12 +93,7 @@ namespace UNDONE_ENGINE {
 			glBufferData(GL_ARRAY_BUFFER, 8*sizeof(float), texture_coords, GL_DYNAMIC_DRAW);
 			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(texcoord_loc, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-			glBindBuffer(GL_ARRAY_BUFFER, m_uiVBO[2]);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float), vertIndeces, GL_STATIC_DRAW);
-			glEnableVertexAttribArray(2);
-			glVertexAttribPointer(vertind_loc, 1, GL_UNSIGNED_INT, GL_FALSE, 0, 0);
-
+			
 		}
 	}
 

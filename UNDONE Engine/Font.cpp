@@ -30,6 +30,8 @@ Author	:	Anurup Dey
 #include <cmath>
 #include <iostream>
 
+
+
 namespace UNDONE_ENGINE { 
 	
 	int Font::screenhieght = 0;
@@ -124,6 +126,7 @@ namespace UNDONE_ENGINE {
 		iLoadedPixelSize = PixelSize;
 
 		glGenVertexArrays(1, &m_uiVAO);
+		
 		glBindVertexArray(m_uiVAO);
 		glGenBuffers(1, &m_uiVBO);
 		
@@ -136,12 +139,16 @@ namespace UNDONE_ENGINE {
 		FT_Done_Face(m_ftFace);
 		FT_Done_FreeType(m_ftLib);
 
+		int progID = m_ppShaderProgram->GetProgramID( );
+		int vertexpos_loc = glGetAttribLocation(progID, "inPosition");
+		int texcoord_loc = glGetAttribLocation(progID, "inTexCoord");
+
 		glBufferData(GL_ARRAY_BUFFER, vboData.size( )*sizeof(unsigned char), &vboData[0], GL_STATIC_DRAW);
 		vboData.clear( );
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, 0);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, (void*)(sizeof(glm::vec2)));
+		glEnableVertexAttribArray(vertexpos_loc);
+		glVertexAttribPointer(vertexpos_loc, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, 0);
+		glEnableVertexAttribArray(texcoord_loc);
+		glVertexAttribPointer(texcoord_loc, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, (void*)(sizeof(glm::vec2)));
 	
 		return true;
 	}
@@ -174,14 +181,13 @@ namespace UNDONE_ENGINE {
 	void Font::print(string sText, float x, float y, float iPXSize) {
 
 		if (!bLoaded)return;
-		if (m_ppShaderProgram.m_pointer){
+		if (m_ppShaderProgram.m_pointer&&m_ppShaderProgram->IsLinked()){
 			GLuint progID = m_ppShaderProgram->GetProgramID( );
 			m_ppShaderProgram->UseProgram();
 			glBindVertexArray(m_uiVAO);
 			glUniform1i(glGetUniformLocation(progID, "gSampler"), 0);
 			
 			glDisable(GL_DEPTH_TEST);
-			//glDisable(GL_BLEND);
 			glEnable( GL_BLEND );
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			
@@ -215,8 +221,6 @@ namespace UNDONE_ENGINE {
             }
             glDisable( GL_BLEND );
             glEnable( GL_DEPTH_TEST );
-	
-			
 		}
 	}
 

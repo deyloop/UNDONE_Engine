@@ -28,6 +28,7 @@ Author	:	Anurup Dey
 
 #include "unTexture.h"
 #include <FreeImage.h>
+#include <glew.h>
 #include <string>
 using std::string;
 
@@ -40,7 +41,7 @@ namespace UNDONE_ENGINE {
 
 		void Release( ) { };
 
-		void CreateFromData(signed char* data, int width, int height, int BPP, unsigned int format, bool generateMipMaps = false);
+		void CreateFromData(signed char* data, int width, int height, int BPP, GLenum format, bool generateMipMaps = false);
 		bool SetTexture2D(const char* filename, bool generateMipMaps = false);
 		void BindTexture(int textureUnit = 0);
 

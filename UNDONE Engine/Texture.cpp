@@ -45,7 +45,7 @@ namespace UNDONE_ENGINE {
 	void Texture::CreateFromData(
 		signed char * data, 
 		int width, int height, 
-		int BPP,  unsigned int format, 
+		int BPP,  GLenum format, 
 		bool generateMipMaps) 
 	{
 		// Generate an OpenGL texture ID for this texture

@@ -30,11 +30,25 @@ Author	:	Anurup Dey
 #include "ShaderProgram.h"
 #include "Camera.h"
 
-
+#define GLERR() {int e = glGetError( );if (e) cout << e << endl;}
 
 namespace UNDONE_ENGINE {
 	Font font;
-	
+
+	void GraphicsEngine::Upload( ){
+			Upload_<Shader>();
+			Upload_<ShaderProgram>();
+			Upload_<Texture>( );
+			Upload_<Mesh>();
+			Upload_<GraphicMaterial>();
+			Upload_<Graphic2D>();
+			
+			Graphic2D::InitVAO( );
+			
+			font.LoadSystemFont("calibri.tff", 64);
+				
+	}// temp member.
+
 	/*-----------------------------------------------------------------------------
 	Default Constructor
 	-----------------------------------------------------------------------------*/
@@ -125,7 +139,7 @@ namespace UNDONE_ENGINE {
 			m_pSystem->ShowMessage("Could not Create GL Context.", "ERROR: Initialize()");
 			return false;
 		}
-
+		
 		OnCreateContext( );
 
 		m_pRenderer->Initialize(m_pGraphicsBuffer,m_2DProjMat);
@@ -214,13 +228,14 @@ namespace UNDONE_ENGINE {
 	void GraphicsEngine::OnCreateContext( ) {
 	
 		//Set up 2D.
-		m_pGraphicsBuffer->SetInitAllocSize(20 );
+		m_pGraphicsBuffer->SetInitAllocSize(20);
 		Dptr<Shader> vertexShader = m_pGraphicsBuffer->CreateNew<Shader>( );
 		Dptr<Shader> fragmentShader = m_pGraphicsBuffer->CreateNew<Shader>( );
 		Dptr<Shader> FontFragmentShader = m_pGraphicsBuffer->CreateNew<Shader>();
         Dptr<Shader> FontVertexShader = m_pGraphicsBuffer->CreateNew<Shader>( );
 		Dptr<ShaderProgram> _FontShader = m_pGraphicsBuffer->CreateNew<ShaderProgram>();
 		Dptr<ShaderProgram> _2DShader = m_pGraphicsBuffer->CreateNew<ShaderProgram>( );
+		
 		vertexShader->LoadShader("2Dshader.vert", GL_VERTEX_SHADER);
 		fragmentShader->LoadShader("2Dshader.frag", GL_FRAGMENT_SHADER);
 		FontFragmentShader->LoadShader("2DFontShader.frag", GL_FRAGMENT_SHADER);
@@ -232,12 +247,10 @@ namespace UNDONE_ENGINE {
 		_FontShader->AddShaderToProgram(FontVertexShader.ptr());
 		_FontShader->AddShaderToProgram(FontFragmentShader.ptr());
 		
+	
 		Graphic2D::SetShader(_2DShader);
-		Graphic2D::InitVAO( );
-
-		
 		font.SetShaderProgram(_FontShader);
-		font.LoadSystemFont("calibri.ttf", 64);
+		
 
 		
 		//GL State variables.
@@ -248,7 +261,7 @@ namespace UNDONE_ENGINE {
 		glClearStencil(1);
 		
 		glCullFace(GL_BACK);
-
+		
 		ResetScreen( );
 
 	}
@@ -280,7 +293,6 @@ namespace UNDONE_ENGINE {
 				m_pFrameWork->GetScreenHieght( )-10-20,
 				20,
 				"Frame Rate: %.2f FPS", m_pFrameWork->GetFPS( ));
-			
 		}
 
 		

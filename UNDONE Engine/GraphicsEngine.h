@@ -31,12 +31,13 @@ Author	:	Anurup Dey
 #include "Renderer.h"
 #include "ObjectBuffer.h"
 #include "unEngineInterfaces.h"
+#include "Font.h"
 
 
 namespace UNDONE_ENGINE {
 	class IGraphicsUser;				//NOTE: this is an Abstract class.
 	
-
+	
 	/*-----------------------------------------------------------------------------
 	This class handles all the tasks related to graphics.
 	-----------------------------------------------------------------------------*/
@@ -70,14 +71,7 @@ namespace UNDONE_ENGINE {
 				resource.GPU_Upload();
 		}
 
-		void Upload( ){
-			Upload_<Shader>();
-			Upload_<ShaderProgram>();
-			Upload_<Texture>( );
-			Upload_<Mesh>();
-			Upload_<GraphicMaterial>();
-			Upload_<Graphic2D>();
-		}// temp member.
+		void Upload( );
 
 		void ResetScreen( );
 		void SetResolution(const int hor, const int vert);
@@ -103,6 +97,8 @@ namespace UNDONE_ENGINE {
 		SystemComponent*	m_pSystem;
 		Renderer*			m_pRenderer;
 		glm::mat4			m_2DProjMat;
+
+		
 	};
 }
 #endif
