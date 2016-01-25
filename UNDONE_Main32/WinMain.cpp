@@ -51,4 +51,20 @@ int main( ) {
 	return returncode;
 }
 
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+				   LPTSTR lpCmdLine, int nCmdShow){
+	WindowsSystemComponent* pSysComponent = WindowsSystemComponent::GetWindowsInstance();
+	if (!pSysComponent->Initialise("UNDONE_ENGINE")){
+		SafelyDelete(pSysComponent);
+		return 1;
+	}
+
+	//call the main() function
+	int returncode = Dmain();
+
+	//cleanup
+	SafelyDelete(pSysComponent);
+	return returncode;
+}
+
 #endif

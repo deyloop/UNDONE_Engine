@@ -39,7 +39,7 @@ namespace UNDONE_ENGINE{
 
 	class unTexture{
 	public:
-		virtual void CreateFromData(signed char* data, int width, int height,
+		virtual void CreateFromData(unsigned char* data, int width, int height,
 									int BPP, unsigned int format, 
 									bool generateMipMaps = false) = 0;
 		virtual bool SetTexture2D(const char* filename, bool generateMipMaps = false) = 0;

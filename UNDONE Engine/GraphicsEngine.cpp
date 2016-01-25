@@ -36,17 +36,19 @@ namespace UNDONE_ENGINE {
 	Font font;
 
 	void GraphicsEngine::Upload( ){
+		
 			Upload_<Shader>();
 			Upload_<ShaderProgram>();
+		
 			Upload_<Texture>( );
 			Upload_<Mesh>();
 			Upload_<GraphicMaterial>();
 			Upload_<Graphic2D>();
 			
+			font.LoadSystemFont("calibri.ttf", 32);	
 			Graphic2D::InitVAO( );
 			
-			font.LoadSystemFont("calibri.tff", 64);
-				
+			
 	}// temp member.
 
 	/*-----------------------------------------------------------------------------
@@ -258,7 +260,7 @@ namespace UNDONE_ENGINE {
 		glClearDepth(1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
-		glClearStencil(1);
+		glClearStencil(0);
 		
 		glCullFace(GL_BACK);
 		

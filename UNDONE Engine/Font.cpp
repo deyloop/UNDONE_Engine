@@ -29,7 +29,7 @@ Author	:	Anurup Dey
 #include <glew.h>
 #include <cmath>
 #include <iostream>
-
+using namespace std;
 
 
 namespace UNDONE_ENGINE { 
@@ -64,7 +64,7 @@ namespace UNDONE_ENGINE {
 		int iW = pBitmap->width, iH = pBitmap->rows;
 		int iTW = next_p2(iW), iTH = next_p2(iH);
 
-		GLbyte* bData = new GLbyte[iTW*iTH];
+		BYTE* bData = new BYTE[iTW*iTH];
 		// Copy glyph data and add dark pixels elsewhere
 		for (int ch = 0; ch<iTH; ++ch) {
 			for (int cw = 0; cw<iTW; ++cw) {
@@ -122,9 +122,10 @@ namespace UNDONE_ENGINE {
 
 		bError = FT_New_Face(m_ftLib, File.c_str( ), 0, &m_ftFace);
 		if (bError)return false;
+	
 		FT_Set_Pixel_Sizes(m_ftFace, 0 , PixelSize);
 		iLoadedPixelSize = PixelSize;
-
+		
 		glGenVertexArrays(1, &m_uiVAO);
 		
 		glBindVertexArray(m_uiVAO);
@@ -139,16 +140,16 @@ namespace UNDONE_ENGINE {
 		FT_Done_Face(m_ftFace);
 		FT_Done_FreeType(m_ftLib);
 
-		int progID = m_ppShaderProgram->GetProgramID( );
+		/* progID = m_ppShaderProgram->GetProgramID( );
 		int vertexpos_loc = glGetAttribLocation(progID, "inPosition");
 		int texcoord_loc = glGetAttribLocation(progID, "inTexCoord");
-
+		*/
 		glBufferData(GL_ARRAY_BUFFER, vboData.size( )*sizeof(unsigned char), &vboData[0], GL_STATIC_DRAW);
 		vboData.clear( );
-		glEnableVertexAttribArray(vertexpos_loc);
-		glVertexAttribPointer(vertexpos_loc, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, 0);
-		glEnableVertexAttribArray(texcoord_loc);
-		glVertexAttribPointer(texcoord_loc, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, (void*)(sizeof(glm::vec2)));
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, 0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2)*2, (void*)(sizeof(glm::vec2)));
 	
 		return true;
 	}
@@ -166,7 +167,6 @@ namespace UNDONE_ENGINE {
 		string sPath = buf;
 		sPath += "\\Fonts\\";
 		sPath += sName;
-
 		return LoadFont(sPath, iPXSize);
 	}
 
@@ -189,7 +189,7 @@ namespace UNDONE_ENGINE {
 			
 			glDisable(GL_DEPTH_TEST);
 			glEnable( GL_BLEND );
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 			
 			
 			

@@ -41,7 +41,8 @@ namespace UNDONE_ENGINE {
 
 		void Release( ) { };
 
-		void CreateFromData(signed char* data, int width, int height, int BPP, GLenum format, bool generateMipMaps = false);
+		//void CreateFromData(GLbyte * data, int width, int height, int BPP, GLenum format, bool generateMipMaps = false);
+		void CreateFromData(unsigned char * data, int width, int height, int BPP, GLenum format, bool generateMipMaps = false);
 		bool SetTexture2D(const char* filename, bool generateMipMaps = false);
 		void BindTexture(int textureUnit = 0);
 
