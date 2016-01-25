@@ -30,6 +30,7 @@ Author	:	Anurup Dey
 #include "SystemComponent.h"			//header for the System Interface.
 #include "Scene.h"
 #include "SceneStack.h"
+#include "ThreadPool.h"
 
 namespace UNDONE_ENGINE {
 	/*--------------------------------------------------------------------------//*
@@ -44,6 +45,7 @@ namespace UNDONE_ENGINE {
 		m_pInputHandeller		= nullptr;
 		m_pTimer				= nullptr;
 		m_pSceneStack			= nullptr;
+		m_pThreadPool			= nullptr;
 
 		m_running			= false;
 		m_active			= true;
@@ -97,6 +99,7 @@ namespace UNDONE_ENGINE {
 		m_pObjectBuffer    = new ObjectBuffer( );
 		m_pInputHandeller  = new InputHandeller( );
 		m_pTimer           = new Timer( );
+		m_pThreadPool	   = new ThreadPool(std::thread::hardware_concurrency());
 
 		//Get things available to the interface.
 		Graphics      = m_pGraphicsEngine;
@@ -114,7 +117,8 @@ namespace UNDONE_ENGINE {
 			return false;
 		}
 		//the Application
-		m_pApplication->LoadScene(m_pObjectBuffer);
+		m_pThreadPool->enqueue(&IApp::LoadScene,m_pApplication,m_pObjectBuffer).get();
+		//m_pApplication->LoadScene(m_pObjectBuffer);
 
 		if (!windowed) {
 			ToggleFullscreen( );

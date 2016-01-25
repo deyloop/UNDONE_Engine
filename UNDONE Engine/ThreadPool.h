@@ -13,10 +13,6 @@
 #include <functional>
 #include <stdexcept>
 #include <iostream>
-using namespace std;
-
-#include "GraphicsEngine.h"
-using namespace UNDONE_ENGINE;
 
 class ThreadPool {
 public:

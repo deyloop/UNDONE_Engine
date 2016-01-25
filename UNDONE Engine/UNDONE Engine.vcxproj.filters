@@ -278,6 +278,9 @@
     <ClInclude Include="Behavior.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>Header Files\SubSystems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="HeaderSnippet.snippet">

@@ -219,6 +219,7 @@
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="SystemComponent.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="unBehaviorAttachement.h" />
     <ClInclude Include="unCamera.h" />

@@ -30,6 +30,7 @@ Author	:	Anurup Dey
 #include "IWindowUser.h"
 #include "IGraphicsUser.h"
 #include "UnFramework.h"
+#include "ThreadPool.h"
 #include <vector>
 using std::vector;
 
@@ -43,6 +44,7 @@ namespace UNDONE_ENGINE {
 	class Window;
 	class SystemComponent;
 	struct SceneStack;
+	
 	/*-----------------------------------------------------------------------------
 	The Engine is resposible for nearly everything that hapens in this application.
 	It Handles the window, tells all the components what to do at events and all
@@ -90,6 +92,7 @@ namespace UNDONE_ENGINE {
 		ObjectBuffer*		m_pObjectBuffer;
 		InputHandeller*		m_pInputHandeller;
 		Timer*				m_pTimer;
+		ThreadPool*         m_pThreadPool;
 
 		bool			m_running;
 
