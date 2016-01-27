@@ -3,11 +3,15 @@
 #define _CAMERASCRIPT_H_
 
 #include <Undone_Engine.h>
+using namespace std;
 using namespace UNDONE_ENGINE;
 
 class Camera_Script : public Behavior {
 	public:
-		void Load( )  {};
+		void Load( )  {
+			Input->RegisterCallback(bind(&Camera_Script::TurnLeft,this ),"Rotate Left");
+			Input->RegisterCallback(bind(&Camera_Script::TurnRight,this),"Rotate Right");
+		};
 		void UnLoad() {};
 		
 		Dptr<unGameObject> target;

@@ -34,22 +34,24 @@ using std::function;
 using std::vector;
 
 namespace UNDONE_ENGINE {
+	struct CallBack {
+		function<void(void)>			callback;
+		function<void(float,float)>		fcallback;
+	};
 
 	struct InputPair {
-		InputPair(InputEvent des_event,const function<void(void)> callback)
-            :Desired_event( des_event ), Callback( callback ), fCallback( [] (float x,float y){} ) {
+		InputPair(InputEvent des_event,const char* eventname)
+            :Desired_event( des_event ),  event_name(eventname) {
         };
-        InputPair(InputEvent des_event,const function<void(float,float)> callback, int no_use)
-            :Desired_event( des_event ), fCallback( callback ), Callback( [] {} ) { };
         InputEvent	                     Desired_event;
-        function<void( void )>	         Callback;
-        function<void( float, float )>   fCallback;
+		const char*						 event_name;
 	};
 	
 	/*-----------------------------------------------------------------------------
 	Contexts store the data needed to execute input handelling.
 	-----------------------------------------------------------------------------*/
 	struct InputContext {
+		char*               m_name;
 		vector<InputPair>	m_pairs;
 	};
 }

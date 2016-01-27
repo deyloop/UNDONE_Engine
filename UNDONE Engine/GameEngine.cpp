@@ -221,18 +221,6 @@ namespace UNDONE_ENGINE {
 	}
 
 	/*-----------------------------------------------------------------------------
-	Returns the input Context list from the Input handeller.
-	------------------------------------------------------------------------------*/
-	vector<InputContext>& FrameWork::GetInputContextListForEditing( ) {
-		if (m_pInputHandeller) {
-			return m_pInputHandeller->GetContextListForEditing( );
-		} else {
-			static vector<InputContext> fakelist;
-			return fakelist;
-		}
-	}
-
-	/*-----------------------------------------------------------------------------
 	Summary: Window Response Functions
 	-----------------------------------------------------------------------------*/
 	void FrameWork::OnMinimized( ) {

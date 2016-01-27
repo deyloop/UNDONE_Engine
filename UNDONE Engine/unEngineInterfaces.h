@@ -27,6 +27,7 @@ Author	:	Anurup Dey
 #define _UN_ENGINE_INTERFACES
 
 #include "Dptr.h"
+#include "InputContext.h"
 
 namespace UNDONE_ENGINE {
 
@@ -47,7 +48,14 @@ namespace UNDONE_ENGINE {
     ------------------------------------------------------------------------*/
     class unInput {
     public:
+		virtual void HandleInput(InputEvent& p_given_event) = 0;
+		virtual void AddContext(InputContext context) = 0;
+		virtual void RemoveContext(const char* context_name )= 0;
+		virtual void ActivateContext(const char* context_name )= 0;
+		virtual void DeactivateContext(const char* context_name )= 0;
 
+		virtual void RegisterCallback(const function<void( )> callback, const char* event_name )= 0;
+		virtual void RegisterCallback(const function<void(float,float)> callback, const char* event_name, int unused )= 0;
     };
 
     /*------------------------------------------------------------------------

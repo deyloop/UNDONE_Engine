@@ -4,12 +4,18 @@
 #define _BRO_H_
 
 #include <Undone_Engine.h>
-#include <iostream>
+
+using namespace std;
 using namespace UNDONE_ENGINE;
 
 class bro : public Behavior {
 	public:
-		void Load( )  {};
+		void Load( )  {
+			Input->RegisterCallback(bind(&bro::MoveForward,this ),"Move Forward");
+			Input->RegisterCallback(bind(&bro::MoveBackward,this ),"Move Back");
+			Input->RegisterCallback(bind(&bro::TurnLeft,this ),"Turn Left");
+			Input->RegisterCallback(bind(&bro::TurnRight,this ),"Turn Right");
+		};
 		void UnLoad() {};
 		
 		void TurnLeft( ) {

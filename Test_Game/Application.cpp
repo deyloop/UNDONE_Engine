@@ -27,7 +27,6 @@ Author	:	Anurup Dey
 
 #include <UNDONE_DEBUG.h>
 
-#include <iostream>
 #include <ctime>
 
 /*-----------------------------------------------------------------------------
@@ -151,16 +150,16 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	grouTrans	->	TranslateRel(10.0f, 0.0f, 20.0f);
 	BlockGroup	->	AddGameObject(BlockGroup2);
 	
-#define SIZE 30
+#define SIZE 2
+
 	Maze maze;
 	maze.Generate(SIZE);
 
 	for (int j = 0; j<SIZE; ++j) {
 		for (int i = 0;i<SIZE; ++i) {
 
-			if (maze.data[i+j*SIZE] == SPACE) continue;
+			//if (maze.data[i+j*SIZE] == SPACE) continue;
 
-			cout<<"\n";
 			Dptr<unGameObject> go_scene		= pObjectBuffer->CreateNew_GameObject( );
 			Dptr<unWorldTransform> transform1 = pObjectBuffer->CreateNew_WorldTransform( );
 			Dptr<unGraphic3D> graphic1		= pObjectBuffer->CreateNew_Graphic3D( );
@@ -194,10 +193,10 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	cu->AddGraphic3D(cg);
 	Dptr<unBehaviorAttachement> att = pObjectBuffer->CreateNew_BehaviorAttachement( );
 	cu->AddBehaviorAttachement( att );
-
+	att->AddBehavior( "bro", &broscript );
 	cu->Load();
 
-	att->AddBehavior( "bro", &broscript );
+	
 	
 	m_cam = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform> camtransform = pObjectBuffer->CreateNew_WorldTransform( );
@@ -221,45 +220,46 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 
 	MonkeyMoveF.event.type = EVENT_KEYPRESS;
 	MonkeyMoveF.key.keycode = KEY_ARROW_UP;
-	InputPair pairMF( MonkeyMoveF, bind(&bro::MoveForward,&broscript ));
+	InputPair pairMF(MonkeyMoveF,"Move Forward");
 
 	MonkeyMoveB.event.type = EVENT_KEYPRESS;
 	MonkeyMoveB.key.keycode = KEY_ARROW_DOWN;
-	InputPair pairMB( MonkeyMoveB, bind(&bro::MoveBackward,&broscript ));
+	InputPair pairMB( MonkeyMoveB, "Move Back");
 
 	MonkeyTurnLeft.event.type = EVENT_KEYPRESS;
 	MonkeyTurnLeft.key.keycode = KEY_ARROW_LEFT;
-	InputPair pairML( MonkeyTurnLeft, bind((&bro::TurnLeft),&broscript));
+	InputPair pairML( MonkeyTurnLeft, "Turn Left");
 
 	MonkeyTurnRight.event.type = EVENT_KEYPRESS;
 	MonkeyTurnRight.key.keycode = KEY_ARROW_RIGHT;
-	InputPair pairMR( MonkeyTurnRight, bind(&bro::TurnRight,&broscript ));
+	InputPair pairMR( MonkeyTurnRight, "Turn Right");
 
 	RightKey.event.type = EVENT_KEYPRESS;
 	RightKey.key.keycode = KEY_D;
-	InputPair pairR( RightKey, bind(&Camera_Script::TurnRight,&camscrpt ) );
+	InputPair pairR( RightKey, "Rotate Right");
 
 	LeftKey.event.type = EVENT_KEYPRESS;
 	LeftKey.key.keycode = KEY_A;
-	InputPair pairL( LeftKey, bind(&Camera_Script::TurnLeft,&camscrpt ) );
-
+	InputPair pairL( LeftKey, "Rotate Left");
+	
 	ExitEvent.event.type		= EVENT_KEYDOWN;
 	ExitEvent.key.keycode		= KEY_ESCAPE;
-	InputPair pair( ExitEvent, [=]{SystemComponent::GetInstance()->Post_Quit_Mesage( 0 ); } );
+	InputPair pair( ExitEvent, "Exit");
+	
+	InputContext monkeycontrolcontext;
+	monkeycontrolcontext.m_name = "monkey_movement";
+	monkeycontrolcontext.m_pairs.push_back(pair);
+	monkeycontrolcontext.m_pairs.push_back( pairL );
+	monkeycontrolcontext.m_pairs.push_back( pairMR );
+	monkeycontrolcontext.m_pairs.push_back( pairMF );
+	monkeycontrolcontext.m_pairs.push_back( pairML );
+	monkeycontrolcontext.m_pairs.push_back( pairMB );
+	monkeycontrolcontext.m_pairs.push_back( pairR );
 
+	m_pFrameWork->Input->AddContext(monkeycontrolcontext);
+	m_pFrameWork->Input->ActivateContext("monkey_movement");
 
-	vector<InputContext>& contexts = m_pFrameWork->GetInputContextListForEditing( );
-	InputContext cameracontrolcontext;
-	cameracontrolcontext.m_pairs.push_back(pair);
-	cameracontrolcontext.m_pairs.push_back( pairL );
-	cameracontrolcontext.m_pairs.push_back( pairMR );
-	cameracontrolcontext.m_pairs.push_back( pairMF );
-	cameracontrolcontext.m_pairs.push_back( pairML );
-	cameracontrolcontext.m_pairs.push_back( pairMB );
-	cameracontrolcontext.m_pairs.push_back( pairR );
-
-	contexts.push_back(cameracontrolcontext);
-
+	m_pFrameWork->Input->RegisterCallback([=]{SystemComponent::GetInstance()->Post_Quit_Mesage( 0 ); },"Exit");
 	initialized = true;
 }
 

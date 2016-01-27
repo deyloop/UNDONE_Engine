@@ -41,9 +41,9 @@ namespace UNDONE_ENGINE {
         virtual void Load( ) = 0;
         virtual void UnLoad( ) = 0;
     
-        static unInput*        Input;
-        static unGraphics*     Graphics;
-        static unObjectBuffer* Objectbuffer;
+        UNDONE_API static unInput*        Input;
+        UNDONE_API static unGraphics*     Graphics;
+        UNDONE_API static unObjectBuffer* Objectbuffer;
 
         #define _GENDEC_DEF_BEHAVIOR_CPP_
         #include "GENERATE_FUNCTIONS.h"

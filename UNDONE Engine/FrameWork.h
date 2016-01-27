@@ -79,8 +79,7 @@ namespace UNDONE_ENGINE {
 		void LoadScene	(Scene* pScene);
 		void UnloadScene(Scene* pscene);
 
-		virtual vector<InputContext>& GetInputContextListForEditing( );
-
+		
 	private:
 		void				Pause(bool rendering, bool timer);
 		static void			Load_scene_proc(FrameWork* pFramework, Scene* pScene);

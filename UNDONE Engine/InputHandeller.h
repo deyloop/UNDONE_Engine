@@ -26,10 +26,14 @@ Author	:	Anurup Dey
 #define _UNDONE_INPUTHANDELLER_H_
 
 //some includes.
-#include <vector>	
+#include <vector>
+#include <map>
+#include <string>
 #include "InputContext.h"
 #include "unEngineInterfaces.h"
 using std::vector;
+using std::map;
+using std::string;
 
 namespace UNDONE_ENGINE {
 
@@ -44,11 +48,19 @@ namespace UNDONE_ENGINE {
 		InputHandeller( ) { };
 		~InputHandeller( ) { };
 
-		vector<InputContext>& GetContextListForEditing( ) { return m_Contexts; }
 		void HandleInput(InputEvent& p_given_event);
+		void AddContext(InputContext context);
+		void RemoveContext(const char* context_name );
+		void ActivateContext(const char* context_name );
+		void DeactivateContext(const char* context_name );
+
+		void RegisterCallback(const function<void( )> callback, const char* event_name );
+		void RegisterCallback(const function<void(float,float)> callback, const char* event_name, int unused  );
 
 	private:
-		vector<InputContext> m_Contexts;
+		vector<InputContext>			m_Contexts;
+		vector<InputContext>			m_ActiveContexts;
+		map<string,vector<CallBack>>	m_callbacks;
 	};
 }
 #endif

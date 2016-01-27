@@ -77,8 +77,7 @@ namespace UNDONE_ENGINE{
 		virtual void LoadScene	(Scene* pScene)							= 0;
 		virtual void UnloadScene(Scene* pscene)							= 0;
 	
-		virtual vector<InputContext>& GetInputContextListForEditing()	= 0;
-
+		
 		unInput*         Input;
 		unGraphics*      Graphics;
 		unObjectBuffer*  Objectbuffer;

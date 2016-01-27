@@ -27,9 +27,9 @@ namespace UNDONE_ENGINE {
 	looking function in all of the codebase...
 	-----------------------------------------------------------------------------*/
 	void InputHandeller::HandleInput(InputEvent& p_given_event) {
-		if (m_Contexts.size( )==0) return;	//gotta do nothing 
+		if (m_ActiveContexts.size( )==0) return;	//gotta do nothing 
 
-		for (auto& context:m_Contexts) 
+		for (auto& context:m_ActiveContexts) 
 		{	//for each context,
 			
 			for (auto& pair:context.m_pairs)
@@ -42,32 +42,45 @@ namespace UNDONE_ENGINE {
 					{
 						
 						case EVENT_KEYDOWN:
-						case EVENT_KEYPRESS:
+						case EVENT_KEYPRESS:{
 							//check if keycode is relevent,
 							if (pair.Desired_event.key.keycode==KEY_IRRELEVENT) 
 							{
 								//just go forth with it
-								pair.Callback();
+								vector<CallBack>& callbacklist = m_callbacks[pair.event_name];
+								for (auto& callback : callbacklist) {
+									callback.callback();
+								}
 								
 							} 
 							else if (pair.Desired_event.key.keycode==p_given_event.key.keycode) 
 							{
-								pair.Callback();
+								vector<CallBack>& callbacklist = m_callbacks[pair.event_name];
+								for (auto& callback : callbacklist) {
+									callback.callback();
+								}
 							}
-							break;
+						}break;
 						
-						case EVENT_MOUSEMOVE:
+						case EVENT_MOUSEMOVE:{
 							//just go forth with it
-							pair.fCallback(p_given_event.mouse_motion.delta_x,p_given_event.mouse_motion.delta_y);
-							break;
+							vector<CallBack>& callbacklist = m_callbacks[pair.event_name];
+							for (auto& callback : callbacklist) {
+							
+								callback.fcallback(p_given_event.mouse_motion.delta_x,p_given_event.mouse_motion.delta_y);
+							}
+						}break;
 						case EVENT_MOUSEBUTTONDOWN: 
-						case EVENT_MOUSEBUTTONUP:
+						case EVENT_MOUSEBUTTONUP:{
 							if (pair.Desired_event.mouse_button.button==p_given_event.mouse_button.button)
 							{
-								pair.Callback();
+								vector<CallBack>& callbacklist = m_callbacks[pair.event_name];
+								for (auto& callback : callbacklist) {
+									callback.callback();
+								}
 								
 							}
-							break;
+						}break;
 						default:
 							continue;	//get on with the next pair.
 					} //end the switch.
@@ -78,6 +91,74 @@ namespace UNDONE_ENGINE {
 		return;
 	}
 
+	void InputHandeller::AddContext( InputContext context ) {
+		m_Contexts.push_back(context);
+	}
+
+	void InputHandeller::RemoveContext( const char * context_name ) {
+		const int num_contexts = m_Contexts.size();
+		//check if the context is active, by mistake
+		int i = 0;
+		for (auto& context : m_ActiveContexts) {
+			if (context.m_name == context_name) {
+				m_ActiveContexts[i] = m_ActiveContexts.back();
+				m_ActiveContexts.pop_back();
+				return;
+			}
+			++i;
+		}
+
+		//Remove from the main list.
+		for (i = 0; i < num_contexts; ++i) {
+			if(m_Contexts[i].m_name == context_name){
+				m_Contexts[i] = m_Contexts.back();
+				m_Contexts.pop_back();
+				return;
+			}
+		}
+	}
+
+	void InputHandeller::ActivateContext( const char * context_name ) {
+		const int num_contexts = m_Contexts.size();
+
+		for (int i = 0; i < num_contexts; ++i) {
+			if(m_Contexts[i].m_name == context_name){
+				//Add it to active list.
+				m_ActiveContexts.push_back(m_Contexts[i]);
+				//remove from main list;
+				m_Contexts[i] = m_Contexts.back();
+				m_Contexts.pop_back();
+				return;
+			}
+		}
+	}
+
+	void InputHandeller::DeactivateContext( const char * context_name ) {
+		const int num_contexts = m_ActiveContexts.size();
+
+		for (int i = 0; i < num_contexts; ++i) {
+			if(m_ActiveContexts[i].m_name == context_name){
+				//Add it to main list.
+				m_Contexts.push_back(m_ActiveContexts[i]);
+				//remove from active list;
+				m_ActiveContexts[i] = m_ActiveContexts.back();
+				m_ActiveContexts.pop_back();
+				return;
+			}
+		}
+	}
+
+	void InputHandeller::RegisterCallback( const function<void( )> callback, const char * event_name ) {
+		CallBack newcallback;
+		newcallback.callback = callback;
+		m_callbacks[event_name].push_back(newcallback);
+	}
+
+	void InputHandeller::RegisterCallback( const function<void(float,float)> callback, const char * event_name , int unused) {
+		CallBack newcallback;
+		newcallback.fcallback = callback;
+		m_callbacks[event_name].push_back(newcallback);
+	}
 
 
 

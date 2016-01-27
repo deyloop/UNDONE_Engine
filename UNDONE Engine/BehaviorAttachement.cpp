@@ -28,7 +28,6 @@ Author	:	Anurup Dey
 
 namespace UNDONE_ENGINE {
 
-    //static subsystem pointers for behaviors
     unInput*        Behavior::Input        = nullptr;
     unGraphics*     Behavior::Graphics     = nullptr;
     unObjectBuffer* Behavior::Objectbuffer = nullptr;
