@@ -45,11 +45,11 @@ public:
 protected:
 	UnFramework*		m_pFrameWork;
 	Dptr<unGameObject>	m_cam;
-	Dptr<unGameObject>  BlockGroup;
+	Dptr<unGameObject>  BlockMaze;
 
 	bool initialized;
 
-	Dptr<unGameObject>		cu;
+	Dptr<unGameObject>		Monkey;
 	Dptr<unGameObject>		BlockGroup2;
 	glm::vec3 forward;
 

@@ -8,7 +8,11 @@ using namespace UNDONE_ENGINE;
 
 class Camera_Script : public Behavior {
 	public:
+
+		float limit_hight;
+
 		void Load( )  {
+			limit_hight = 1;
 			Input->RegisterCallback(bind(&Camera_Script::TurnLeft,this ),"Rotate Left");
 			Input->RegisterCallback(bind(&Camera_Script::TurnRight,this),"Rotate Right");
 		};
@@ -36,10 +40,10 @@ class Camera_Script : public Behavior {
 
 		void Update( ) {
 			vec3 pos = m_WorldTransform->GetPosition( );
-			if (pos.y <= 5) {
+			if (pos.y <= limit_hight) {
 				m_WorldTransform->TranslateAbs(
 					pos.x,
-					5, 
+					limit_hight, 
 					pos.z );
 			}
 

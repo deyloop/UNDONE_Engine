@@ -294,7 +294,7 @@ namespace UNDONE_ENGINE {
                 20,
 				m_pFrameWork->GetScreenHieght( )-10-20,
 				20,
-				"Frame Rate: %.2f FPS\n%fs elapsed since last frame.", 
+				"Frame Rate: %.2f FPS\nFrame Time: %fs.", 
 				m_pFrameWork->GetFPS( ),
 				m_pFrameWork->GetElapsedTime());
 		}

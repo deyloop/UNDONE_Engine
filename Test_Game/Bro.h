@@ -28,11 +28,11 @@ class bro : public Behavior {
 		}
 
 		void MoveBackward( ) {
-			m_WorldTransform->TranslateRel(unvec3((-m_WorldTransform->GetForward()*0.05f)));
+			m_WorldTransform->TranslateRel(unvec3((-m_WorldTransform->GetForward()*0.09f)));
 		}
 
 		void MoveForward( ) {
-			m_WorldTransform->TranslateRel(unvec3((m_WorldTransform->GetForward()*0.05f)));
+			m_WorldTransform->TranslateRel(unvec3((m_WorldTransform->GetForward()*0.09f)));
 
 		}
 

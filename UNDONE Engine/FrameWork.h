@@ -62,11 +62,11 @@ namespace UNDONE_ENGINE {
 		void Release( );
 		void Run( );
 		void ToggleFullscreen( );
-		virtual void OnMinimized( );
-		virtual void OnResize(int newHieght,
-							  int newWidth,
-							  int oldHieght,
-							  int oldWidth);
+		void OnMinimized( );
+		void OnResize(int newHieght,
+					  int newWidth,
+					  int oldHieght,
+					  int oldWidth);
 
 		const int   GetScreenHieght( ) const;
 		const int   GetScreenWidth( ) const;

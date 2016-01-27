@@ -35,7 +35,7 @@ Default Contructor
 Application::Application(){
 	m_pFrameWork			= nullptr;
 	m_cam.m_pointer		    = nullptr;
-	BlockGroup.m_pointer	= nullptr;
+	BlockMaze.m_pointer	= nullptr;
 	initialized				= false;
 }
 
@@ -119,38 +119,38 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	material.push_back(Pinkmaterial);
 
 
-	Dptr<unGraphic2D> _2dgraphic = pObjectBuffer->CreateNew_Graphic2D( );
-	Dptr<unGameObject> _2dobj = pObjectBuffer->CreateNew_GameObject( );
-	Dptr<unWorldTransform> _2dtrans = pObjectBuffer->CreateNew_WorldTransform( );
-	_2dtrans->TranslateAbs(-1.0f, -1.f, 0.0f);
-    _2dtrans->ScaleAbs( 0.5, 0.5, 1.0f );
-	_2dgraphic->SetTexture(tex);
-	//_2dtrans->RotateAbs(0.0f, 0.0f, 45.0f);
-	
-	rect m;
-	m.x = 1.0f;
-	m.y = 1.0f;
-	m.hieght = 0.5f;
-	m.width = 1.0f;
-
-	(_2dgraphic.ptr())->SetImageRect(m);
-
-	_2dobj->AddWorldTransform(_2dtrans);
-	_2dobj->AddGraphic2D(_2dgraphic);
-	_2dobj->Load();
+	Dptr<unGameObject> Texture_Display = pObjectBuffer->CreateNew_GameObject( );
+	Dptr<unGraphic2D> Texture_Display_Graphic = pObjectBuffer->CreateNew_Graphic2D( );
+	Dptr<unWorldTransform> Texture_Display_Transform = pObjectBuffer->CreateNew_WorldTransform( );
+	Texture_Display_Transform->TranslateAbs(-1.0f, -1.f, 0.0f);
+    Texture_Display_Transform->ScaleAbs( 0.5, 0.5, 1.0f );
+	Texture_Display_Graphic->SetTexture(tex);
+	Texture_Display->AddWorldTransform(Texture_Display_Transform);
+	Texture_Display->AddGraphic2D(Texture_Display_Graphic);
+	Texture_Display->Load();
 
 	srand((unsigned int)time(0));
 
-	BlockGroup = pObjectBuffer->CreateNew_GameObject( );
-	BlockGroup2 = pObjectBuffer->CreateNew_GameObject( );
-	Dptr<unWorldTransform>	grouTrans2	= pObjectBuffer->CreateNew_WorldTransform( );
-	Dptr<unWorldTransform>	grouTrans	= pObjectBuffer->CreateNew_WorldTransform( );
-	BlockGroup	->	AddWorldTransform(grouTrans2);
-	BlockGroup2	->	AddWorldTransform(grouTrans);
-	grouTrans	->	TranslateRel(10.0f, 0.0f, 20.0f);
-	BlockGroup	->	AddGameObject(BlockGroup2);
 	
-#define SIZE 2
+	BlockMaze = pObjectBuffer->CreateNew_GameObject( );
+	Dptr<unWorldTransform>	Maze_Transform	= pObjectBuffer->CreateNew_WorldTransform( );
+	BlockMaze	->	AddWorldTransform(Maze_Transform);
+
+#define SIZE 30
+
+	Dptr<unGameObject> Floor				= pObjectBuffer->CreateNew_GameObject( );
+	Dptr<unWorldTransform> Floor_Transform	= pObjectBuffer->CreateNew_WorldTransform( );
+	Dptr<unGraphic3D> Floor_Graphic			= pObjectBuffer->CreateNew_Graphic3D( );
+	
+	Floor->AddWorldTransform(Floor_Transform);
+	Floor->AddMesh(cube_mesh);
+	Floor->AddGraphicMaterial(material.at(rand()%5));
+	Floor->AddGraphic3D(Floor_Graphic);
+	
+	Floor_Transform->ScaleAbs(SIZE*2, 0.05, SIZE*2);
+	Floor_Transform->TranslateAbs(0,-0.5,0 );
+
+	BlockMaze->AddGameObject(Floor);
 
 	Maze maze;
 	maze.Generate(SIZE);
@@ -158,46 +158,40 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	for (int j = 0; j<SIZE; ++j) {
 		for (int i = 0;i<SIZE; ++i) {
 
-			//if (maze.data[i+j*SIZE] == SPACE) continue;
+			if (maze.data[i+j*SIZE] == SPACE) continue;
 
 			Dptr<unGameObject> go_scene		= pObjectBuffer->CreateNew_GameObject( );
 			Dptr<unWorldTransform> transform1 = pObjectBuffer->CreateNew_WorldTransform( );
 			Dptr<unGraphic3D> graphic1		= pObjectBuffer->CreateNew_Graphic3D( );
-			
-			go_scene	->	Rename((string	("GameObject")	+i+j).c_str());
-			transform1	->	Rename((string	("Transform" )	+i+j).c_str());
-			graphic1	->	Rename((string	( "Graphic"	 )	+i+j).c_str());
 			
 			go_scene->AddWorldTransform(transform1);
 			go_scene->AddMesh(cube_mesh);
 			go_scene->AddGraphicMaterial(material.at(rand()%5));
 			go_scene->AddGraphic3D(graphic1);
 			
-			transform1->TranslateAbs((float)i, 0,(float)j);
+			transform1->TranslateAbs((-SIZE)/2+(float)i, 0,(float)j-SIZE/2);
 			transform1->ScaleAbs(0.5f, (float)1, 0.5f);
 
-			BlockGroup2->AddGameObject(go_scene);
+			BlockMaze->AddGameObject(go_scene);
 		}
 	}
 	
-	BlockGroup->Load();
+	BlockMaze->Load();
 
-	cu = pObjectBuffer->CreateNew_GameObject( );
+	Monkey = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
 	Dptr<unGraphic3D>		cg = pObjectBuffer->CreateNew_Graphic3D( );
-	//ct->ScaleRel( -0.01f, -0.01f, 0.01f );
-    cu->AddWorldTransform(ct);
-    
-	cu->AddMesh(monkey_mesh);//change to monkey later
-	cu->AddGraphicMaterial(Yellowmaterial);
-	cu->AddGraphic3D(cg);
 	Dptr<unBehaviorAttachement> att = pObjectBuffer->CreateNew_BehaviorAttachement( );
-	cu->AddBehaviorAttachement( att );
+	
+    Monkey->AddWorldTransform(ct);
+    
+	Monkey->AddMesh(monkey_mesh);
+	Monkey->AddGraphicMaterial(Yellowmaterial);
+	Monkey->AddGraphic3D(cg);
+	Monkey->AddBehaviorAttachement( att );
 	att->AddBehavior( "bro", &broscript );
-	cu->Load();
+	Monkey->Load();
 
-	
-	
 	m_cam = pObjectBuffer->CreateNew_GameObject( );
 	Dptr<unWorldTransform> camtransform = pObjectBuffer->CreateNew_WorldTransform( );
 	Dptr<unCamera> cam = pObjectBuffer->GetControlCamera( );
@@ -208,10 +202,11 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	m_cam->AddBehaviorAttachement( batt );
 	batt->AddBehavior( "camscript", &camscrpt );
 	m_cam->Load();
+	camscrpt.limit_hight = 5;
 
-	cu->GetWorldTransform( )->ScaleAbs( 0.5, 0.5, 0.5 );
+	Monkey->GetWorldTransform( )->ScaleAbs( 0.5, 0.5, 0.5 );
 	camtransform->TranslateAbs( 0, 2, -3 );
-	camscrpt.target = cu;
+	camscrpt.target = Monkey;
 
 
 	InputEvent ExitEvent;
@@ -268,8 +263,8 @@ Updates Application specific things like AI, ui response, etc.
 -----------------------------------------------------------------------------*/
 void Application::Update(){
 	camscrpt.Update( );
-	//BlockGroup2->GetWorldTransform()->RotateRel(0,0.5,0 );
-	//BlockGroup->GetWorldTransform()->RotateRel(0,-0.7,0 );
+	
+	//BlockMaze->GetWorldTransform()->RotateRel(0,-0.07,0 );
 }
 
 /*-----------------------------------------------------------------------------

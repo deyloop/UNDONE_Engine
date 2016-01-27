@@ -157,7 +157,7 @@ namespace UNDONE_ENGINE {
 				m_pSystemComponent->NewInputFrame();
 				
 				InputEvent InputEvent;
-				while (m_pSystemComponent->GetInputEvent( &InputEvent , current_time ) > 0) {
+				while (m_pSystemComponent->GetInputEvent( &InputEvent , current_time+dt ) > 0) {
 					if (InputEvent.event.type == EVENT_QUIT) {
 						//need to quit now...
 						m_running = false;
@@ -230,7 +230,10 @@ namespace UNDONE_ENGINE {
 
 	void FrameWork::OnResize(int newHieght, int newWidth,
 							 int oldHieght, int oldWidth) {
-		if (m_pGraphicsEngine)m_pGraphicsEngine->ResetScreen( );
+		if (m_pGraphicsEngine&&m_running){
+			m_pGraphicsEngine->ResetScreen( );
+			m_pGraphicsEngine->RenderScene( );
+		}
 		m_active = true;
 	}
 

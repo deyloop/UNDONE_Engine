@@ -1075,7 +1075,7 @@ namespace UNDONE_ENGINE {
 			if (KeyPressed[i] && KeyPosted[i] != Currentkeysync) {
 				pEvent->key.type = EVENT_KEYPRESS;
 				pEvent->key.keycode = (Key)i;
-				pEvent->key.timestamp = GetTickCount();
+				pEvent->key.timestamp = GetTickCount64();
 				KeyPosted[i]= !KeyPosted[i];
 				return 1;
 			}
