@@ -166,6 +166,9 @@
     <ClCompile Include="BehaviorAttachement.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DataFile.cpp" />
+    <ClCompile Include="DataNode.cpp" />
+    <ClCompile Include="DataTag.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -193,6 +196,9 @@
     <ClInclude Include="BehaviorAttachement.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DataFile.h" />
+    <ClInclude Include="DataNode.h" />
+    <ClInclude Include="DataTag.h" />
     <ClInclude Include="Dptr.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FrameWork.h" />

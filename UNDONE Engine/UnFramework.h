@@ -59,8 +59,7 @@ namespace UNDONE_ENGINE{
 	public:
 		virtual ~UnFramework(){};
 
-		virtual bool Initialise(char* title,
-								int width, int height, bool windowed=true)	= 0;
+		virtual bool Initialise(char* config_file)	= 0;
 
 		virtual void Release()											= 0;
 		virtual void Run()												= 0;

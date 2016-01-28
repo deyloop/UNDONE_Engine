@@ -1,0 +1,4 @@
+<UNDONE_config>
+	<window title ="Test Game" height="700" width="1000" fullscreen ="true"/>
+	<graphics	vsync="true"/>
+</UNDONE_config>

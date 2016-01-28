@@ -31,6 +31,7 @@ Author	:	Anurup Dey
 #include "Scene.h"
 #include "SceneStack.h"
 #include "ThreadPool.h"
+#include "DataFile.h"
 
 namespace UNDONE_ENGINE {
 	/*--------------------------------------------------------------------------//*
@@ -90,9 +91,7 @@ namespace UNDONE_ENGINE {
 	[IN]	windowed	-window mode. true for windowed, false for fullscreen.
 	Returns: true on success, false on falure.
 	-----------------------------------------------------------------------------*/
-	bool FrameWork::Initialise(char* title,
-							   int width, int height,
-							   bool windowed) {
+	bool FrameWork::Initialise(char* config_file) {
 		m_pSystemComponent = SystemComponent::GetInstance( );
 		m_pUserWindow      = new Window( );
 		m_pGraphicsEngine  = new GraphicsEngine( );
@@ -109,22 +108,34 @@ namespace UNDONE_ENGINE {
 		BehaviorAttachement::setFramework( this );
 
 		//Initialize the subsystems..
-
+		DataFile config;
+		config.parse(config_file);
+		
 		//the Window
-		m_pUserWindow->Initialize(title, this, width, height, true);
+		DataNode& windowdata = config.RootNode.GetNode("window");
+
+		m_pUserWindow->Initialize(windowdata.GetAttribute("title"), 
+								  this, 
+								  windowdata.GetAttribute("width"), 
+								  windowdata.GetAttribute("height"), 
+								  true);
 		//the graphics engine
-		if (!m_pGraphicsEngine->Initialize(m_pUserWindow->GetHandle( ), this, m_pObjectBuffer)) {
+		DataNode& graphicdata = config.RootNode.GetNode("graphics");
+
+		if (!m_pGraphicsEngine->Initialize(m_pUserWindow->GetHandle( ), 
+										   this, 
+										   m_pObjectBuffer)) {
 			return false;
 		}
-		//the Application
-		m_pThreadPool->enqueue(&IApp::LoadScene,m_pApplication,m_pObjectBuffer).get();
-		//m_pApplication->LoadScene(m_pObjectBuffer);
-
-		if (!windowed) {
+		if (windowdata.GetAttribute("fullscreen")) {
 			ToggleFullscreen( );
 		}
+		if(graphicdata.GetAttribute("vsync"))
+			m_pGraphicsEngine->ToggleVSYNC( );
 
-		//m_pGraphicsEngine->ToggleVSYNC( );
+		//the Application
+		m_pThreadPool->enqueue(&IApp::LoadScene,m_pApplication,m_pObjectBuffer).get();
+		
 		//start the timer
 		Pause(false, false);
 		m_pGraphicsEngine->Upload( );

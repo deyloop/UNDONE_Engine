@@ -38,7 +38,7 @@ namespace UNDONE_ENGINE {
 	class Window : IWindowEventHandeller {
 	public:
 		Window( );
-		void			Initialize(char* title,
+		void			Initialize(const char* title,
 								   IWindowUser* winUser,
 								   int width, int height,
 								   bool windowed = true);

@@ -47,12 +47,12 @@ namespace UNDONE_ENGINE {
 	[IN]	windowed-indicates the window mode. True for windowed, false for full-
 	screen.
 	-----------------------------------------------------------------------------*/
-	void Window::Initialize(char* title, IWindowUser* winUser,
+	void Window::Initialize(const char* title, IWindowUser* winUser,
 							int width, int height, bool windowed) {
 		m_pSystem = SystemComponent::GetInstance( );
 		m_width = width;
 		m_hieght = height;
-		m_title = title;
+		m_title = const_cast<char*>(title);
 		m_windowed = windowed;
 		m_User = winUser;
 

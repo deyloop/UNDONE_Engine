@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Components\Scripting">
       <UniqueIdentifier>{9cd7ae38-62a3-4907-8524-55bf6faa9190}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SubSystems\File I/O">
+      <UniqueIdentifier>{e6c2db1b-d6e7-4d43-99ce-61271f8b0a7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp">
@@ -115,6 +118,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BehaviorAttachement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataTag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -280,6 +292,15 @@
     </ClInclude>
     <ClInclude Include="ThreadPool.h">
       <Filter>Header Files\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="DataFile.h">
+      <Filter>Header Files\SubSystems\File I/O</Filter>
+    </ClInclude>
+    <ClInclude Include="DataNode.h">
+      <Filter>Header Files\SubSystems\File I/O</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTag.h">
+      <Filter>Header Files\SubSystems\File I/O</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

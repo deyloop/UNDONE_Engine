@@ -56,8 +56,7 @@ namespace UNDONE_ENGINE {
 		FrameWork(IApp* pApp);
 		~FrameWork( ) { Release( ); }
 
-		bool Initialise(char* title,
-			int width, int height, bool windowed = true);
+		bool Initialise(char* config_file);
 
 		void Release( );
 		void Run( );

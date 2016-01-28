@@ -26,7 +26,7 @@ int Dmain( ) {
 	UnFramework*	pUNDONE = Create_Un_Framwork_Inst(&App);
 
 	App.LinkToEngine(pUNDONE);
-	pUNDONE->Initialise("Test Game", 1000, 700);
+	pUNDONE->Initialise("../Data/File.xml");
 
 	//time to rock n roll!
 	pUNDONE->Run( );
