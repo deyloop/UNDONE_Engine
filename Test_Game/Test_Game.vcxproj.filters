@@ -63,7 +63,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\Data\File.xml">
+    <Xml Include="..\Data\File.unconfig">
       <Filter>Resource Files</Filter>
     </Xml>
   </ItemGroup>
