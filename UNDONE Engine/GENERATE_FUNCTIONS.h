@@ -40,16 +40,21 @@ to that component can be generated automatically.
 	#define  GENERATE_FUNCTIONS(type)																		\
 		virtual void DeleteAll_ ## type (UNDONE_ENGINE::OwnerShip ownership = 0) = 0;										\
 		virtual UNDONE_ENGINE::Dptr<un##type> CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership = 0) = 0;							\
+		virtual void Delete_##type(UNDONE_ENGINE::Dptr<un##type>,UNDONE_ENGINE::OwnerShip ownership = 0) = 0;\
 		virtual UNDONE_ENGINE::Dptr<un##type> Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership = 0) = 0; 
 	#undef _GENFUNC_DEC_UNOBJECTBUFFER_H_
 #elif defined _GENFUNC_DEC_DOBJECTBUFFER_H_
 	#define GENERATE_FUNCTIONS(type)																		\
 		void DeleteAll_ ## type (UNDONE_ENGINE::OwnerShip ownership = 0);													\
 		UNDONE_ENGINE::Dptr<un##type> CreateNew_ ## type (UNDONE_ENGINE::OwnerShip ownership = 0);										\
+		void Delete_##type(UNDONE_ENGINE::Dptr<un##type>,UNDONE_ENGINE::OwnerShip ownership = 0) ;\
 		UNDONE_ENGINE::Dptr<un##type> Get_ ## type ## _ByName (const char* name, UNDONE_ENGINE::OwnerShip ownership = 0);
 	#undef _GENFUNC_DEC_DOBJECTBUFFER_H_
 #elif defined _GENFUNC_DEF_DOBJECTBUFFER_CPP_
-	#define GENERATE_FUNCTIONS(type)																			\
+	#define GENERATE_FUNCTIONS(type)\
+	void ObjectBuffer::Delete_ ## type(UNDONE_ENGINE::Dptr<un##type> ptr,UNDONE_ENGINE::OwnerShip ownership){ \
+		Delete<type>(dcast<type,un##type>(ptr),ownership);\
+	}\
 	void ObjectBuffer::DeleteAll_ ## type (UNDONE_ENGINE::OwnerShip ownership){											\
 		DeleteAll<type>(ownership);																			\
 	}																									\

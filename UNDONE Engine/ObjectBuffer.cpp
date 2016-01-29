@@ -32,6 +32,7 @@ namespace UNDONE_ENGINE {
 		m_init_vec_size = 0;
 		m_num_owners = 0;
 
+		Component::pObjectBuffer = this;
         m_Cam = CreateNew<Camera>( );
 	}
 	/*-------------------------------------------------------------------------

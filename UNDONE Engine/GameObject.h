@@ -48,16 +48,18 @@ namespace UNDONE_ENGINE {
 		template<class ComponentType>
 		Dptr<ComponentType>				GetComponent();
 
-		virtual void Load();
-		virtual void Unload();
+		void Load();
+		void Unload();
+		void OnDelete( );
+		void OnOrphaned( );
 
 		template<class ComponentType>
 		void AddComponent(Dptr<ComponentType> rComponent);
 		template<class ComponentType>
 		void RemoveComponent();
-		void RemoveComponentByName(const char* name) { };
+		void RemoveComponentByName(const char* name);
 
-		virtual void OnParentAdopted();
+		void OnParentAdopted();
 
 		#define _GENFUNC_DEC_GAMEOBJECT_H_
 		#include "GENERATE_FUNCTIONS.h"
@@ -124,7 +126,7 @@ namespace UNDONE_ENGINE {
 		for (auto& type : m_Component_types) {
 			if (type == Requested_type) {
 				m_Components.erase(m_Components.begin() + i);
-				break;
+				m_Component_types.erase(m_Component_types.begin()+i );
 			}
 			++i;
 		}

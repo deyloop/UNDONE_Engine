@@ -29,9 +29,10 @@ Author	:	Anurup Dey
 #include "InputEvent.h"
 #include "UNDONE_Engine_declr.h"
 #include <functional>
-
+#include <string>
 using std::function;
 using std::vector;
+using std::string;
 
 namespace UNDONE_ENGINE {
 	struct CallBack {
@@ -44,15 +45,15 @@ namespace UNDONE_ENGINE {
             :Desired_event( des_event ),  event_name(eventname) {
         };
         InputEvent	                     Desired_event;
-		const char*						 event_name;
+		string							 event_name;
 	};
 	
 	/*-----------------------------------------------------------------------------
 	Contexts store the data needed to execute input handelling.
 	-----------------------------------------------------------------------------*/
 	struct InputContext {
-		char*               m_name;
-		vector<InputPair>	m_pairs;
+		string					m_name;
+		vector<InputPair>		m_pairs;
 	};
 }
 #endif

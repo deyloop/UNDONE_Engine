@@ -70,7 +70,10 @@ namespace UNDONE_ENGINE{
 
 		template<typename T>
 		void DeleteAll(OwnerShip ownership = 0);
-
+		
+		template<typename T>
+		void Delete(Dptr<T> ptr,OwnerShip ownership = 0);
+		
 		template<typename T>
 		Dptr<T> CreateNew(OwnerShip ownership = 0);
 
@@ -200,6 +203,7 @@ namespace UNDONE_ENGINE{
 					//we now get the corresponding vector and list.
 					pvec = (vector<T>*)m_storage_vectors[x];
 					plist = (list<list<IPointer*>>*)m_pointer_table_lists[x];
+					break;
 				}
 
 			}
@@ -284,6 +288,52 @@ namespace UNDONE_ENGINE{
 			}
 		}
 		return;
+	}
+
+	template<typename T>
+	void ObjectBuffer::Delete( Dptr<T> ptr, OwnerShip ownership ) {
+		vector<T>* vec = GetListOf<T>(ownership);
+		int j = 0;
+		for (auto& obj : *vec) {
+			if (&obj == ptr.m_pointer) {
+				if (is_base_of<Component, T>::value) {
+					//That line above checks if the type is derived from Component
+					//or not.
+
+					Component* comp = (Component*)&obj;
+					comp->OnDelete( );
+
+					//remove from the component list.
+					for (int i = 0; i < m_Components.size( ); ++i) {
+						if (m_Components[i].m_pointer == comp) {
+							m_Components.erase(m_Components.begin( )+i);
+							//need to remove the pointer table for this object.
+							size_t this_type = typeid(T).hash_code();
+							for (unsigned x = 0; x<m_storage_owners.size(); ++x) {
+								if (m_storage_owners[x] == ownership) {
+									if (m_storage_types[x] == this_type) {
+										//This type is stored.
+										//we now get the corresponding list.
+										auto plist = (list<list<IPointer*>>*)m_pointer_table_lists[x];
+										for(auto& ptr : *comp->m_ppMyself.m_pPointerTable)
+											ptr->Object_deleted = true;
+										plist->remove(*comp->m_ppMyself.m_pPointerTable);
+										break;
+									}
+
+								}
+							}
+							break;
+						}
+					}
+
+					
+				}
+				vec->erase(vec->begin( )+j);
+				break;
+			}
+			++j;
+		}
 	}
 
 	/*----------------------------------------------------------------------------

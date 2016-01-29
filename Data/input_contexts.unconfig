@@ -1,0 +1,21 @@
+<Input_Contexts>
+	<context name="monkey_movement">
+		<InputEvent name="Move Forward" type="EVENT_KEYPRESS"	keycode="KEY_ARROW_UP"/>
+		<InputEvent name="Move Back"		type="EVENT_KEYPRESS"	keycode="KEY_ARROW_DOWN"/>
+		<InputEvent name="Turn Left"		type="EVENT_KEYPRESS"	keycode="KEY_ARROW_LEFT"/>
+		<InputEvent name="Turn Right"		type="EVENT_KEYPRESS"	keycode="KEY_ARROW_RIGHT"/>
+		<InputEvent name="Rotate Right"	type="EVENT_KEYPRESS"	keycode="KEY_E"/>
+		<InputEvent name="Rotate Left"	type="EVENT_KEYPRESS"	keycode="KEY_Q"/>
+	</context>
+	<context name="system_control">
+		<InputEvent name="Exit"					type="EVENT_KEYDOWN"	keycode="KEY_ESCAPE"/>
+		<InputEvent name="switch_camera_mode"	type="EVENT_KEYDOWN"	keycode="KEY_R"/>
+	</context>
+	<context name="camera_movement">
+		<InputEvent name="fly_forward" type="EVENT_KEYPRESS"	keycode="KEY_W"/>
+		<InputEvent name="fly_back"	type="EVENT_KEYPRESS"	keycode="KEY_S"/>
+		<InputEvent name="Rotate Right"	type="EVENT_KEYPRESS"	keycode="KEY_E"/>
+		<InputEvent name="Rotate Left"	type="EVENT_KEYPRESS"	keycode="KEY_Q"/>
+	</context>
+</Input_Contexts>
+

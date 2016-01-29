@@ -20,6 +20,7 @@ File	:	InputHandeller.cpp
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputHandeller.h"
+#include "DataFile.h"
 
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
@@ -93,6 +94,65 @@ namespace UNDONE_ENGINE {
 
 	void InputHandeller::AddContext( InputContext context ) {
 		m_Contexts.push_back(context);
+	}
+
+	Event_Type atoEvent_type( const char* str ) {
+		string e = str;
+		if(e=="EVENT_KEYDOWN") return EVENT_KEYDOWN;
+		if(e=="EVENT_KEYUP") return EVENT_KEYUP;
+		if(e=="EVENT_KEYPRESS") return EVENT_KEYPRESS;
+		if(e=="EVENT_QUIT") return EVENT_QUIT;
+		if(e=="EVENT_KEYBOARD") return EVENT_KEYBOARD;
+		if(e=="EVENT_MOUSE") return EVENT_MOUSE;
+		if(e=="EVENT_MOUSEMOVE") return EVENT_MOUSEMOVE;
+		//keep adding all here.
+	}
+
+	Key atoKeyCode(const char* str ) {
+		string e = str;
+		if(e=="KEY_ARROW_UP") return KEY_ARROW_UP;
+		if(e=="KEY_ARROW_DOWN") return KEY_ARROW_DOWN;
+		if(e=="KEY_ARROW_LEFT") return KEY_ARROW_LEFT;
+		if(e=="KEY_ARROW_RIGHT") return KEY_ARROW_RIGHT;
+		if(e=="KEY_A") return KEY_A;
+		if(e=="KEY_W") return KEY_W;
+		if(e=="KEY_D") return KEY_D;
+		if(e=="KEY_S") return KEY_S;
+		if(e=="KEY_R") return KEY_R;
+		if(e=="KEY_E") return KEY_E;
+		if(e=="KEY_Q") return KEY_Q;
+		if(e=="KEY_ESCAPE") return KEY_ESCAPE;
+		//keep adding stuff
+		return KEY_IRRELEVENT;
+	}
+	void InputHandeller::LoadContexts( const char * contextfile ) {
+		DataFile context_file;
+		context_file.parse(contextfile);
+		for (auto& node : context_file.RootNode.subNodes) {
+			if (node.name == "context") {
+				InputContext context;
+				context.m_name = node.GetAttribute("name");
+				for (auto& event_node : node.subNodes) {
+					if (event_node.name == "InputEvent") {
+						InputEvent event;
+						event.type = atoEvent_type(event_node.GetAttribute("type"));
+						switch (event.type) {
+							case EVENT_KEYBOARD:
+							case EVENT_KEYUP:
+							case EVENT_KEYDOWN:
+							case EVENT_KEYPRESS: {
+								event.key.keycode = atoKeyCode(event_node.GetAttribute("keycode"));
+							}break;
+						}//end of switch on event type.
+						
+						//after all that event neusence,
+						InputPair pair(event,event_node.GetAttribute("name"));
+						context.m_pairs.push_back(pair);
+					}//if name is InputEvent
+				}//end loop on events
+				AddContext(context);
+			}
+		}
 	}
 
 	void InputHandeller::RemoveContext( const char * context_name ) {

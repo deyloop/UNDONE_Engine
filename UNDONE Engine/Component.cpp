@@ -25,10 +25,12 @@ Author	:	Anurup Dey
 #include <iostream>
 #include "UNDONE_DEBUG.h"
 #include "GameObject.h"
+#include "ObjectBuffer.h"
 using namespace std;
 
 namespace UNDONE_ENGINE {
 	int Component::num_Components = 0;
+	ObjectBuffer* Component::pObjectBuffer = nullptr;
 	/*-----------------------------------------------------------------------------
 	Default Constructor
 	-----------------------------------------------------------------------------*/
@@ -51,6 +53,19 @@ namespace UNDONE_ENGINE {
 	void Component::Release( ) {
 		m_ppParent.m_pointer = nullptr;
 		coutput("Component "+name+" Released.\n");
+	}
+
+	void Component::OnDelete( ) {
+		//Orphan itself.
+		if (m_ppParent.m_pointer) {
+			m_ppParent->RemoveComponentByName(name.c_str());
+		}
+	}
+
+	void Component::OnOrphaned( ) {
+		if (m_ppParent.m_pointer) {
+			m_ppParent.m_pointer = nullptr;
+		}
 	}
 
 	unsigned Component::GetPriority(unsigned priority_level) {

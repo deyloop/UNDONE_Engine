@@ -53,6 +53,8 @@ namespace UNDONE_ENGINE {
 		virtual void Unload( ) = 0;
 		
 		virtual void OnParentAdopted( ) = 0;
+		virtual	void OnDelete( );
+		virtual void OnOrphaned( );
 
 		unsigned GetPriority(unsigned priority_level);
 		void SetPriority(unsigned priority, unsigned priority_level);
@@ -64,7 +66,8 @@ namespace UNDONE_ENGINE {
 	protected:
 		Dptr<GameObject>	m_ppParent;
 		Dptr<Component>		m_ppMyself;
-#define NUM_MAX_PRIORITIES 2
+		
+		#define NUM_MAX_PRIORITIES 2
 		int						m_num_priority[NUM_MAX_PRIORITIES];
 		int						m_number;
 		
@@ -72,8 +75,10 @@ namespace UNDONE_ENGINE {
 		
 
 		friend class ObjectBuffer;
+		static ObjectBuffer* pObjectBuffer;
 	private:
 		static int num_Components;
+		
 	};
 	
 }

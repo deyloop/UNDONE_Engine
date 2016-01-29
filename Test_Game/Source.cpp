@@ -26,7 +26,7 @@ int Dmain( ) {
 	UnFramework*	pUNDONE = Create_Un_Framwork_Inst(&App);
 
 	App.LinkToEngine(pUNDONE);
-	pUNDONE->Initialise("../Data/File.xml");
+	pUNDONE->Initialise("../Data/File.unconfig");
 
 	//time to rock n roll!
 	pUNDONE->Run( );

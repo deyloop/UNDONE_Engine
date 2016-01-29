@@ -26,6 +26,7 @@ Author	:	Anurup Dey
 #include<gtx\projection.hpp>
 #include<gtx\transform.hpp>
 #include "UNDONE_DEBUG.h"
+#include "ObjectBuffer.h"
 using namespace std;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -111,9 +112,11 @@ namespace UNDONE_ENGINE {
 		//We Do Nothing...
 	}
 
-	
-
-	
+	void Graphic3D::OnOrphaned( ) {
+		if (Component::pObjectBuffer) {
+			pObjectBuffer->Delete<Graphic3D>(dcast<Graphic3D,Component>(m_ppMyself));
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -57,6 +57,7 @@ namespace UNDONE_ENGINE {
 		void Unload( );
 
 		void OnParentAdopted( );
+		void OnOrphaned( );
 
 		void OnInit( ) { };
 		void OnDestroy( ) { };

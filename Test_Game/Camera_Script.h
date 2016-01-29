@@ -13,12 +13,28 @@ class Camera_Script : public Behavior {
 
 		void Load( )  {
 			limit_hight = 1;
+			follow = true;
 			Input->RegisterCallback(bind(&Camera_Script::TurnLeft,this ),"Rotate Left");
 			Input->RegisterCallback(bind(&Camera_Script::TurnRight,this),"Rotate Right");
+			Input->RegisterCallback(bind(&Camera_Script::ToggleFollow,this),"switch_camera_mode" );
+			Input->RegisterCallback(bind(&Camera_Script::MoveForward,this),"fly_forward");
+			Input->RegisterCallback(bind(&Camera_Script::MoveBackward,this),"fly_back");
+			Input->RegisterCallback(bind(&Camera_Script::YawLeft,this),"yaw_left");
+			Input->RegisterCallback(bind(&Camera_Script::YawRight,this),"yaw_right");
+
 		};
 		void UnLoad() {};
 		
 		Dptr<unGameObject> target;
+
+		void YawLeft( ) {
+			m_WorldTransform->RotateRel(unvec3((m_WorldTransform->GetDown())));
+		}
+
+		void YawRight( ) {
+						m_WorldTransform->RotateRel(unvec3((m_WorldTransform->GetUp())));
+
+		}
 
 		void TurnLeft( ) {
 			m_WorldTransform->TranslateRel( unvec3( (m_WorldTransform->GetLeft( )*0.1f) ));
@@ -38,7 +54,20 @@ class Camera_Script : public Behavior {
 
 		}
 
+		void ToggleFollow( ) {
+			if (follow) {
+				follow = false;
+				Input->DeactivateContext("monkey_movement");
+				Input->ActivateContext("camera_movement");
+			} else {
+				follow = true;
+				Input->DeactivateContext("camera_movement");
+				Input->ActivateContext("monkey_movement");
+			}
+		}
+
 		void Update( ) {
+			if(!follow) return;
 			vec3 pos = m_WorldTransform->GetPosition( );
 			if (pos.y <= limit_hight) {
 				m_WorldTransform->TranslateAbs(
@@ -55,6 +84,7 @@ class Camera_Script : public Behavior {
 		}
 
 private:
+	bool follow;
 	Dptr<unCamera> cam;
  };
 

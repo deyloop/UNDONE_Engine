@@ -124,7 +124,7 @@ namespace UNDONE_ENGINE {
 		KEY_INSERT,
 		KEY_SEMICOLON,
 		//...
-		KEY_IRRELEVENT
+		KEY_IRRELEVENT = 0
 	} key_code;
 
 	enum MouseButton {

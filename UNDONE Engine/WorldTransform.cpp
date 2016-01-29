@@ -22,6 +22,7 @@ Author:		Anurup Dey
 ///////////////////////////////////////////////////////////////////////////////
 #include "Worldtransform.h"
 #include "GameObject.h"
+#include "ObjectBuffer.h"
 #include <gtc\matrix_transform.hpp>
 
 namespace UNDONE_ENGINE {
@@ -212,5 +213,12 @@ namespace UNDONE_ENGINE {
 		RotateAbs( m_rotationX, m_rotationY, m_rotationZ );
 
 		UpdateMatLocal( );
+	}
+
+	void WorldTransform::OnOrphaned( ) {
+		if (Component::pObjectBuffer) {
+			pObjectBuffer->Delete<WorldTransform>(dcast<WorldTransform,Component>(m_ppMyself));
+		}
+		//Component::OnOrphaned( );
 	}
 }

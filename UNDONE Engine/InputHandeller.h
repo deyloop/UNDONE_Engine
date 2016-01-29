@@ -50,6 +50,7 @@ namespace UNDONE_ENGINE {
 
 		void HandleInput(InputEvent& p_given_event);
 		void AddContext(InputContext context);
+		void LoadContexts(const char* contextfile );
 		void RemoveContext(const char* context_name );
 		void ActivateContext(const char* context_name );
 		void DeactivateContext(const char* context_name );

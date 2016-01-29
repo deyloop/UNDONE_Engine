@@ -134,7 +134,7 @@ namespace UNDONE_ENGINE {
 			m_pGraphicsEngine->ToggleVSYNC( );
 
 		//the Application
-		m_pThreadPool->enqueue(&IApp::LoadScene,m_pApplication,m_pObjectBuffer).get();
+		m_pThreadPool->enqueue(&IApp::LoadScene,m_pApplication).get();
 		
 		//start the timer
 		Pause(false, false);

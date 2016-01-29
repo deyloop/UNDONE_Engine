@@ -30,6 +30,9 @@
     <ClInclude Include="Maze.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Data\input_contexts.unconfig">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="2DFontShader.frag" />
     <None Include="2DFontShader.vert" />
     <None Include="2Dshader.frag" />

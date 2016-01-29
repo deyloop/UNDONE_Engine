@@ -52,11 +52,37 @@ namespace UNDONE_ENGINE {
 		}
 	}
 
+	void GameObject::OnDelete( ) {
+		Component::OnDelete( );
+		for(int i = 0; i < m_Components.size();++i){
+			auto& childComponent = m_Components[i];
+			childComponent->SetPriority(childComponent->GetPriority(0)-1,0);
+			childComponent->OnOrphaned( );
+		}
+	}
+
+	void GameObject::OnOrphaned( ) {
+		Component::OnOrphaned( );
+		for (auto& childComponent : m_Components) {
+			childComponent->SetPriority(GetPriority(0)+1,0);
+		}
+	}
+
 	void GameObject::OnParentSet( ) {
 		//Tell all children
 		for (auto& childComponent:m_Components) {
 			childComponent->SetPriority(GetPriority(0)+1,0);
 			childComponent->OnParentAdopted();
+		}
+	}
+
+	void GameObject::RemoveComponentByName( const char * name ) {
+		for (int i = 0; i < m_Components.size( );++i) {
+			if (m_Components[i]->name == name) {
+				m_Components.erase(m_Components.begin()+i);
+				m_Component_types.erase(m_Component_types.begin()+i );
+				break;
+			}
 		}
 	}
 

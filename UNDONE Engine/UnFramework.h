@@ -42,7 +42,7 @@ game objects, thier interaction and games logic, etc.
 -----------------------------------------------------------------------------*/
 class IApp{
 public:
-	virtual void LoadScene(UNDONE_ENGINE::unObjectBuffer* pObjectBuffer/*context acceptors etc*/) = 0;
+	virtual void LoadScene( ) = 0;
 	virtual void Update(/*parameters to be decided*/) = 0;
 };
 

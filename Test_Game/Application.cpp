@@ -62,24 +62,25 @@ Parameters:
 [in,out]	*object_buffer	- The empty Object Buffer to be used in this app
 							  and which has to be pre- filled. (pointer)
 -------------------------------------------------------------------------------*/
-void Application::LoadScene(unObjectBuffer* pObjectBuffer){
+void Application::LoadScene(){
 	
-	pObjectBuffer->SetInitAllocSize(500);
+	unObjectBuffer* pObjects = m_pFrameWork->Objectbuffer;
+	pObjects->SetInitAllocSize(500);
 	
 	
-	Dptr<unShader> shVertex			= pObjectBuffer->CreateNew_Shader();
-	Dptr<unShader> shFragment			= pObjectBuffer->CreateNew_Shader();
-	Dptr<unShaderProgram> spMain		= pObjectBuffer->CreateNew_ShaderProgram();
-	Dptr<unMesh> cube_mesh			= pObjectBuffer->CreateNew_Mesh( );
-	Dptr<unMesh> monkey_mesh			= pObjectBuffer->CreateNew_Mesh( );
+	Dptr<unShader> shVertex			= pObjects->CreateNew_Shader();
+	Dptr<unShader> shFragment			= pObjects->CreateNew_Shader();
+	Dptr<unShaderProgram> spMain		= pObjects->CreateNew_ShaderProgram();
+	Dptr<unMesh> cube_mesh			= pObjects->CreateNew_Mesh( );
+	Dptr<unMesh> monkey_mesh			= pObjects->CreateNew_Mesh( );
 
-	Dptr<unGraphicMaterial> Redmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
-	Dptr<unGraphicMaterial> Bluematerial	= pObjectBuffer->CreateNew_GraphicMaterial( );
-	Dptr<unGraphicMaterial> Greenmaterial = pObjectBuffer->CreateNew_GraphicMaterial( );
-	Dptr<unGraphicMaterial> Yellowmaterial= pObjectBuffer->CreateNew_GraphicMaterial( );
-	Dptr<unGraphicMaterial> Pinkmaterial	= pObjectBuffer->CreateNew_GraphicMaterial( );
-	Dptr<unTexture> tex = pObjectBuffer->CreateNew_Texture();
-    Dptr<unTexture> tex2 = pObjectBuffer->CreateNew_Texture( );
+	Dptr<unGraphicMaterial> Redmaterial	= pObjects->CreateNew_GraphicMaterial( );
+	Dptr<unGraphicMaterial> Bluematerial	= pObjects->CreateNew_GraphicMaterial( );
+	Dptr<unGraphicMaterial> Greenmaterial = pObjects->CreateNew_GraphicMaterial( );
+	Dptr<unGraphicMaterial> Yellowmaterial= pObjects->CreateNew_GraphicMaterial( );
+	Dptr<unGraphicMaterial> Pinkmaterial	= pObjects->CreateNew_GraphicMaterial( );
+	Dptr<unTexture> tex = pObjects->CreateNew_Texture();
+    Dptr<unTexture> tex2 = pObjects->CreateNew_Texture( );
 
 	monkey_mesh->SetModelFile("monkey.obj");
 	tex->SetTexture2D("Test_Texture.jpg", true);
@@ -119,9 +120,9 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	material.push_back(Pinkmaterial);
 
 
-	Dptr<unGameObject> Texture_Display = pObjectBuffer->CreateNew_GameObject( );
-	Dptr<unGraphic2D> Texture_Display_Graphic = pObjectBuffer->CreateNew_Graphic2D( );
-	Dptr<unWorldTransform> Texture_Display_Transform = pObjectBuffer->CreateNew_WorldTransform( );
+	Dptr<unGameObject> Texture_Display = pObjects->CreateNew_GameObject( );
+	Dptr<unGraphic2D> Texture_Display_Graphic = pObjects->CreateNew_Graphic2D( );
+	Dptr<unWorldTransform> Texture_Display_Transform = pObjects->CreateNew_WorldTransform( );
 	Texture_Display_Transform->TranslateAbs(-1.0f, -1.f, 0.0f);
     Texture_Display_Transform->ScaleAbs( 0.5, 0.5, 1.0f );
 	Texture_Display_Graphic->SetTexture(tex);
@@ -132,15 +133,15 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	srand((unsigned int)time(0));
 
 	
-	BlockMaze = pObjectBuffer->CreateNew_GameObject( );
-	Dptr<unWorldTransform>	Maze_Transform	= pObjectBuffer->CreateNew_WorldTransform( );
+	BlockMaze = pObjects->CreateNew_GameObject( );
+	Dptr<unWorldTransform>	Maze_Transform	= pObjects->CreateNew_WorldTransform( );
 	BlockMaze	->	AddWorldTransform(Maze_Transform);
 
 #define SIZE 30
 
-	Dptr<unGameObject> Floor				= pObjectBuffer->CreateNew_GameObject( );
-	Dptr<unWorldTransform> Floor_Transform	= pObjectBuffer->CreateNew_WorldTransform( );
-	Dptr<unGraphic3D> Floor_Graphic			= pObjectBuffer->CreateNew_Graphic3D( );
+	Dptr<unGameObject> Floor				= pObjects->CreateNew_GameObject( );
+	Dptr<unWorldTransform> Floor_Transform	= pObjects->CreateNew_WorldTransform( );
+	Dptr<unGraphic3D> Floor_Graphic			= pObjects->CreateNew_Graphic3D( );
 	
 	Floor->AddWorldTransform(Floor_Transform);
 	Floor->AddMesh(cube_mesh);
@@ -160,9 +161,9 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 
 			if (maze.data[i+j*SIZE] == SPACE) continue;
 
-			Dptr<unGameObject> go_scene		= pObjectBuffer->CreateNew_GameObject( );
-			Dptr<unWorldTransform> transform1 = pObjectBuffer->CreateNew_WorldTransform( );
-			Dptr<unGraphic3D> graphic1		= pObjectBuffer->CreateNew_Graphic3D( );
+			Dptr<unGameObject> go_scene		= pObjects->CreateNew_GameObject( );
+			Dptr<unWorldTransform> transform1 = pObjects->CreateNew_WorldTransform( );
+			Dptr<unGraphic3D> graphic1		= pObjects->CreateNew_Graphic3D( );
 			
 			go_scene->AddWorldTransform(transform1);
 			go_scene->AddMesh(cube_mesh);
@@ -177,11 +178,13 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	}
 	
 	BlockMaze->Load();
+	//pObjects->Delete_GameObject(Floor);
 
-	Monkey = pObjectBuffer->CreateNew_GameObject( );
-	Dptr<unWorldTransform>	ct = pObjectBuffer->CreateNew_WorldTransform( );
-	Dptr<unGraphic3D>		cg = pObjectBuffer->CreateNew_Graphic3D( );
-	Dptr<unBehaviorAttachement> att = pObjectBuffer->CreateNew_BehaviorAttachement( );
+
+	Monkey = pObjects->CreateNew_GameObject( );
+	Dptr<unWorldTransform>	ct = pObjects->CreateNew_WorldTransform( );
+	Dptr<unGraphic3D>		cg = pObjects->CreateNew_Graphic3D( );
+	Dptr<unBehaviorAttachement> att = pObjects->CreateNew_BehaviorAttachement( );
 	
     Monkey->AddWorldTransform(ct);
     
@@ -192,10 +195,10 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	att->AddBehavior( "bro", &broscript );
 	Monkey->Load();
 
-	m_cam = pObjectBuffer->CreateNew_GameObject( );
-	Dptr<unWorldTransform> camtransform = pObjectBuffer->CreateNew_WorldTransform( );
-	Dptr<unCamera> cam = pObjectBuffer->GetControlCamera( );
-	Dptr<unBehaviorAttachement> batt = pObjectBuffer->CreateNew_BehaviorAttachement( );
+	m_cam = pObjects->CreateNew_GameObject( );
+	Dptr<unWorldTransform> camtransform = pObjects->CreateNew_WorldTransform( );
+	Dptr<unCamera> cam = pObjects->GetControlCamera( );
+	Dptr<unBehaviorAttachement> batt = pObjects->CreateNew_BehaviorAttachement( );
 
 	m_cam->AddWorldTransform( camtransform );
 	m_cam->AddCamera( cam );
@@ -208,54 +211,15 @@ void Application::LoadScene(unObjectBuffer* pObjectBuffer){
 	camtransform->TranslateAbs( 0, 2, -3 );
 	camscrpt.target = Monkey;
 
-
-	InputEvent ExitEvent;
-	InputEvent RightKey, LeftKey;
-	InputEvent MonkeyMoveF, MonkeyMoveB, MonkeyTurnLeft, MonkeyTurnRight;
-
-	MonkeyMoveF.event.type = EVENT_KEYPRESS;
-	MonkeyMoveF.key.keycode = KEY_ARROW_UP;
-	InputPair pairMF(MonkeyMoveF,"Move Forward");
-
-	MonkeyMoveB.event.type = EVENT_KEYPRESS;
-	MonkeyMoveB.key.keycode = KEY_ARROW_DOWN;
-	InputPair pairMB( MonkeyMoveB, "Move Back");
-
-	MonkeyTurnLeft.event.type = EVENT_KEYPRESS;
-	MonkeyTurnLeft.key.keycode = KEY_ARROW_LEFT;
-	InputPair pairML( MonkeyTurnLeft, "Turn Left");
-
-	MonkeyTurnRight.event.type = EVENT_KEYPRESS;
-	MonkeyTurnRight.key.keycode = KEY_ARROW_RIGHT;
-	InputPair pairMR( MonkeyTurnRight, "Turn Right");
-
-	RightKey.event.type = EVENT_KEYPRESS;
-	RightKey.key.keycode = KEY_D;
-	InputPair pairR( RightKey, "Rotate Right");
-
-	LeftKey.event.type = EVENT_KEYPRESS;
-	LeftKey.key.keycode = KEY_A;
-	InputPair pairL( LeftKey, "Rotate Left");
-	
-	ExitEvent.event.type		= EVENT_KEYDOWN;
-	ExitEvent.key.keycode		= KEY_ESCAPE;
-	InputPair pair( ExitEvent, "Exit");
-	
-	InputContext monkeycontrolcontext;
-	monkeycontrolcontext.m_name = "monkey_movement";
-	monkeycontrolcontext.m_pairs.push_back(pair);
-	monkeycontrolcontext.m_pairs.push_back( pairL );
-	monkeycontrolcontext.m_pairs.push_back( pairMR );
-	monkeycontrolcontext.m_pairs.push_back( pairMF );
-	monkeycontrolcontext.m_pairs.push_back( pairML );
-	monkeycontrolcontext.m_pairs.push_back( pairMB );
-	monkeycontrolcontext.m_pairs.push_back( pairR );
-
-	m_pFrameWork->Input->AddContext(monkeycontrolcontext);
+	m_pFrameWork->Input->LoadContexts("../Data/input_contexts.unconfig");
 	m_pFrameWork->Input->ActivateContext("monkey_movement");
+	m_pFrameWork->Input->ActivateContext("system_control");
 
 	m_pFrameWork->Input->RegisterCallback([=]{SystemComponent::GetInstance()->Post_Quit_Mesage( 0 ); },"Exit");
 	initialized = true;
+	
+
+
 }
 
 /*-----------------------------------------------------------------------------

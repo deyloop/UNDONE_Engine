@@ -4,7 +4,12 @@
 void DataFile::parse( const char* filename ) {
 	FILE* file = nullptr;
 		fopen_s(&file,filename,"rb");
-		if(!file) cout << "ERROR";
+		if(!file){
+			cout << "ERROR"; 
+			//fclose(file); 
+			return;
+		}
+
 		vector<Tag> tags;
 
 		char c = ' ';
