@@ -95,41 +95,46 @@ namespace UNDONE_ENGINE {
 	void InputHandeller::AddContext( InputContext context ) {
 		m_Contexts.push_back(context);
 	}
+	constexpr unsigned int str2int( const char* str, int h = 0 ) {
+		return !str[h]?5381:(str2int(str,h+1)*33)^str[h];
+	}
 
 	Event_Type atoEvent_type( const char* str ) {
-		string e = str;
-		if(e=="EVENT_KEYDOWN") return EVENT_KEYDOWN;
-		if(e=="EVENT_KEYUP") return EVENT_KEYUP;
-		if(e=="EVENT_KEYPRESS") return EVENT_KEYPRESS;
-		if(e=="EVENT_QUIT") return EVENT_QUIT;
-		if(e=="EVENT_KEYBOARD") return EVENT_KEYBOARD;
-		if(e=="EVENT_MOUSE") return EVENT_MOUSE;
-		if(e=="EVENT_MOUSEMOVE") return EVENT_MOUSEMOVE;
+		switch(str2int(str)){
+			case str2int("EVENT_KEYDOWN"):	return EVENT_KEYDOWN;
+			case str2int("EVENT_KEYUP"):	return EVENT_KEYUP;
+			case str2int("EVENT_QUIT"):		return EVENT_QUIT;
+			case str2int("EVENT_KEYBOARD"): return EVENT_KEYBOARD;
+			case str2int("EVENT_MOUSE") :	return EVENT_MOUSE;
+			case str2int("EVENT_MOUSEMOVE"):return EVENT_MOUSEMOVE;
+			case str2int("EVENT_KEYPRESS"): return EVENT_KEYPRESS;
+		}
 		//keep adding all here.
 	}
 
 	Key atoKeyCode(const char* str ) {
-		string e = str;
-		if(e=="KEY_ARROW_UP") return KEY_ARROW_UP;
-		if(e=="KEY_ARROW_DOWN") return KEY_ARROW_DOWN;
-		if(e=="KEY_ARROW_LEFT") return KEY_ARROW_LEFT;
-		if(e=="KEY_ARROW_RIGHT") return KEY_ARROW_RIGHT;
-		if(e=="KEY_A") return KEY_A;
-		if(e=="KEY_W") return KEY_W;
-		if(e=="KEY_D") return KEY_D;
-		if(e=="KEY_S") return KEY_S;
-		if(e=="KEY_R") return KEY_R;
-		if(e=="KEY_E") return KEY_E;
-		if(e=="KEY_Q") return KEY_Q;
-		if(e=="KEY_Z") return KEY_Z;
-		if(e=="KEY_X") return KEY_X;
-		if(e=="KEY_NUM_8") return KEY_NUM_8;
-		if(e=="KEY_NUM_2") return KEY_NUM_2;
-		if(e=="KEY_NUM_4") return KEY_NUM_4;
-		if(e=="KEY_NUM_6") return KEY_NUM_6;
-		if(e=="KEY_NUM_7") return KEY_NUM_7;
 		
-		if(e=="KEY_ESCAPE") return KEY_ESCAPE;
+		switch(str2int(str)){
+			case str2int("KEY_ARROW_UP")	:	return KEY_ARROW_UP;
+			case str2int("KEY_ARROW_DOWN")	:	return KEY_ARROW_DOWN;
+			case str2int("KEY_ARROW_LEFT")	:	return KEY_ARROW_LEFT;
+			case str2int("KEY_ARROW_RIGHT")	:	return KEY_ARROW_RIGHT;
+			case str2int("KEY_A")			:	return KEY_A;
+			case str2int("KEY_W")			:	return KEY_W;
+			case str2int("KEY_D")			:	return KEY_D;
+			case str2int("KEY_S")			:	return KEY_S;
+			case str2int("KEY_R")			:	return KEY_R;
+			case str2int("KEY_E")			:	return KEY_E;
+			case str2int("KEY_Q")			:	return KEY_Q;
+			case str2int("KEY_Z")			:	return KEY_Z;
+			case str2int("KEY_X")			:	return KEY_X;
+			case str2int("KEY_NUM_8")		:	return KEY_NUM_8;
+			case str2int("KEY_NUM_2")		:	return KEY_NUM_2;
+			case str2int("KEY_NUM_4")		:	return KEY_NUM_4;
+			case str2int("KEY_NUM_6")		:	return KEY_NUM_6;
+			case str2int("KEY_NUM_7")		:	return KEY_NUM_7;
+			case str2int("KEY_ESCAPE")		:	return KEY_ESCAPE;
+		}
 		//keep adding stuff
 		return KEY_IRRELEVENT;
 	}

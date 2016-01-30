@@ -217,9 +217,6 @@ void Application::LoadScene(){
 
 	m_pFrameWork->Input->RegisterCallback([=]{SystemComponent::GetInstance()->Post_Quit_Mesage( 0 ); },"Exit");
 	initialized = true;
-	
-
-
 }
 
 /*-----------------------------------------------------------------------------
