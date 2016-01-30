@@ -16,6 +16,10 @@
 		<InputEvent name="fly_back"	type="EVENT_KEYPRESS"	keycode="KEY_S"/>
 		<InputEvent name="Rotate Right"	type="EVENT_KEYPRESS"	keycode="KEY_E"/>
 		<InputEvent name="Rotate Left"	type="EVENT_KEYPRESS"	keycode="KEY_Q"/>
+		<InputEvent name="yaw_left" type="EVENT_KEYPRESS" keycode="KEY_NUM_4"/>
+		<InputEvent name="yaw_right" type="EVENT_KEYPRESS" keycode="KEY_NUM_6"/>
+		<InputEvent name="yaw_up" type="EVENT_KEYPRESS" keycode="KEY_NUM_8"/>
+		<InputEvent name="yaw_down" type="EVENT_KEYPRESS" keycode="KEY_NUM_2"/>
 	</context>
 </Input_Contexts>
 

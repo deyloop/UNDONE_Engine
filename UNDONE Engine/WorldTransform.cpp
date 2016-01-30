@@ -137,11 +137,8 @@ namespace UNDONE_ENGINE {
 		m_rotationX += x;
 		m_rotationY += y;
 		m_rotationZ += z;
-		m_rotation = glm::rotate(m_rotation, x, glm::vec3(1.0f, 0.0f, 0.0f));
-		m_rotation = glm::rotate(m_rotation, y, glm::vec3(0.0f, 1.0f, 0.0f));
-		m_rotation = glm::rotate(m_rotation, z, glm::vec3(0.0f, 0.0f, 1.0f));
-
-		UpdateMatLocal( );
+		
+		RotateAbs(m_rotationX,m_rotationY,m_rotationZ);
 	}
 
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -191,10 +188,10 @@ namespace UNDONE_ENGINE {
 		if (m_ppParentTransform->m_sync_num!=m_sync_num) {
 			
 			m_parentTransform = (m_ppParentTransform->GetTransform( ));
+			m_worldTransform = m_parentTransform*m_localTransform;
 			m_par_sync_num = m_ppParentTransform->m_sync_num;
 		}
 
-		m_worldTransform = m_parentTransform*m_localTransform;
 		return m_worldTransform;
 	}
 

@@ -21,6 +21,8 @@ class Camera_Script : public Behavior {
 			Input->RegisterCallback(bind(&Camera_Script::MoveBackward,this),"fly_back");
 			Input->RegisterCallback(bind(&Camera_Script::YawLeft,this),"yaw_left");
 			Input->RegisterCallback(bind(&Camera_Script::YawRight,this),"yaw_right");
+			Input->RegisterCallback(bind(&Camera_Script::LookUp,this),"yaw_up");
+			Input->RegisterCallback(bind(&Camera_Script::LookDown,this),"yaw_down");
 
 		};
 		void UnLoad() {};
@@ -28,11 +30,20 @@ class Camera_Script : public Behavior {
 		Dptr<unGameObject> target;
 
 		void YawLeft( ) {
-			m_WorldTransform->RotateRel(unvec3((m_WorldTransform->GetDown())));
+			m_WorldTransform->RotateRel(0,1,0);
 		}
 
 		void YawRight( ) {
-						m_WorldTransform->RotateRel(unvec3((m_WorldTransform->GetUp())));
+			m_WorldTransform->RotateRel(0,-1,0);
+
+		}
+
+		void LookUp( ) {
+			m_WorldTransform->RotateRel(1,0,0);
+		}
+
+		void LookDown( ) {
+			m_WorldTransform->RotateRel(-1,0,0);
 
 		}
 
@@ -57,12 +68,11 @@ class Camera_Script : public Behavior {
 		void ToggleFollow( ) {
 			if (follow) {
 				follow = false;
-				Input->DeactivateContext("monkey_movement");
 				Input->ActivateContext("camera_movement");
 			} else {
 				follow = true;
 				Input->DeactivateContext("camera_movement");
-				Input->ActivateContext("monkey_movement");
+				
 			}
 		}
 

@@ -382,6 +382,36 @@ namespace UNDONE_ENGINE {
 		case VK_CAPITAL:
 			pEvent->key.keycode = KEY_CAPSLOCK;
 			return 1;
+		case VK_NUMPAD0:
+			pEvent->key.keycode = KEY_NUM_0;
+			return 1;
+		case VK_NUMPAD1:
+			pEvent->key.keycode = KEY_NUM_1;
+			return 1;
+		case VK_NUMPAD2:
+			pEvent->key.keycode = KEY_NUM_2;
+			return 1;
+		case VK_NUMPAD3:
+			pEvent->key.keycode = KEY_NUM_3;
+			return 1;
+		case VK_NUMPAD4:
+			pEvent->key.keycode = KEY_NUM_4;
+			return 1;
+		case VK_NUMPAD5:
+			pEvent->key.keycode = KEY_NUM_5;
+			return 1;
+		case VK_NUMPAD6:
+			pEvent->key.keycode = KEY_NUM_6;
+			return 1;
+		case VK_NUMPAD7:
+			pEvent->key.keycode = KEY_NUM_7;
+			return 1;
+		case VK_NUMPAD8:
+			pEvent->key.keycode = KEY_NUM_8;
+			return 1;
+		case VK_NUMPAD9:
+			pEvent->key.keycode = KEY_NUM_9;
+			return 1;
 		case '\b':
 			pEvent->key.keycode = KEY_BACKSPACE;
 			return 1;

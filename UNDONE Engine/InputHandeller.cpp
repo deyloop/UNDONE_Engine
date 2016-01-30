@@ -121,6 +121,14 @@ namespace UNDONE_ENGINE {
 		if(e=="KEY_R") return KEY_R;
 		if(e=="KEY_E") return KEY_E;
 		if(e=="KEY_Q") return KEY_Q;
+		if(e=="KEY_Z") return KEY_Z;
+		if(e=="KEY_X") return KEY_X;
+		if(e=="KEY_NUM_8") return KEY_NUM_8;
+		if(e=="KEY_NUM_2") return KEY_NUM_2;
+		if(e=="KEY_NUM_4") return KEY_NUM_4;
+		if(e=="KEY_NUM_6") return KEY_NUM_6;
+		if(e=="KEY_NUM_7") return KEY_NUM_7;
+		
 		if(e=="KEY_ESCAPE") return KEY_ESCAPE;
 		//keep adding stuff
 		return KEY_IRRELEVENT;
