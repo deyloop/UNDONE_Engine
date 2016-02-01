@@ -66,9 +66,9 @@ namespace UNDONE_ENGINE {
 
 		template<class T>
 		void Upload_( ) {
-			vector<T>* list = m_pGraphicsBuffer->GetListOf<T>( );
+			vector<Binding<T>>* list = m_pGraphicsBuffer->GetListOf<T>( );
 			for (auto& resource : *list)
-				resource.GPU_Upload();
+				resource.object.GPU_Upload();
 		}
 
 		void Upload( );

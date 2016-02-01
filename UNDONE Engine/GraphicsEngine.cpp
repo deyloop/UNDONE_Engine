@@ -275,7 +275,7 @@ namespace UNDONE_ENGINE {
 	void GraphicsEngine::OnDestroyContext( ) {
 		if (m_pGraphicsBuffer) {
 			for (auto& graphic:*m_pGraphicsBuffer->GetListOf<Graphic3D>( )) {
-				graphic.OnDestroy( );
+				graphic.object.OnDestroy( );
 			}
 		}
 		

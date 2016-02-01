@@ -41,7 +41,11 @@ using namespace std;
 
 namespace UNDONE_ENGINE{
 
-
+	template<typename T>
+	struct Binding {
+		T object;
+		list<IPointer*> ptr_list;
+	};
 
 	/*-------------------------------------------------------------------------
 	The Object buffer is the place where all the components of the game are
@@ -49,7 +53,7 @@ namespace UNDONE_ENGINE{
 	type of component you throw at it. It also separates objects by ownership.
 	-------------------------------------------------------------------------*/
 	class ObjectBuffer : public unObjectBuffer{
-		vector<Dptr<Component>>		m_Components;
+		list<Dptr<Component>>		m_Components;
 		vector<void*>				m_storage_vectors;
 		vector<void*>				m_pointer_table_lists;
 		vector<size_t>				m_storage_types;
@@ -78,7 +82,7 @@ namespace UNDONE_ENGINE{
 		Dptr<T> CreateNew(OwnerShip ownership = 0);
 
 		template<typename T>
-		vector<T>* GetListOf(OwnerShip ownership = 0);
+		vector<Binding<T>>* GetListOf(OwnerShip ownership = 0);
 		template<typename T>
 		void SortByPriority(OwnerShip ownership = 0);
 
@@ -99,13 +103,11 @@ namespace UNDONE_ENGINE{
 	//////////////////////////Definitions//////////////////////////////////////
 	//Prototypes of templates used.
 	template<typename storagetype>
-	bool Reallocating(vector<storagetype>& vec_to_check);
+	bool Reallocating(vector<Binding<storagetype>>& vec_to_check);
 	template<typename storagetype>
-	void Reallocate_vector(vector<storagetype>& storageVector,
-		list<list<IPointer*>>& pointerTableList);
+	void Reallocate_vector(vector<Binding<storagetype>>& storageVector);
 	template<typename storagetype>
-	Dptr<storagetype> MakeNew(vector<storagetype>& storageVector,
-		list<list<IPointer*>>& pointerTableList);
+	Dptr<storagetype> MakeNew(vector<Binding<storagetype>>& storageVector);
 
 	/*-----------------------------------------------------------------------------
 	Template function for checking if a container vector is about to relocate or
@@ -117,7 +119,7 @@ namespace UNDONE_ENGINE{
 	true if about to resize, false otherwise.
 	-----------------------------------------------------------------------------*/
 	template<typename storagetype>
-	bool Reallocating(vector<storagetype>& vec_to_check) {
+	bool Reallocating(vector<Binding<storagetype>>& vec_to_check) {
 		if (!vec_to_check.empty()) {
 			if (vec_to_check.size() == vec_to_check.capacity()) {
 				//things gonna change
@@ -135,24 +137,18 @@ namespace UNDONE_ENGINE{
 	[IN] storageList	-	the linked list which will be updated.
 	-----------------------------------------------------------------------------*/
 	template<typename storagetype>
-	void Reallocate_vector(vector<storagetype>& storageVector,
-		list<list<IPointer*>>& pointerTableList) {
-		int i = 0;
-		for (list<IPointer*>& Table : pointerTableList) {
-			
-			for (IPointer* pointer : Table){
+	void Reallocate_vector(vector<Binding<storagetype>>& storageVector) {
+		for (Binding<storagetype>& binding : storageVector){
+			for (IPointer* pointer : binding.ptr_list){
 				size_t pointer_type = pointer->Get_Type();
 				const size_t Component_type = typeid(Component).hash_code();
 				if (pointer_type == Component_type){
-					((Dptr<Component>*)pointer)->Relink<storagetype>(&storageVector[i]);
+					((Dptr<Component>*)pointer)->Relink<storagetype>(&binding.object);
 				} else {
-					((Dptr<storagetype>*)pointer)->Relink<storagetype>(&storageVector[i]);
+					((Dptr<storagetype>*)pointer)->Relink<storagetype>(&binding.object);
 				}
 			}
-			i++;
 		}
-		//NOTE: this doesn't yet allow for rearrangement of objects in the 
-		//vector, so don't try that yet.
 	}
 
 	/*-----------------------------------------------------------------------------
@@ -164,25 +160,20 @@ namespace UNDONE_ENGINE{
 	[IN] storageList	-	the linked list.
 	-----------------------------------------------------------------------------*/
 	template<typename storagetype>
-	Dptr<storagetype> MakeNew(vector<storagetype>& storageVector,
-		list<list<IPointer*>>& pointerTableList) {
+	Dptr<storagetype> MakeNew(vector<Binding<storagetype>>& storageVector) {
 		bool reallocate_list = Reallocating<storagetype>(storageVector);
 
-		storagetype object;
-		storageVector.push_back(object);
+		Binding<storagetype> binding;
+		storageVector.push_back(binding);
 
 		if (reallocate_list) {
-			Reallocate_vector<storagetype>(storageVector, pointerTableList);
+			Reallocate_vector<storagetype>(storageVector);
 		}
-
-		//Create new table
-		list<IPointer*> newTable;
-		pointerTableList.push_back(newTable);
 
 		//now create a new pointer and put it in new table.
 		Dptr<storagetype> newptr;
 		newptr.Object_deleted = false;
-		newptr.Link(&storageVector.back(), &pointerTableList.back());
+		newptr.Link(&storageVector.back().object, &storageVector.back().ptr_list);
 
 		return newptr;
 	}
@@ -191,8 +182,7 @@ namespace UNDONE_ENGINE{
 	Dptr<T> ObjectBuffer::CreateNew(OwnerShip ownership) {
 		m_empty = false;
 
-		vector<T>*				pvec = nullptr;
-		list<list<IPointer*>>*	plist = nullptr;
+		vector<Binding<T>>*				pvec = nullptr;
 
 		//Check if we already store this type of objects.
 		size_t this_type = typeid(T).hash_code();
@@ -201,29 +191,26 @@ namespace UNDONE_ENGINE{
 				if (m_storage_types[x] == this_type) {
 					//This type is stored.
 					//we now get the corresponding vector and list.
-					pvec = (vector<T>*)m_storage_vectors[x];
-					plist = (list<list<IPointer*>>*)m_pointer_table_lists[x];
+					pvec = (vector<Binding<T>>*)m_storage_vectors[x];
 					break;
 				}
 
 			}
 		}
 
-		if (pvec == nullptr && plist == nullptr) {
+		if (pvec == nullptr) {
 			//the type is not already stored. make arrangements
 			//to store it.
-			pvec = new vector<T>();
-			plist = new list<list<IPointer*>>();
+			pvec = new vector<Binding<T>>();
 			//Make pre-Allocated space.
 			pvec->reserve(m_init_vec_size);
 
 			m_storage_vectors.push_back((void*)pvec);
-			m_pointer_table_lists.push_back((void*)plist);
 			m_storage_types.push_back(this_type);
 			m_storage_owners.push_back(ownership);
 		}
 
-		Dptr<T> pointer = MakeNew<T>(*pvec, *plist);
+		Dptr<T> pointer = MakeNew<T>(*pvec);
 		//Components are kept specially, So that they can be
 		//searched up by name later
 		if (is_base_of<Component, T>::value) {
@@ -251,8 +238,7 @@ namespace UNDONE_ENGINE{
 	----------------------------------------------------------------------------*/
 	template<typename T>
 	void ObjectBuffer::DeleteAll(OwnerShip ownership) {
-		vector<T>*				pvec = nullptr;
-		list<list<IPointer*>>*	plist = nullptr;
+		vector<Binding<T>>*				pvec = nullptr;
 
 		//Check if we already store this type of objects.
 		size_t this_type = typeid(T).hash_code();
@@ -261,25 +247,24 @@ namespace UNDONE_ENGINE{
 				if (m_storage_types[i] == this_type) {
 					//This type is stored.
 					//we now get the corresponding vector and list.
-					pvec = (vector<T>*)m_storage_vectors[i];
-					plist = (list<list<IPointer*>>*)m_pointer_table_lists[i];
+					pvec = (vector<Binding<T>>*)m_storage_vectors[i];
 					//Now we empty the list and the vector.
 					//need to tell each pointer out there that your object
 					//has been deleted...
-					for (list<IPointer*>& Table : *plist){
-						for (IPointer* pointer : Table){
+					for (Binding<T>& binding : *pvec ){
+						for (IPointer* pointer : binding.ptr_list){
 							pointer->Object_deleted = true;
 						}
 					}
 
-					pvec->clear(); plist->clear();
+					pvec->clear();
 
 					//delete the vector and list.
 					delete pvec;
-					delete plist;
+				
 					//erase the pos in storage.
 					m_storage_vectors.erase(m_storage_vectors.begin() + i);
-					m_pointer_table_lists.erase(m_pointer_table_lists.begin() + i);
+					
 					//We don't store this type anymore.
 					m_storage_types.erase(m_storage_types.begin() + i);
 					m_storage_owners.erase(m_storage_owners.begin() + i);
@@ -292,55 +277,14 @@ namespace UNDONE_ENGINE{
 
 	template<typename T>
 	void ObjectBuffer::Delete( Dptr<T> ptr, OwnerShip ownership ) {
-		vector<T>* vec = GetListOf<T>(ownership);
-		int j = 0;
-		for (auto& obj : *vec) {
-			if (&obj == ptr.m_pointer) {
-				if (is_base_of<Component, T>::value) {
-					//That line above checks if the type is derived from Component
-					//or not.
-
-					Component* comp = (Component*)&obj;
-					comp->OnDelete( );
-
-					//remove from the component list.
-					for (int i = 0; i < m_Components.size( ); ++i) {
-						if (m_Components[i].m_pointer == comp) {
-							m_Components.erase(m_Components.begin( )+i);
-							//need to remove the pointer table for this object.
-							size_t this_type = typeid(T).hash_code();
-							for (unsigned x = 0; x<m_storage_owners.size(); ++x) {
-								if (m_storage_owners[x] == ownership) {
-									if (m_storage_types[x] == this_type) {
-										//This type is stored.
-										//we now get the corresponding list.
-										auto plist = (list<list<IPointer*>>*)m_pointer_table_lists[x];
-										for(auto& ptr : *comp->m_ppMyself.m_pPointerTable)
-											ptr->Object_deleted = true;
-										plist->remove(*comp->m_ppMyself.m_pPointerTable);
-										break;
-									}
-
-								}
-							}
-							break;
-						}
-					}
-
-					
-				}
-				vec->erase(vec->begin( )+j);
-				break;
-			}
-			++j;
-		}
+		
 	}
 
 	/*----------------------------------------------------------------------------
 	Useed to Get a vector of corresponding things.
 	----------------------------------------------------------------------------*/
 	template<typename T>
-	vector<T>* ObjectBuffer::GetListOf(OwnerShip ownership) {
+	vector<Binding<T>>* ObjectBuffer::GetListOf(OwnerShip ownership) {
 
 		//Check if we already store this type of objects.
 		size_t this_type = typeid(T).hash_code();
@@ -349,20 +293,19 @@ namespace UNDONE_ENGINE{
 				if (m_storage_types[x] == this_type) {
 					//This type is stored.
 					//we now get the corresponding vector
-					return ((vector<T>*)m_storage_vectors[x]);
+					return ((vector<Binding<T>>*)m_storage_vectors[x]);
 				}
 			}
 		}
 		//if execution reaches here, we don't store such an object.
 		//In such a case, we create an empty vector and add it under
 		//the current ownership. 
-		vector<T>*	pvec = new vector<T>();
-		list<list<IPointer*>>*	plist = new list<list<IPointer*>>();
+		vector<Binding<T>>*	pvec = new vector<Binding<T>>();
+		
 		//Make pre-Allocated space.
 		pvec->reserve(m_init_vec_size);
 
 		m_storage_vectors.push_back((void*)pvec);
-		m_pointer_table_lists.push_back((void*)plist);
 		m_storage_types.push_back(this_type);
 		m_storage_owners.push_back(ownership);
 
@@ -443,26 +386,22 @@ namespace UNDONE_ENGINE{
 				if (m_storage_types[x] == this_type) {
 					//This type is stored.
 					//we now get the corresponding vector and list.
-					pvec = (vector<T>*)m_storage_vectors[x];
-					plist = (list<list<IPointer*>>*)m_pointer_table_lists[x];
+					pvec = (vector<Binding<T>>*)m_storage_vectors[x];
 				}
 
 			}
 		}
 
-		if (pvec == nullptr && plist == nullptr) {
+		if (pvec == nullptr) {
 			//the type is not already stored.
 			return;
 		}
 		/*
-		//sorting...
-		//STEP 1: sort the linked list first...
-		plist->sort(Compare_list<T>);
-		//STEP 2: sort the vector..
+		//STEP 1: sort the vector..
 		sort(pvec->begin(), pvec->end(), Compare_vec<T>);
-		//STEP 3: relink the list to the vector.
+		//STEP 2: relink the list to the vector.
 		Reallocate_vector<T>(*pvec, *plist);
-		//STEP 4 : enjoy the view!
+		//STEP 3 : enjoy the view!
 		*/
 		return;
 		

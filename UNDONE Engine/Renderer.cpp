@@ -83,7 +83,7 @@ namespace UNDONE_ENGINE {
 		Mesh::SetCurrentlyBoundVAO(0);
 
 		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<Graphic3D>( )) {
-			graphic.Render(render_params);
+			graphic.object.Render(render_params);
 		}
 
 	}
@@ -106,7 +106,7 @@ namespace UNDONE_ENGINE {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		for (auto& graphic:*m_pGraphicsBuffer->GetListOf<Graphic2D>( )) {
-			graphic.Render(params);
+			graphic.object.Render(params);
 		}
 
 		glEnable(GL_DEPTH_TEST);
