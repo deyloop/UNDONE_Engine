@@ -28,6 +28,7 @@
     <ClInclude Include="Bro.h" />
     <ClInclude Include="Camera_Script.h" />
     <ClInclude Include="Maze.h" />
+    <ClInclude Include="Mazescript.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\input_contexts.unconfig">

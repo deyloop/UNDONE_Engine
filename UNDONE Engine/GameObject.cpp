@@ -22,6 +22,8 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "GameObject.h"
+#include "ObjectBuffer.h"
+
 namespace UNDONE_ENGINE {
 	/*-----------------------------------------------------------------------------
 	Default Constructor.
@@ -40,8 +42,8 @@ namespace UNDONE_ENGINE {
 	
 	void GameObject::Load( ) {
 		//Load all children
-		for (auto& childComponent:m_Components) {
-			childComponent->Load( );
+		for (int i = 0; i < m_Components.size();++i) {
+			m_Components[i]->Load( );
 		}
 	}
 
@@ -65,6 +67,9 @@ namespace UNDONE_ENGINE {
 		Component::OnOrphaned( );
 		for (auto& childComponent : m_Components) {
 			childComponent->SetPriority(GetPriority(0)+1,0);
+		}
+		if (Component::pObjectBuffer) {
+			Component::pObjectBuffer->Delete<GameObject>(dcast<GameObject,Component>( m_ppMyself));
 		}
 	}
 

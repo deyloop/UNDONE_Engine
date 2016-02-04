@@ -181,7 +181,7 @@ namespace UNDONE_ENGINE {
 	* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 	glm::mat4& WorldTransform::GetTransform( ) {
 		
-		if (!m_parented) {
+		if (!m_ppParentTransform.m_pointer) {
 			return m_localTransform;
 		} 
 		

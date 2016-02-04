@@ -43,8 +43,9 @@ namespace UNDONE_ENGINE{
 
 	template<typename T>
 	struct Binding {
+		Binding( ){ptr_list = new list<IPointer*>( ); }
 		T object;
-		list<IPointer*> ptr_list;
+		list<IPointer*>* ptr_list;
 	};
 
 	/*-------------------------------------------------------------------------
@@ -139,7 +140,7 @@ namespace UNDONE_ENGINE{
 	template<typename storagetype>
 	void Reallocate_vector(vector<Binding<storagetype>>& storageVector) {
 		for (Binding<storagetype>& binding : storageVector){
-			for (IPointer* pointer : binding.ptr_list){
+			for (IPointer* pointer : *binding.ptr_list){
 				size_t pointer_type = pointer->Get_Type();
 				const size_t Component_type = typeid(Component).hash_code();
 				if (pointer_type == Component_type){
@@ -173,7 +174,7 @@ namespace UNDONE_ENGINE{
 		//now create a new pointer and put it in new table.
 		Dptr<storagetype> newptr;
 		newptr.Object_deleted = false;
-		newptr.Link(&storageVector.back().object, &storageVector.back().ptr_list);
+		newptr.Link(&storageVector.back().object, storageVector.back().ptr_list);
 
 		return newptr;
 	}
@@ -252,7 +253,7 @@ namespace UNDONE_ENGINE{
 					//need to tell each pointer out there that your object
 					//has been deleted...
 					for (Binding<T>& binding : *pvec ){
-						for (IPointer* pointer : binding.ptr_list){
+						for (IPointer* pointer : *binding.ptr_list){
 							pointer->Object_deleted = true;
 						}
 					}
@@ -277,7 +278,45 @@ namespace UNDONE_ENGINE{
 
 	template<typename T>
 	void ObjectBuffer::Delete( Dptr<T> ptr, OwnerShip ownership ) {
-		
+		if(!ptr.m_pointer) return;
+		cout << "Deleteing\n";
+		vector<Binding<T>>* vec = GetListOf<T>(ownership);
+		for (Binding<T>& binding : *vec) {
+			if (&binding.object == ptr.m_pointer) {
+				if (is_base_of<Component, T>::value) {
+					Component* comp = (Component*)ptr.m_pointer;
+					comp->OnDelete( );
+
+					//removing from the component list.
+					for (Dptr<Component> compptr : m_Components) {
+						if (compptr.m_pointer == comp) {
+							m_Components.remove(compptr);
+							break;
+						}
+					}
+				}
+
+				ptr.~Dptr( );
+				for (IPointer* pptr : *binding.ptr_list) {
+					pptr->Object_deleted = true;
+				}
+
+				binding = vec->back( );
+
+				for (IPointer* pointer : *(vec->back().ptr_list)) {
+					size_t pointer_type = pointer->Get_Type();
+					const size_t Component_type = typeid(Component).hash_code();
+					if (pointer_type == Component_type){
+						((Dptr<Component>*)pointer)->Relink<T>(&binding.object);
+					} else {
+						((Dptr<T>*)pointer)->Relink<T>(&binding.object);
+					}
+				}
+
+				vec->pop_back( );
+				break;
+			}
+		}
 	}
 
 	/*----------------------------------------------------------------------------
@@ -334,7 +373,7 @@ namespace UNDONE_ENGINE{
 		ErrorComponent.m_pointer = nullptr;
 		return ErrorComponent;
 	}
-	/*
+	
 	template<class T>
 	bool Compare_list(T* ra, T* rb) {
 		Component* a = (Component*)ra;
@@ -357,18 +396,18 @@ namespace UNDONE_ENGINE{
 		//Component* a = (Component*)&ra;
 		//Component* b = (Component*)&rb;
 		for (unsigned level = 0;
-			a.GetPriority(level) != -1 || b.GetPriority(level) != -1;
+			a.object.GetPriority(level) != -1 || b.object.GetPriority(level) != -1;
 			++level) {
-			if (a.GetPriority(level) == b.GetPriority(level)) {
+			if (a.object.GetPriority(level) == b.object.GetPriority(level)) {
 				continue;
 			}
 			else {
-				return (a.GetPriority(level)) <= (b.GetPriority(level));
+				return (a.object.GetPriority(level)) <= (b.object.GetPriority(level));
 			}
 		}
-		return a.GetNumber() < b.GetNumber();
+		return a.object.GetNumber() < b.object.GetNumber();
 	}
-	*/
+	
 	template<typename T>
 	void ObjectBuffer::SortByPriority(OwnerShip ownership) {
 		//we proceed to sort, only if T is a type of Component.
@@ -377,8 +416,7 @@ namespace UNDONE_ENGINE{
 		}
 
 		//first, we get the vector and lists to sort,
-		vector<T>* pvec = nullptr;
-		list<list<IPointer*>>* plist = nullptr;
+		vector<Binding<T>>* pvec = nullptr;
 		//Check if we already store this type of objects.
 		size_t this_type = typeid(T).hash_code();
 		for (unsigned x = 0; x<m_storage_owners.size(); ++x) {
@@ -396,13 +434,13 @@ namespace UNDONE_ENGINE{
 			//the type is not already stored.
 			return;
 		}
-		/*
+		
 		//STEP 1: sort the vector..
-		sort(pvec->begin(), pvec->end(), Compare_vec<T>);
+		sort(pvec->begin(), pvec->end(), Compare_vec<Binding<T>>);
 		//STEP 2: relink the list to the vector.
-		Reallocate_vector<T>(*pvec, *plist);
+		Reallocate_vector<T>(*pvec);
 		//STEP 3 : enjoy the view!
-		*/
+		
 		return;
 		
 	}

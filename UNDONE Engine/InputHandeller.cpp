@@ -128,6 +128,7 @@ namespace UNDONE_ENGINE {
 			case str2int("KEY_Q")			:	return KEY_Q;
 			case str2int("KEY_Z")			:	return KEY_Z;
 			case str2int("KEY_X")			:	return KEY_X;
+			case str2int("KEY_L")			:	return KEY_L;
 			case str2int("KEY_NUM_8")		:	return KEY_NUM_8;
 			case str2int("KEY_NUM_2")		:	return KEY_NUM_2;
 			case str2int("KEY_NUM_4")		:	return KEY_NUM_4;

@@ -28,6 +28,7 @@ Author	:	Anurup Dey
 #include <Undone_Engine.h>
 #include "Bro.h"
 #include "Camera_Script.h"
+#include "Mazescript.h"
 
 using namespace UNDONE_ENGINE;
 using namespace std;
@@ -55,5 +56,7 @@ protected:
 
     bro                     broscript;
     Camera_Script           camscrpt;
+	MazeScript				mazes;
+
 };
 #endif

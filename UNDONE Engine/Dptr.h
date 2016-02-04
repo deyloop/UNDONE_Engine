@@ -85,15 +85,21 @@ namespace UNDONE_ENGINE{
 			}
 
 			//now switch tables
+			
 			m_pointer = other.m_pointer; 
 			m_pPointerTable = other.m_pPointerTable;
 			Object_deleted = other.Object_deleted;
-			linked = true;
+			linked = other.linked;
 			if (!Object_deleted && m_pPointerTable) m_pPointerTable->push_back((IPointer*)this);
-
+			
 			return *this;
 		}
 
+		const bool operator == ( Dptr<T> const & other ) {
+			return (m_pointer == other.m_pointer&& 
+					m_pPointerTable == other.m_pPointerTable&&
+			Object_deleted == other.Object_deleted);
+		}
 
 		void Link(T* pPointer, list<IPointer*>* pTable){
 			m_pointer = dynamic_cast<T*>(pPointer);

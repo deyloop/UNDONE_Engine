@@ -6,6 +6,7 @@
 		<InputEvent name="Turn Right"		type="EVENT_KEYPRESS"	keycode="KEY_ARROW_RIGHT"/>
 		<InputEvent name="Rotate Right"	type="EVENT_KEYPRESS"	keycode="KEY_E"/>
 		<InputEvent name="Rotate Left"	type="EVENT_KEYPRESS"	keycode="KEY_Q"/>
+		<InputEvent name="Reg" type="EVENT_KEYDOWN" keycode="KEY_L"/>	
 	</context>
 	<context name="system_control">
 		<InputEvent name="Exit"					type="EVENT_KEYDOWN"	keycode="KEY_ESCAPE"/>
@@ -18,8 +19,8 @@
 		<InputEvent name="Rotate Left"	type="EVENT_KEYPRESS"	keycode="KEY_Q"/>
 		<InputEvent name="yaw_left" type="EVENT_KEYPRESS" keycode="KEY_NUM_4"/>
 		<InputEvent name="yaw_right" type="EVENT_KEYPRESS" keycode="KEY_NUM_6"/>
-		<InputEvent name="yaw_up" type="EVENT_KEYPRESS" keycode="KEY_NUM_2"/>
-		<InputEvent name="yaw_down" type="EVENT_KEYPRESS" keycode="KEY_NUM_8"/>
+		<InputEvent name="yaw_up" type="EVENT_KEYPRESS" keycode="KEY_NUM_8"/>
+		<InputEvent name="yaw_down" type="EVENT_KEYPRESS" keycode="KEY_NUM_2"/>
 	</context>
 </Input_Contexts>
 

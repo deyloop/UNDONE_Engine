@@ -45,6 +45,9 @@ namespace UNDONE_ENGINE {
 			Upload_<GraphicMaterial>();
 			Upload_<Graphic2D>();
 			
+			//m_pGraphicsBuffer->SortByPriority<Graphic3D>( );
+
+
 			font.LoadSystemFont("calibri.ttf", 32);	
 			Graphic2D::InitVAO( );
 			

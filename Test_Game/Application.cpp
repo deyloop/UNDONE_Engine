@@ -21,13 +21,9 @@ Author	:	Anurup Dey
 ******************************************************************************/
 ///////////////////////////////////////////////////////////////////////////////
 #include "Application.h"
-#include "Maze.h"
 
 #include <glew.h>
-
 #include <UNDONE_DEBUG.h>
-
-#include <ctime>
 
 /*-----------------------------------------------------------------------------
 Default Contructor
@@ -71,7 +67,6 @@ void Application::LoadScene(){
 	Dptr<unShader> shVertex			= pObjects->CreateNew_Shader();
 	Dptr<unShader> shFragment			= pObjects->CreateNew_Shader();
 	Dptr<unShaderProgram> spMain		= pObjects->CreateNew_ShaderProgram();
-	Dptr<unMesh> cube_mesh			= pObjects->CreateNew_Mesh( );
 	Dptr<unMesh> monkey_mesh			= pObjects->CreateNew_Mesh( );
 
 	Dptr<unGraphicMaterial> Redmaterial	= pObjects->CreateNew_GraphicMaterial( );
@@ -110,14 +105,19 @@ void Application::LoadScene(){
     Yellowmaterial	->	AddTexture(tex2,0);
     Pinkmaterial	->	AddTexture(tex,0);
 
-	vector<Dptr<unGraphicMaterial>> material;
+	Bluematerial	-> Rename("Blue");
+    Redmaterial		-> Rename("Red");
+    Greenmaterial	-> Rename("Green");
+    Yellowmaterial	-> Rename("Yellow");
+    Pinkmaterial	-> Rename("Pink");
+	vector<string> material;
 	material.reserve(5);
 
-	material.push_back(Redmaterial);
-	material.push_back(Bluematerial);
-	material.push_back(Greenmaterial);
-	material.push_back(Yellowmaterial);
-	material.push_back(Pinkmaterial);
+	material.push_back("Red");
+	material.push_back("Blue");
+	material.push_back("Green");
+	material.push_back("Yellow");
+	material.push_back("Pink");
 
 
 	Dptr<unGameObject> Texture_Display = pObjects->CreateNew_GameObject( );
@@ -130,55 +130,17 @@ void Application::LoadScene(){
 	Texture_Display->AddGraphic2D(Texture_Display_Graphic);
 	Texture_Display->Load();
 
-	srand((unsigned int)time(0));
-
 	
 	BlockMaze = pObjects->CreateNew_GameObject( );
 	Dptr<unWorldTransform>	Maze_Transform	= pObjects->CreateNew_WorldTransform( );
 	BlockMaze	->	AddWorldTransform(Maze_Transform);
 
-#define SIZE 30
-
-	Dptr<unGameObject> Floor				= pObjects->CreateNew_GameObject( );
-	Dptr<unWorldTransform> Floor_Transform	= pObjects->CreateNew_WorldTransform( );
-	Dptr<unGraphic3D> Floor_Graphic			= pObjects->CreateNew_Graphic3D( );
-	
-	Floor->AddWorldTransform(Floor_Transform);
-	Floor->AddMesh(cube_mesh);
-	Floor->AddGraphicMaterial(material.at(rand()%5));
-	Floor->AddGraphic3D(Floor_Graphic);
-	
-	Floor_Transform->ScaleAbs(SIZE*2, 0.05, SIZE*2);
-	Floor_Transform->TranslateAbs(0,-0.5,0 );
-
-	BlockMaze->AddGameObject(Floor);
-
-	Maze maze;
-	maze.Generate(SIZE);
-
-	for (int j = 0; j<SIZE; ++j) {
-		for (int i = 0;i<SIZE; ++i) {
-
-			if (maze.data[i+j*SIZE] == SPACE) continue;
-
-			Dptr<unGameObject> go_scene		= pObjects->CreateNew_GameObject( );
-			Dptr<unWorldTransform> transform1 = pObjects->CreateNew_WorldTransform( );
-			Dptr<unGraphic3D> graphic1		= pObjects->CreateNew_Graphic3D( );
-			
-			go_scene->AddWorldTransform(transform1);
-			go_scene->AddMesh(cube_mesh);
-			go_scene->AddGraphicMaterial(material.at(rand()%5));
-			go_scene->AddGraphic3D(graphic1);
-			
-			transform1->TranslateAbs((-SIZE)/2+(float)i, 0,(float)j-SIZE/2);
-			transform1->ScaleAbs(0.5f, (float)1, 0.5f);
-
-			BlockMaze->AddGameObject(go_scene);
-		}
-	}
+	Dptr<unBehaviorAttachement> mazescpt = pObjects->CreateNew_BehaviorAttachement( );
+	mazes.SetMaterials(material );
+	BlockMaze->AddBehaviorAttachement(mazescpt);
+	mazescpt->AddBehavior("maze",&mazes);
 	
 	BlockMaze->Load();
-	//pObjects->Delete_GameObject(Floor);
 
 
 	Monkey = pObjects->CreateNew_GameObject( );
